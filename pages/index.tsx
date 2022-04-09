@@ -1,19 +1,16 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import TypingEffect from "../components/TypingEffect";
-// import useScript from "../hooks/useScript"
 
 const Index: NextPage = () => {
-  // useScript("https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e")
-  // useScript("js/webflow.js")
 
   return (
     <div>
       <meta charSet="utf-8" />
       <title>Secret Llama Agency</title>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
-      <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
-      <link href="images/webclip.png" rel="apple-touch-icon" />
+      {/* <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" /> */}
+      {/* <link href="images/webclip.png" rel="apple-touch-icon" /> */}
       <div className="page-wrapper">
         <div className="start-nav">
           <Link href="#">
@@ -29,8 +26,11 @@ const Index: NextPage = () => {
         </div>
         <div className="hero-section">
           <div className="hero-content">
-            <div className="hero-img start"><img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" /></div>
-            <div className="agent-div"><img src="images/Rectangle-8-1.png" loading="lazy" sizes="(max-width: 767px) 120px, (max-width: 991px) 140px, 200px" srcSet="images/Rectangle-8-1-p-500.png 500w, images/Rectangle-8-1-p-800.png 800w, images/Rectangle-8-1-p-1080.png 1080w, images/Rectangle-8-1.png 1280w" alt="" className="agent-img" />
+            <div className="hero-img start">
+              <img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" />
+            </div>
+            <div className="agent-div">
+              <img src="images/Rectangle-8-1.png" loading="lazy" sizes="(max-width: 767px) 120px, (max-width: 991px) 140px, 200px" srcSet="images/Rectangle-8-1-p-500.png 500w, images/Rectangle-8-1-p-800.png 800w, images/Rectangle-8-1-p-1080.png 1080w, images/Rectangle-8-1.png 1280w" alt="" className="agent-img" />
               <div className="vert-left _100 cent-mob">
                 <div className="tb-32 margin-d"><strong>Agent Maken</strong>: </div>
                 <div id="typed" className="tb-32 typedwithcursor">
