@@ -21,10 +21,10 @@ const Index: NextPage = () => {
           </Link>
           <div className="tb-start-logo">SECRET LLAMA AGENCY</div>
           <div className="socials-wrap desk">
-            <a href="https://www.tiktok.com/@secretllamaagency" target="_blank" className="social-link w-inline-block"><img src="images/Vector-17.svg" loading="lazy" alt="" className="socials-img" /></a>
-            <a href="https://discord.gg/5STFvY9nu5" target="_blank" className="social-link w-inline-block"><img src="images/Vector-16.svg" loading="lazy" alt="" className="socials-img" /></a>
-            <a href="https://twitter.com/SecretLlama_A" target="_blank" className="social-link w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="socials-img" /></a>
-            <a href="https://www.instagram.com/secretllamaagency/" target="_blank" className="social-link _4 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="socials-img" /></a>
+            <a href="https://www.tiktok.com/@secretllamaagency" target="_blank" rel="noreferrer" className="social-link w-inline-block"><img src="images/Vector-17.svg" loading="lazy" alt="" className="socials-img" /></a>
+            <a href="https://discord.gg/5STFvY9nu5" target="_blank" rel="noreferrer" className="social-link w-inline-block"><img src="images/Vector-16.svg" loading="lazy" alt="" className="socials-img" /></a>
+            <a href="https://twitter.com/SecretLlama_A" target="_blank" rel="noreferrer" className="social-link w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="socials-img" /></a>
+            <a href="https://www.instagram.com/secretllamaagency/" target="_blank" rel="noreferrer" className="social-link _4 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="socials-img" /></a>
           </div>
         </div>
         <div className="hero-section">

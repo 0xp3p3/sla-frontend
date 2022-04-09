@@ -23,7 +23,7 @@ const DisguiseRoom: NextPage = () => {
               <div className="vert-left _100 cent-mob">
                 <div className="tb-32 margin-d"><strong>Agent Franz</strong>: </div>
                 <div id="typed" className="tb-32 typedwithcursor">
-                  <TypingEffect text="Welcome, new recruit! Let's get you in proper disguise. I've developed new pieces of technology called traits that permanently alter your appearance. Grab yourself one of each and put them on to complete your look." />
+                  <TypingEffect text={`Welcome, new recruit! Let's get you in proper disguise. I've developed new pieces of technology called traits that permanently alter your appearance. Grab yourself one of each and put them on to complete your look.`} />
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@ const DisguiseRoom: NextPage = () => {
             <div className="vert-cent">
               <div className="vert-left stretch">
                 <h2 className="h3">STEP 2: COMBINE</h2>
-                <p className="p1">In this step, you'll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you're happy with your choices, click the 'combine' button and approve the transactions. Repeat these steps for every trait to complete your disguise.</p>
+                <p className="p1">{`In this step, you'll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you're happy with your choices, click the 'combine' button and approve the transactions. Repeat these steps for every trait to complete your disguise.`}</p>
               </div>
               <div className="w-layout-grid grid-2">
                 <div data-hover="false" data-delay={0} id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a266193-faba1442" data-w-id="5fabc8b3-0684-a61b-e57d-11de5a266193" className="dropdown-2 w-dropdown">

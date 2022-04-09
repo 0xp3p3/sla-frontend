@@ -56,7 +56,7 @@ const Hay: NextPage = () => {
           </div>
           <div className="container-l relative w-container">
             <div className="hay-div"><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner" />
-              <p className="p1">$HAY is an SPL token created to run the Secret Llama Agency ecosystem. It is NOT an investment and has NO economic value. <br /><br />The token will start with a supply of 0. The ONLY way it can be created is by staking a Llama Agent. No IDO, no VC allocations and no pumps and dumps. Instead of having an initial USD or SOL price, the token will find it's price through the free-market. <br /><br />The maximum supply is 34,000,000 with 3 halvings at around every 365 days.<br /></p>
+              <p className="p1">{`$HAY is an SPL token created to run the Secret Llama Agency ecosystem. It is NOT an investment and has NO economic value. <br /><br />The token will start with a supply of 0. The ONLY way it can be created is by staking a Llama Agent. No IDO, no VC allocations and no pumps and dumps. Instead of having an initial USD or SOL price, the token will find it's price through the free-market. <br /><br />The maximum supply is 34,000,000 with 3 halvings at around every 365 days.`}<br /></p>
             </div>
           </div>
         </div>

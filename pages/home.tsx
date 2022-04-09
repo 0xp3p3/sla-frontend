@@ -31,7 +31,7 @@ const Home: NextPage = () => {
               <div className="vert-left _100 cent-mob">
                 <div className="tb-32 margin-d"><strong>Agent Maken</strong>: </div>
                 <div id="typed" className="tb-32 typedwithcursor">
-                  <TypingEffect text="I see that you've snuck your way in pretty easily. We could use your kind of talent."/>
+                  <TypingEffect text={`I see that you've snuck your way in pretty easily. We could use your kind of talent.`}/>
                 </div>
               </div>
             </div>
@@ -102,7 +102,14 @@ const Home: NextPage = () => {
               </div>
               <div className="loop-wrap">
                 <div className="loop-line-wrap">
-                  <div className="loop-line"><img src="images/Rectangle-18-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-18-1-p-500.png 500w, images/Rectangle-18-1-p-800.png 800w, images/Rectangle-18-1-p-1080.png 1080w, images/Rectangle-18-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-21-5.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-21-5-p-500.png 500w, images/Rectangle-21-5-p-800.png 800w, images/Rectangle-21-5-p-1080.png 1080w, images/Rectangle-21-5.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-20-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-20-1-p-500.png 500w, images/Rectangle-20-1-p-800.png 800w, images/Rectangle-20-1-p-1080.png 1080w, images/Rectangle-20-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-38-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-38-1_1-p-500.png 500w, images/Rectangle-38-1_1-p-800.png 800w, images/Rectangle-38-1_1-p-1080.png 1080w, images/Rectangle-38-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /></div>
+                  <div className="loop-line">
+                    <img src="images/Rectangle-18-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-18-1-p-500.png 500w, images/Rectangle-18-1-p-800.png 800w, images/Rectangle-18-1-p-1080.png 1080w, images/Rectangle-18-1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-21-5.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-21-5-p-500.png 500w, images/Rectangle-21-5-p-800.png 800w, images/Rectangle-21-5-p-1080.png 1080w, images/Rectangle-21-5.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-20-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-20-1-p-500.png 500w, images/Rectangle-20-1-p-800.png 800w, images/Rectangle-20-1-p-1080.png 1080w, images/Rectangle-20-1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-38-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-38-1_1-p-500.png 500w, images/Rectangle-38-1_1-p-800.png 800w, images/Rectangle-38-1_1-p-1080.png 1080w, images/Rectangle-38-1_1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" />
+                  </div>
                   <div className="loop-line"><img src="images/Rectangle-18-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-18-1-p-500.png 500w, images/Rectangle-18-1-p-800.png 800w, images/Rectangle-18-1-p-1080.png 1080w, images/Rectangle-18-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-21-5.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-21-5-p-500.png 500w, images/Rectangle-21-5-p-800.png 800w, images/Rectangle-21-5-p-1080.png 1080w, images/Rectangle-21-5.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-20-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-20-1-p-500.png 500w, images/Rectangle-20-1-p-800.png 800w, images/Rectangle-20-1-p-1080.png 1080w, images/Rectangle-20-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-38-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-38-1_1-p-500.png 500w, images/Rectangle-38-1_1-p-800.png 800w, images/Rectangle-38-1_1-p-1080.png 1080w, images/Rectangle-38-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /></div>
                 </div>
               </div>
@@ -309,8 +316,8 @@ const Home: NextPage = () => {
                       <div className="tb-15">Digital Marketing Specialist&nbsp;at Shoelace inc. and Former&nbsp;Secret Agent in Club Penguin.</div>
                     </div>
                     <div className="hor-cen">
-                      <a href="https://twitter.com/AgentBigSpoon" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
-                      <a href="https://www.linkedin.com/in/amr-bitar/" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="https://twitter.com/AgentBigSpoon" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="https://www.linkedin.com/in/amr-bitar/" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
                     </div>
                   </div>
                 </div>
@@ -322,8 +329,8 @@ const Home: NextPage = () => {
                       <div className="tb-15">Engineer and Computer Scientist interested in disruptive technology.&nbsp;Writes smart contracts to protect the Secret Llama Agency.</div>
                     </div>
                     <div className="hor-cen">
-                      {/* <a href="https://twitter.com/robinxhenry" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a> */}
-                      <a href="https://www.linkedin.com/in/rhenry012/" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
+                      {/* <a href="https://twitter.com/robinxhenry" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a> */}
+                      <a href="https://www.linkedin.com/in/rhenry012/" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
                     </div>
                   </div>
                 </div>
@@ -335,9 +342,9 @@ const Home: NextPage = () => {
                       <div className="tb-15">Digital Artist and Illustrator in Web 3.0.</div>
                     </div>
                     <div className="hor-cen">
-                      <a href="https://twitter.com/EOA_art" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
-                      <a href="http://www.instagram.com/eoa_art_" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
-                      <a href="https://emmanuel_01.artstation.com/" target="_blank" className="social-link-2 w-inline-block"><img src="images/4373813_artstation_logo_logos_icon.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="https://twitter.com/EOA_art" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="http://www.instagram.com/eoa_art_" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="https://emmanuel_01.artstation.com/" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/4373813_artstation_logo_logos_icon.svg" loading="lazy" alt="" className="social-img" /></a>
                     </div>
                   </div>
                 </div>
@@ -349,8 +356,8 @@ const Home: NextPage = () => {
                       <div className="tb-15">Content creator @Nas.Alive. Former Marketing Specialist at the University of British Columbia and Content Creation Lead Trainer at the Nas Academy, by @NasDaily. Now a full-time secret Llama Agent.</div>
                     </div>
                     <div className="hor-cen">
-                      <a href="https://instagram.com/nas.alive?utm_medium=copy_link" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
-                      <a href="https://www.linkedin.com/in/nasrbitar" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="https://instagram.com/nas.alive?utm_medium=copy_link" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="https://www.linkedin.com/in/nasrbitar" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
                     </div>
                   </div>
                 </div>
@@ -362,8 +369,8 @@ const Home: NextPage = () => {
                       <div className="tb-15">NFT Enthusiast since Feb 2021 "@watase.eth". NBA TopShot Collector, Axie Infinity Manager, and Cool Cat holder. Building Discords and NFT communities in the Web3 space.</div>
                     </div>
                     <div className="hor-cen">
-                      <a href="http://twitter.com/watase_eth" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
-                      <a href="http://instagram.com/watase.eth" target="_blank" className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="http://twitter.com/watase_eth" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
+                      <a href="http://instagram.com/watase.eth" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
                     </div>
                   </div>
                 </div>
@@ -374,8 +381,6 @@ const Home: NextPage = () => {
         <Footer />
         <a href="#hero" className="backtotop w-inline-block"><img src="images/Group-37.svg" loading="lazy" alt="" className="btt-img" /></a>
       </div>
-      <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossOrigin="anonymous"></script>
-      <script src="js/webflow.js" type="text/javascript"></script>
     </div>
   )
 }
