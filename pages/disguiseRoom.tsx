@@ -146,7 +146,7 @@ const DisguiseRoom: NextPage = () => {
           <div className="container-m relative w-container">
             <div className="vert-left">
               <h3 className="h3 h-white">step 3: mint your id card</h3>
-              <p className="p1 p-white">ID Cards are NFTs that allow you to edit the metadata name of your Llama Agent and give it a unique alias for 60 $HAY. No two Llamas can have the same name. Mint your Card below then use the 'combine' function above to add/edit your alias.</p>
+              <p className="p1 p-white">{`ID Cards are NFTs that allow you to edit the metadata name of your Llama Agent and give it a unique alias for 60 $HAY. No two Llamas can have the same name. Mint your Card below then use the 'combine' function above to add/edit your alias.`}</p>
               <div className="hor-cen marg-up vert-mob"><img src="images/Group-36.png" loading="lazy" alt="" className="llama-img step-3" />
                 <a href="#" className="button id-card-mint w-button">coming soon</a>
               </div>

@@ -366,7 +366,7 @@ const Home: NextPage = () => {
                     <div className="vert-left">
                       <h4 className="h3-big">Agent Pineapples (SEAN)</h4>
                       <div className="p1 p-bold">Community Manager</div>
-                      <div className="tb-15">NFT Enthusiast since Feb 2021 "@watase.eth". NBA TopShot Collector, Axie Infinity Manager, and Cool Cat holder. Building Discords and NFT communities in the Web3 space.</div>
+                      <div className="tb-15">{`NFT Enthusiast since Feb 2021 "@watase.eth". NBA TopShot Collector, Axie Infinity Manager, and Cool Cat holder. Building Discords and NFT communities in the Web3 space.`}</div>
                     </div>
                     <div className="hor-cen">
                       <a href="http://twitter.com/watase_eth" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
