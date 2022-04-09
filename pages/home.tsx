@@ -381,6 +381,8 @@ const Home: NextPage = () => {
         <Footer />
         <a href="#hero" className="backtotop w-inline-block"><img src="images/Group-37.svg" loading="lazy" alt="" className="btt-img" /></a>
       </div>
+      <Script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e"/>
+      <Script src="js/webflow.js" />
     </div>
   )
 }
