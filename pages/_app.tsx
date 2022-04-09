@@ -1,7 +1,7 @@
 // import '../styles/webflow/normalize.css'
 // import '../styles/webflow/webflow.css'
-// import '../styles/webflow/secret-llama-agency.webflow.css'
-import '../styles/globals.css'
+import '../styles/webflow/secret-llama-agency.webflow.css'
+// import '../styles/globals.css'
 
 
 import type { AppProps } from 'next/app'
