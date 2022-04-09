@@ -1,0 +1,7 @@
+
+index.html
+----------
+* fix bottom arrows to go back to the top
+* page margins are not the same as on webflow
+* email sign-up 
+* fix agent-only drop-down menu
