@@ -1,12 +1,19 @@
 import type { NextPage } from "next";
+import Script from "next/script";
+import { useEffect } from "react";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 
 
 const Terms: NextPage = () => {
+
+  useEffect(() => {
+    document.getElementById('html').setAttribute("data-wf-page", "622e6c82e7ab4366e28c27d0")
+  }, [])
+
   return (
     <div>
-      <meta charSet="utf-8" />
+      <Script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossOrigin="anonymous"></Script>
       <title>Terms &amp; Conditions</title>
       <meta content="Terms &amp; Conditions" property="og:title" />
       <meta content="Terms &amp; Conditions" property="twitter:title" />
@@ -60,6 +67,7 @@ const Terms: NextPage = () => {
         <Footer />
         <a href="#top" className="backtotop w-inline-block"><img src="images/Group-37.svg" loading="lazy" alt="" className="btt-img" /></a>
       </div>
+      <Script src="js/webflow.js" type="text/javascript"></Script>
     </div>
   )
 }

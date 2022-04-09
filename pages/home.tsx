@@ -1,21 +1,20 @@
 import type { NextPage } from "next";
 import Script from "next/script";
+import { useEffect } from "react";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import TypingEffect from "../components/TypingEffect";
-import useScript from "../hooks/useScript";
 
 
 const Home: NextPage = () => {
 
-  // useScript("https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e")
-  // useScript("js/webflow.js")
+  useEffect(() => {
+    document.getElementById('html').setAttribute("data-wf-page", "6227e74c03fec25390cb9dd4")
+  }, [])
 
   return (
     <div>
-      {/* <Script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e"/>
-      <Script src="js/webflow.js" /> */}
-      <meta charSet="utf-8" />
+      <Script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossOrigin="anonymous"></Script>
       <title>Home</title>
       <meta content="Home" property="og:title" />
       <meta content="Home" property="twitter:title" />
@@ -381,8 +380,7 @@ const Home: NextPage = () => {
         <Footer />
         <a href="#hero" className="backtotop w-inline-block"><img src="images/Group-37.svg" loading="lazy" alt="" className="btt-img" /></a>
       </div>
-      {/* <Script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=62265a75e750c484b04ef32e" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossOrigin="anonymous"/> */}
-      {/* <Script src="js/webflow.js" type="text/javascript"/> */}
+      <Script src="js/webflow.js" type="text/javascript"></Script>
     </div>
   )
 }
