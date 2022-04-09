@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "yarn clean && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "install": "npm install"
   },
   "dependencies": {
     "@solana/wallet-adapter-base": "^0.9.5",
