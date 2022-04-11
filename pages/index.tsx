@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Link from "next/link";
 import IndexPageWrapper from "../components/layout/IndexWrapper";
 import TypingEffect from "../components/TypingEffect";
 
@@ -7,10 +6,8 @@ const Index: NextPage = () => {
 
   return (
     <IndexPageWrapper title="Secret Llama Agency">
-      <div className="start-nav">
-        <Link href="#">
-          <a className="nav-logo-link w-inline-block"><img src="images/Logo-7.png" loading="lazy" sizes="(max-width: 479px) 17vw, (max-width: 767px) 16vw, 80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" /></a>
-        </Link>
+      <div className="start-nav">  
+        <a href="#" className="nav-logo-link w-inline-block"><img src="images/Logo-7.png" loading="lazy" sizes="(max-width: 479px) 17vw, (max-width: 767px) 16vw, 80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" /></a>
         <div className="tb-start-logo">SECRET LLAMA AGENCY</div>
         <div className="socials-wrap desk">
           <a href="https://www.tiktok.com/@secretllamaagency" target="_blank" rel="noreferrer" className="social-link w-inline-block"><img src="images/Vector-17.svg" loading="lazy" alt="" className="socials-img" /></a>
@@ -35,10 +32,8 @@ const Index: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="sneakin-div">
-        <Link href="/home">
-          <a className="button w-button">Sneak in</a>
-        </Link>
+      <div className="sneakin-div">  
+        <a href="/home" className="button w-button">Sneak in</a>
       </div>
     </IndexPageWrapper>
   );
