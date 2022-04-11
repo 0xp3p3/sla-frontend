@@ -8,7 +8,6 @@ class MyDocument extends Document {
           {/* Fonts */}
           <link href="https://fonts.googleapis.com/css?family=Staatliches" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&display=swap" rel="stylesheet" />
-          <script src="/js/webflow_jquery.js" type="text/javascript" />
         </Head>
         <body className="body">
           <Main />

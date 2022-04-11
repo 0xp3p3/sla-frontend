@@ -16,7 +16,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        {/* <script src="/js/webflow_jquery.js" type="text/javascript" /> */}
+        <script src="/js/webflow_jquery.js" type="text/javascript" />
       </Head>
       <title>Home</title>
       <meta content="Home" property="og:title" />
