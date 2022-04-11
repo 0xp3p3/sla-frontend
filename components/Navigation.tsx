@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { FC } from "react";
+import Image from "next/image";
+
+import Vector_13 from '../public/images/Vector-13.svg'
 
 
 const Navigation: FC = () => {
@@ -15,7 +18,9 @@ const Navigation: FC = () => {
           <a href="documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link mob">WHITEPAPER</a>
           <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
-              <div>agents only</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
+              <div>agents only</div>
+              <Image src={Vector_13} className="arrow-dd" alt="" />
+              {/* <img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" /> */}
             </div>
             <nav className="dropdown-list mob w-dropdown-list">
               <Link href="/disguiseRoom"><a className="nav-link dd-list mob w-dropdown-link">the disguise room</a></Link>
@@ -28,7 +33,9 @@ const Navigation: FC = () => {
       </div>
       <div style={{ borderColor: 'rgb(0,0,0)' }} className="navbar">
         <Link href="/home">
-          <a className="nav-logo-link w-inline-block"><img src="images/Logo-7.png" loading="lazy" sizes="80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" /></a>  
+          <a className="nav-logo-link w-inline-block">
+            <img src="images/Logo-7.png" loading="lazy" sizes="80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" />
+          </a>  
         </Link>
         <Link href="/home#mint-llama">
           <a className="nav-link">Mint llama</a>

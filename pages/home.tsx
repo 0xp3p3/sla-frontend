@@ -25,8 +25,11 @@ const Home: NextPage = () => {
         <Navigation />
         <div id="hero" className="hero-section">
           <div className="hero-content">
-            <div className="hero-img"><img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" /></div>
-            <div className="agent-div h"><img src="images/Rectangle-8-1.png" loading="lazy" sizes="(max-width: 767px) 120px, (max-width: 991px) 140px, 200px" srcSet="images/Rectangle-8-1-p-500.png 500w, images/Rectangle-8-1-p-800.png 800w, images/Rectangle-8-1-p-1080.png 1080w, images/Rectangle-8-1.png 1280w" alt="" className="agent-img" />
+            <div className="hero-img">
+              <img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" />
+            </div>
+            <div className="agent-div h">
+              <img src="images/Rectangle-8-1.png" loading="lazy" sizes="(max-width: 767px) 120px, (max-width: 991px) 140px, 200px" srcSet="images/Rectangle-8-1-p-500.png 500w, images/Rectangle-8-1-p-800.png 800w, images/Rectangle-8-1-p-1080.png 1080w, images/Rectangle-8-1.png 1280w" alt="" className="agent-img" />
               <div className="vert-left _100 cent-mob">
                 <div className="tb-32 margin-d"><strong>Agent Maken</strong>: </div>
                 <div id="typed" className="tb-32 typedwithcursor">
@@ -36,7 +39,8 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div id="mint-llama" className="mint-llama"><img src="images/27-1.png" loading="lazy" alt="" className="absolute-llama" />
+        <div id="mint-llama" className="mint-llama">
+          <img src="images/27-1.png" loading="lazy" alt="" className="absolute-llama" />
           <div className="container-s relative w-container">
             <div className="vert-cent">
               <h1 className="h-big">coming soon</h1>
