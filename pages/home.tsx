@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import Script from "next/script";
 import { useEffect } from "react";
+import CustomHead from "../components/CustomHead";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import TypingEffect from "../components/TypingEffect";
@@ -15,15 +15,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Head>
-        {/* <script src="/js/webflow_jquery.js" type="text/javascript" /> */}
-      </Head>
-      <title>Home</title>
-      <meta content="Home" property="og:title" />
-      <meta content="Home" property="twitter:title" />
-      <meta content="width=device-width, initial-scale=1" name="viewport" />
-      <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
-      <link href="images/webclip.png" rel="apple-touch-icon" />
+      <CustomHead title="Home" />
       <div className="page-wrapper">
         <Navigation />
         <div id="hero" className="hero-section">
