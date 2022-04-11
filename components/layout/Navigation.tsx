@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FC } from "react";
 import Image from "next/image";
 
-import Vector_13 from '../public/images/Vector-13.svg'
+import Vector_13 from '../../public/images/Vector-13.svg'
 
 
 const Navigation: FC = () => {
