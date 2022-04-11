@@ -1,8 +1,4 @@
-import Link from "next/link";
 import { FC } from "react";
-import Image from "next/image";
-
-import Vector_13 from '../../public/images/Vector-13.svg'
 
 
 const Navigation: FC = () => {
@@ -10,20 +6,19 @@ const Navigation: FC = () => {
     <>
       <div style={{ display: 'none', WebkitTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', MozTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', msTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', transform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)' }} className="menu-overlay">
         <div className="vert-left">
-          <Link href="/home#mint-llama"><a className="nav-link mob">Mint llama</a></Link>
-          <Link href="/home#about"><a className="nav-link mob">about us</a></Link>
-          <Link href="/home#features"><a className="nav-link mob">features</a></Link>
-          <Link href="/hay"><a className="nav-link mob">$HAY</a></Link>
-          <Link href="/home#roadmap"><a className="nav-link mob">ROADMAP</a></Link>
+          <a href="/home#mint-llama" className="nav-link mob">Mint llama</a>
+          <a href="/home#about" className="nav-link mob">about us</a>
+          <a href="/home#features" className="nav-link mob">features</a>
+          <a href="/hay" className="nav-link mob">$HAY</a>
+          <a href="/home#roadmap" className="nav-link mob">ROADMAP</a>
           <a href="documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link mob">WHITEPAPER</a>
           <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
               <div>agents only</div>
-              <Image src={Vector_13} className="arrow-dd" alt="" />
-              {/* <img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" /> */}
+              <img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
             </div>
             <nav className="dropdown-list mob w-dropdown-list">
-              <Link href="/disguiseRoom"><a className="nav-link dd-list mob w-dropdown-link">the disguise room</a></Link>
+              <a href="/disguiseRoom" className="nav-link dd-list mob w-dropdown-link">the disguise room</a>
             </nav>
           </div>
         </div>
@@ -32,25 +27,21 @@ const Navigation: FC = () => {
         </div>
       </div>
       <div style={{ borderColor: 'rgb(0,0,0)' }} className="navbar">
-        <Link href="/home">
-          <a className="nav-logo-link w-inline-block">
-            <img src="images/Logo-7.png" loading="lazy" sizes="80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" />
-          </a>  
-        </Link>
-        <Link href="/home#mint-llama">
-          <a className="nav-link">Mint llama</a>
-        </Link>
-        <Link href="/home#about"><a className="nav-link">about us</a></Link>
-        <Link href="/home#features"><a className="nav-link">features</a></Link>
-        <Link href="/hay"><a className="nav-link">$hay</a></Link>
-        <Link href="/home#roadmap"><a className="nav-link">roadmap</a></Link>
+        <a href="/home" className="nav-logo-link w-inline-block">
+          <img src="images/Logo-7.png" loading="lazy" sizes="80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" />
+        </a>  
+        <a href="/home#mint-llama" className="nav-link">Mint llama</a>
+        <a href="/home#about" className="nav-link">about us</a>
+        <a href="/home#features" className="nav-link">features</a>
+        <a href="/hay" className="nav-link">$HAY</a>
+        <a href="/home#roadmap" className="nav-link">roadmap</a>
         <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link">white paper</a>
         <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
           <div className="nav-link dd w-dropdown-toggle">
             <div>agents only</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
           </div>
           <nav className="dropdown-list w-dropdown-list">
-            <Link href="/disguiseRoom"><a className="nav-link dd-list w-dropdown-link">the disguise room</a></Link>
+            <a href="/disguiseRoom" className="nav-link dd-list w-dropdown-link">the disguise room</a>
           </nav>
         </div>
         <div className="right-nav">
