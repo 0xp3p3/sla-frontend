@@ -237,7 +237,7 @@ const Home: NextPage = () => {
                   <div className="hor-line" />
                   <div className="roadmap-item">
                     <h3 className="h3">CHAPTER 6. PROMOTIONS</h3>
-                    <div className="p1">Once you've collected 60 $HAY, you will gain access to The Ceremonial Hall from which you can mint promotion badge NFTs. <br /><br /> These badges can be used as traits and combined with your Llama Agent.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <div className="p1">Once you&apos;ve collected 60 $HAY, you will gain access to The Ceremonial Hall from which you can mint promotion badge NFTs. <br /><br /> These badges can be used as traits and combined with your Llama Agent.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor" style={{ marginTop: '50px'}}>
@@ -267,7 +267,7 @@ const Home: NextPage = () => {
                   <div className="hor-line" />
                   <div className="roadmap-item">
                     <h3 className="h3">CHAPTER 6. PROMOTIONS</h3>
-                    <div className="p1">Once you've collected 60 $HAY, you will gain access to The Ceremonial Hall from which you can mint promotion badge NFTs. <br /><br />These badges can be used as traits and combined with your Llama Agent. </div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <div className="p1">Once you&apos;ve collected 60 $HAY, you will gain access to The Ceremonial Hall from which you can mint promotion badge NFTs. <br /><br />These badges can be used as traits and combined with your Llama Agent. </div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor _100-perc-mob">
