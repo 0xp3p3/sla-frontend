@@ -8,6 +8,7 @@ import Navigation from "./Navigation";
 interface Props {
   title: string,
   webflowPageId: string,
+  webflowSandwichMenuId: string,
   children: React.ReactNode,
 }
 
@@ -25,7 +26,7 @@ const PageWrapper = (props: Props) => {
         <title>{props.title}</title>
       </Head>
       <div className="page-wrapper" id="top-of-page">
-        <Navigation />
+        <Navigation webflowSandwichMenuId={props.webflowSandwichMenuId}/>
         {props.children}
         <Footer />
         <a href="#top-of-page" className="backtotop w-inline-block">

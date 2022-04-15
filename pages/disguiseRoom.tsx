@@ -5,7 +5,7 @@ import TypingEffect from "../components/TypingEffect";
 
 const DisguiseRoom: NextPage = () => {
   return (
-    <PageWrapper title="The Disguise Room" webflowPageId="622dfe66d1256c4dfaba1442">
+    <PageWrapper title="The Disguise Room" webflowPageId="622dfe66d1256c4dfaba1442" webflowSandwichMenuId="7db65d3f-0335-cb2e-4fb0-d844ff729209">
       <div id="hero" className="hero-section">
         <div className="hero-content">
           <div className="hero-img disguise"><img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" /></div>

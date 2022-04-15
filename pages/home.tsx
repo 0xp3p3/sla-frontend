@@ -5,7 +5,7 @@ import TypingEffect from "../components/TypingEffect";
 
 const Home: NextPage = () => {
   return (
-    <PageWrapper title="Home" webflowPageId="6227e74c03fec25390cb9dd4">
+    <PageWrapper title="Home" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
       <div id="hero" className="hero-section">
         <div className="hero-content">
           <div className="hero-img">

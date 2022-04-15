@@ -4,7 +4,7 @@ import PageWrapper from "../components/layout/PageWrapper";
 
 const Terms: NextPage = () => {
   return (
-    <PageWrapper title="Terms &amp; Conditions" webflowPageId="622e6c82e7ab4366e28c27d0">
+    <PageWrapper title="Terms &amp; Conditions" webflowPageId="622e6c82e7ab4366e28c27d0" webflowSandwichMenuId="5ce6e18e-8d75-a4d6-e6f1-41aa05e2a37d">
       <div className="blue-bg-div outline-none">
         <div id="top" className="top-trigger" />
         <div className="container-m w-container">
