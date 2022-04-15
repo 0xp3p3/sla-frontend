@@ -1,9 +1,13 @@
+import { Sign } from "crypto";
 import type { NextPage } from "next";
+import { useState } from "react";
+import SignupForm from "../components/EmailForm";
 import PageWrapper from "../components/layout/PageWrapper";
 import TypingEffect from "../components/TypingEffect";
 
 
 const Home: NextPage = () => {
+
   return (
     <PageWrapper title="Home" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
       <div id="hero" className="hero-section">
@@ -49,6 +53,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
+      {/* <SignupForm /> */}
       <div className="reminder-cta">
           <div className="container-l w-container">
             <div className="hor-cen vert-mob">
@@ -57,10 +62,7 @@ const Home: NextPage = () => {
               </div>
               <div className="_50div padd-right mob-all">
                 <div className="form-block w-form">
-                  <form id="email-form" name="email-form" data-name="Email Form" method="get" className="form">
-                    <input type="text" className="text-field w-input" maxLength={256} name="name" data-name="Name" placeholder="E-MAIL" id="name" />
-                    <input type="submit" defaultValue="sign up" data-wait="Please wait..." className="button blue form w-button" />
-                  </form>
+                  <SignupForm />
                   <div className="w-form-done">
                     <div>Thank you! Your submission has been received!</div>
                   </div>
