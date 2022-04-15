@@ -10,7 +10,7 @@ const Navigation = (props: Props) => {
       {/* <div style={{ display: 'none', WebkitTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', MozAnimation: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', msTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', transform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)' }} className="menu-overlay"> */}
       <div style={{ display: 'none', WebkitTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', msTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', transform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)' }} className="menu-overlay">
         <div className="vert-left">
-          <a href="/home" className="nav-link mob">Home</a>
+          <a href="/home" className="nav-link mob">Mint Llama</a>
           <a href="documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link mob">WHITEPAPER</a>
           <a href="/hay" className="nav-link mob">$HAY</a>
           <a href="/home#roadmap" className="nav-link mob">ROADMAP</a>
@@ -33,7 +33,7 @@ const Navigation = (props: Props) => {
           <img src="images/Logo-7.png" loading="lazy" sizes="80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" />
         </a>
         <div className="navbar-middle">
-          <a href="/home#top-of-page" className="nav-link">Home</a>
+          <a href="/home#top-of-page" className="nav-link">Mint Llama</a>
           <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link">white paper</a>
           <a href="/hay" className="nav-link">$HAY</a>
           <a href="/home#roadmap" className="nav-link">roadmap</a>

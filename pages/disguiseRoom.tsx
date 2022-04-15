@@ -76,7 +76,7 @@ const DisguiseRoom: NextPage = () => {
           <div className="vert-cent">
             <div className="vert-left stretch">
               <h2 className="h3">STEP 2: COMBINE</h2>
-              <p className="p1">{`In this step, you'll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you're happy with your choices, click the 'combine' button and approve the transactions. Repeat these steps for every trait to complete your disguise.`}</p>
+              <p className="p1">In this step, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you&apos;re happy with your choices, click the &apos;combine&apos; button and approve the transactions. Repeat these steps for every trait to complete your disguise.</p>
             </div>
             <div className="w-layout-grid grid-2">
               <div data-hover="false" data-delay={0} id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a266193-faba1442" data-w-id="5fabc8b3-0684-a61b-e57d-11de5a266193" className="dropdown-2 w-dropdown">
