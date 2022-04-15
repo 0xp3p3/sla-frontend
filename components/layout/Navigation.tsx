@@ -6,12 +6,10 @@ const Navigation: FC = () => {
     <>
       <div style={{ display: 'none', WebkitTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', MozTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', msTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', transform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)' }} className="menu-overlay">
         <div className="vert-left">
-          <a href="/home#mint-llama" className="nav-link mob">Mint llama</a>
-          <a href="/home#about" className="nav-link mob">about us</a>
-          <a href="/home#features" className="nav-link mob">features</a>
+          <a href="/home" className="nav-link mob">Home</a>
+          <a href="documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link mob">WHITEPAPER</a>
           <a href="/hay" className="nav-link mob">$HAY</a>
           <a href="/home#roadmap" className="nav-link mob">ROADMAP</a>
-          <a href="documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link mob">WHITEPAPER</a>
           <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
               <div>agents only</div>
@@ -29,20 +27,20 @@ const Navigation: FC = () => {
       <div style={{ borderColor: 'rgb(0,0,0)' }} className="navbar">
         <a href="/home" className="nav-logo-link w-inline-block">
           <img src="images/Logo-7.png" loading="lazy" sizes="80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" />
-        </a>  
-        <a href="/home#mint-llama" className="nav-link">Mint llama</a>
-        <a href="/home#about" className="nav-link">about us</a>
-        <a href="/home#features" className="nav-link">features</a>
-        <a href="/hay" className="nav-link">$HAY</a>
-        <a href="/home#roadmap" className="nav-link">roadmap</a>
-        <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link">white paper</a>
-        <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
-          <div className="nav-link dd w-dropdown-toggle">
-            <div>agents only</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
+        </a>
+        <div className="navbar-middle">
+          <a href="/home#top-of-page" className="nav-link">Home</a>
+          <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link">white paper</a>
+          <a href="/hay" className="nav-link">$HAY</a>
+          <a href="/home#roadmap" className="nav-link">roadmap</a>
+          <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
+            <div className="nav-link dd w-dropdown-toggle">
+              <div>agents only</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
+            </div>
+            <nav className="dropdown-list w-dropdown-list">
+              <a href="/disguiseRoom" className="nav-link dd-list w-dropdown-link">the disguise room</a>
+            </nav>
           </div>
-          <nav className="dropdown-list w-dropdown-list">
-            <a href="/disguiseRoom" className="nav-link dd-list w-dropdown-link">the disguise room</a>
-          </nav>
         </div>
         <div className="right-nav">
           <a href="#" className="button blue nav w-button">connect wallet</a>
