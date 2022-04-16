@@ -9,7 +9,6 @@ export const WalletConnectButton: FC<ButtonProps> = ({ children, disabled, onCli
     const handleClick: MouseEventHandler<HTMLButtonElement> = useCallback(
         (event) => {
             if (onClick) onClick(event);
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
             if (!event.defaultPrevented) connect().catch(() => {});
         },
         [onClick, connect]
