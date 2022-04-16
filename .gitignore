@@ -32,4 +32,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 # file with keys and secrets 
+/.env
 .env*.local
+/update_env.sh
