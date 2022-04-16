@@ -1,12 +1,45 @@
-import { Sign } from "crypto";
 import type { NextPage } from "next";
-import { useState } from "react";
 import SignupForm from "../components/EmailForm";
 import PageWrapper from "../components/layout/PageWrapper";
 import TypingEffect from "../components/TypingEffect";
 
 
 const Home: NextPage = () => {
+
+  const roadmap = {
+    1: {
+      title: 'Agent Recruitment',
+      text: <>Launch Llama Agent minting and staking.</>
+    },
+    2: {
+      title: 'GET IN DISGUISE',
+      text: <>Begin earning $HAY from staking & use it to mint your trait NFTs in The Disguise Room.</>,
+    },
+    3: {
+      title: 'Set up communications',
+      text: <>Exclusive Discord channel for Llama Agent holders unlocked for community votes. <br /><br /> Blue Chip NFTs are chosen to be added to the Agency Marketplace.</>
+    },
+    4: {
+      title: 'Stand Out',
+      text: <>Legendary skins auction begins. Winners can earn +2 $HAY daily. <br/><br/>We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</>
+    },
+    5: {
+      title: 'ID CARDS RELEASE',
+      text: <>Mint an ID Card NFT in exchange for $HAY in The Disguise Room.<br/><br/> Combine one with your Llama Agent to change its alias.</>
+    },
+    6: {
+      title: 'PROMOTIONS',
+      text: <>Holders begin having enough $HAY accumulated to enter The Ceremonial Hall and get promoted. <br/><br/>Higher ranks receive bonus $HAY.</>
+    },
+    7: {
+      title: 'TROUBLE BREWING',
+      text: <>Reveal the 25 Alpaca imposters disguised as Llamas within the collection.<br/><br/> The lucky holders will earn +5 $HAY daily.</>
+    },
+    8: {
+      title: 'SEASON 2',
+      text: <>New drop with Alpacas: The Alpacalypse.<br/><br/>The new NFT drop will be purchasable with $HAY tokens.</>
+    }
+  }
 
   return (
     <PageWrapper title="Home" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
@@ -202,50 +235,50 @@ const Home: NextPage = () => {
               <div className="_50div roadmap-50">
                 <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">Chapter 1. agent recruitment</h3>
-                    <div className="p1">Launch Llama Agent minting and staking.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
+                    <h3 className="h3">Chapter 1. {roadmap['1'].title}</h3>
+                    <div className="p1">{roadmap['1'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
                 </div>
                 <div className="hor-cen roadmap-hor mob">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 2. GET IN DISGUISE</h3>
-                    <div className="p1">Begin earning $HAY from staking &amp; use it to mint your trait NFTs in The Disguise Room.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <h3 className="h3">Chapter 2. {roadmap['2'].title}</h3>
+                    <div className="p1">{roadmap['2'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">CHapter 3. Set up communications</h3>
-                    <div className="p1">Exclusive Discord channel for Llama Agent holders unlocked for community votes.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
+                    <h3 className="h3">CHapter 3. {roadmap['3'].title}</h3>
+                    <div className="p1">{roadmap['3'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
                 </div>
                 <div className="hor-cen roadmap-hor mob">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 4.<br />SET UP COMMUNICATIONS</h3>
-                    <div className="p1">Legendary skins auction begins. <br /><br /> We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <h3 className="h3">Chapter 4. {roadmap['4'].title}</h3>
+                    <div className="p1">{roadmap['4'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">Chapter 5. ID CARDS RELEASE</h3>
-                    <div className="p1">Mint an ID Card NFT to name your Llama Agent.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
+                    <h3 className="h3">Chapter 5. {roadmap['5'].title}</h3>
+                    <div className="p1">{roadmap['5'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
                 </div>
                 <div className="hor-cen roadmap-hor mob">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">CHAPTER 6. PROMOTIONS</h3>
-                    <div className="p1">Once you&apos;ve collected 60 $HAY, you will gain access to The Ceremonial Hall from which you can mint promotion badge NFTs. <br /><br /> These badges can be used as traits and combined with your Llama Agent.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <h3 className="h3">CHAPTER 6. {roadmap['6'].title}</h3>
+                    <div className="p1">{roadmap['6'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
-                <div className="hor-cen roadmap-hor" style={{ marginTop: '50px'}}>
+                <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">CHapter 7. TROUBLE BREWING</h3>
-                    <div className="p1">Reveal the 25 Alpaca imposters disguised as Llamas within the collection.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
+                    <h3 className="h3">CHapter 7. {roadmap['7'].title}</h3>
+                    <div className="p1">{roadmap['7'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
                 </div>
@@ -254,29 +287,29 @@ const Home: NextPage = () => {
                 <div className="hor-cen roadmap-hor desk">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 2. GET IN DISGUISE</h3>
-                    <div className="p1">Begin earning $HAY from staking &amp; use it to mint your trait NFTs in The Disguise Room.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <h3 className="h3">Chapter 2. {roadmap['2'].title}</h3>
+                    <div className="p1">{roadmap['2'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor desk">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 4. stand out</h3>
-                    <div className="p1">Legendary skins auction begins. <br /><br /> We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <h3 className="h3">Chapter 4. {roadmap['4'].title}</h3>
+                    <div className="p1">{roadmap['4'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor desk">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">CHAPTER 6. PROMOTIONS</h3>
-                    <div className="p1">Once you&apos;ve collected 60 $HAY, you will gain access to The Ceremonial Hall from which you can mint promotion badge NFTs. <br /><br />These badges can be used as traits and combined with your Llama Agent. </div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <h3 className="h3">CHAPTER 6. {roadmap['6'].title}</h3>
+                    <div className="p1">{roadmap['6'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor _100-perc-mob">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">SEASON 2</h3>
-                    <div className="p1">New drop with Alpacas: The Great Alpacalypse. <br /><br />The new NFT drop will be purchasable with $HAY tokens.</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
+                    <h3 className="h3">{roadmap['8'].title}</h3>
+                    <div className="p1">{roadmap['8'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
               </div>
