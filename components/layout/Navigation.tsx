@@ -9,7 +9,6 @@ interface Props {
 const Navigation = (props: Props) => {
   return (
     <>
-      {/* <div style={{ display: 'none', WebkitTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', MozAnimation: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', msTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', transform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)' }} className="menu-overlay"> */}
       <div style={{ display: 'none', WebkitTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', msTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', transform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)' }} className="menu-overlay">
         <div className="vert-left">
           <a href="/home" className="nav-link mob">Mint Llama</a>
@@ -27,7 +26,7 @@ const Navigation = (props: Props) => {
           </div>
         </div>
         <div className="hor-cen center">
-          <a href="#" className="button blue nav mob w-button">connect wallet</a>
+          <ConnectWallet className="button blue nav mob w-button" />
         </div>
       </div>
       <div style={{ borderColor: 'rgb(0,0,0)' }} className="navbar">
@@ -49,7 +48,7 @@ const Navigation = (props: Props) => {
           </div>
         </div>
         <div className="right-nav">  
-          <ConnectWallet />
+          <ConnectWallet className="button blue nav w-button"/>
           <a data-w-id={props.webflowSandwichMenuId} href="#" className="menu-button w-inline-block"><img src="images/Hamburger-1.svg" loading="lazy" alt="" className="hamburger-img" /></a>
           <div className="socials-wrap _2 desk">
             <a href="https://www.tiktok.com/@secretllamaagency" target="_blank" rel="noreferrer" className="social-link w-inline-block"><img src="images/Vector-17.svg" loading="lazy" alt="" className="socials-img" /></a>

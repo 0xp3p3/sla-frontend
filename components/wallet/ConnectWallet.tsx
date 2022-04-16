@@ -3,7 +3,13 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { WalletMultiButton } from '../wallet-ui';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
-const ConnectWallet = (...props) => {
+
+
+interface Props {
+  className: string,
+}
+
+const ConnectWallet = (props: Props) => {
   const wallet = useWallet()
   const { connection } = useConnection()
   const [balance, setBalance] = useState<number | null>(null)
@@ -17,7 +23,7 @@ const ConnectWallet = (...props) => {
 
   return (
     <>
-      <WalletMultiButton className="button blue nav w-button"></WalletMultiButton>
+      <WalletMultiButton className={props.className}></WalletMultiButton>
     </>
   );
 };
