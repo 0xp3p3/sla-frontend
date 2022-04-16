@@ -1,3 +1,6 @@
+import { Button } from "../wallet-ui/Button";
+import WalletConnectionProvider from "../wallet/WalletConnectionProvider";
+
 
 interface Props {
   webflowSandwichMenuId: string,
@@ -47,7 +50,7 @@ const Navigation = (props: Props) => {
           </div>
         </div>
         <div className="right-nav">
-          <a href="#" className="button blue nav w-button">connect wallet</a>
+          <WalletConnectionProvider> </WalletConnectionProvider>
           <a data-w-id={props.webflowSandwichMenuId} href="#" className="menu-button w-inline-block"><img src="images/Hamburger-1.svg" loading="lazy" alt="" className="hamburger-img" /></a>
           <div className="socials-wrap _2 desk">
             <a href="https://www.tiktok.com/@secretllamaagency" target="_blank" rel="noreferrer" className="social-link w-inline-block"><img src="images/Vector-17.svg" loading="lazy" alt="" className="socials-img" /></a>
