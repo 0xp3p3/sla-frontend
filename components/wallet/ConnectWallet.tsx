@@ -17,7 +17,7 @@ const ConnectWallet = (...props) => {
 
   return (
     <>
-      <WalletMultiButton>connect wallet</WalletMultiButton>
+      <WalletMultiButton className="button blue nav w-button"></WalletMultiButton>
     </>
   );
 };

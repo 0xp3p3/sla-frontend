@@ -40,7 +40,7 @@ const WalletConnectionProvider: FC<{ children: ReactNode }> = ({ children }) => 
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <WalletMultiButton className="button blue nav w-button" />
+          
           {children}
         </WalletModalProvider>
       </WalletProvider>
