@@ -1,15 +1,17 @@
 import type { NextPage } from "next";
-import PageWrapper from "../components/layout/PageWrapper";
-import WalletConnectionProvider from "../components/wallet/WalletConnectionProvider";
+import { PublicKey } from "@solana/web3.js";
+
+import MintFromCandyMachine from "../components/solana/MintFromCandyMachine";
+
 
 const Index: NextPage = () => {
 
   return (
-   <div>
-      <PageWrapper title="Home" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
-        <WalletConnectionProvider> </WalletConnectionProvider>
-      </PageWrapper>
-   </div> 
+    <MintFromCandyMachine 
+      candyMachinePubkey={new PublicKey(process.env.NEXT_PUBLIC_CM_ID_AVATAR!)}
+      collectionMint={new PublicKey(process.env.NEXT_PUBLIC_COLLECTION_AVATAR!)}
+      rpcUrl={process.env.NEXT_PUBLIC_SOLANA_ENDPOINT!} 
+    />
   )
 }
 
