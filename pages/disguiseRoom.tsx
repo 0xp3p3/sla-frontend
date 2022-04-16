@@ -38,9 +38,9 @@ const DisguiseRoom: NextPage = () => {
               <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f4-faba1442" />
               <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f5-faba1442" className="none-mob" />
               <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f6-faba1442" className="vert-left space-btw h-472">
-                <div className="vert-left marg-mob">
+                <div className="vert-left">
                   <div className="img-bg" style={{marginBottom:'30px'}}>
-                    <img src="images/Skin-15---Tiger.png" loading="lazy" sizes="(max-width: 991px) 200px, 330px" srcSet="images/Skin-15---Tiger-p-500.png 500w, images/Skin-15---Tiger-p-800.png 800w, images/Skin-15---Tiger.png 1000w" alt="" className="llama-img select dis" />
+                    <img src="images/Skin-15---Tiger.png" loading="lazy" sizes="(max-width: 991px) 200px, 330px" srcSet="images/Skin-15---Tiger-p-500.png 500w, images/Skin-15---Tiger-p-800.png 800w, images/Skin-15---Tiger.png 1000w" alt="" className="llama-img select" />
                   </div>
                   <h3 className="h3 h-white mrg-d-34">Supply: 6,000</h3>
                 </div>
