@@ -18,7 +18,6 @@ const WalletConnectionProvider: FC<{ children: ReactNode }> = ({ children }) => 
   // General setup with Solana network
   const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK! as WalletAdapterNetwork
   const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT!
-  console.log('network:', network)
 
   // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
   // Only the wallets you configure here will be compiled into your application, and only the dependencies
