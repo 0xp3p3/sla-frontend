@@ -35,6 +35,19 @@ const isTimerFinished = (t: TimeLeft): boolean => {
 }
 
 
+const CountDownBlock = (props: {interval: string, amount: number | null}) => {
+
+  const [timeLeft, setTimeLeft] = useState(null)
+  useEffect(() => { setTimeLeft(props.amount) }, [props.amount])
+
+  return (
+    <div className="countdown-wrap">
+      <h2 id={props.interval} className="h3">{timeLeft !== null ? timeLeft : 'TBD'}</h2>
+      <div className="p1">{props.interval.toUpperCase()}</div>
+    </div>
+  )
+}
+
 interface Props {
   date: Date | null,
 }
@@ -43,18 +56,19 @@ const CountDown = (props: Props) => {
   const [isCountdownLive, setIsCountdownLive] = useState(false)
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(computeTimeLeft(props.date))
   const [isLive, setIsLive] = useState(isTimerFinished(timeLeft))
+  const [title, setTitle] = useState('coming soon')
 
   // Start the countdown when the `date` is no longer `null`
   useEffect(() => {
-    if (props.date) {
-      setIsCountdownLive(true)
-    }
+    setIsCountdownLive(props.date ? true : false)
   }, [props.date])
 
-  // Upddate the countdown every second
+  useEffect(() => {setTitle(isLive ? 'minting now' : 'coming soon')}, [isLive])
+
+  // Update the countdown every second
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (isCountdownLive && props.date && !isLive) {        
+    const timer = setTimeout(() => {
+      if (isCountdownLive && !isLive) {        
         // Re-compute the time left
         const t = computeTimeLeft(props.date)
         setTimeLeft(t)
@@ -64,21 +78,17 @@ const CountDown = (props: Props) => {
       } 
     }, 1000)  // update the countdown every 1000ms
 
-    return () => clearInterval(timer)
-  }, [props.date])
+    return () => clearTimeout(timer)
+  }, [props.date, timeLeft])
 
   return (
     <>
-      {isLive ? <h1 className="h1">minting now</h1> : <h1 className="h-big">coming soon</h1>}
+      <h1 className="h1">{title}</h1>
       <div className="w-layout-grid counter-grid">
-        {Object.keys(timeLeft).map((interval) => {
-          return (
-            <div className="countdown-wrap" key={interval}>
-              <h2 id={interval} className="h3">{timeLeft[interval] !== null ? timeLeft[interval] : 'TBD'}</h2>
-              <div className="p1">{interval.toUpperCase()}</div>
-            </div>
-          )
-        })}
+        <CountDownBlock interval="DAYS" amount={timeLeft.days} />
+        <CountDownBlock interval="HOURS" amount={timeLeft.hours} />
+        <CountDownBlock interval="MINUTES" amount={timeLeft.minutes} />
+        <CountDownBlock interval="SECONDS" amount={timeLeft.seconds} />
       </div>
     </>
   )

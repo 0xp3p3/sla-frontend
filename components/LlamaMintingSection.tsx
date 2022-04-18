@@ -18,7 +18,7 @@ const LlamaMintingSection = () => {
       <img src="images/27-1.png" loading="lazy" alt="" className="absolute-llama" />
       <div className="container-s relative w-container">
         <div className="vert-cent">
-          <CountDown date={goLiveDate} />
+          <CountDown date={new Date("18 Apr 2022 18:7:00 UTC")} />
           <CandyMachine
             candyMachineId={new PublicKey(process.env.NEXT_PUBLIC_CM_ID_AVATAR!)}
             candyMachineCollection={new PublicKey(process.env.NEXT_PUBLIC_COLLECTION_AVATAR!)}

@@ -44,7 +44,7 @@ export const MintButton = (props: Props) => {
       return 'SOLD OUT'
     } else if (props.isMinting) {
       return <CircularProgress />
-    } else if (cndyState?.isPresale || cndyState?.isWhitelistOnly) {
+    } else if (cndyState?.isPresale || (isLive && cndyState?.isWhitelistOnly)) {
       return `AL MINT (${props.price} SOL)`
     } else {
       return `MINT (${props.price} SOL)`
@@ -52,7 +52,7 @@ export const MintButton = (props: Props) => {
   }
 
   const getTooltipContent = () => {
-    const walletNotConnected = `⚠️ Your have not selected a wallet ⚠️ <br />☝️ Click on 'Connect Wallet' at the top ☝️`
+    const walletNotConnected = `⚠️ You have not selected a wallet ⚠️ <br />☝️ Click on 'Connect Wallet' at the top ☝️`
     const notActive = "🎟 Join our Discord for the chance to get a whitelist token! 🎟"
     const notEnoughSol = "Oops! Looks like you don't have enough SOL 🥺"
     const ready = "You're all set for minting! 👌"
