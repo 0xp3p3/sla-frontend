@@ -65,8 +65,11 @@ const CountDown = (props: Props) => {
 
   // Update the countdown every second
   useEffect(() => {
+    console.log('useEffect called')
     const timer = setTimeout(() => {
+      console.log('timeout starting')
       if (isCountdownLive && !isLive) {        
+        console.log('update bit entered')
         // Re-compute the time left
         const t = computeTimeLeft(props.date)
         setTimeLeft(t)
