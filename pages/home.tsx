@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import SignupForm from "../components/EmailForm";
 import PageWrapper from "../components/layout/PageWrapper";
+import LlamaMintingSection from "../components/LlamaMintingSection";
 import TypingEffect from "../components/TypingEffect";
 
 
@@ -59,34 +60,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div id="mint-llama" className="mint-llama">
-        <img src="images/27-1.png" loading="lazy" alt="" className="absolute-llama" />
-        <div className="container-s relative w-container">
-          <div className="vert-cent">
-            <h1 className="h-big">coming soon</h1>
-            <div className="w-layout-grid counter-grid">
-              <div id="w-node-c3bb820a-8ac5-35c6-cb77-3d01e93a03ee-90cb9dd4" className="countdown-wrap">
-                <h2 id="days" className="h3">TBD</h2>
-                <div className="p1">DAYS</div>
-              </div>
-              <div id="w-node-d5309a92-067d-bb61-1cf1-c14652db82ba-90cb9dd4" className="countdown-wrap">
-                <h2 id="hours" className="h3">TBD</h2>
-                <div className="p1">HOURS</div>
-              </div>
-              <div id="w-node-_88d2dfc2-2d71-927b-60e7-dbbf715166c1-90cb9dd4" className="countdown-wrap">
-                <h2 id="minutes" className="h3">TBD</h2>
-                <div className="p1">MINUTES</div>
-              </div>
-              <div id="w-node-f0ed0391-ea35-ea08-5942-e76b72766bee-90cb9dd4" className="countdown-wrap">
-                <h2 id="seconds" className="h3">TBD</h2>
-                <div className="p1">SECONDS</div>
-              </div>
-            </div>
-            <a href="#" className="button mint w-button">MINT (1.5 SOL)</a>
-          </div>
-        </div>
-      </div>
-      {/* <SignupForm /> */}
+      <LlamaMintingSection />
       <div className="reminder-cta">
           <div className="container-l w-container">
             <div className="hor-cen vert-mob">

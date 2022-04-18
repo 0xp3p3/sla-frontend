@@ -2500,24 +2500,22 @@ body {
 }
 
 .button.mint {
-  cursor: not-allowed;
+  margin: auto;
 }
 
-.button.trait-mint {
+.button.mint:disabled, .button.mint[disabled],
+.button.trait-mint:disabled, .button.trait-mint[disabled],
+.button.id-card-mint:disabled, .button.id-card-mint[disabled],
+.button.mint-badge:disabled, .button.button.mint-badge[disabled]
+{
   cursor: not-allowed;
-}
-
-.button.id-card-mint {
-  cursor: not-allowed;
+  box-shadow: -6px 6px 0 0 #000;
 }
 
 .button.combine {
   cursor: not-allowed;
 }
 
-.button.mint-badge {
-  cursor: not-allowed;
-}
 
 .navbar {
   position: -webkit-sticky;

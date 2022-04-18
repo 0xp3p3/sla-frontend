@@ -1,51 +1,63 @@
-import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
 import { CandyMachineAccount } from '../../../utils/candy-machine';
 import { CircularProgress } from '@material-ui/core';
 import { GatewayStatus, useGateway } from '@civic/solana-gateway-react';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import ReactTooltip from 'react-tooltip';
 
-export const CTAButton = styled(Button)`
-  width: 100%;
-  height: 60px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  background: linear-gradient(180deg, #604ae5 0%, #813eee 100%);
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-`; // add your own styles here
 
-export const MintButton = ({
-  onMint,
-  candyMachine,
-  isMinting,
-  setIsMinting,
-  isActive,
-}: {
-  onMint: () => Promise<void>;
-  candyMachine?: CandyMachineAccount;
-  isMinting: boolean;
-  setIsMinting: (val: boolean) => void;
-  isActive: boolean;
-}) => {
+
+interface Props {
+  onMint: () => Promise<void>,
+  candyMachine: CandyMachineAccount | null,
+  isMinting: boolean,
+  setIsMinting: (val: boolean) => void,
+  isUserWhitelisted: boolean,
+  price: string,
+}
+
+export const MintButton = (props: Props) => {
+  const wallet = useWallet()
   const { requestGatewayToken, gatewayStatus } = useGateway();
+  const cndyState = props.candyMachine?.state
+
+  const [isLive, setIsLive] = useState(false)
+
+  useEffect(() => {
+    setIsLive(cndyState?.goLiveDate?.toNumber() < new Date().getTime() / 1000)
+  }, [props.candyMachine, wallet])
 
   const getMintButtonContent = () => {
-    console.log(`isActive: ${isActive}, isPresale: ${candyMachine?.state.isPresale}`)
-    if (candyMachine?.state.isSoldOut) {
+    if (cndyState?.isSoldOut) {
       return 'SOLD OUT'
-    } else if (isMinting) {
+    } else if (props.isMinting) {
       return <CircularProgress />
-    } else if (
-      candyMachine?.state.isPresale ||
-      (candyMachine?.state.isWhitelistOnly && candyMachine?.state.isActive)
-    ) {
-      return 'WHITELIST MINT'
-    } else if (candyMachine?.state.isActive) {
-      return 'MINT'
+    } else if (cndyState?.isPresale || cndyState?.isWhitelistOnly) {
+      return `AL MINT (${props.price})`
     } else {
-      return 'COMING SOON'
+      return `MINT (${props.price})`
+    }
+  }
+
+  const getTooltipContent = () => {
+    const walletNotConnected = `⚠️ Your have not selected a wallet ⚠️ <br />☝️ Click on 'Connect Wallet' at the top ☝️`
+    const notActive = "🎟 Join our Discord for the chance to get a whitelist token! 🎟"
+    const ready = "You're all set for minting! 👌"
+
+    if (!wallet.publicKey || !wallet.connected) {
+      return walletNotConnected
+    } 
+    
+    if (!isLive) {
+      return notActive
+    } 
+    
+    if (cndyState?.isWhitelistOnly) {
+      if (!props.isUserWhitelisted) {
+        return notActive
+      } else {
+        return ready
+      }
     }
   }
 
@@ -60,36 +72,47 @@ export const MintButton = ({
       fromStates.find(state => previousGatewayStatus === state) &&
       !invalidToStates.find(state => gatewayStatus === state)
     ) {
-      setIsMinting(true)
+      props.setIsMinting(true)
     }
-    console.log('Gateway status: ', gatewayStatus)
-  }, [setIsMinting, previousGatewayStatus, gatewayStatus])
+  }, [props.setIsMinting, previousGatewayStatus, gatewayStatus])
 
-  return (
-    <CTAButton
-      disabled={isMinting || !isActive}
-      onClick={async () => {
-        if (candyMachine?.state.isActive && candyMachine?.state.gatekeeper) {
-          const network = candyMachine.state.gatekeeper.gatekeeperNetwork.toBase58()
-          console.log(`Gatekeeper network: ${network}`)
-          if (network === 'ignREusXmGrscGNUesoU9mxfds9AiYTezUKex2PsZV6') {
-            if (gatewayStatus === GatewayStatus.ACTIVE) {
-              await onMint();
-            } else {
-              console.log(`Requesting a Gateway Token (and minting just after!)`)
-              await requestGatewayToken();
-            }
+  const onClick = async () => {
+    if (cndyState?.isActive) {
+      if (cndyState?.gatekeeper) {
+        const network = cndyState?.gatekeeper.gatekeeperNetwork.toBase58()
+        console.log(`Gatekeeper network: ${network}`)
+        if (network === 'ignREusXmGrscGNUesoU9mxfds9AiYTezUKex2PsZV6') {
+          if (gatewayStatus === GatewayStatus.ACTIVE) {
+            await props.onMint();
           } else {
-            throw new Error(`Unknown Gatekeeper Network: ${network}`)
+            console.log(`Requesting a Gateway Token (and minting just after!)`)
+            await requestGatewayToken();
           }
         } else {
-          throw new Error(`Candy Mahchine is not live`)
+          console.log(`Unknown Gatekeeper Network: ${network}`)
         }
-      }}
-      variant="contained"
-    >
-      {getMintButtonContent()}
-    </CTAButton>
+      } else {
+        console.log(`Minting without gatekeeper required`)
+        await props.onMint()
+      }
+    } else {
+      console.log(`User cannot mint`)
+    }
+  }
+
+  return (
+    <>
+      <button
+        className='button mint w-button'
+        // disabled={props.isMinting || !cndyState?.isActive}
+        onClick={onClick}
+        data-tip={getTooltipContent()}
+        style={ cndyState?.isActive ? {} : {cursor: 'not-allowed'}}
+      >
+        {getMintButtonContent()}
+      </button >
+      <ReactTooltip multiline place="bottom" type="info" effect="solid" />
+    </>
   );
 };
 

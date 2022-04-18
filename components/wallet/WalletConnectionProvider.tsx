@@ -15,12 +15,8 @@ import { FC, ReactNode, useMemo } from 'react';
 
 const WalletConnectionProvider: FC<{ children: ReactNode }> = ({ children }) => {
   
-  // General setup with Solana network
   const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK! as WalletAdapterNetwork
-  console.log('network: ', network)
-  
   const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT!
-  console.log('endpoint:', endpoint)
 
   // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
   // Only the wallets you configure here will be compiled into your application, and only the dependencies
