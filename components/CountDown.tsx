@@ -82,7 +82,12 @@ const CountDown = (props: Props) => {
       {isLive ? <h1 className="h1">minting now</h1> : <h1 className="h-big">coming soon</h1>}
       <div className="w-layout-grid counter-grid">
         {Object.keys(timeLeft).map((interval) => {
-          return <CountDownBlock label={interval} amount={timeLeft[interval]} />
+          return (
+            <div className="countdown-wrap" key={interval}>
+              <h2 id={interval} className="h3">{timeLeft[interval] !== null ? timeLeft[interval] : 'TBD'}</h2>
+              <div className="p1">{interval.toUpperCase()}</div>
+            </div>
+          )
         })}
       </div>
     </>
