@@ -2,7 +2,8 @@ import { CandyMachineAccount } from '../../../utils/candy-machine';
 import { CircularProgress } from '@material-ui/core';
 import { GatewayStatus, useGateway } from '@civic/solana-gateway-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import ReactTooltip from 'react-tooltip';
 
 
@@ -13,15 +14,27 @@ interface Props {
   isMinting: boolean,
   setIsMinting: (val: boolean) => void,
   isUserWhitelisted: boolean,
-  price: string,
+  price: number,
 }
 
 export const MintButton = (props: Props) => {
   const wallet = useWallet()
+  const { connection } = useConnection()
   const { requestGatewayToken, gatewayStatus } = useGateway();
+  
   const cndyState = props.candyMachine?.state
 
   const [isLive, setIsLive] = useState(false)
+  const [balance, setBalance] = useState(0.0)
+
+  useEffect(() => {
+    if (!(wallet.publicKey && wallet.connected)) { return }
+
+    connection.getBalance(wallet.publicKey).then(balance => {
+      console.log(balance)
+      setBalance(balance / LAMPORTS_PER_SOL)
+    })
+  }, [wallet, connection, props.candyMachine, isLive])
 
   useEffect(() => {
     setIsLive(cndyState?.goLiveDate?.toNumber() < new Date().getTime() / 1000)
@@ -33,15 +46,16 @@ export const MintButton = (props: Props) => {
     } else if (props.isMinting) {
       return <CircularProgress />
     } else if (cndyState?.isPresale || cndyState?.isWhitelistOnly) {
-      return `AL MINT (${props.price})`
+      return `AL MINT (${props.price} SOL)`
     } else {
-      return `MINT (${props.price})`
+      return `MINT (${props.price} SOL)`
     }
   }
 
   const getTooltipContent = () => {
     const walletNotConnected = `⚠️ Your have not selected a wallet ⚠️ <br />☝️ Click on 'Connect Wallet' at the top ☝️`
     const notActive = "🎟 Join our Discord for the chance to get a whitelist token! 🎟"
+    const notEnoughSol = "Oops! Looks like you don't have enough SOL 🥺"
     const ready = "You're all set for minting! 👌"
 
     if (!wallet.publicKey || !wallet.connected) {
@@ -55,10 +69,12 @@ export const MintButton = (props: Props) => {
     if (cndyState?.isWhitelistOnly) {
       if (!props.isUserWhitelisted) {
         return notActive
-      } else {
-        return ready
+      } else if (balance < props.price) {
+          return notEnoughSol
       }
     }
+
+    return ready
   }
 
   const previousGatewayStatus = usePrevious(gatewayStatus);

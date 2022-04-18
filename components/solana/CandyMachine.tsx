@@ -5,7 +5,6 @@ import Alert from '@material-ui/lab/Alert';
 import { Container, Snackbar } from '@material-ui/core';
 import * as anchor from '@project-serum/anchor'
 import { GatewayProvider } from "@civic/solana-gateway-react";
-import ReactTooltip from 'react-tooltip';
 
 import { MintButton } from './utils/CandyMachineMintButton';
 
@@ -24,7 +23,7 @@ interface CandyMachineProps {
   readonly candyMachineId: PublicKey,
   readonly candyMachineCollection: PublicKey,
   readonly rpcUrl: string,
-  readonly price: string,
+  readonly price: number,
   setCandyMachineStateCallback: (cndy: CandyMachineAccount) => void,
 }
 

@@ -9,7 +9,7 @@ import { CandyMachineAccount } from '../utils/candy-machine';
 const LlamaMintingSection = () => {
 
   const goLiveDate = process.env.NEXT_PUBLIC_GO_LIVE_DATE && (process.env.NEXT_PUBLIC_GO_LIVE_DATE !== 'null') ? new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!) : null
-  const price = '1.5 SOL'
+  const price = 1.5
 
   const [cndyMachineState, setCndyMachineState] = useState<CandyMachineAccount>()
 
