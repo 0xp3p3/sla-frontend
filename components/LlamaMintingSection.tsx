@@ -12,12 +12,20 @@ const LlamaMintingSection = () => {
 
   useEffect(() => {
     const d = process.env.NEXT_PUBLIC_GO_LIVE_DATE
+    console.log(process.env.NEXT_PUBLIC_GO_LIVE_DATE)
     if (d && d != 'null') {
       setDate(new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!))
     } else {
       console.log('date is not updated')
     }
-  }, [process.env.NEXT_PUBLIC_GO_LIVE_DATE])
+  }, [process.env])
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(process.env.NEXT_PUBLIC_GO_LIVE_DATE)
+      setDate(new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!))
+    }, 1000)
+  })
 
   const goLiveDate = process.env.NEXT_PUBLIC_GO_LIVE_DATE && (process.env.NEXT_PUBLIC_GO_LIVE_DATE !== 'null') ? new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!) : null
   const price = 1.5

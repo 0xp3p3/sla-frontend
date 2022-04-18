@@ -35,16 +35,6 @@ const isTimerFinished = (t: TimeLeft): boolean => {
 }
 
 
-const CountDownBlock = (props: { label: string, amount: number | null }) => {
-  return (
-    <div className="countdown-wrap" key={props.label}>
-      <h2 id={props.label} className="h3">{props.amount !== null ? props.amount : 'TBD'}</h2>
-      <div className="p1">{props.label.toUpperCase()}</div>
-    </div>
-  )
-}
-
-
 interface Props {
   date: Date | null,
 }
