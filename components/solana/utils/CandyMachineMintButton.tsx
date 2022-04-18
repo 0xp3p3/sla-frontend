@@ -31,7 +31,6 @@ export const MintButton = (props: Props) => {
     if (!(wallet.publicKey && wallet.connected)) { return }
 
     connection.getBalance(wallet.publicKey).then(balance => {
-      console.log(balance)
       setBalance(balance / LAMPORTS_PER_SOL)
     })
   }, [wallet, connection, props.candyMachine, isLive])
