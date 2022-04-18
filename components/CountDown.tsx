@@ -2,13 +2,17 @@ import { useEffect, useState } from "react"
 
 
 interface TimeLeft {
-  days: number,
-  hours: number,
-  minutes: number,
-  seconds: number,
+  days: number | null,
+  hours: number | null,
+  minutes: number | null,
+  seconds: number | null,
 }
 
-const computeTimeLeft = (target: Date): TimeLeft => {
+const computeTimeLeft = (target: Date | null): TimeLeft => {
+  if (!target) { return  {
+    days: null, hours: null, minutes: null, seconds: null
+  } }
+
   let timeLeft = {
     days: 0, hours: 0, minutes: 0, seconds: 0
   }
@@ -26,6 +30,20 @@ const computeTimeLeft = (target: Date): TimeLeft => {
   return timeLeft
 }
 
+const isTimerFinished = (t: TimeLeft): boolean => {
+  return t.days == 0 && t.hours == 0 && t.minutes == 0 && t.seconds == 0
+}
+
+
+const CountDownBlock = (props: { label: string, amount: number | null }) => {
+  return (
+    <div className="countdown-wrap" key={props.label}>
+      <h2 id={props.label} className="h3">{props.amount !== null ? props.amount : 'TBD'}</h2>
+      <div className="p1">{props.label.toUpperCase()}</div>
+    </div>
+  )
+}
+
 
 interface Props {
   date: Date | null,
@@ -33,8 +51,8 @@ interface Props {
 
 const CountDown = (props: Props) => {
   const [isCountdownLive, setIsCountdownLive] = useState(false)
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>()
-  const [isLive, setIsLive] = useState(false)
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(computeTimeLeft(props.date))
+  const [isLive, setIsLive] = useState(isTimerFinished(timeLeft))
 
   // Start the countdown when the `date` is no longer `null`
   useEffect(() => {
@@ -45,37 +63,27 @@ const CountDown = (props: Props) => {
 
   // Upddate the countdown every second
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isCountdownLive && props.date) {
+    const timer = setInterval(() => {
+      if (isCountdownLive && props.date && !isLive) {        
+        // Re-compute the time left
         const t = computeTimeLeft(props.date)
         setTimeLeft(t)
-        setIsLive(t.days == 0 && t.hours == 0 && t.minutes == 0 && t.seconds == 0)
-      } else {
-        setIsLive(false)
-      }
+
+        // Check whether the countdown has ended
+        setIsLive(isTimerFinished(t))
+      } 
     }, 1000)  // update the countdown every 1000ms
 
-    return () => clearTimeout(timer)
-  })
-
-  const timercomponents = []
-
-  if (timeLeft) {
-    Object.keys(timeLeft).forEach((interval) => {
-      timercomponents.push(
-        <div className="countdown-wrap" key={interval}>
-          <h2 id={interval} className="h3">{timeLeft[interval]}</h2>
-          <div className="p1">{interval.toUpperCase()}</div>
-        </div>
-      )
-    })
-  }
+    return () => clearInterval(timer)
+  }, [props.date])
 
   return (
     <>
       {isLive ? <h1 className="h1">minting now</h1> : <h1 className="h-big">coming soon</h1>}
       <div className="w-layout-grid counter-grid">
-        {timercomponents}
+        {Object.keys(timeLeft).map((interval) => {
+          return <CountDownBlock label={interval} amount={timeLeft[interval]} />
+        })}
       </div>
     </>
   )
