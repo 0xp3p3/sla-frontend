@@ -68,7 +68,7 @@ const CountDown = (props: Props) => {
     console.log('useEffect called')
     const timer = setTimeout(() => {
       console.log('timeout starting')
-      if (isCountdownLive && !isLive) {        
+      if (isCountdownLive && !isLive) {
         console.log('update bit entered')
         // Re-compute the time left
         const t = computeTimeLeft(props.date)
@@ -85,6 +85,7 @@ const CountDown = (props: Props) => {
   return (
     <>
       <h1 className="h1">{title}</h1>
+      <h3 className="h3">{isCountdownLive ? 'yes' : 'no'} {isLive ? 'yes' : 'no'}</h3>
       <div className="w-layout-grid counter-grid">
         <CountDownBlock interval="DAYS" amount={timeLeft.days} />
         <CountDownBlock interval="HOURS" amount={timeLeft.hours} />
