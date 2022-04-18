@@ -19,4 +19,8 @@ module.exports = withTM({
       // !! WARN !!
       ignoreBuildErrors: true,
     },
+    compiler: {
+      // ssr and displayName are configured by default
+      styledComponents: true,
+    },
 });

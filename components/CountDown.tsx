@@ -59,9 +59,7 @@ const CountDown = (props: Props) => {
   const [title, setTitle] = useState('coming soon')
 
   // Start the countdown when the `date` is no longer `null`
-  useEffect(() => {
-    setIsCountdownLive(props.date ? true : false)
-  }, [props.date])
+  useEffect(() => { setIsCountdownLive(props.date ? true : false) }, [props.date])
 
   useEffect(() => {setTitle(isLive ? 'minting now' : 'coming soon')}, [isLive])
 

@@ -115,6 +115,9 @@ export const MintButton = (props: Props) => {
     }
   }
 
+  const [buttonStyle, setButtonStyle] = useState({})
+  useEffect(() => { setButtonStyle(cndyState?.isActive ? {} : {cursor: 'not-allowed'}) }, [cndyState])
+
   return (
     <>
       <button
@@ -122,7 +125,7 @@ export const MintButton = (props: Props) => {
         // disabled={props.isMinting || !cndyState?.isActive}
         onClick={onClick}
         data-tip={getTooltipContent()}
-        style={ cndyState?.isActive ? {} : {cursor: 'not-allowed'}}
+        style={buttonStyle}
       >
         {getMintButtonContent()}
       </button >
