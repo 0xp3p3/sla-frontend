@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const useCountdown = (targetDate: Date) => {
+const useCountdown = (targetDate: Date | null): (number | null)[] => {
+  if (!targetDate) { return [null, null, null, null] }
+
   const countDownDate = new Date(targetDate).getTime()
 
   const [countDown, setCountDown] = useState(
@@ -37,12 +39,8 @@ const CountDownBlock = (props: { interval: string, amount: number | null }) => {
   )
 }
 
-const CountDown = ({ targetDate }: { targetDate: Date | null }) => {
-  let [days, hours, minutes, seconds] = [null, null, null, null]
-
-  if (targetDate) {
-    [days, hours, minutes, seconds] = useCountdown(targetDate)
-  }
+const CountDown = ({ targetDate }: { targetDate: Date | null }) => {  
+  const [days, hours, minutes, seconds] = useCountdown(targetDate)
 
   if (targetDate && (days + hours + minutes + seconds <= 0)) {
     return <h1 className="h1 countdown">WHITELIST MINTING NOW</h1>
