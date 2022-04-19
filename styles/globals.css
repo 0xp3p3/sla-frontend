@@ -2499,6 +2499,10 @@ body {
   font-weight: 400;
 }
 
+.h1.countdown {
+  text-align: center;
+}
+
 .button.mint {
   margin: auto;
 }

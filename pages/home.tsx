@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import SignupForm from "../components/EmailForm";
+import SignupForm from "../components/home/EmailForm";
 import PageWrapper from "../components/layout/PageWrapper";
-import LlamaMintingSection from "../components/LlamaMintingSection";
-import TypingEffect from "../components/TypingEffect";
+import LlamaMintingSection from "../components/home/LlamaMintingSection";
+import TypingEffect from "../components/utils/TypingEffect";
 
 
 const Home: NextPage = () => {

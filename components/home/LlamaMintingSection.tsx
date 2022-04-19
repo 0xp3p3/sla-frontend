@@ -1,9 +1,9 @@
-import CandyMachine from "../components/solana/CandyMachine";
-import CountDown from "../components/CountDown";
 import { PublicKey } from "@solana/web3.js";
 import { useState } from "react";
 
-import { CandyMachineAccount } from '../utils/candy-machine';
+import CandyMachine from "../solana/CandyMachine";
+import { CandyMachineAccount } from '../../utils/candy-machine';
+import CountDown from "./CountDown";
 
 
 const LlamaMintingSection = () => {
@@ -18,7 +18,7 @@ const LlamaMintingSection = () => {
       <img src="images/27-1.png" loading="lazy" alt="" className="absolute-llama" />
       <div className="container-s relative w-container">
         <div className="vert-cent">
-          <CountDown date={goLiveDate} />
+          <CountDown targetDate={goLiveDate} />
           <CandyMachine
             candyMachineId={new PublicKey(process.env.NEXT_PUBLIC_CM_ID_AVATAR!)}
             candyMachineCollection={new PublicKey(process.env.NEXT_PUBLIC_COLLECTION_AVATAR!)}

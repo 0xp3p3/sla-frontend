@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import PageWrapper from "../components/layout/PageWrapper";
-import TypingEffect from "../components/TypingEffect";
+import TypingEffect from "../components/utils/TypingEffect";
 
 
 const DisguiseRoom: NextPage = () => {

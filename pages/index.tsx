@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import IndexPageWrapper from "../components/layout/IndexWrapper";
-import TypingEffect from "../components/TypingEffect";
+import TypingEffect from "../components/utils/TypingEffect";
 
 const Index: NextPage = () => {
 
