@@ -44,8 +44,6 @@ export const MintButton = (props: Props) => {
       return 'SOLD OUT'
     } else if (props.isMinting) {
       return <CircularProgress />
-    } else if (cndyState?.isPresale || (isLive && cndyState?.isWhitelistOnly)) {
-      return `AL MINT (${props.price} SOL)`
     } else {
       return `MINT (${props.price} SOL)`
     }
