@@ -19,6 +19,8 @@ const LlamaMintingSection = () => {
       <div className="container-s relative w-container">
         <div className="vert-cent">
           <CountDown targetDate={goLiveDate} />
+          <CountDown targetDate={new Date("18 Apr 2022 11:00:00 UTC")} />
+          <CountDown targetDate={null} />
           <CandyMachine
             candyMachineId={new PublicKey(process.env.NEXT_PUBLIC_CM_ID_AVATAR!)}
             candyMachineCollection={new PublicKey(process.env.NEXT_PUBLIC_COLLECTION_AVATAR!)}
