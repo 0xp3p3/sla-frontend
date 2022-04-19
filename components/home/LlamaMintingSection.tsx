@@ -33,6 +33,7 @@ const LlamaMintingSection = () => {
             rpcUrl={process.env.NEXT_PUBLIC_SOLANA_ENDPOINT!}
             price={price}
             setCandyMachineStateCallback={setCndyMachineState}
+            isWhitelistOn={true}
           />
         </div>
       </div>

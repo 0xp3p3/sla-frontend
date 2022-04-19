@@ -25,6 +25,7 @@ interface CandyMachineProps {
   readonly rpcUrl: string,
   readonly price: number,
   setCandyMachineStateCallback: (cndy: CandyMachineAccount) => void,
+  readonly isWhitelistOn: boolean,  // will only be on for Llama Agents
 }
 
 const CandyMachine = (props: CandyMachineProps) => {
@@ -40,14 +41,10 @@ const CandyMachine = (props: CandyMachineProps) => {
     severity: undefined,
   });
 
-  const [isActive, setIsActive] = useState(false)  // whether the user is allowed to mint
-  const [goLiveDate, setGoLiveDate] = useState<Date>()
-  const [endDate, setEndDate] = useState<Date>()
   const [itemsRemaining, setItemsRemaining] = useState<number>()
   const [isWhitelistUser, setIsWhitelistUser] = useState(false)
-  const [isPresale, setIsPresale] = useState(false)
-  const [discountPrice, setDiscountPrice] = useState<anchor.BN>()
 
+  // The Anchor wallet used for transaction
   const anchorWallet = useMemo(() => {
     if (
       !wallet ||
@@ -65,6 +62,9 @@ const CandyMachine = (props: CandyMachineProps) => {
     } as anchor.Wallet;
   }, [wallet]);
 
+  /*
+   * A callback to refresh the state of the candy machine
+  */
   const refreshCandyMachineState = useCallback(async () => {
     if (!anchorWallet) {
       return;
@@ -81,59 +81,11 @@ const CandyMachine = (props: CandyMachineProps) => {
         // Has the `goLiveDate` passed?
         const currentTime = new Date().getTime() / 1000
         let active = cndy?.state.goLiveDate?.toNumber() < currentTime
-        let presale = false
-
-        // Is there a whitelist mint?
-        if (cndy?.state.whitelistMintSettings) {
-
-          // Is the presale ON?
-          if (cndy.state.whitelistMintSettings.presale &&
-            (!cndy.state.goLiveDate || cndy.state.goLiveDate.toNumber() > currentTime)
-          ) {
-            presale = true
-          }
-
-          // Is there a discount?
-          if (cndy.state.whitelistMintSettings.discountPrice) {
-            setDiscountPrice(cndy.state.whitelistMintSettings.discountPrice)
-          } else {
-            setDiscountPrice(undefined)
-
-            // When presale = false and discountPrice = null, mint is restricted to whitelist
-            // users only
-            if (!cndy.state.whitelistMintSettings.presale) {
-              cndy.state.isWhitelistOnly = true
-            }
-          }
-
-          // Retrieve the whitelist token
-          const mint = new anchor.web3.PublicKey(cndy.state.whitelistMintSettings.mint)
-          const token = (await getAtaForMint(mint, anchorWallet.publicKey))[0]
-
-          try {
-            // The user is on the whitelist if it has >0 whitelist tokens
-            const balance = await connection.getTokenAccountBalance(token)
-            let valid = parseInt(balance.value.amount) > 0
-            setIsWhitelistUser(valid)
-            console.log(`isWhitelistUser: ${valid}`)
-            active = (presale && valid) || active
-          } catch (e) {
-            // The user cannot mint if doesn't have a whitelist token
-            setIsWhitelistUser(false)
-            if (cndy.state.isWhitelistOnly) {
-              active = false
-            }
-            console.log('There was a problem fetching whitelist token balance')
-            console.log(e)
-          }
-        }
 
         // Fetch the end date for the mint
         if (cndy?.state.endSettings?.endSettingType.date) {
-          setEndDate(toDate(cndy.state.endSettings.number))
           if (cndy.state.endSettings.number.toNumber() < currentTime) {
             active = false
-            presale = false
           }
         }
 
@@ -156,12 +108,17 @@ const CandyMachine = (props: CandyMachineProps) => {
         // The Candy Machine is no longer active if it's sold-out
         if (cndy.state.isSoldOut) {
           active = false;
-          presale = false;
         }
 
-        setIsActive((cndy.state.isActive = active))
-        setIsPresale((cndy.state.isPresale = presale))
-        setGoLiveDate(toDate(cndy.state.goLiveDate))
+        // Check whether the user is whitelisted if necessary
+        if (props.isWhitelistOn) {
+          const response = await (await fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`)).json()
+          setIsWhitelistUser(response.whitelisted)
+          console.log('is user whitelisted: ', response.whitelisted)
+        } else {
+          setIsWhitelistUser(false)
+        }
+
         setCandyMachine(cndy)
         props.setCandyMachineStateCallback(cndy)
 
@@ -181,6 +138,12 @@ const CandyMachine = (props: CandyMachineProps) => {
       setIsUserMinting(true);
       document.getElementById('#identity')?.click();
       if (wallet.connected && candyMachine?.program && wallet.publicKey) {
+        
+        // Throw an error if the user is not whitelisted
+        if (props.isWhitelistOn && !isWhitelistUser) {
+          throw Error('User is not whitelisted')
+        }
+
         let mintOne = await mintOneToken(
           candyMachine,
           props.candyMachineCollection,
@@ -206,7 +169,7 @@ const CandyMachine = (props: CandyMachineProps) => {
           // the change immediately
           let remaining = itemsRemaining! - 1;
           setItemsRemaining(remaining);
-          setIsActive((candyMachine.state.isActive = remaining > 0));
+          candyMachine.state.isActive = remaining > 0
           candyMachine.state.isSoldOut = remaining === 0;
           setAlertState({
             open: true,
