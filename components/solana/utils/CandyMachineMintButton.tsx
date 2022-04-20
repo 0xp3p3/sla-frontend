@@ -110,7 +110,9 @@ export const MintButton = (props: Props) => {
   }
 
   const [buttonStyle, setButtonStyle] = useState({})
-  useEffect(() => { setButtonStyle(cndyState?.isActive ? {} : {cursor: 'not-allowed', boxShadow: '-6px 6px 0 0 #000'}) }, [cndyState])
+  useEffect(() => { 
+    setButtonStyle((cndyState?.isActive && props.isUserWhitelisted) ? {} : {cursor: 'not-allowed', boxShadow: '-6px 6px 0 0 #000'}) 
+  }, [cndyState, props.isUserWhitelisted])
 
   return (
     <>

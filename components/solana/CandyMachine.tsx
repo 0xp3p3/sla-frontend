@@ -14,7 +14,7 @@ import {
   mintOneToken,
   awaitTransactionSignatureConfirmation
 } from '../../utils/candy-machine';
-import { AlertState, getAtaForMint, toDate } from '../../utils/utils';
+import { AlertState } from '../../utils/utils';
 import { DEFAULT_TIMEOUT } from '../../utils/constants'
 import { sendTransaction } from '../../utils/connection';
 
@@ -60,7 +60,10 @@ const CandyMachine = (props: CandyMachineProps) => {
   */
   const refreshCandyMachineState = useCallback(async () => {
     if (!anchorWallet) {
-      return;
+      console.log('refreshing')
+      setIsWhitelistUser(false)
+      candyMachine.state.isActive = false
+      return
     }
 
     if (props.candyMachineId) {
@@ -70,15 +73,6 @@ const CandyMachine = (props: CandyMachineProps) => {
           props.candyMachineId,
           connection,
         )
-
-        // Check whether the user is whitelisted if necessary
-        if (props.isWhitelistOn) {
-          const response = await (await fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`)).json()
-          setIsWhitelistUser(response.whitelisted)
-          console.log('is user whitelisted: ', response.whitelisted)
-        } else {
-          setIsWhitelistUser(false)
-        }
 
         setCandyMachine(cndy)
         props.setCandyMachineStateCallback(cndy)
@@ -90,7 +84,25 @@ const CandyMachine = (props: CandyMachineProps) => {
       }
     }
 
-  }, [anchorWallet, props.candyMachineId, connection]);
+  }, [anchorWallet, props.candyMachineId, connection, wallet]);
+
+  useEffect(() => { refreshCandyMachineState() }, [anchorWallet, connection])
+
+  useEffect(() => {
+    // Check whether the user is whitelisted if necessary
+    if (props.isWhitelistOn && wallet.publicKey) {
+      const response = fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`).then(
+        response => response.json().then(
+          resp => { 
+            setIsWhitelistUser(resp.whitelisted) 
+            console.log('is user whiteliste?', resp.whitelisted)
+          }
+        )
+      )
+    } else {
+      setIsWhitelistUser(false)
+    }
+  }, [candyMachine, wallet])
 
   const onMint = async (
     beforeTransactions: Transaction[] = [],
@@ -100,7 +112,7 @@ const CandyMachine = (props: CandyMachineProps) => {
       setIsUserMinting(true);
       document.getElementById('#identity')?.click();
       if (wallet.connected && candyMachine?.program && wallet.publicKey) {
-        
+
         // Throw an error if the user is not whitelisted
         if (props.isWhitelistOn && !isWhitelistUser) {
           throw Error('User is not whitelisted')
@@ -177,13 +189,6 @@ const CandyMachine = (props: CandyMachineProps) => {
       setIsUserMinting(false);
     }
   };
-
-  useEffect(() => {
-    refreshCandyMachineState();
-  }, [
-    anchorWallet,
-    connection,
-  ]);
 
   const mintButton = (
     <MintButton
