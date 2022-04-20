@@ -51,27 +51,23 @@ export const MintButton = (props: Props) => {
 
   const getTooltipContent = () => {
     const walletNotConnected = `⚠️ You have not selected a wallet ⚠️ <br />☝️ Click on 'Connect Wallet' at the top ☝️`
-    const notActive = "🎟 Join our Discord for the chance to get a whitelist token! 🎟"
+    const notWhitelisted = `Make sure to get on the whitelist before the launch!`
     const notEnoughSol = "Oops! Looks like you don't have enough SOL 🥺"
-    const ready = "You're all set for minting! 👌"
+    const ready = "You're on the whitelist! 🎉 Make sure to mark the launch date 🚀"
 
     if (!wallet.publicKey || !wallet.connected) {
       return walletNotConnected
     } 
     
-    if (!isLive) {
-      return notActive
-    } 
-    
-    if (cndyState?.isWhitelistOnly) {
-      if (!props.isUserWhitelisted) {
-        return notActive
-      } else if (balance < props.price) {
-          return notEnoughSol
-      }
+    if (!props.isUserWhitelisted) {
+      return notWhitelisted
     }
-
-    return ready
+    
+    if (balance < props.price) {
+        return notEnoughSol
+    }
+  
+    return ready    
   }
 
   const previousGatewayStatus = usePrevious(gatewayStatus);
@@ -114,20 +110,19 @@ export const MintButton = (props: Props) => {
   }
 
   const [buttonStyle, setButtonStyle] = useState({})
-  useEffect(() => { setButtonStyle(cndyState?.isActive ? {} : {cursor: 'not-allowed'}) }, [cndyState])
+  useEffect(() => { setButtonStyle(cndyState?.isActive ? {} : {cursor: 'not-allowed', boxShadow: '-6px 6px 0 0 #000'}) }, [cndyState])
 
   return (
     <>
       <button
         className='button mint w-button'
-        // disabled={props.isMinting || !cndyState?.isActive}
         onClick={onClick}
         data-tip={getTooltipContent()}
         style={buttonStyle}
       >
         {getMintButtonContent()}
       </button >
-      <ReactTooltip multiline place="bottom" type="info" effect="solid" />
+      <ReactTooltip className='mint-tooltip' multiline place="right" type="info" effect="solid" />
     </>
   );
 };

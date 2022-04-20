@@ -2510,9 +2510,11 @@ body {
 .h3-small.get-whitelisted {
   margin-top: 50px;
   text-align: center;
-  /* margin-left: 120px; */
-  /* margin-right: 120px; */
   font-size: 22px;
+}
+
+.mint-tooltip {
+  margin-right: 100px;
 }
 
 .button.trait-mint, .button.id-card-mint, .button.combine {
