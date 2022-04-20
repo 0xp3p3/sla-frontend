@@ -7,7 +7,7 @@ import CountDown from "./CountDown";
 
 
 const extractEnvVar = (value: string | null): string | null => {
-  return value && (value !== 'null') ? value! : null
+  return (value && (value !== 'null')) ? value! : null
 } 
 
 
@@ -16,7 +16,7 @@ const LlamaMintingSection = () => {
   const goLiveDate = extractEnvVar(process.env.NEXT_PUBLIC_GO_LIVE_DATE) ? new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!) : null
   const price = 1.5
 
-  const candyMachineId = extractEnvVar(process.env.NEXT_PUBLIC_CM_ID_AVATA) ? new PublicKey(process.env.NEXT_PUBLIC_CM_ID_AVATAR!) : null
+  const candyMachineId = extractEnvVar(process.env.NEXT_PUBLIC_CM_ID_AVATAR) ? new PublicKey(process.env.NEXT_PUBLIC_CM_ID_AVATAR!) : null
   const candyMachineCollection = extractEnvVar(process.env.NEXT_PUBLIC_COLLECTION_AVATAR) ? new PublicKey(process.env.NEXT_PUBLIC_COLLECTION_AVATAR!) : null
 
   const [cndyMachineState, setCndyMachineState] = useState<CandyMachineAccount>()

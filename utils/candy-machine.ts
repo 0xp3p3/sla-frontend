@@ -33,8 +33,6 @@ interface CandyMachineState {
   tokenMint: anchor.web3.PublicKey;
   isSoldOut: boolean;
   isActive: boolean;
-  isPresale: boolean;
-  isWhitelistOnly: boolean;
   goLiveDate: anchor.BN;
   price: anchor.BN;
   gatekeeper: null | {
@@ -50,11 +48,6 @@ interface CandyMachineState {
     mint: anchor.web3.PublicKey;
     presale: boolean;
     discountPrice: null | anchor.BN;
-  };
-  hiddenSettings: null | {
-    name: string;
-    uri: string;
-    hash: Uint8Array;
   };
   retainAuthority: boolean;
 }
@@ -174,29 +167,59 @@ export const getCandyMachineState = async (
   const program = new anchor.Program(idl!, CANDY_MACHINE_PROGRAM, provider);
 
   const state: any = await program.account.candyMachine.fetch(candyMachineId);
-  const itemsAvailable = state.data.itemsAvailable.toNumber();
-  const itemsRedeemed = state.itemsRedeemed.toNumber();
-  const itemsRemaining = itemsAvailable - itemsRedeemed;
+  state.itemsAvailable = state.data.itemsAvailable.toNumber();
+  state.itemsRedeemed = state.itemsRedeemed.toNumber();
+  state.itemsRemaining = state.itemsAvailable - state.itemsRedeemed
+
+  // Has the `goLiveDate` passed?
+  const currentTime = new Date().getTime() / 1000
+  let isActive = state.data.goLiveDate?.toNumber() < currentTime
+
+  // Has the `endDate` passed?
+  if (state.data.endSettings?.endSettingType.date) {
+    if (state.data.endSettings.number.toNumber < currentTime) {
+      isActive = false
+    }
+  }
+
+  // Check that the maximum number of items have not been minted
+  let isSoldOut = false
+  if (state.data.endSettings?.endSettingType.amount) {
+    let limit = Math.min(state.data.endSettings.number.toNumber(), state.itemsAvailable)
+    if (state.itemsRedeemed < limit) {
+      state.itemsRemaining = limit - state.itemsRedeemed
+    } else {
+      state.itemsRemaining = 0
+      isSoldOut = true
+    }
+  }
+
+  // If there's no item remaining, we're sold out
+  if (state.itemsRemaining === 0) {
+    isSoldOut = true
+  }
+
+  // The Candy Machine is no longer active if it's sold-out
+  if (isSoldOut) {
+    isActive = false
+  }
 
   return {
     id: candyMachineId,
     program,
     state: {
       authority: state.authority,
-      itemsAvailable,
-      itemsRedeemed,
-      itemsRemaining,
-      isSoldOut: itemsRemaining === 0,
-      isActive: false,
-      isPresale: false,
-      isWhitelistOnly: false,
+      itemsAvailable: state.itemsAvailable,
+      itemsRedeemed: state.itemsRedeemed,
+      itemsRemaining: state.itemsRemaining,
+      isSoldOut,
+      isActive,
       goLiveDate: state.data.goLiveDate,
       treasury: state.wallet,
       tokenMint: state.tokenMint,
       gatekeeper: state.data.gatekeeper,
       endSettings: state.data.endSettings,
       whitelistMintSettings: state.data.whitelistMintSettings,
-      hiddenSettings: state.data.hiddenSettings,
       price: state.data.price,
       retainAuthority: state.data.retainAuthority,
     },

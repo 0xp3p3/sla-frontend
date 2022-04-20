@@ -32,8 +32,9 @@ const CandyMachine = (props: CandyMachineProps) => {
   const wallet = useWallet()
   const { connection } = useConnection()
 
-  const [isUserMinting, setIsUserMinting] = useState(false);
   const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>()
+  const [isUserMinting, setIsUserMinting] = useState(false);
+  const [isWhitelistUser, setIsWhitelistUser] = useState(false)
 
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
@@ -41,18 +42,10 @@ const CandyMachine = (props: CandyMachineProps) => {
     severity: undefined,
   });
 
-  const [itemsRemaining, setItemsRemaining] = useState<number>()
-  const [isWhitelistUser, setIsWhitelistUser] = useState(false)
-
   // The Anchor wallet used for transaction
   const anchorWallet = useMemo(() => {
-    if (
-      !wallet ||
-      !wallet.publicKey ||
-      !wallet.signAllTransactions ||
-      !wallet.signTransaction
-    ) {
-      return;
+    if (!wallet || !wallet.publicKey || !wallet.signAllTransactions || !wallet.signTransaction) {
+      return
     }
 
     return {
@@ -78,38 +71,6 @@ const CandyMachine = (props: CandyMachineProps) => {
           connection,
         )
 
-        // Has the `goLiveDate` passed?
-        const currentTime = new Date().getTime() / 1000
-        let active = cndy?.state.goLiveDate?.toNumber() < currentTime
-
-        // Fetch the end date for the mint
-        if (cndy?.state.endSettings?.endSettingType.date) {
-          if (cndy.state.endSettings.number.toNumber() < currentTime) {
-            active = false
-          }
-        }
-
-        // Check the maximum number of items have not been minted
-        if (cndy?.state.endSettings?.endSettingType.amount) {
-          let limit = Math.min(
-            cndy.state.endSettings.number.toNumber(),
-            cndy.state.itemsAvailable,
-          );
-          if (cndy.state.itemsRedeemed < limit) {
-            setItemsRemaining(limit - cndy.state.itemsRedeemed);
-          } else {
-            setItemsRemaining(0);
-            cndy.state.isSoldOut = true;
-          }
-        } else {
-          setItemsRemaining(cndy.state.itemsRemaining);
-        }
-
-        // The Candy Machine is no longer active if it's sold-out
-        if (cndy.state.isSoldOut) {
-          active = false;
-        }
-
         // Check whether the user is whitelisted if necessary
         if (props.isWhitelistOn) {
           const response = await (await fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`)).json()
@@ -122,12 +83,13 @@ const CandyMachine = (props: CandyMachineProps) => {
         setCandyMachine(cndy)
         props.setCandyMachineStateCallback(cndy)
 
-        console.log(`isActive: ${active}`)
+        console.log(`isActive: ${cndy.state.isActive}`)
       } catch (e) {
         console.log('There was a problem fetching Candy Machine state');
         console.log(e);
       }
     }
+
   }, [anchorWallet, props.candyMachineId, connection]);
 
   const onMint = async (
@@ -167,9 +129,7 @@ const CandyMachine = (props: CandyMachineProps) => {
         if (status && !status.err) {
           // manual update since the refresh might not detect
           // the change immediately
-          let remaining = itemsRemaining! - 1;
-          setItemsRemaining(remaining);
-          candyMachine.state.isActive = remaining > 0
+          let remaining = candyMachine.state.itemsRemaining! - 1;
           candyMachine.state.isSoldOut = remaining === 0;
           setAlertState({
             open: true,
@@ -248,9 +208,7 @@ const CandyMachine = (props: CandyMachineProps) => {
         severity: 'info',
       });
       try {
-        transaction = await wallet.signTransaction!(
-          transaction,
-        );
+        transaction = await wallet.signTransaction!(transaction)
       } catch (e) {
         setAlertState({
           open: true,
@@ -301,7 +259,7 @@ const CandyMachine = (props: CandyMachineProps) => {
 
   return (
     <Container maxWidth="xs" style={{ position: 'relative' }}>
-      {candyMachine?.state.isActive && candyMachine?.state.gatekeeper &&
+      {candyMachine?.state.gatekeeper &&
         wallet.publicKey && wallet.signTransaction ? (
         <GatewayProvider
           wallet={{
