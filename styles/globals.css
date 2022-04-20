@@ -2507,6 +2507,14 @@ body {
   margin: auto;
 }
 
+.h3-small.get-whitelisted {
+  margin-top: 50px;
+  text-align: center;
+  /* margin-left: 120px; */
+  /* margin-right: 120px; */
+  font-size: 22px;
+}
+
 .button.trait-mint, .button.id-card-mint, .button.combine {
   margin: auto;
   cursor: not-allowed;
@@ -2594,8 +2602,8 @@ body {
 .mint-llama {
   position: relative;
   display: block;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 80px;
+  padding-bottom: 40px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
@@ -2622,7 +2630,8 @@ body {
 }
 
 .counter-grid {
-  margin-bottom: 100px;
+  margin-top: 60px;
+  margin-bottom: 80px;
   -ms-grid-row-align: stretch;
   align-self: stretch;
   grid-column-gap: 75px;
