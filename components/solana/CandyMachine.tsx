@@ -32,7 +32,7 @@ const CandyMachine = (props: CandyMachineProps) => {
   const wallet = useWallet()
   const { connection } = useConnection()
 
-  const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>()
+  const [candyMachine, setCandyMachine] = useState<CandyMachineAccount>(null)
   const [isUserMinting, setIsUserMinting] = useState(false);
   const [isWhitelistUser, setIsWhitelistUser] = useState(false)
 
@@ -62,7 +62,7 @@ const CandyMachine = (props: CandyMachineProps) => {
     if (!anchorWallet) {
       console.log('refreshing')
       setIsWhitelistUser(false)
-      candyMachine.state.isActive = false
+      if (candyMachine !== null) { candyMachine.state.isActive = false }
       return
     }
 

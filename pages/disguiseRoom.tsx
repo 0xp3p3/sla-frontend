@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import PageWrapper from "../components/layout/PageWrapper";
+import AgentSelectionDropdown from "../components/utils/AgentSelectionDropdown";
+import TraitSelectionDropdown from "../components/utils/TraitSelectionDropdown";
 import TypingEffect from "../components/utils/TypingEffect";
 
 
@@ -29,10 +31,7 @@ const DisguiseRoom: NextPage = () => {
             </div>
             <div className="w-layout-grid grid-2">
               <div data-hover="false" data-delay={0} id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815dd-faba1442" data-w-id="c51ac5e2-ed2e-9254-8fc8-bd71e7d815dd" className="dropdown-2 w-dropdown">
-                <div style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgba(0,0,0,0.5)' }} className="dropdown-toggle w-dropdown-toggle">
-                  <div>select your llama</div>
-                  <div className="dd-arrow-wrap"><img src="images/Vector-20.svg" loading="lazy" style={{ filter: 'invert(0%)' }} alt="" className="dd-arrow" /></div>
-                </div>
+                {/* <AgentSelectionDropdown /> */}
                 <nav className="dropdown-list-2 w-dropdown-list" />
               </div>
               <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f4-faba1442" />
@@ -87,17 +86,11 @@ const DisguiseRoom: NextPage = () => {
             </div>
             <div className="w-layout-grid grid-2">
               <div data-hover="false" data-delay={0} id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a266193-faba1442" data-w-id="5fabc8b3-0684-a61b-e57d-11de5a266193" className="dropdown-2 w-dropdown">
-                <div style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgba(0,0,0,0.5)' }} className="dropdown-toggle w-dropdown-toggle">
-                  <div>select your llama</div>
-                  <div className="dd-arrow-wrap"><img src="images/Vector-20.svg" loading="lazy" style={{ filter: 'invert(0%)' }} alt="" className="dd-arrow" /></div>
-                </div>
+                <AgentSelectionDropdown />
                 <nav className="dropdown-list-2 relative w-dropdown-list" />
               </div>
               <div data-hover="false" data-delay={0} id="w-node-_3b4f53e1-655f-3fe7-b1a9-62dbca4e746e-faba1442" className="dropdown-2 mob w-dropdown">
-                <div className="dropdown-toggle w-dropdown-toggle">
-                  <div>select your trait</div>
-                  <div className="dd-arrow-wrap"><img src="images/Vector-20.svg" loading="lazy" alt="" className="dd-arrow" /></div>
-                </div>
+                <TraitSelectionDropdown />
                 <nav className="dropdown-list-2 w-dropdown-list" />
               </div>
               <div id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a2661aa-faba1442" className="vert-left">

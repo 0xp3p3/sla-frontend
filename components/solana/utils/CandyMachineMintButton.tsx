@@ -53,19 +53,13 @@ export const MintButton = (props: Props) => {
     const walletNotConnected = `⚠️ You have not selected a wallet ⚠️ <br />☝️ Click on 'Connect Wallet' at the top ☝️`
     const notWhitelisted = `Make sure to get on the whitelist before the launch!`
     const notEnoughSol = "Oops! Looks like you don't have enough SOL 🥺"
-    const ready = "You're on the whitelist! 🎉 Make sure to mark the launch date 🚀"
+    const waitingForLaunch = "You're on the whitelist! 🎉 Make sure to mark the launch date 🚀"
+    const ready = `Click 'Mint' to get your Llama Agent!`
 
-    if (!wallet.publicKey || !wallet.connected) {
-      return walletNotConnected
-    } 
-    
-    if (!props.isUserWhitelisted) {
-      return notWhitelisted
-    }
-    
-    if (balance < props.price) {
-        return notEnoughSol
-    }
+    if (!wallet.publicKey || !wallet.connected) { return walletNotConnected }   
+    if (!props.isUserWhitelisted) { return notWhitelisted }
+    if (balance < props.price) { return notEnoughSol }
+    if (!isLive) { return waitingForLaunch }
   
     return ready    
   }
