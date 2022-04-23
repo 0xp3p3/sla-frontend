@@ -1,4 +1,6 @@
 import type { NextPage } from "next";
+import Combine from "../components/disguiseRoom/Combine";
+import Test from "../components/disguiseRoom/CombinedImage";
 import PageWrapper from "../components/layout/PageWrapper";
 import AgentSelectionDropdown from "../components/utils/AgentSelectionDropdown";
 import TraitSelectionDropdown from "../components/utils/TraitSelectionDropdown";
@@ -77,58 +79,15 @@ const DisguiseRoom: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="step-2"><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
+      <div className="step-2">
+        <img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
         <div className="container-m relative w-container">
           <div className="vert-cent">
             <div className="vert-left stretch">
               <h2 className="h3">STEP 2: COMBINE</h2>
               <p className="p1">In this step, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you&apos;re happy with your choices, click the &apos;combine&apos; button and approve the transactions. Repeat these steps for every trait to complete your disguise.</p>
             </div>
-            <div className="w-layout-grid grid-2">
-              <div data-hover="false" data-delay={0} id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a266193-faba1442" data-w-id="5fabc8b3-0684-a61b-e57d-11de5a266193" className="dropdown-2 w-dropdown">
-                <AgentSelectionDropdown />
-                <nav className="dropdown-list-2 relative w-dropdown-list" />
-              </div>
-              <div data-hover="false" data-delay={0} id="w-node-_3b4f53e1-655f-3fe7-b1a9-62dbca4e746e-faba1442" className="dropdown-2 mob w-dropdown">
-                <TraitSelectionDropdown />
-                <nav className="dropdown-list-2 w-dropdown-list" />
-              </div>
-              <div id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a2661aa-faba1442" className="vert-left">
-                <div className="hor-cen m-100-perc vert-mob">
-                  <div className="vert-cent"><img src="images/Group-36.png" loading="lazy" alt="" className="llama-img select" />
-                    <div className="form-block-2 mob w-form">
-                      <form id="email-form" name="email-form" data-name="Email Form" method="get"><input type="text" className="text-field _2 w-input" maxLength={256} name="name-2" data-name="Name 2" placeholder="Alias" id="name-2" /><input type="email" className="text-field _2 w-input" maxLength={256} name="email-2" data-name="Email 2" placeholder="Confirm alias" id="email-2" required /></form>
-                      <div className="w-form-done">
-                        <div>Thank you! Your submission has been received!</div>
-                      </div>
-                      <div className="w-form-fail">
-                        <div>Oops! Something went wrong while submitting the form.</div>
-                      </div>
-                    </div>
-                    <a href="#" className="button combine w-button">combine</a>
-                  </div>
-                  <div className="form-block-2 desk w-form">
-                    <form id="email-form" name="email-form" data-name="Email Form" method="get"><input type="text" className="text-field _2 w-input" maxLength={256} name="name" data-name="Name" placeholder="Alias" id="name" /><input type="email" className="text-field _2 w-input" maxLength={256} name="email" data-name="Email" placeholder="Confirm alias" id="email" required /></form>
-                    <div className="w-form-done">
-                      <div>Thank you! Your submission has been received!</div>
-                    </div>
-                    <div className="w-form-fail">
-                      <div>Oops! Something went wrong while submitting the form.</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="error-message">
-                  <div className="tb-24 red">You cannot combine traits at this time. please come back later.</div>
-                </div>
-              </div>
-              <div data-hover="false" data-delay={0} id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a2661af-faba1442" data-w-id="5fabc8b3-0684-a61b-e57d-11de5a2661af" className="dropdown-2 desk w-dropdown">
-                <div style={{ backgroundColor: 'rgb(255,255,255)', color: 'rgba(0,0,0,0.5)' }} className="dropdown-toggle w-dropdown-toggle">
-                  <div>select your trait</div>
-                  <div className="dd-arrow-wrap"><img src="images/Vector-20.svg" loading="lazy" style={{ filter: 'invert(0%)' }} alt="" className="dd-arrow" /></div>
-                </div>
-                <nav className="dropdown-list-2 w-dropdown-list" />
-              </div>
-            </div>
+            <Combine />
           </div>
         </div>
       </div>
