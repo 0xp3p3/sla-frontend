@@ -3,7 +3,7 @@ import * as mpl from '@metaplex/js'
 import AgentSelectionDropdown from "../utils/AgentSelectionDropdown"
 import TraitSelectionDropdown from "../utils/TraitSelectionDropdown"
 import CombinedImage from "./CombinedImage"
-import { downloadMetadataFromArweave } from "../../utils/sla/metadata"
+import { createNewAvatarMetadata, downloadMetadataFromArweave } from "../../utils/metadata"
 import { PublicKey } from "@solana/web3.js"
 import { useConnection } from '@solana/wallet-adapter-react';
 
@@ -16,24 +16,45 @@ const Combine = () => {
 
   const [llamaMetadata, setLlamaMetadata] = useState<mpl.MetadataJson>(null)
   const [traitMetadata, setTraitMetadata] = useState<mpl.MetadataJson>(null)
+  const [metadataToDisplay, setMetadataToDisplay] = useState<mpl.MetadataJson>(null)
+
+  const [bothLlamaAndTraitSelected, setBothLlamaAndTraitSelected] = useState(false)
 
   // Update the Llama Metadata
   useEffect(() => {
-    if (llamaMint) {
+    if (llamaMint && connection) {
       downloadMetadataFromArweave(llamaMint, connection).then(
         data => setLlamaMetadata(data)
       )
     }
-  }, [llamaMint, connection])
+  }, [llamaMint])
 
   // Update the Trait Metadata
   useEffect(() => {
-    if (traitMint) {
+    if (traitMint && connection) {
       downloadMetadataFromArweave(traitMint, connection).then(
         data => setTraitMetadata(data)
       )
     }
-  })
+  }, [traitMint])
+
+  // Update the combination of Llama & Trait
+  useEffect(() => {
+    if (llamaMetadata && traitMetadata) {
+      const newMetadata = createNewAvatarMetadata(llamaMetadata, traitMetadata)
+      setMetadataToDisplay(newMetadata)
+      setBothLlamaAndTraitSelected(true)
+    } else if (llamaMetadata && !traitMetadata) {
+      setMetadataToDisplay(llamaMetadata)
+      setBothLlamaAndTraitSelected(false)
+    } else if (!llamaMetadata && traitMetadata) {
+      setMetadataToDisplay(traitMetadata)
+      setBothLlamaAndTraitSelected(false)
+    } else {
+      setMetadataToDisplay(null)
+      setBothLlamaAndTraitSelected(false)
+    }
+  }, [llamaMetadata, traitMetadata])
 
   return (
     <div className="w-layout-grid grid-2">
@@ -48,7 +69,7 @@ const Combine = () => {
       <div id="w-node-_5fabc8b3-0684-a61b-e57d-11de5a2661aa-faba1442" className="vert-left">
         <div className="hor-cen m-100-perc vert-mob">
           <div className="vert-cent">
-            <CombinedImage llamaAttributes={llamaMetadata.attributes} traitAttributes={traitMetadata.attributes} />
+            <CombinedImage metadataOfImageToDisplay={metadataToDisplay} buildLayerByLayer={bothLlamaAndTraitSelected} />
             <div className="form-block-2 mob w-form">
               <form id="email-form" name="email-form" data-name="Email Form" method="get">
                 <input type="text" className="text-field _2 w-input" maxLength={256} name="name-2" data-name="Name 2" placeholder="Alias" id="name-2" />

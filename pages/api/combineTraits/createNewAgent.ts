@@ -1,12 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createNewAvatar } from "../../../utils/combine/image";
 import S3 from 'aws-sdk/clients/s3';
 import aws from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
+import * as mpl from '@metaplex/js';
+import { createNewAvatar } from "../../../utils/image";
 
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   
+  if (req.method !== 'POST') {
+    res.status(405).send({ message: 'Only POST requests allowed' })
+  }
+
+  const body = req.body
+  const attributes: mpl.MetadataJsonAttribute[] = body.attributes
+
   // Extract environment variables
   const missing = missingEnvs()
   if (missing.length > 0) {
@@ -24,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const bucket = process.env.S3_UPLOAD_BUCKET
 
     // Filename to upload
-    const imageBuffer: Buffer = await buildNewImage(null)
+    const imageBuffer: Buffer = await createNewAvatar(attributes)
     const filename = '0.png'
     const key = `agents/${uuidv4()}/${filename.replace(/\s/g, '-')}`
 
@@ -63,8 +71,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       CacheControl: 'max-age=630720000, public',
       ContentType: "image/png",
     }
-    console.log('params')
-    console.log(params)
 
     const s3Upload = s3.upload(params)
 

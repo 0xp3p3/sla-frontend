@@ -2,18 +2,16 @@ import * as mpl from '@metaplex/js';
 import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
 import imagemin from 'imagemin';
 import imageminPngquant from 'imagemin-pngquant';
-import { imageSize } from './utils/constants';
+import { imageSize } from './constants';
 
 
 export async function createNewAvatar(attributes: mpl.MetadataJsonAttribute[] | null): Promise<Buffer> {
   if (!attributes) { return }
 
-  const layersDirectory = "https://sla-traits.s3.eu-west-2.amazonaws.com/layer_store"
+  const layersDirectory = process.env.S3_LAYER_STORE 
 
-  // Create and save the new Avatar in the temporary directory
-  const newImage = await makeCreateImageWithCanvas(attributes, imageSize.width, imageSize.height, layersDirectory)
-
-  return newImage
+  // Create the new Avatar and return it as a buffer
+  return await makeCreateImageWithCanvas(attributes, imageSize.width, imageSize.height, layersDirectory)
 }
 
 async function makeCreateImageWithCanvas(

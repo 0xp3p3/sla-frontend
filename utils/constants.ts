@@ -75,3 +75,4 @@ export const SLA_TRAITS = {
 }
 
 export const SLA_TRAIT_NAMES = ["Skin", "Clothing", "Eyes", "Hat", "Mouth"];
+export const imageSize = { width: 1000, height: 1000 }
