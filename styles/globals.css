@@ -3572,7 +3572,6 @@ body {
 }
 
 .grid-2 {
-  margin-top: 100px;
   -ms-grid-row-align: stretch;
   align-self: stretch;
   grid-column-gap: 95px;
@@ -4296,7 +4295,6 @@ body {
   }
 
   .grid-2 {
-    margin-top: 50px;
     grid-column-gap: 30px;
     grid-row-gap: 50px;
     -ms-grid-columns: 1fr 1fr;

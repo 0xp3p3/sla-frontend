@@ -1,9 +1,6 @@
 import type { NextPage } from "next";
 import Combine from "../components/disguiseRoom/Combine";
-import Test from "../components/disguiseRoom/CombinedImage";
 import PageWrapper from "../components/layout/PageWrapper";
-import AgentSelectionDropdown from "../components/utils/AgentSelectionDropdown";
-import TraitSelectionDropdown from "../components/utils/TraitSelectionDropdown";
 import TypingEffect from "../components/utils/TypingEffect";
 
 
@@ -29,11 +26,10 @@ const DisguiseRoom: NextPage = () => {
             <h1 className="h2">How it works</h1>
             <div className="vert-left stretch">
               <h2 className="h3 h-white">STEP 1: MINT YOUR TRAITS</h2>
-              <p className="p1 p-white">There are 5 trait categories: Eyes, Mouth, Skin, Clothing and Hats. Each category is its own collection and will generate a random trait when you mint from it.<br/><br/> Combining a trait with your Llama Agent is permanent, making all collections deflationary.<br/><br/> Each trait costs 2 $HAY. Before minting one, you must select your Llama Agent from the dropdown menu. </p>
+              <p className="p1 p-white">There are 5 trait categories: Eyes, Mouth, Skin, Clothing and Hats. Each category is its own collection and will generate a random trait when you mint from it.<br/><br/> Combining a trait with your Llama Agent is permanent, making all collections deflationary.<br/><br/> Each trait costs 2 $HAY. </p>
             </div>
             <div className="w-layout-grid grid-2">
               <div data-hover="false" data-delay={0} id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815dd-faba1442" data-w-id="c51ac5e2-ed2e-9254-8fc8-bd71e7d815dd" className="dropdown-2 w-dropdown">
-                {/* <AgentSelectionDropdown /> */}
                 <nav className="dropdown-list-2 w-dropdown-list" />
               </div>
               <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f4-faba1442" />
