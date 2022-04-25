@@ -2175,6 +2175,10 @@ textarea.w-select {
 
 /* SECRET-LLAMA-AGENCY.WEBFLOW.CSS */
 
+a {
+  color: #4892a1;
+}
+
 .w-layout-grid {
   display: -ms-grid;
   display: grid;

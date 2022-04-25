@@ -7,7 +7,6 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import ReactTooltip from 'react-tooltip';
 
 
-
 interface Props {
   onMint: () => Promise<void>,
   candyMachine: CandyMachineAccount | null,
@@ -20,48 +19,41 @@ interface Props {
 export const MintButton = (props: Props) => {
   const wallet = useWallet()
   const { connection } = useConnection()
-  const { requestGatewayToken, gatewayStatus } = useGateway();
-  
-  const cndyState = props.candyMachine?.state
+  const { requestGatewayToken, gatewayStatus } = useGateway()
 
-  const [isLive, setIsLive] = useState(false)
+  const cndyState = props.candyMachine?.state
+  const [isUserAllowedToClick, setIsUserAllowedToClick] = useState(false)
   const [balance, setBalance] = useState(0.0)
 
+  // Update balance of user
   useEffect(() => {
     if (!(wallet.publicKey && wallet.connected)) { return }
 
     connection.getBalance(wallet.publicKey).then(balance => {
       setBalance(balance / LAMPORTS_PER_SOL)
     })
-  }, [wallet, connection, props.candyMachine, isLive])
+  }, [wallet, connection, props.candyMachine])
 
+  // Update whether the user is allowed to click
   useEffect(() => {
-    setIsLive(cndyState?.goLiveDate?.toNumber() < new Date().getTime() / 1000)
-  }, [props.candyMachine, wallet])
-
-  const getMintButtonContent = () => {
-    if (cndyState?.isSoldOut) {
-      return 'SOLD OUT'
-    } else if (props.isMinting) {
-      return <CircularProgress />
-    } else {
-      return `MINT (${props.price} SOL)`
-    }
-  }
+    const isAllowed = wallet.connected && cndyState?.isActive && props.isUserWhitelisted && balance >= props.price
+    console.log('is allowed:', isAllowed)
+    setIsUserAllowedToClick(isAllowed)
+  }, [wallet.connected, balance, connection, props.candyMachine, props.isUserWhitelisted])
 
   const getTooltipContent = () => {
     const walletNotConnected = `⚠️ You have not selected a wallet ⚠️ <br />☝️ Click on 'Connect Wallet' at the top ☝️`
-    const notWhitelisted = `Make sure to get on the whitelist before the launch!`
+    const notWhitelisted = `Make sure to get whitelisted before the launch!`
     const notEnoughSol = "Oops! Looks like you don't have enough SOL 🥺"
     const waitingForLaunch = "You're on the whitelist! 🎉 Make sure to mark the launch date 🚀"
     const ready = `Click 'Mint' to get your Llama Agent!`
 
-    if (!wallet.publicKey || !wallet.connected) { return walletNotConnected }   
+    if (!wallet.publicKey || !wallet.connected) { return walletNotConnected }
     if (!props.isUserWhitelisted) { return notWhitelisted }
     if (balance < props.price) { return notEnoughSol }
-    if (!isLive) { return waitingForLaunch }
-  
-    return ready    
+    if (!cndyState?.isActive) { return waitingForLaunch }
+
+    return ready
   }
 
   const previousGatewayStatus = usePrevious(gatewayStatus);
@@ -80,16 +72,17 @@ export const MintButton = (props: Props) => {
   }, [props.setIsMinting, previousGatewayStatus, gatewayStatus])
 
   const onClick = async () => {
-    if (cndyState?.isActive) {
+    if (isUserAllowedToClick) {
       if (cndyState?.gatekeeper) {
         const network = cndyState?.gatekeeper.gatekeeperNetwork.toBase58()
         console.log(`Gatekeeper network: ${network}`)
         if (network === 'ignREusXmGrscGNUesoU9mxfds9AiYTezUKex2PsZV6') {
           if (gatewayStatus === GatewayStatus.ACTIVE) {
-            await props.onMint();
+            await props.onMint()
           } else {
             console.log(`Requesting a Gateway Token (and minting just after!)`)
-            await requestGatewayToken();
+            await requestGatewayToken()
+            await props.onMint()
           }
         } else {
           console.log(`Unknown Gatekeeper Network: ${network}`)
@@ -104,8 +97,8 @@ export const MintButton = (props: Props) => {
   }
 
   const [buttonStyle, setButtonStyle] = useState({})
-  useEffect(() => { 
-    setButtonStyle((cndyState?.isActive && props.isUserWhitelisted) ? {} : {cursor: 'not-allowed', boxShadow: '-6px 6px 0 0 #000'}) 
+  useEffect(() => {
+    setButtonStyle(isUserAllowedToClick ? {} : { cursor: 'not-allowed', boxShadow: '-6px 6px 0 0 #000' })
   }, [cndyState, props.isUserWhitelisted])
 
   return (
@@ -116,7 +109,7 @@ export const MintButton = (props: Props) => {
         data-tip={getTooltipContent()}
         style={buttonStyle}
       >
-        {getMintButtonContent()}
+        {cndyState?.isSoldOut ? 'SOLD OUT' : (props.isMinting ? <CircularProgress /> : `MINT (${props.price} SOL)`)}
       </button >
       <ReactTooltip className='mint-tooltip' multiline place="right" type="info" effect="solid" />
     </>

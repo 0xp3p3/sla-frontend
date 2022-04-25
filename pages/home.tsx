@@ -14,7 +14,7 @@ const Home: NextPage = () => {
     },
     2: {
       title: 'GET IN DISGUISE',
-      text: <>Begin earning <a href="/hay">$HAY</a> from staking & use it to mint your trait NFTs in <a href="/disguiseRoom">The Disguise Room</a>.</>,
+      text: <>Begin earning $HAY from staking & use it to mint your trait NFTs in <a href="/disguiseRoom">The Disguise Room</a>.</>,
     },
     3: {
       title: 'Set up communications',
@@ -22,23 +22,23 @@ const Home: NextPage = () => {
     },
     4: {
       title: 'Stand Out',
-      text: <>Legendary skins auction begins. Winners can earn +2 <a href="/hay">$HAY</a> daily. <br/><br/>We will also launch the Agency Marketplace where blue chip NFTs can be purchased with <a href="/hay">$HAY</a>.</>
+      text: <>Legendary skins auction begins. Winners can earn +2 $HAY daily. <br/><br/>We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</>
     },
     5: {
       title: 'ID CARDS RELEASE',
-      text: <>Mint an ID Card NFT in exchange for <a href="/hay">$HAY</a> in <a href="/disguiseRoom">The Disguise Room</a>.<br/><br/> Combine one with your Llama Agent to change its alias.</>
+      text: <>Mint an ID Card NFT in exchange for $HAY in <a href="/disguiseRoom">The Disguise Room</a>.<br/><br/> Combine one with your Llama Agent to change its alias.</>
     },
     6: {
       title: 'PROMOTIONS',
-      text: <>Holders begin having enough <a href="/hay">$HAY</a> accumulated to enter The Ceremonial Hall and get promoted. <br/><br/>Higher ranks receive bonus <a href="/hay">$HAY</a>.</>
+      text: <>Holders begin having enough $HAY accumulated to enter The Ceremonial Hall and get promoted. <br/><br/>Higher ranks receive bonus $HAY.</>
     },
     7: {
       title: 'TROUBLE BREWING',
-      text: <>Reveal the 25 Alpaca imposters disguised as Llamas within the collection.<br/><br/> The lucky holders will earn +5 <a href="/hay">$HAY</a> daily.</>
+      text: <>Reveal the 25 Alpaca imposters disguised as Llamas within the collection.<br/><br/> The lucky holders will earn +5 $HAY daily.</>
     },
     8: {
       title: 'SEASON 2',
-      text: <>New drop with Alpacas: The Alpacalypse.<br/><br/>The new NFT drop will be purchasable with <a href="/hay">$HAY</a> tokens.</>
+      text: <>New drop with Alpacas: The Alpacalypse.<br/><br/>The new NFT drop will be purchasable with $HAY tokens.</>
     }
   }
 
@@ -88,7 +88,7 @@ const Home: NextPage = () => {
               <div className="_50div display-none" />
               <div className="_50div padd-right mob-all cent"><img src="images/Rectangle-18.png" loading="lazy" alt="" className="llama-img mob" />
                 <h2 className="h2">Welcome to the<br />secret llama agency</h2>
-                <p className="p1 p-white">The first ever PFP project with customizable traits and aliases. <br /><br />Our community of Llamas will represent your online identity, and earn you <a href="/hay">$HAY</a> daily. The token can be used to purchase blue chip NFTs from our Agency Marketplace, mint Traits, Promotion Badges, ID Cards and much more!</p>
+                <p className="p1 p-white">The first ever PFP project with customizable traits and aliases. <br /><br />Our community of Llamas will represent your online identity, and earn you $HAY daily. The token can be used to purchase blue chip NFTs from our Agency Marketplace, mint Traits, Promotion Badges, ID Cards and much more!</p>
               </div><img src="images/pattern-big.png" loading="lazy" sizes="(max-width: 479px) 85vw, (max-width: 991px) 89vw, 83vw" srcSet="images/pattern-big-p-500.png 500w, images/pattern-big.png 1866w" alt="" className="absolute-bg" /><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner" />
             </div>
             <div className="hor-cen padd-110">
@@ -145,13 +145,13 @@ const Home: NextPage = () => {
               <div id="w-node-dab75b19-1732-46ef-a993-d4f20f5b5f6c-90cb9dd4" className="hor-cen vert-mob"><img src="images/Icon-8.svg" loading="lazy" alt="" className="icon-features" />
                 <div className="vert-left cent-mob">
                   <h4 className="h3">community</h4>
-                  <div className="tb-15 tb-center-m">Exclusive <a href="https://discord.gg/5STFvY9nu5" target="_blank" rel="noreferrer">discord channel</a> where the community can vote on the future of the project and which blue chip NFTs to sell on our Agency Marketplace for <a href="/hay">$HAY</a>.</div>
+                  <div className="tb-15 tb-center-m">Exclusive <a href="https://discord.gg/5STFvY9nu5" target="_blank" rel="noreferrer">discord channel</a> where the community can vote on the future of the project and which blue chip NFTs to sell on our Agency Marketplace for $HAY.</div>
                 </div>
               </div>
               <div id="w-node-_7a1da29f-8c2a-82c1-df09-1e3a8ac27eb2-90cb9dd4" className="hor-cen vert-mob"><img src="images/disguise-room.svg" loading="lazy" alt="" className="icon-features" />
                 <div className="vert-left cent-mob">
                   <h4 className="h3">disguise room</h4>
-                  <div className="tb-15 tb-center-m">Exclusive access to trait NFT mints purchasable with <a href="/hay">$HAY</a> in <a href="/disguiseRoom">The Disguise Room</a>.</div>
+                  <div className="tb-15 tb-center-m">Exclusive access to trait NFT mints purchasable with $HAY in <a href="/disguiseRoom">The Disguise Room</a>.</div>
                 </div>
               </div>
             </div>
@@ -164,10 +164,10 @@ const Home: NextPage = () => {
             <div className="vert-left">
               <h3 className="h2 h-black">hold to get<br />Promotions</h3>
               <p className="p1">
-                Staked Llama Agents earn 2 <a href="/hay">$HAY</a> a day. Getting promoted means your Llama Agent receives even more <a href="/hay">$HAY</a>! The higher you rank, the more you earn. <br /><br />
+                Staked Llama Agents earn 2 $HAY a day. Getting promoted means your Llama Agent receives even more $HAY! The higher you rank, the more you earn. <br /><br />
                 You can mint your promotion badges and combine them with your Llama Agent in The Ceremonial Hall.<br /><br />
-                Access is exclusive to those that hold a minimum of 60 <a href="/hay">$HAY</a> in their wallet. 
-                Check out <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer">our whitepaper</a> to learn more about the <a href="/hay">$HAY</a> ecosystem and its utility.
+                Access is exclusive to those that hold a minimum of 60 $HAY in their wallet. 
+                Check out <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer">our whitepaper</a> to learn more about the $HAY ecosystem and its utility.
               </p>
             </div><img src="images/Img-26.png" loading="lazy" sizes="(max-width: 479px) 86vw, (max-width: 646px) 90vw, (max-width: 991px) 582px, 100vw" srcSet="images/Img-26-p-500.png 500w, images/Img-26.png 582w" alt="" className="img-582 mob" />
           </div>

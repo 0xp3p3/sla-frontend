@@ -20,7 +20,7 @@ const Hay: NextPage = () => {
             <div className="hor-cen stretch vert-mob"><img src="images/Icon-5-3.png" loading="lazy" alt="" className="hayone-img" />
               <div className="vert-left cent-mob">
                 <h2 className="h3 h-white">Traits</h2>
-                <p className="p1 p-white p-cent-mob">Ready to get in disguise? Each trait in <a href="/disguiseRoom">The Disguise Room</a> will cost 2 $HAY with a total of 5 different traits categories.</p>
+                <p className="p1 p-white p-cent-mob">Ready to get in disguise? Each trait in The Disguise Room will cost 2 $HAY with a total of 5 different traits categories.</p>
               </div>
             </div>
             <div className="hor-cen stretch vert-mob"><img src="images/Icon-6-1.png" loading="lazy" alt="" className="hayone-img" />

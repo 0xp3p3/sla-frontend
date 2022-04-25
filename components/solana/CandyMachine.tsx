@@ -77,7 +77,6 @@ const CandyMachine = (props: CandyMachineProps) => {
         setCandyMachine(cndy)
         props.setCandyMachineStateCallback(cndy)
 
-        console.log(`isActive: ${cndy.state.isActive}`)
       } catch (e) {
         console.log('There was a problem fetching Candy Machine state');
         console.log(e);
@@ -95,7 +94,6 @@ const CandyMachine = (props: CandyMachineProps) => {
         response => response.json().then(
           resp => { 
             setIsWhitelistUser(resp.whitelisted) 
-            console.log('is user whiteliste?', resp.whitelisted)
           }
         )
       )
@@ -110,7 +108,6 @@ const CandyMachine = (props: CandyMachineProps) => {
   ) => {
     try {
       setIsUserMinting(true);
-      document.getElementById('#identity')?.click();
       if (wallet.connected && candyMachine?.program && wallet.publicKey) {
 
         // Throw an error if the user is not whitelisted
@@ -118,6 +115,7 @@ const CandyMachine = (props: CandyMachineProps) => {
           throw Error('User is not whitelisted')
         }
 
+        console.log('about to call `mintOneToken`')
         let mintOne = await mintOneToken(
           candyMachine,
           props.candyMachineCollection,
@@ -125,11 +123,13 @@ const CandyMachine = (props: CandyMachineProps) => {
           beforeTransactions,
           afterTransactions,
         );
+        console.log('all tx:', mintOne)
 
         const mintTxId = mintOne[0];
 
         let status: any = { err: true };
         if (mintTxId) {
+          console.log('awaiting transaction confirmation')
           status = await awaitTransactionSignatureConfirmation(
             mintTxId,
             DEFAULT_TIMEOUT,
@@ -138,6 +138,7 @@ const CandyMachine = (props: CandyMachineProps) => {
           );
         }
 
+        console.log('status:', status)
         if (status && !status.err) {
           // manual update since the refresh might not detect
           // the change immediately
@@ -157,6 +158,7 @@ const CandyMachine = (props: CandyMachineProps) => {
         }
       }
     } catch (error: any) {
+      console.log('some error was caught')
       let message = error.msg || 'Minting failed! Please try again!';
       if (!error.msg) {
         if (!error.message) {
