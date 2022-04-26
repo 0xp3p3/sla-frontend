@@ -139,7 +139,7 @@ const Home: NextPage = () => {
               <div id="w-node-b63c381a-02e8-d0a1-5a2f-76dae45d851e-90cb9dd4" className="hor-cen vert-mob"><img src="images/Crown.svg" loading="lazy" alt="" className="icon-features" />
                 <div className="vert-left cent-mob">
                   <h4 className="h3">royalties</h4>
-                  <div className="tb-15 tb-center-m">9% royalty fee from secondary sales of Llamas and trait NFTs goes to the community wallet.</div>
+                  <div className="tb-15 tb-center-m">7% royalty fee from secondary sales of Llamas and trait NFTs goes to the community wallet.</div>
                 </div>
               </div>
               <div id="w-node-dab75b19-1732-46ef-a993-d4f20f5b5f6c-90cb9dd4" className="hor-cen vert-mob"><img src="images/Icon-8.svg" loading="lazy" alt="" className="icon-features" />
