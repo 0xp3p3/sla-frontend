@@ -5,7 +5,7 @@ import TypingEffect from "../components/utils/TypingEffect";
 const Index: NextPage = () => {
 
   return (
-    <IndexPageWrapper title="Secret Llama Agency" ogImageSource="/images/Homepage-p-500.jpg">
+    <IndexPageWrapper title="Secret Llama Agency" ogImageSource="/images/Logo-7-p-500.png">
       <div className="start-nav">  
         <a href="#" className="nav-logo-link w-inline-block"><img src="images/Logo-7.png" loading="lazy" sizes="(max-width: 479px) 17vw, (max-width: 767px) 16vw, 80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" /></a>
         <div className="tb-start-logo">SECRET LLAMA AGENCY</div>
