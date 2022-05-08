@@ -3,12 +3,18 @@ import '../styles/ConnectWallet.css'
 
 import type { AppProps } from 'next/app'
 import WalletConnectionProvider from '../components/wallet/WalletConnectionProvider'
+import Head from 'next/head'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WalletConnectionProvider>
-      <Component {...pageProps} />
-    </WalletConnectionProvider>
+    <>
+      <Head>
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+      </Head>
+      <WalletConnectionProvider>
+        <Component {...pageProps} />
+      </WalletConnectionProvider>
+    </>
   )
 }
 

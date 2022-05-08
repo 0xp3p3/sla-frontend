@@ -7,7 +7,6 @@ class MyDocument extends Document {
         <Head>
           
           {/* Meta tags used by Webflow */}
-          <meta content="width=device-width, initial-scale=1" name="viewport" />
           <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon" />
           <link href="/images/webclip.png" rel="apple-touch-icon" />
           
