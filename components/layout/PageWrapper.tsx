@@ -1,12 +1,13 @@
-import Head from "next/head";
 import Script from "next/script";
 import { useEffect } from "react";
+import CustomHead from "./CustomHead";
 import Footer from "./Footer";
 import Navigation from "./Navigation";
 
 
 interface Props {
   title: string,
+  ogImageSource: string,
   webflowPageId: string,
   webflowSandwichMenuId: string,
   children: React.ReactNode,
@@ -20,11 +21,7 @@ const PageWrapper = (props: Props) => {
 
   return (
     <div>
-      <Head>
-        <meta content={props.title} property="og:title" key="title"/>
-        <meta content={props.title} property="twitter:title" key="twitter_title" />
-        <title>{props.title}</title>
-      </Head>
+      <CustomHead title={props.title} ogImageSource={props.ogImageSource} />
       <div className="page-wrapper" id="top-of-page">
         <Navigation webflowSandwichMenuId={props.webflowSandwichMenuId}/>
         {props.children}
