@@ -4,7 +4,7 @@ import PageWrapper from "../components/layout/PageWrapper";
 
 const Hay: NextPage = () => {
   return (
-    <PageWrapper title="$HAY" webflowPageId="622e05c936936e3f74fc8f3b" webflowSandwichMenuId="aa61bda1-efb4-8bea-910f-0dc8c3e04b1f">
+    <PageWrapper title="$HAY" ogImageSource="/images/Icon-4-1.png" webflowPageId="622e05c936936e3f74fc8f3b" webflowSandwichMenuId="aa61bda1-efb4-8bea-910f-0dc8c3e04b1f">
       <div className="blue-bg-div outline-none"><img src="images/Vector-3-1.svg" loading="lazy" id="top" alt="" className="u-l-corner" /><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
         <div className="container-m relative w-container">
           <div className="vert-cent">

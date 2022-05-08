@@ -43,7 +43,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <PageWrapper title="Home" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
+    <PageWrapper title="Home" ogImageSource="/images/Landing-Page-Art-p-500.jpg" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
       <div id="hero" className="hero-section">
         <div className="hero-content">
           <div className="hero-img">
@@ -361,19 +361,6 @@ const Home: NextPage = () => {
                   <div className="hor-cen">
                     <a href="https://instagram.com/nas.alive?utm_medium=copy_link" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
                     <a href="https://www.linkedin.com/in/nasrbitar" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
-                  </div>
-                </div>
-              </div>
-              <div id="w-node-_2e883707-c7b1-68f8-1ce7-b377ca3b02cb-90cb9dd4" className="hor-left vert-mob"><img src="images/sean.png" loading="lazy" alt="" className="llama-img team-img" />
-                <div className="vert-left space-btw">
-                  <div className="vert-left">
-                    <h4 className="h3-big">Agent Pineapples (SEAN)</h4>
-                    <div className="p1 p-bold">Community Manager</div>
-                    <div className="tb-15">{`NFT Enthusiast since Feb 2021 "@watase.eth". NBA TopShot Collector, Axie Infinity Manager, and Cool Cat holder. Building Discords and NFT communities in the Web3 space.`}</div>
-                  </div>
-                  <div className="hor-cen">
-                    <a href="http://twitter.com/watase_eth" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
-                    <a href="http://instagram.com/watase.eth" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
                   </div>
                 </div>
               </div>
