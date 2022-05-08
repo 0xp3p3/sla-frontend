@@ -364,19 +364,6 @@ const Home: NextPage = () => {
                   </div>
                 </div>
               </div>
-              <div id="w-node-_2e883707-c7b1-68f8-1ce7-b377ca3b02cb-90cb9dd4" className="hor-left vert-mob"><img src="images/sean.png" loading="lazy" alt="" className="llama-img team-img" />
-                <div className="vert-left space-btw">
-                  <div className="vert-left">
-                    <h4 className="h3-big">Agent Pineapples (SEAN)</h4>
-                    <div className="p1 p-bold">Community Manager</div>
-                    <div className="tb-15">{`NFT Enthusiast since Feb 2021 "@watase.eth". NBA TopShot Collector, Axie Infinity Manager, and Cool Cat holder. Building Discords and NFT communities in the Web3 space.`}</div>
-                  </div>
-                  <div className="hor-cen">
-                    <a href="http://twitter.com/watase_eth" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
-                    <a href="http://instagram.com/watase.eth" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
