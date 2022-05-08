@@ -7,7 +7,7 @@ interface Props {
 }
 
 const CustomHead = (props: Props) => {
-  const url = "https://www.secretllamaagency.com/"
+  const url = "https://www.secretllamaagency.com"
 
   return (
     <Head>
