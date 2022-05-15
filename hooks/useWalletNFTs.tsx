@@ -40,8 +40,6 @@ const useWalletNFTs = () => {
       // Fetch all NFTs
       const NFTs = await getNFTsByOwner(publicKey, connection)
       setWalletNFTs(NFTs)
-      console.log(`N NFTS: ${NFTs.length}`)
-      console.log(NFTs)
 
       // Filter Llama Agents
       const agentNFTs = NFTs.filter(nft => {
@@ -50,7 +48,6 @@ const useWalletNFTs = () => {
         return (collection.key === AGENT_COLLECTION && collection.verified)
       })
       setAgentWalletNFTs(agentNFTs)
-      console.log(`N Agent NFTS: ${agentNFTs.length}`)
     }
 
     if (publicKey) {
