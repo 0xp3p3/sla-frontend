@@ -44,14 +44,14 @@ const useWalletNFTs = () => {
       console.log(NFTs)
 
       // Filter Llama Agents
-      for (const nft of walletNFTs) {
+      for (const nft of NFTs) {
         console.log(nft.externalMetadata.name)
         const collection = nft.onchainMetadata.collection
         console.log(collection)
         console.log(collection.key === AGENT_COLLECTION)
         console.log(collection.verified ? 'verified' : 'not verified')
       }
-      const agentNFTs = walletNFTs.filter(nft => {
+      const agentNFTs = NFTs.filter(nft => {
         const collection = nft.onchainMetadata.collection
         if (!collection) { return false }
         return (collection.key === AGENT_COLLECTION && collection.verified)
