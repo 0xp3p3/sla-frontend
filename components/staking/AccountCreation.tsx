@@ -8,9 +8,14 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
   const [waiting, setWaiting] = useState(false)
 
   const initStakingAccount = async () => {
-    setWaiting(true)
-    await farmState.handleInitStakingButtonClick()
-    setWaiting(false)
+    try {
+      setWaiting(true)
+      await farmState.handleInitStakingButtonClick()
+    } catch (error: any) {
+      throw error
+    } finally {
+      setWaiting(false)
+    }
   }
 
   return (
