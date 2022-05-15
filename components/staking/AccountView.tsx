@@ -13,7 +13,7 @@ const AccountSummaryRow = ({ farmerAcc, rewardAvailable }: { farmerAcc: any, rew
 
   useEffect(() => {
     if (farmerAcc && farmerAcc.identity) {
-      const rate = farmerAcc.rarityPointsStaked * 2
+      const rate = farmerAcc.rarityPointsStaked
       setRewardRate(rate)
     }
   }, [farmerAcc, wallet])
