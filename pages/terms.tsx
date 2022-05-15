@@ -4,7 +4,13 @@ import PageWrapper from "../components/layout/PageWrapper";
 
 const Terms: NextPage = () => {
   return (
-    <PageWrapper title="Terms &amp; Conditions" ogImageSource="/images/Logo-7-p-500.png" webflowPageId="622e6c82e7ab4366e28c27d0" webflowSandwichMenuId="5ce6e18e-8d75-a4d6-e6f1-41aa05e2a37d">
+    <PageWrapper 
+      title="SLA Terms &amp; Conditions" 
+      ogImageSource="/images/Logo-7-p-500.png" 
+      webflowPageId="622e6c82e7ab4366e28c27d0" 
+      webflowSandwichMenuId="5ce6e18e-8d75-a4d6-e6f1-41aa05e2a37d"
+      toTopArrow={true}
+    >
       <div className="blue-bg-div outline-none">
         <div id="top" className="top-trigger" />
         <div className="container-m w-container">
