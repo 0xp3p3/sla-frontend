@@ -1,7 +1,17 @@
+import { useState } from "react"
+import { Spinner } from "theme-ui"
 import { FarmState } from "../../hooks/useGemFarmStaking"
 
 
 const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
+
+  const [waiting, setWaiting] = useState(false)
+
+  const initStakingAccount = async () => {
+    setWaiting(true)
+    await farmState.handleInitStakingButtonClick()
+    setWaiting(false)
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "50px" }}>
@@ -14,8 +24,8 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
             <strong>Agent Maken</strong>: You need a staking account to get started!
           </p>
         </div>
-        <button className="button" onClick={farmState.handleInitStakingButtonClick} style={{ marginTop: "20px" }}>
-          Create Account
+        <button className="button" onClick={initStakingAccount} style={{ marginTop: "20px" }}>
+          {waiting ? <Spinner /> : "Create Account"}
         </button>
       </div>
     </div>
