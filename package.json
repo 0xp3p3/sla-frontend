@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@civic/solana-gateway-react": "^0.4.13",
+    "@emotion/react": "^11.8.2",
+    "@gemworks/gem-farm-ts": "^0.24.1",
     "@material-ui/core": "^4.12.3",
+    "@mdx-js/react": "1.6.22",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@metaplex/js": "^4.12.0",
     "@prisma/client": "^3.12.0",
@@ -33,8 +36,10 @@
     "react": "^17.0.2",
     "react-countdown": "^2.3.2",
     "react-dom": "^17.0.2",
+    "react-tabs": "^4.2.0",
     "react-tooltip": "^4.2.21",
     "styled-components": "^5.3.3",
+    "theme-ui": "^0.14.2",
     "typed.js": "^2.0.12",
     "typewriter-effect": "^2.18.2"
   },

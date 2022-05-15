@@ -43,7 +43,13 @@ const Home: NextPage = () => {
   }
 
   return (
-    <PageWrapper title="Home" ogImageSource="/images/Logo-7-p-500.png" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
+    <PageWrapper 
+      title="SLA Home" 
+      ogImageSource="/images/Logo-7-p-500.png" 
+      webflowPageId="6227e74c03fec25390cb9dd4" 
+      webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c"
+      toTopArrow={true}
+    >
       <div id="hero" className="hero-section">
         <div className="hero-content">
           <div className="hero-img">
