@@ -27,6 +27,7 @@ export type NFT = {
 
 const useWalletNFTs = () => {
   const AGENT_COLLECTION = process.env.NEXT_PUBLIC_COLLECTION_AVATAR
+  console.log(`agent collection: ${AGENT_COLLECTION}`)
 
   const { connection } = useConnection()
   const { publicKey } = useWallet()
@@ -39,12 +40,14 @@ const useWalletNFTs = () => {
       // Fetch all NFTs
       const NFTs = await getNFTsByOwner(publicKey, connection)
       setWalletNFTs(NFTs)
+      console.log(`N NFTS: ${NFTs.length}`)
 
       // Filter Llama Agents
       const agentNFTs = walletNFTs.filter(nft => { return (
         nft.onchainMetadata.collection.key === AGENT_COLLECTION && nft.onchainMetadata.collection.verified
       )})
       setAgentWalletNFTs(agentNFTs)
+      console.log(`N Agent NFTS: ${agentNFTs.length}`)
     }
 
     if (publicKey) {
