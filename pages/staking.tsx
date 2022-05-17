@@ -25,29 +25,34 @@ const Staking = ({ gemsStaked }: { gemsStaked: number }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
-  // Initialize the farm manager wallet
-  const secretKey = process.env.FARM_MANAGER_SECRET_KEY
-  const farmManager = Keypair.fromSecretKey(
-    new Uint8Array(JSON.parse(secretKey))
-  )
-  const wallet = new Wallet(farmManager)
+  try {
 
-  const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT
-  const connection = new Connection(endpoint)
+    // Initialize the farm manager wallet
+    const secretKey = process.env.FARM_MANAGER_SECRET_KEY
+    const farmManager = Keypair.fromSecretKey(
+      new Uint8Array(JSON.parse(secretKey))
+    )
+    const wallet = new Wallet(farmManager)
 
-  console.log('Generating the farm client')
-  const farmClient = new GemFarmClient(connection, wallet, GemFarmIDL, GEM_FARM_PROG_ID, GemBankIDL, GEM_BANK_PROG_ID)
+    const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT
+    const connection = new Connection(endpoint)
 
-  console.log('Fetching the farm account')
-  const farm = new PublicKey(process.env.NEXT_PUBLIC_GEMFARM_ID)
-  const farmAcc = await farmClient.fetchFarmAcc(farm)
+    console.log('Generating the farm client')
+    const farmClient = new GemFarmClient(connection, wallet, GemFarmIDL, GEM_FARM_PROG_ID, GemBankIDL, GEM_BANK_PROG_ID)
 
-  console.log('Finished fetching farm account')
+    console.log('Fetching the farm account')
+    const farm = new PublicKey(process.env.NEXT_PUBLIC_GEMFARM_ID)
+    const farmAcc = await farmClient.fetchFarmAcc(farm)
 
-  return {
-    props: {
-      gemsStaked: farmAcc.gemsStaked.toNumber()
+    console.log('Finished fetching farm account')
+
+    return {
+      props: {
+        gemsStaked: farmAcc.gemsStaked.toNumber()
+      }
     }
+  } catch (error: any) {
+    console.log('Error fetching staked gems', error)
   }
 }
 

@@ -152,7 +152,7 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
   }, [farmState])
 
   useEffect(() => {
-    const isOn = farmState.availableA && farmState.availableA > 0 && !farmState.isLocked
+    const isOn = farmState.availableA && farmState.availableA > 0
     setIsWithdrawButtonOn(isOn)
   }, [farmState])
 

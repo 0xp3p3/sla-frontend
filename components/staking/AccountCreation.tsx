@@ -12,7 +12,7 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
       setWaiting(true)
       await farmState.handleInitStakingButtonClick()
     } catch (error: any) {
-      throw error
+      console.log('Failed to create an account', error)
     } finally {
       setWaiting(false)
     }
