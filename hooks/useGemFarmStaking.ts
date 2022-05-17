@@ -150,9 +150,6 @@ const useGemFarmStaking = (farmId: string): FarmState => {
             connection
           )
 
-          /** Transform to use on the UI */
-
-          console.log(currentVaultNFTs)
           /**
            * Set Vault NFTs state
            */
