@@ -43,7 +43,13 @@ const Home: NextPage = () => {
   }
 
   return (
-    <PageWrapper title="Home" ogImageSource="/images/Logo-7-p-500.png" webflowPageId="6227e74c03fec25390cb9dd4" webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c">
+    <PageWrapper 
+      title="SLA Home" 
+      ogImageSource="/images/Logo-7-p-500.png" 
+      webflowPageId="6227e74c03fec25390cb9dd4" 
+      webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c"
+      toTopArrow={true}
+    >
       <div id="hero" className="hero-section">
         <div className="hero-content">
           <div className="hero-img">
@@ -298,12 +304,76 @@ const Home: NextPage = () => {
       </div>
       <div data-w-id="7a4f8fa4-7279-fe36-6fc0-44621eda34d0" className="horizontal-loop">
         <div data-w-id="78353799-c989-a894-9de2-61867ff17b5a" className="hor-loop-wrap">
-          <div className="image-loop-list"><img src="images/Rectangle-40-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-38-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-39-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-37-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-36-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-35.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-37.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-36.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-34.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-26-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-33-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-32-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" /></div>
-          <div className="image-loop-list"><img src="images/Rectangle-40-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-38-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-39-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-37-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-36-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-35.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-37.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-36.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-34.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-26-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-33-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-32-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" /></div>
+          <div className="image-loop-list">
+            <img src="images/Rectangle-40-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-38-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-39-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-37-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-36-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-35.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-37.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-36.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-26-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-33-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-32-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" />
+          </div>
+          <div className="image-loop-list">
+            <img src="images/Rectangle-40-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-38-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-39-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-37-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-36-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-35.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-37.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-36.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-26-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-33-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-32-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" />
+          </div>
         </div>
         <div data-w-id="a6dc221c-b4ba-e835-34e3-a18cfcc9add3" className="hor-loop-wrap _2">
-          <div className="image-loop-list"><img src="images/Rectangle-30.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-29-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-26.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-33.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-31-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-31.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-28.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-32.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-29.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-28-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-27.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-30-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" /></div>
-          <div className="image-loop-list"><img src="images/Rectangle-30.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-29-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-26.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-33.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-31-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-31.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-28.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-32.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-29.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-28-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-27.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-30-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" /><img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" /></div>
+          <div className="image-loop-list">
+            <img src="images/Rectangle-30.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-29-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-26.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-33.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-31-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-31.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-28.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-32.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-29.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-28-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-27.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-30-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" />
+          </div>
+          <div className="image-loop-list">
+            <img src="images/Rectangle-30.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-29-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-26.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-33.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-31-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-31.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-28.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-32.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-29.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-28-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-27.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-30-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" />
+          </div>
         </div>
       </div>
       <div className="team">

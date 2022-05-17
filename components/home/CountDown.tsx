@@ -42,7 +42,7 @@ const CountDown = ({ targetDate }: { targetDate: Date | null }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate)
 
   if (targetDate && (days + hours + minutes + seconds <= 0)) {
-    return <h1 className="h1 countdown">WHITELIST MINTING NOW</h1>
+    return <h1 className="h1 countdown" style={{marginBottom: "50px"}}>WHITELIST MINTING NOW</h1>
   } else {
     return (
       <>

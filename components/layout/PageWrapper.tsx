@@ -11,6 +11,7 @@ interface Props {
   webflowPageId: string,
   webflowSandwichMenuId: string,
   children: React.ReactNode,
+  toTopArrow: boolean,
 }
 
 const PageWrapper = (props: Props) => {
@@ -23,15 +24,17 @@ const PageWrapper = (props: Props) => {
     <div>
       <CustomHead title={props.title} ogImageSource={props.ogImageSource} />
       <div className="page-wrapper" id="top-of-page">
-        <Navigation webflowSandwichMenuId={props.webflowSandwichMenuId}/>
+        <Navigation webflowSandwichMenuId={props.webflowSandwichMenuId} />
         {props.children}
         <Footer />
-        <a href="#top-of-page" className="backtotop w-inline-block">
-          <img src="images/Group-37.svg" loading="lazy" alt="" className="btt-img" />
-        </a>
+        {props.toTopArrow &&
+          <a href="#top-of-page" className="backtotop w-inline-block">
+            <img src="images/Group-37.svg" loading="lazy" alt="" className="btt-img" />
+          </a>
+        }
       </div>
       <Script src="js/webflow.js" type="text/javascript"></Script>
-  </div>
+    </div>
   )
 }
 

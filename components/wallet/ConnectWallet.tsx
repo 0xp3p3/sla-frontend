@@ -22,9 +22,9 @@ const ConnectWallet = (props: Props) => {
   })
 
   return (
-    <>
+    <div>
       <WalletMultiButton className={props.className}></WalletMultiButton>
-    </>
+    </div>
   );
 };
 
