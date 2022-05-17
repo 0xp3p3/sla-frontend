@@ -4,13 +4,14 @@ import CollectionItem from "./CollectionItem";
 import SummaryItem from "./SummaryItem";
 import { FarmState } from "../../hooks/useGemFarmStaking";
 import { useEffect, useState } from "react";
+import { Spinner } from "theme-ui"
 
 
 const AccountSummaryRow = ({ farmerAcc, rewardAvailable }: { farmerAcc: any, rewardAvailable: number }) => {
   const wallet = useWallet()
 
   const [rewardRate, setRewardRate] = useState(0)
-
+  
   useEffect(() => {
     if (farmerAcc && farmerAcc.identity) {
       const rate = farmerAcc.rarityPointsStaked
@@ -71,93 +72,6 @@ const NftGrid2 = (props: {
 }
 
 
-// const NFTGrid = (props: {
-//   title: string,
-//   nfts: NFT[],
-//   selectedNfts: NFT[],
-//   isLocked: boolean,
-//   handleItemClick: (item: NFT) => void,
-// }) => {
-
-//   return (
-//     <div>
-//       <NftGridTitle title={props.title} />
-
-//       {props.nfts && props.nfts.length > 0 ? (
-//         <div>
-//           <Flex
-//             sx={{
-//               flexDirection: "column",
-//               justifyContent: "center",
-//               alignSelf: "stretch",
-//               alignItems: "center",
-//             }}
-//           >
-//             <div
-//               sx={{
-//                 display: "grid",
-//                 gridTemplateColumns:
-//                   props.nfts.length > 1 ? "1fr 1fr" : "1fr",
-//                 gap: "1.6rem",
-
-//                 "@media (min-width: 768px)": {
-//                   gridTemplateColumns:
-//                     props.nfts.length > 9
-//                       ? "1fr 1fr 1fr 1fr 1fr 1fr 1fr"
-//                       : props.nfts.length > 4
-//                         ? "1fr 1fr 1fr 1fr 1fr"
-//                         : props.nfts
-//                           .map(() => "1fr")
-//                           .join(" "),
-//                 },
-//               }}
-//             >
-//               {props.nfts.map((item) => {
-//                 const isSelected = props.selectedNfts.find(
-//                   (NFT) =>
-//                     NFT.onchainMetadata.mint === item.onchainMetadata.mint
-//                 )
-
-//                 return (
-//                   <CollectionItem
-//                     key={item.onchainMetadata.mint}
-//                     item={item}
-//                     onClick={
-//                       !props.isLocked ? props.handleItemClick : () => true
-//                     }
-//                     sx={{
-//                       maxWidth: "16rem",
-//                       "> img": {
-//                         border: "3px solid transparent",
-//                         borderColor: isSelected
-//                           ? "primary"
-//                           : "transparent",
-//                       },
-//                     }}
-//                   />
-//                 )
-//               })}
-//             </div>
-//             {/* 
-//           {props.selectedNfts && props.selectedNfts.length ? (
-//             <>
-//               {!props.isLocked ? (
-//                 <button
-//                   className="button"
-//                   onClick={props.handleMoveToWalletButtonClick}>
-//                   Withdraw selected
-//                 </button>
-//               ) : null}
-//             </>
-//           ) : null} */}
-//           </Flex>
-//         </div>
-//       ) : null}
-//     </div>
-//   )
-// }
-
-
 const getButtonStyle = (isOn: boolean): any => {
   if (!isOn) {
     return {
@@ -168,27 +82,53 @@ const getButtonStyle = (isOn: boolean): any => {
 }
 
 const MoveButtons = ({ farmState }: { farmState: FarmState }) => {
+  
+  const [isMovingToWallet, setIsMovingToWallet] = useState(false)
+  const [isMovingToVault, setIsMovingToVault] = useState(false)
+  
   if (!farmState) { return <></> }
+
+  const handleMoveToWallet = async () => {
+    try {
+      setIsMovingToWallet(true)
+      await farmState.handleMoveToWalletButtonClick()
+    } catch (error: any) {
+      console.log('Failed to move NFTs to wallet', error)
+    } finally {
+      setIsMovingToWallet(false)
+    }
+  }
+
+  const handleMoveToVault = async () => {
+    try {
+      setIsMovingToVault(true)
+      await farmState.handleMoveToVaultButtonClick()
+    } catch (error: any) {
+      console.log('Failed to move NFTs to vault', error)
+    } finally {
+      setIsMovingToVault(false)
+    }
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "row", columnGap: "20px" }}>
 
       <button
         className="button"
-        onClick={farmState.handleMoveToVaultButtonClick}
+        onClick={handleMoveToVault}
         style={{ width: "60px", ...getButtonStyle(farmState.selectedWalletItems.length > 0) }}
         disabled={farmState.selectedWalletItems.length === 0}
       >
-        &darr;
+        { isMovingToVault ? <Spinner /> : "\u2193" }
       </button>
 
       <button
         className="button"
-        onClick={farmState.handleMoveToWalletButtonClick}
+        onClick={handleMoveToWallet}
         style={{ width: "60px", ...getButtonStyle(farmState.selectedVaultItems.length > 0) }}
         disabled={farmState.selectedVaultItems.length === 0}
       >
-        &uarr;
+        { isMovingToVault ? <Spinner /> : '\u2191' }
       </button>
 
     </div>
@@ -201,6 +141,10 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
 
   const [isStakeButtonOn, setIsStakeButtonOn] = useState(false)
   const [isWhithrawButtonOn, setIsWithdrawButtonOn] = useState(false)
+  
+  const [isTogglingStaking, setIsTogglingStaking] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isWithdrawing, setIsWithdrawing] = useState(false)
 
   useEffect(() => {
     const isOn = farmState.farmerVaultNFTs && farmState.farmerVaultNFTs.length > 0
@@ -212,15 +156,40 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
     setIsWithdrawButtonOn(isOn)
   }, [farmState])
 
-  const handleStakingToggleClick = () => {
-    if (isStakeButtonOn) {
-      farmState.isLocked ? farmState.handleUnstakeButtonClick() : farmState.handleStakeButtonClick()
+  const handleStakingToggleClick = async () => {
+    try {
+      setIsTogglingStaking(true)
+      if (isStakeButtonOn) {
+        farmState.isLocked ? await farmState.handleUnstakeButtonClick() : await farmState.handleStakeButtonClick()
+      }
+    } catch (error: any) {
+      console.log('Failed to toggle staking', error)
+    } finally {
+      setIsTogglingStaking(false)
     }
   }
 
-  const handleWithdrawClick = () => {
-    if (isWhithrawButtonOn) {
-      farmState.handleClaimButtonClick()
+  const handleWithdrawClick = async () => {
+    try {
+      setIsWithdrawing(true)
+      if (isWhithrawButtonOn) {
+        await farmState.handleClaimButtonClick()
+      }
+    } catch (error: any) {
+      console.log('Failed to withdraw rewards', error)
+    } finally {
+      setIsWithdrawing(false)
+    }
+  }
+
+  const handleRefreshAccountClick = async () => {
+    try {
+      setIsRefreshing(true)
+      await farmState.handleRefreshRewardsButtonClick()
+    } catch (error: any) {
+      console.log(`Failed to refresh account`, error)
+    } finally {
+      setIsRefreshing(false)
     }
   }
 
@@ -233,14 +202,21 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
         onClick={handleStakingToggleClick}
         style={getButtonStyle(isStakeButtonOn)}
       >
-        {farmState.isLocked ? "Unstake" : "Stake"}
+        { isTogglingStaking ? <Spinner /> : (farmState.isLocked ? "Unstake" : "Stake") }
+      </button>
+      <button
+        className="button"
+        onClick={handleRefreshAccountClick}
+        style={getButtonStyle(true)}
+      >
+        { isRefreshing ? <Spinner /> : "Refresh Account" }
       </button>
       <button
         className="button"
         onClick={handleWithdrawClick}
         style={getButtonStyle(isWhithrawButtonOn)}
       >
-        Withdraw $HAY
+        { isWithdrawing ? <Spinner /> : "Withdraw $HAY" }
       </button>
     </div>
   )
