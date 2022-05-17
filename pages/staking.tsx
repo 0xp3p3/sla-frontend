@@ -32,14 +32,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   )
   const wallet = new Wallet(farmManager)
 
-  // Initialize the farm manager wallet
   const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT
   const connection = new Connection(endpoint)
 
-  // Fetch the farm data
+  console.log('Generating the farm client')
   const farmClient = new GemFarmClient(connection, wallet, GemFarmIDL, GEM_FARM_PROG_ID, GemBankIDL, GEM_BANK_PROG_ID)
+
+  console.log('Fetching the farm account')
   const farm = new PublicKey(process.env.NEXT_PUBLIC_GEMFARM_ID)
   const farmAcc = await farmClient.fetchFarmAcc(farm)
+
+  console.log('Finished fetching farm account')
 
   return {
     props: {
