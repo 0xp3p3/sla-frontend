@@ -36,6 +36,7 @@ const LlamaMintingSection = () => {
             setCandyMachineStateCallback={setCndyMachineState}
             isWhitelistOn={true}
           />
+          <p className="mint-comment" style={{fontStyle: 'italic', marginBottom: "10px"}}>33% (0.5 SOL) will go to the community wallet.</p>
           <h3 className="h3-small get-whitelisted">
             Haven&apos;t been whitelisted yet?<br /> 
             <a href="https://discord.gg/5STFvY9nu5" target="_blank" rel="noreferrer">Join our Discord</a> for a chance to get a spot!

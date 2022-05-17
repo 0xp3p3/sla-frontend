@@ -2511,8 +2511,15 @@ body {
   margin: auto;
 }
 
+.mint-comment {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 18px;
+  font-style: italic;
+}
+
 .h3-small.get-whitelisted {
-  margin-top: 50px;
+  margin-top: 20px;
   text-align: center;
   font-size: 22px;
 }
