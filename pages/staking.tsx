@@ -23,6 +23,7 @@ const Staking = ({ gemsStaked }: { gemsStaked: number }) => {
   )
 }
 
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
