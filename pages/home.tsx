@@ -353,7 +353,7 @@ const Home: NextPage = () => {
             <img src="images/Rectangle-28-1.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-27.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-30-1.png" loading="lazy" alt="" className="loop-img-2" />
-            <img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34-2.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" />
           </div>
@@ -370,7 +370,7 @@ const Home: NextPage = () => {
             <img src="images/Rectangle-28-1.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-27.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-30-1.png" loading="lazy" alt="" className="loop-img-2" />
-            <img src="images/Rectangle-34-1.png" loading="lazy" alt="" className="loop-img-2" />
+            <img src="images/Rectangle-34-2.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-27-1.png" loading="lazy" alt="" className="loop-img-2" />
             <img src="images/Rectangle-35-1.png" loading="lazy" alt="" className="loop-img-2" />
           </div>
