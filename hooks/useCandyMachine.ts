@@ -2,7 +2,8 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Wallet } from "@project-serum/anchor"
 import { PublicKey } from "@solana/web3.js"
 import { useEffect, useMemo, useState } from "react"
-import { CandyMachineAccount, getCandyMachineState, mintOneToken, awaitTransactionSignatureConfirmation } from "../utils/candy-machine"
+import { CandyMachineAccount, getCandyMachineState, mintOneToken } from "../utils/candy-machine"
+import { awaitTransactionSignatureConfirmation } from "../utils/transaction"
 import { SlaCollection } from "../utils/constants"
 import { DEFAULT_TIMEOUT } from "../utils/_combine/utils/constants"
 import useCountdown from "./useCountdown"
@@ -16,6 +17,16 @@ export enum PreMintingStatus {
   Ready,
 }
 
+export enum MintingStatus {
+  NotMinting,
+  PreparingTransaction,
+  SendingTransaction,
+  RequestingConfirmation,
+  WaitingConfirmation,
+  Success,
+  Failure,
+}
+
 
 const useCandyMachine = (collection: SlaCollection, balance: number) => {
   const { connection } = useConnection()
@@ -24,8 +35,10 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
 
   const countdown = useCountdown()
   const [cm, setCm] = useState<CandyMachineAccount>(null)
+  
   const [isMinting, setIsMinting] = useState(false)
   const [preMintingStatus, setPreMintingStatus] = useState<PreMintingStatus>(PreMintingStatus.WalletNotConnected)
+  const [mintingStatus, setMintingStatus] = useState<MintingStatus>(MintingStatus.NotMinting)
 
   const anchorWallet = useMemo(() => {
     if (!wallet || !wallet.publicKey || !wallet.signAllTransactions || !wallet.signTransaction) {
@@ -78,40 +91,47 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
     return preMintingStatus === PreMintingStatus.Ready
   }
 
-  const onMint = async (): Promise<boolean> => {
+  const onMint = async (): Promise<PublicKey | null> => {
     if (!canUserMint()) {
       console.log(`[cm hook] user cannot mint`)
     }
 
-    let success = false
+    let newMint: PublicKey | null = null
     try {
-      setIsMinting(true)
       console.log(`[cm hook] starting to mint from ${id.toString()}`)
-
-      const mintOneSignature = await mintOneToken(
+      
+      setIsMinting(true)
+      setMintingStatus(MintingStatus.PreparingTransaction)
+      const txPromise = mintOneToken(
         cm,
         new PublicKey(collection.collection),
         wallet.publicKey,
         [],
         []
       )[0]
-      console.log(`[cm hook] minting txs: `, mintOneSignature)
 
-      console.log(`[cm hook] awaiting minting transaction confirmation`)
-      const status = await awaitTransactionSignatureConfirmation(
-        mintOneSignature,
-        DEFAULT_TIMEOUT,
-        connection,
-        true
-      )
-      console.log(`[cm hook] minting tx status:`, status)
+      setMintingStatus(MintingStatus.SendingTransaction)
+      const tx = await txPromise
+      console.log(`[cm hook] minting txs: `, tx)
 
-      if (status && !status.err) {
-        success = true
-        console.log(`[cm hook] minting success!`)
-      }
+      // console.log(`[cm hook] awaiting minting transaction confirmation`)
+      // setMintingStatus(MintingStatus.RequestingConfirmation)
+      // const statusPromise = awaitTransactionSignatureConfirmation(
+      //   tx, DEFAULT_TIMEOUT, connection,
+      // )
 
+      // setMintingStatus(MintingStatus.WaitingConfirmation)
+      // const status = await statusPromise
+      // console.log(`[cm hook] minting tx status:`, status)
+
+      // if (status && !status.err) {
+      //   setMintingStatus(MintingStatus.Success)
+      //   console.log(`[cm hook] minting success!`)
+      // }
+
+      // newMint = new PublicKey("")
     } catch (error: any) {
+      setMintingStatus(MintingStatus.Failure)
       console.log(`[cm hook] minting failed`)
       console.log(error)
     } finally {
@@ -120,11 +140,11 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
 
     refreshState()
 
-    return success
+    return newMint
   }
 
   return {
-    cm, isMinting, refreshState, canUserMint, onMint, preMintingStatus
+    cm, isMinting, refreshState, canUserMint, onMint, preMintingStatus, mintingStatus
   }
 }
 

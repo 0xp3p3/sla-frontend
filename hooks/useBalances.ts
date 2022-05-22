@@ -37,7 +37,7 @@ const useBalances = () => {
 
     let balance = 0
     try {
-      const account = await findAssociatedTokenAddress(publicKey, HAY_MINT)
+      const [account] = await findAssociatedTokenAddress(publicKey, HAY_MINT)
       balance = parseInt((await connection.getTokenAccountBalance(account)).value.amount)
       console.log(`[balance hook] $HAY: ${balance}`)
     } catch (error: any) {

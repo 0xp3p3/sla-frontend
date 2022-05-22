@@ -1,9 +1,7 @@
 import * as anchor from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
-import { Metadata, MetadataData } from '@metaplex-foundation/mpl-token-metadata';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import * as mpl from '@metaplex/js'
-
-// import solana_config from '../../sla-config/solana/config.json';
 
 
 export async function getMetadata(

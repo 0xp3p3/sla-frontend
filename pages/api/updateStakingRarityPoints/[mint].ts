@@ -4,7 +4,7 @@ import { Wallet } from "@project-serum/anchor";
 import { IDL as GemBankIDL } from "@gemworks/gem-farm-ts/dist/types/gem_bank"
 import { IDL as GemFarmIDL} from "@gemworks/gem-farm-ts/dist/types/gem_farm"
 import { GemFarmClient, GEM_FARM_PROG_ID, GEM_BANK_PROG_ID, RarityConfig, findRarityPDA } from "@gemworks/gem-farm-ts";
-import { getNFTMetadata } from '../../../utils/staking/nfts';
+import { getNFTMetadata } from '../../../utils/nfts';
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

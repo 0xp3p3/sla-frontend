@@ -3,7 +3,7 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token"
 import axios from "axios"
 import { programs } from "@metaplex/js"
 
-import { NFT } from "../../hooks/useWalletNFTs"
+import { NFT } from "../hooks/useWalletNFTs"
 
 const {
   metadata: { Metadata },

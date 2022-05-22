@@ -7,6 +7,7 @@ import Button from "../common/Button"
 export enum ModalType {
   Info = "INFO",
   Warning = "WARNING",
+  Waiting = "WAITING",
 }
 
 interface Props {
@@ -53,6 +54,9 @@ const BasicModal = (props: Props) => {
       trigger={props.trigger}
       size={props.size ? props.size : "large"}
       style={props.style}
+      closeOnDimmerClick={false}
+      closeOnDocumentClick={false}
+      closeOnEscape={false}
     >
       <Modal.Content image>
         <Image size='medium' src="images/Agent-icon-2.png" className={styles.llama_img} />
@@ -66,7 +70,7 @@ const BasicModal = (props: Props) => {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        {props.type === ModalType.Info ? (
+        {props.type === ModalType.Waiting ? <></> : props.type === ModalType.Info ? (
           <Button onClick={handleOnClose} className={`${styles.modal_button} ${styles.close_button}`}>
             Close
           </Button>
