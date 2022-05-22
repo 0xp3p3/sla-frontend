@@ -1,13 +1,14 @@
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Message } from 'semantic-ui-react'
 import { useEffect, useState } from 'react'
 
 import { NFT } from "../../hooks/useWalletNFTs"
 import styles from "../../styles/NftSelectionDropdown.module.css"
+import { useWallet } from '@solana/wallet-adapter-react'
 
 
 interface Props {
   text: string,
-  // className: string,
+  emptyText: string,
   nfts: NFT[],
   onChange: (nft: NFT) => void,
 }
@@ -20,6 +21,7 @@ interface Option {
 }
 
 const NftSelectionDropdown = (props: Props) => {
+  const { publicKey } = useWallet()
 
   const [options, setOptions] = useState<Option[]>([])
   const [selectedNft, setSelectedNft] = useState<NFT>(null)
@@ -70,7 +72,9 @@ const NftSelectionDropdown = (props: Props) => {
       className={styles.dropdown}
       onChange={handleOnChange}
       options={options}
-    />
+      noResultsMessage={ publicKey ? props.emptyText : "Connect your wallet first"}
+    >
+    </Dropdown>
   )
 }
 

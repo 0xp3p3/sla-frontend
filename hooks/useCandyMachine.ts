@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { CandyMachineAccount, getCandyMachineState, mintOneToken, awaitTransactionSignatureConfirmation } from "../utils/candy-machine"
 import { SlaCollection } from "../utils/constants"
 import { DEFAULT_TIMEOUT } from "../utils/_combine/utils/constants"
+import useCountdown from "./useCountdown"
 
 
 export enum PreMintingStatus {
@@ -21,6 +22,7 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
   const wallet = useWallet()
   const id = new PublicKey(collection.candyMachine)
 
+  const countdown = useCountdown()
   const [cm, setCm] = useState<CandyMachineAccount>(null)
   const [isMinting, setIsMinting] = useState(false)
   const [preMintingStatus, setPreMintingStatus] = useState<PreMintingStatus>(PreMintingStatus.WalletNotConnected)
@@ -63,7 +65,7 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
       setPreMintingStatus(PreMintingStatus.WalletNotConnected)
     } else if (!cm || !cm.state) {
       setPreMintingStatus(PreMintingStatus.CmStateNotFetched)
-    } else if (!cm.state.isActive) {
+    } else if (!cm.state.isActive || !countdown.isLive()) {
       setPreMintingStatus(PreMintingStatus.NotLiveYet)
     } else if (balance < cm.state.price.toNumber()) {
       setPreMintingStatus(PreMintingStatus.BalanceTooSmall)

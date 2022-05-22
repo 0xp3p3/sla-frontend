@@ -22,6 +22,12 @@ const useWalletNFTs = () => {
 
   useEffect(() => {
     const fetchNFTs = async () => {
+      if (!publicKey) {
+        setWalletNFTs([])
+        setAgentWalletNFTs([])
+        setTraitWalletNFTs([])
+        return
+      }
 
       // Fetch all NFTs
       const NFTs = await getNFTsByOwner(publicKey, connection)
@@ -44,9 +50,8 @@ const useWalletNFTs = () => {
       setTraitWalletNFTs(traitNFTs)
     }
 
-    if (publicKey) {
-      fetchNFTs()
-    }
+    fetchNFTs()  
+  
   }, [publicKey])
 
   return { walletNFTs, agentWalletNFTs, traitWalletNFTs }

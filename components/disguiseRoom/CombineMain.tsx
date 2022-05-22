@@ -158,12 +158,14 @@ const CombineMain = () => {
         <div className={styles.dropdowns_container}>
           <NftSelectionDropdown
             nfts={agentWalletNFTs}
-            text="Select your llama"
+            text="Select your agent"
+            emptyText="No agent to display"
             onChange={setSelectedAgent}
           />
           <NftSelectionDropdown
             nfts={traitWalletNFTs}
             text="Select your trait"
+            emptyText="No trait to display"
             onChange={setSelectedTrait}
           />
         </div>

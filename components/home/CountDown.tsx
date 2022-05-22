@@ -1,21 +1,7 @@
-import { useEffect, useState } from 'react';
+import useCountdown from '../../hooks/useCountdown';
 
-const useCountdown = (targetDate: Date | null): (number | null)[] => {
-  
-  const countDownDate = targetDate ? new Date(targetDate).getTime() : null
-
-  const [countDown, setCountDown] = useState<number | null>(
-    countDownDate ? countDownDate - new Date().getTime() : null
-  )
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCountDown(countDownDate ? countDownDate - new Date().getTime() : null)
-    }, 1000)
-
-    return () => clearInterval(interval);
-  }, [countDownDate])
-
+const getCountdown = (): (number | null)[] => {
+  const { countDown } = useCountdown()
   return countDown ? getReturnValues(countDown) : [null, null, null, null]
 }
 
@@ -39,7 +25,7 @@ const CountDownBlock = (props: { interval: string, amount: number | null }) => {
 }
 
 const CountDown = ({ targetDate }: { targetDate: Date | null }) => {  
-  const [days, hours, minutes, seconds] = useCountdown(targetDate)
+  const [days, hours, minutes, seconds] = getCountdown()
 
   if (targetDate && (days + hours + minutes + seconds <= 0)) {
     return <h1 className="h1 countdown" style={{marginBottom: "50px"}}>WHITELIST MINTING NOW</h1>

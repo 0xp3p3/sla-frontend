@@ -1,4 +1,3 @@
-import { useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
 import useCandyMachine, { PreMintingStatus } from "../../hooks/useCandyMachine"
 import useBalances from "../../hooks/useHayBalance"
@@ -47,11 +46,11 @@ const modalMessages: { [name: string]: ModalContent } = {
   },
   notEnoughHay: {
     type: ModalType.Info,
-    getContent: (_, balance: number, nftLeft: number) => (
+    getContent: (_, balance: number) => (
       <>
         <p>Looks like your wallet contains {`${balance}`} $HAY.</p>
         <p>Minting a new Trait costs 2 $HAY.</p>
-        <p>Visit the <a href="/staking">Staking Room</a> to stake your Agent and generate more!</p>
+        <p>Visit my colleague Agent Stacy in the <a href="/staking">Staking Room</a> to stake your Agent and generate more!</p>
         <p><br /></p>
         <p><strong>P.S.:</strong> Check out our <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer">whitepaper</a> if you want to know how to generate $HAY more quickly!</p>
       </>
@@ -84,7 +83,6 @@ interface Props {
 
 
 const TraitMintintButton = (props: Props) => {
-  const wallet = useWallet()
   const { hayBalance } = useBalances()
   const {
     isMinting,
@@ -117,7 +115,7 @@ const TraitMintintButton = (props: Props) => {
 
   return (
     <BasicModal
-      content={modalContent.getContent(props.collection, hayBalance, cm.state.itemsRemaining)}
+      content={modalContent.getContent(props.collection, hayBalance, cm?.state.itemsRemaining)}
       onConfirm={onMint}
       {...modalContent}
       trigger={(
