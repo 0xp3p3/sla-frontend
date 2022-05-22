@@ -152,38 +152,6 @@ const CombineMain = () => {
     }
   }
 
-  const prepareModalContent = (content: JSX.Element) => {
-    let newContent = content
-
-    if (!firstModalShown) {
-      newContent = (
-        <>
-          <p>Welcome back Agent!</p>
-          {newContent}
-        </>
-      )
-    }
-
-    if (isCombinedFinished) {
-      newContent = (
-        <>
-          {newContent}
-          {isCombining ? <Spinner /> : isCombinedFinished ? (isCombineSuccess ? (
-            <p>You're all set - congratulations! 🎉</p>
-          ) : (
-            <>
-              <p>It looks like something went wrong.</p>
-              <p>Please refresh the page and try again.</p>
-            </>
-          )) : <></>}
-        </>
-      )
-    }
-    return newContent
-  }
-
-  const { content, ...otherOptions } = modalContent
-
   return (
     <div className={styles.container}>
       <div className={styles.dropdown_image_container}>
@@ -211,8 +179,7 @@ const CombineMain = () => {
         <BasicModal
           onConfirm={handleOnCombineClick}
           onClose={() => setFirstModalShown(true)}
-          content={prepareModalContent(content)}
-          {...otherOptions}
+          {...modalContent}
           trigger={(
             <Button>
               {isCombining ? <Spinner /> : "combine"}

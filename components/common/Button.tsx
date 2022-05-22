@@ -1,3 +1,7 @@
+import { Loader } from "semantic-ui-react"
+
+
+const CustomLoader = () => <Loader active inline='centered' />
 
 
 const Button = (props) => {
@@ -7,7 +11,7 @@ const Button = (props) => {
       className={"button w-button" + " " + className} 
       {...otherProps}
     >
-      {props.children}
+      {props.isWaiting ? <CustomLoader /> : props.children}
     </button>
   )
 }

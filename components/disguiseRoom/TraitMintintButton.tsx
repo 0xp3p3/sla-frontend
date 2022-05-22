@@ -1,12 +1,15 @@
 import { useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
+import useCandyMachine, { PreMintingStatus } from "../../hooks/useCandyMachine"
+import useBalances from "../../hooks/useHayBalance"
+import { SlaCollection } from "../../utils/constants"
 import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal"
 
 
 interface ModalContent {
   type: ModalType,
-  getContent: (trait?: string, balance?: number) => JSX.Element,
+  getContent: (collection: SlaCollection, balance?: number) => JSX.Element,
   size: "small" | "large",
   confirmMessage?: string,
 }
@@ -22,6 +25,26 @@ const modalMessages: { [name: string]: ModalContent } = {
     ),
     size: "small"
   },
+  cmNotFetched: {
+    type: ModalType.Info,
+    getContent: (collection: SlaCollection) => (
+      <>
+        <p>It looks like something went wrong when fetching the {collection.name} collection.</p>
+        <p>Please refresh the page and try again.</p>
+      </>
+    ),
+    size: "large"
+  },
+  notLiveYet: {
+    type: ModalType.Info,
+    getContent: (collection: SlaCollection) => (
+      <>
+        <p>{collection.name} traits cannot be minted at this time.</p>
+        <p>Check out <a href="/home#mint-llama">our countdown</a> and mark the date!</p>
+      </>
+    ),
+    size: "large"
+  },
   notEnoughHay: {
     type: ModalType.Info,
     getContent: (_, balance: number) => (
@@ -29,7 +52,7 @@ const modalMessages: { [name: string]: ModalContent } = {
         <p>Looks like your wallet contains {`${balance}`} $HAY.</p>
         <p>Minting a new Trait costs 2 $HAY.</p>
         <p>Visit the <a href="/staking">Staking Room</a> to stake your Agent and generate more!</p>
-        <p><br/></p>
+        <p><br /></p>
         <p><strong>P.S.:</strong> Check out our <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer">whitepaper</a> if you want to know how to generate $HAY more quickly!</p>
       </>
     ),
@@ -37,9 +60,9 @@ const modalMessages: { [name: string]: ModalContent } = {
   },
   preMintWarning: {
     type: ModalType.Warning,
-    getContent: (trait: string) => (
+    getContent: (collection: SlaCollection) => (
       <>
-        <p>You are about to mint {trait}!</p>
+        <p>You are about to mint {collection.expression}!</p>
         <p>Doing so will cost you 2 $HAY.</p>
         <div style={{ fontStyle: "italic", fontSize: "20px" }}>
           <p><br /></p>
@@ -55,35 +78,52 @@ const modalMessages: { [name: string]: ModalContent } = {
 
 
 interface Props {
-  traitButtonName: string,
-  traitExpression: string,  // example: "a new pair of Eyes"
+  collection: SlaCollection
 }
 
 
 const TraitMintintButton = (props: Props) => {
   const wallet = useWallet()
-
-  const [hayBalance, setHayBalance] = useState<number>(0)
+  const { hayBalance } = useBalances()
+  const {
+    isMinting,
+    onMint,
+    preMintingStatus
+  } = useCandyMachine(props.collection, hayBalance)
 
   const [modalContent, setModalContent] = useState<ModalContent>(modalMessages.walletNotConnected)
 
   useEffect(() => {
-    if (!wallet || !wallet.publicKey) {
-      setModalContent(modalMessages.walletNotConnected)
-    } else if (hayBalance < 2) {
-      setModalContent(modalMessages.notEnoughHay)
-    } else {
-      setModalContent(modalMessages.preMintWarning)
+    switch (preMintingStatus) {
+      case PreMintingStatus.WalletNotConnected:
+        setModalContent(modalMessages.walletNotConnected)
+        break;
+      case PreMintingStatus.CmStateNotFetched:
+        setModalContent(modalMessages.cmNotFetched)
+        break;
+      case PreMintingStatus.NotLiveYet:
+        setModalContent(modalMessages.notLiveYet)
+        break;
+      case PreMintingStatus.BalanceTooSmall:
+        setModalContent(modalMessages.notEnoughHay)
+        break;
+      case PreMintingStatus.Ready:
+        setModalContent(modalMessages.preMintWarning)
+        break;
     }
-  }, [wallet?.publicKey, hayBalance])
+  }, [preMintingStatus])
 
   return (
-    <BasicModal 
-      content={modalContent.getContent(props.traitExpression, hayBalance)}
+    <BasicModal
+      content={modalContent.getContent(props.collection, hayBalance)}
+      onConfirm={onMint}
       {...modalContent}
-      trigger={<Button className="trait-mint">{"mint " + props.traitButtonName}</Button>}
+      trigger={(
+        <Button className="trait-mint" isWaiting={isMinting}>
+          {"mint " + props.collection.name}
+        </Button>
+      )}
     >
-
     </BasicModal>
   )
 }
