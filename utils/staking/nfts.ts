@@ -43,10 +43,6 @@ export async function getNFTMetadataForMany(
   return nfts
 }
 
-/**
- *
- * @author https://github.com/gemworks/gem-farm/tree/main/app/gem-farm
- */
 export async function getNFTsByOwner(
   owner: PublicKey,
   conn: Connection

@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
-import Combine from "../components/disguiseRoom/Combine";
+import CombineMain from "../components/disguiseRoom/CombineMain";
+import IdCardMain from "../components/disguiseRoom/IdCardMain";
 import PageWrapper from "../components/layout/PageWrapper";
 import TypingEffect from "../components/utils/TypingEffect";
 
@@ -87,20 +88,17 @@ const DisguiseRoom: NextPage = () => {
           <div className="vert-cent">
             <div className="vert-left stretch">
               <h2 className="h3">STEP 2: COMBINE</h2>
-              <p className="p1">In this step, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you&apos;re happy with your choices, click the &apos;combine&apos; button and approve the transactions. Repeat these steps for every trait to complete your disguise.</p>
+              <p className="p1">In this step, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you&apos;re happy with your choices, click the &apos;combine&apos; button and approve the transaction. Repeat these steps for every trait to complete your disguise.</p>
             </div>
-            <Combine />
+            <CombineMain />
           </div>
         </div>
       </div>
       <div className="blue-bg-div"><img src="images/Vector-4.svg" loading="lazy" alt="" className="d-r-corner" /><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
         <div className="container-m relative w-container">
           <div className="vert-left">
-            <h3 className="h3 h-white">step 3: mint your id card</h3>
-            <p className="p1 p-white">{`ID Cards are NFTs that allow you to edit the metadata name of your Llama Agent and give it a unique alias for 60 $HAY. No two Llamas can have the same name. Mint your Card below then use the 'combine' function above to add/edit your alias.`}</p>
-            <div className="hor-cen marg-up vert-mob"><img src="images/Group-36.png" loading="lazy" alt="" className="llama-img step-3" />
-              <a href="#" className="button id-card-mint w-button">coming soon</a>
-            </div>
+            <h3 className="h3 h-white">step 3: mint your id card (coming soon!)</h3>
+            <IdCardMain />
           </div>
         </div>
       </div>
