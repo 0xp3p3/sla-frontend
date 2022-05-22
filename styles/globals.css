@@ -2534,23 +2534,7 @@ a.button:hover {
 
 .button.trait-mint, .button.id-card-mint, .button.combine {
   margin: auto;
-  cursor: not-allowed;
-  box-shadow: -6px 6px 0 0 #000;
 }
-
-.button.mint:disabled, .button.mint[disabled],
-.button.trait-mint:disabled, .button.trait-mint[disabled],
-.button.id-card-mint:disabled, .button.id-card-mint[disabled],
-.button.mint-badge:disabled, .button.button.mint-badge[disabled]
-{
-  cursor: not-allowed;
-  box-shadow: -6px 6px 0 0 #000;
-}
-
-.button.combine {
-  cursor: not-allowed;
-}
-
 
 .navbar {
   position: -webkit-sticky;

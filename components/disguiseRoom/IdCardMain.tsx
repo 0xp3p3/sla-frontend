@@ -16,7 +16,7 @@ const modalMessages: { [name: string]: ModalContent } = {
       <>
         <p>So, you don't like your name, hmm?</p>
         <p>You'll soon be able to get an ID Card (60 $HAY).</p>
-        <p>ID Cards are NFTs that allow you to edit the metadata of your Llama Agent to give it a unique alias. </p>
+        <p>ID Cards are NFTs that you can use to edit the metadata of your Llama Agent and give it a unique alias. </p>
         <p>No two Llamas can have the same name.</p>
         <p>Check the <a href="/home#roadmap">Roadmap</a> for more details!</p>
       </>
