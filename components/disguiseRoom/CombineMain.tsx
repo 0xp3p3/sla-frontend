@@ -58,7 +58,7 @@ const modalMessages: { [name: string]: ModalContent } = {
         <p>I can't alter your DNA without getting your consent - make sure you've selected both an Agent and a Trait to combine!</p>
       </>
     ),
-    size: "small"
+    size: "large"
   },
   generatingNewImage: {
     type: ModalType.Info,
@@ -69,7 +69,7 @@ const modalMessages: { [name: string]: ModalContent } = {
         <p>If not, please refresh the page and try again. 🦙</p>
       </>
     ),
-    size: "small"
+    size: "large"
   },
   combining: {
     type: ModalType.Info,

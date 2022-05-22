@@ -9,7 +9,7 @@ import BasicModal, { ModalType } from "../modals/BasicModal"
 
 interface ModalContent {
   type: ModalType,
-  getContent: (collection: SlaCollection, balance?: number) => JSX.Element,
+  getContent: (collection: SlaCollection, balance?: number, nftLeft?: number) => JSX.Element,
   size: "small" | "large",
   confirmMessage?: string,
 }
@@ -47,7 +47,7 @@ const modalMessages: { [name: string]: ModalContent } = {
   },
   notEnoughHay: {
     type: ModalType.Info,
-    getContent: (_, balance: number) => (
+    getContent: (_, balance: number, nftLeft: number) => (
       <>
         <p>Looks like your wallet contains {`${balance}`} $HAY.</p>
         <p>Minting a new Trait costs 2 $HAY.</p>
@@ -60,10 +60,11 @@ const modalMessages: { [name: string]: ModalContent } = {
   },
   preMintWarning: {
     type: ModalType.Warning,
-    getContent: (collection: SlaCollection) => (
+    getContent: (collection: SlaCollection, _, nftLeft: number) => (
       <>
         <p>You are about to mint {collection.expression}!</p>
         <p>Doing so will cost you 2 $HAY.</p>
+        <p>Hurry up - only {nftLeft} left!</p>
         <div style={{ fontStyle: "italic", fontSize: "20px" }}>
           <p><br /></p>
           <p>Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.</p>
@@ -88,7 +89,8 @@ const TraitMintintButton = (props: Props) => {
   const {
     isMinting,
     onMint,
-    preMintingStatus
+    preMintingStatus,
+    cm,
   } = useCandyMachine(props.collection, hayBalance)
 
   const [modalContent, setModalContent] = useState<ModalContent>(modalMessages.walletNotConnected)
@@ -115,7 +117,7 @@ const TraitMintintButton = (props: Props) => {
 
   return (
     <BasicModal
-      content={modalContent.getContent(props.collection, hayBalance)}
+      content={modalContent.getContent(props.collection, hayBalance, cm.state.itemsRemaining)}
       onConfirm={onMint}
       {...modalContent}
       trigger={(
