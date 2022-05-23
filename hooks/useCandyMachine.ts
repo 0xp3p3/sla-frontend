@@ -18,13 +18,12 @@ export enum PreMintingStatus {
 }
 
 export enum MintingStatus {
-  NotMinting,
-  PreparingTransaction,
-  SendingTransaction,
-  RequestingConfirmation,
-  WaitingConfirmation,
-  Success,
-  Failure,
+  NotMinting = "Not minting",
+  WaitingForUserConfirmation = "Waiting for Agent's signature",
+  SendingTransaction = "Sending transaction",
+  WaitingConfirmation = "Waiting transaction confirmation",
+  Success = "Success",
+  Failure = "Failed",
 }
 
 
@@ -66,7 +65,6 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
       console.log(`[cm hook] failed to fetch CM state`)
       console.log(error)
     }
-
   }
 
   useEffect(() => {
@@ -101,35 +99,37 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
       console.log(`[cm hook] starting to mint from ${id.toString()}`)
       
       setIsMinting(true)
-      setMintingStatus(MintingStatus.PreparingTransaction)
-      const txPromise = mintOneToken(
+      setMintingStatus(MintingStatus.WaitingForUserConfirmation)
+      console.log(`[cm hook] setting mintingStatus to ${MintingStatus.WaitingForUserConfirmation}`)
+
+      const { txs, mint } = await mintOneToken(
         cm,
         new PublicKey(collection.collection),
         wallet.publicKey,
         [],
-        []
-      )[0]
+        [],
+        () => setMintingStatus(MintingStatus.SendingTransaction)
+      )
 
-      setMintingStatus(MintingStatus.SendingTransaction)
-      const tx = await txPromise
+      const tx = txs[0]
       console.log(`[cm hook] minting txs: `, tx)
 
-      // console.log(`[cm hook] awaiting minting transaction confirmation`)
-      // setMintingStatus(MintingStatus.RequestingConfirmation)
-      // const statusPromise = awaitTransactionSignatureConfirmation(
-      //   tx, DEFAULT_TIMEOUT, connection,
-      // )
+      setMintingStatus(MintingStatus.WaitingConfirmation)
+      console.log(`[cm hook] setting mintingStatus to ${MintingStatus.WaitingConfirmation}`)
 
-      // setMintingStatus(MintingStatus.WaitingConfirmation)
-      // const status = await statusPromise
-      // console.log(`[cm hook] minting tx status:`, status)
+      const status = await awaitTransactionSignatureConfirmation(
+        tx, DEFAULT_TIMEOUT, connection,
+      )
 
-      // if (status && !status.err) {
-      //   setMintingStatus(MintingStatus.Success)
-      //   console.log(`[cm hook] minting success!`)
-      // }
+      if (status && !status.err) {
+        setMintingStatus(MintingStatus.Success)
+        console.log(`[cm hook] setting mintingStatus to ${MintingStatus.Success}`)
+      } else {
+        setMintingStatus(MintingStatus.Failure)
+        console.log(`[cm hook] setting mintingStatus to ${MintingStatus.Failure}`)
+      }
 
-      // newMint = new PublicKey("")
+      newMint = mint;
     } catch (error: any) {
       setMintingStatus(MintingStatus.Failure)
       console.log(`[cm hook] minting failed`)
@@ -144,7 +144,13 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
   }
 
   return {
-    cm, isMinting, refreshState, canUserMint, onMint, preMintingStatus, mintingStatus
+    cm, 
+    isMinting, 
+    refreshState, 
+    canUserMint, 
+    onMint, 
+    preMintingStatus, 
+    mintingStatus,
   }
 }
 

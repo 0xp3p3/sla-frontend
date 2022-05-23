@@ -1,13 +1,14 @@
 import { useConnection } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
-import { Progress, Image, Loader } from "semantic-ui-react"
+import { Progress, Image, Loader, Dimmer, Segment } from "semantic-ui-react"
 import useCandyMachine, { MintingStatus, PreMintingStatus } from "../../hooks/useCandyMachine"
 import useBalances from "../../hooks/useBalances"
 import { NFT } from "../../hooks/useWalletNFTs"
 import { SlaCollection } from "../../utils/constants"
 import { getNFTMetadata } from "../../utils/nfts"
 import Button from "../common/Button"
-import BasicModal, { ModalType } from "../modals/BasicModal"
+import BasicModal, { ModalType } from "../modals/BasicModal";
+import styles from "../../styles/TraitMintingButton.module.css";
 
 
 interface ModalContent {
@@ -123,17 +124,14 @@ const TraitMintintButton = (props: Props) => {
   const getProgressPercentage = (): number => {
     let percent: number;
     switch (mintingStatus) {
-      case MintingStatus.PreparingTransaction:
-        percent = 20
+      case MintingStatus.WaitingForUserConfirmation:
+        percent = 25
         break;
       case MintingStatus.SendingTransaction:
-        percent = 40
-        break;
-      case MintingStatus.RequestingConfirmation:
-        percent = 60
+        percent = 50
         break;
       case MintingStatus.WaitingConfirmation:
-        percent = 80
+        percent = 75
         break;
       case MintingStatus.Success:
       case MintingStatus.Failure:
@@ -151,18 +149,18 @@ const TraitMintintButton = (props: Props) => {
   const getMintingStatus = () => {
     let content: ModalContent
     switch (mintingStatus) {
-      case MintingStatus.PreparingTransaction:
+      case MintingStatus.WaitingForUserConfirmation:
       case MintingStatus.SendingTransaction:
-      case MintingStatus.RequestingConfirmation:
       case MintingStatus.WaitingConfirmation:
         content = {
           type: ModalType.Waiting,
           content: (
-            <>
+            <div style={{ width: "100%" }}>
               <p>You are going to love this new Trait my friend.</p>
               <p>Bear with me while I get that for you...</p>
-              <Progress percent={getProgressPercentage()} />
-            </>
+              <br />
+              <Progress percent={getProgressPercentage()} active color="green">{mintingStatus}...</Progress>
+            </div>
           ),
         }
         break;
@@ -174,9 +172,22 @@ const TraitMintintButton = (props: Props) => {
             <>
               <p>Congratulations, the mint was successful! 🎉</p>
               <p>Here's your new {props.collection.name} Trait:</p>
-              {!newTrait ? <Loader>Loading</Loader> : (
-                <Image size='small' src={newTrait.externalMetadata.image} className={""} />
-              )}
+              <br />
+              <div className={styles.new_trait_img_container}>
+                {!newTrait ? (
+                  <Segment>
+                    <Loader size="large" active inline='centered' inverted>Loading</Loader>
+                  </Segment>
+                ) : (
+                  <div>
+                    <div>
+                      <Image size='small' src={newTrait.externalMetadata.image} centered className={styles.new_trait_in_modal} />
+                    </div>
+                    <br />
+                    <p>You can view it on <a href={`https://solscan.io/token/${newTrait.mint.toString()}`} target="_blank" rel="noreferrer">Solscan here</a>.</p>
+                  </div>
+                )}
+              </div>
             </>
           ),
           onClose: handleOnResetModal
@@ -189,26 +200,30 @@ const TraitMintintButton = (props: Props) => {
           content: (
             <>
               <p>Oops, it looks like the mint failed.</p>
-              <p>Sorry about that, I must be a littley sleepy today.</p>
+              <p>Sorry about that, I must be a little sleepy today.</p>
               <p>Refresh the page and try again!</p>
             </>
           ),
           onClose: handleOnResetModal
         }
     }
+    setModalContent(content)
   }
 
   useEffect(() => {
     if (isPreMinting) {
+      console.log(`[minting ${props.collection.name}] updating pre-minting status: ${preMintingStatus}`)
       getPreMintingStatus()
     } else {
+      console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus])
+  }, [preMintingStatus, mintingStatus, isPreMinting])
 
   const handleOnMintConfirm = async () => {
     setIsPreMinting(false)
     const mint = await onMint()
+
     if (mint) {
       const nft = await getNFTMetadata(mint.toString(), connection)
       setNewTrait(nft)

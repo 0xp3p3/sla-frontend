@@ -59,8 +59,8 @@ const BasicModal = (props: Props) => {
       closeOnEscape={false}
     >
       <Modal.Content image>
-        <Image size='medium' src="images/Agent-icon-2.png" className={styles.llama_img} />
-        <Modal.Description>
+        <Image size='medium' src="images/Agent-icon-2.png" className={styles.llama_img} centered verticalAlign="middle"/>
+        <Modal.Description className={styles.description}>
           <Header className={styles.header} as="h1">Agent Franz:</Header>
           { typeof props.content === "string" ? (
             <p className={styles.text}>{props.content}</p>  

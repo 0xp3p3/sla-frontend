@@ -15,7 +15,7 @@ import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
 import { getUnixTs, sleep } from './utils';
 
 
-const DEFAULT_TIMEOUT = 30000;
+const DEFAULT_TIMEOUT = 60000;
 
 
 export async function sendTransaction({
@@ -176,6 +176,9 @@ export async function awaitTransactionSignatureConfirmation(
   timeout: number,
   connection: Connection,
 ): Promise<any> {
+
+  if (!txid) { throw new Error('Unable to await for signature confirmation. Transaction ID is ' + txid)}
+
   let done = false;
   const result = await new Promise((resolve, reject) => {
     (async () => {
@@ -257,6 +260,7 @@ export const sendTransactions = async (
   commitment: Commitment = 'singleGossip',
   beforeTransactions: Transaction[] = [],
   afterTransactions: Transaction[] = [],
+  transactionsSignedCallback?: () => void,
 ): Promise<{ number: number; txs: string[] }> => {
   if (!wallet.publicKey) throw new WalletNotConnectedError();
 
@@ -299,6 +303,8 @@ export const sendTransactions = async (
   );
   signedTxns = fullySignedTransactions.concat(signedTxns);
   const pendingTxns: Promise<string>[] = [];
+
+  transactionsSignedCallback()
 
   console.log(
     'Signed txns length',

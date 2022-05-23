@@ -3,8 +3,15 @@
   font-family: 'DM Sans', sans-serif;
 }
 
+.description {
+  width: 100% !important;
+  display: flex;
+}
+
 .text {
   font-size: 20px;
+  display: flex;
+  flex-direction: column;
   /* font-style: italic; */
   font-family: 'DM Sans', sans-serif;
 }

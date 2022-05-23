@@ -154,7 +154,8 @@ export const mintOneToken = async (
   payer: anchor.web3.PublicKey,
   beforeTransactions: Transaction[] = [],
   afterTransactions: Transaction[] = [],
-): Promise<(string | undefined)[]> => {
+  transactionsSignedCallback?: () => void,
+): Promise<{txs: (string | undefined)[], mint: anchor.web3.PublicKey | null}> => {
   const mint = anchor.web3.Keypair.generate();
 
   const userTokenAccountAddress = (
@@ -170,7 +171,7 @@ export const mintOneToken = async (
   const remainingAccounts = [];
   const instructions = [];
   const signers: anchor.web3.Keypair[] = [];
-  
+
   signers.push(mint)
   instructions.push(
     ...[
@@ -357,22 +358,27 @@ export const mintOneToken = async (
   }
 
   try {
-    return (
-      await sendTransactions(
-        candyMachine.program.provider.connection,
-        candyMachine.program.provider.wallet,
-        [instructions],
-        [signers],
-        'singleGossip',
-        beforeTransactions,
-        afterTransactions,
-      )
-    ).txs;
-  } catch (e) {
-    console.log(e);
-  }
+    const tx = await sendTransactions(
+      candyMachine.program.provider.connection,
+      candyMachine.program.provider.wallet,
+      [instructions],
+      [signers],
+      'singleGossip',
+      beforeTransactions,
+      afterTransactions,
+      transactionsSignedCallback
+    );
 
-  return [];
+    return {
+      txs: tx.txs,
+      mint: mint.publicKey,
+    }
+
+  } catch (e) {
+  console.log(e);
+}
+
+return {txs: [], mint: null};
 };
 
 export const getCandyMachineCreator = async (

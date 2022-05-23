@@ -10,7 +10,7 @@ import useWalletNFTs, { NFT } from "../../hooks/useWalletNFTs"
 import styles from "../../styles/CombineMain.module.css"
 import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal"
-import { sleep } from "../../utils/connection"
+import { sleep } from "../../utils/utils"
 
 
 interface ModalContent {
