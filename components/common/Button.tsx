@@ -5,13 +5,13 @@ const CustomLoader = () => <Loader active inline='centered' />
 
 
 const Button = (props) => {
-  const { className, ...otherProps } = props
+  const { className, isWaiting, ...otherProps } = props
   return (
     <button 
       className={"button w-button" + " " + className} 
       {...otherProps}
     >
-      {props.isWaiting ? <CustomLoader /> : props.children}
+      {isWaiting ? <CustomLoader /> : props.children}
     </button>
   )
 }

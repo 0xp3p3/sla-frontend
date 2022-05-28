@@ -34,6 +34,13 @@ export const HAY_MINT = new anchor.web3.PublicKey(
 )
 
 
+export const ARWEAVE_UPLOAD_ENDPOINT = 'https://us-central1-metaplex-studios.cloudfunctions.net/uploadFile';
+
+export const ARWEAVE_PAYMENT_WALLET = new anchor.web3.PublicKey(
+  '6FKvsq4ydWFci6nGq9ckbjYMtnmaqAoatz5c9XWjiDuS',
+);
+
+
 export interface SlaCollection {
   id: number,
   name: string,

@@ -1,5 +1,6 @@
 import * as anchor from '@project-serum/anchor';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import * as mpl from '@metaplex/js';
 
 
 export interface AlertState {
@@ -46,3 +47,19 @@ export async function sleep(ms: number) {
 export const getUnixTs = (): number => {
   return new Date().getTime() / 1000;
 };
+
+
+export function sortAttributes(attributes: mpl.MetadataJsonAttribute[]): mpl.MetadataJsonAttribute[] {
+
+  // Function to sort attributes in alphabetical order based on the `trait_type` property
+  function compare(a, b) {
+    if (a.trait_type < b.trait_type) { return -1 }
+    if (a.trait_type > b.trait_type) { return 1 }
+    else { return 0 }
+  }
+
+  // Sorts a copy of the original array
+  const sorted = [...attributes].sort(compare)
+
+  return sorted
+}

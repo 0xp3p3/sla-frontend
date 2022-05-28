@@ -4,8 +4,7 @@ import { PublicKey } from "@solana/web3.js"
 import { useEffect, useMemo, useState } from "react"
 import { CandyMachineAccount, getCandyMachineState, mintOneToken } from "../utils/candy-machine"
 import { awaitTransactionSignatureConfirmation } from "../utils/transaction"
-import { SlaCollection } from "../utils/constants"
-import { DEFAULT_TIMEOUT } from "../utils/_combine/utils/constants"
+import { SlaCollection, DEFAULT_TIMEOUT } from "../utils/constants"
 import useCountdown from "./useCountdown"
 
 

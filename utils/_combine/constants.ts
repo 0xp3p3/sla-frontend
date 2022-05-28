@@ -76,5 +76,5 @@ export const SLA_TRAITS = {
 export const SLA_SYMBOL = "SLA";
 export const imageSize = { width: 1000, height: 1000 }
 
-export const ARWEAVE_UPLOAD_DEVNET_ENDPOINT =
+export const ARWEAVE_UPLOAD_ENDPOINT =
   'https://us-central1-metaplex-studios.cloudfunctions.net/uploadFile';

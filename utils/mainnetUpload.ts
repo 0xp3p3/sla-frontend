@@ -2,52 +2,51 @@ import * as path from 'path';
 import * as anchor from '@project-serum/anchor';
 import web3 from '@solana/web3.js'
 import { calculate } from '@metaplex/arweave-cost';
-import * as fs from 'fs'
-import { stat } from 'fs/promises';
-import { ARWEAVE_PAYMENT_WALLET, ARWEAVE_UPLOAD_DEVNET_ENDPOINT } from '../constants';
+import { ARWEAVE_PAYMENT_WALLET, ARWEAVE_UPLOAD_ENDPOINT } from './constants';
 import FormData from 'form-data';
 import fetch from 'node-fetch';
+import * as mpl from '@metaplex/js';
 
 
-export async function uploadToArweaveDevnet(
-  assetFolder: string,
+interface UploadResult {
+  metadataUrl: string,
+  imageUrl: string,
+  storageCost: number,
+}
+
+
+export async function uploadToArweave(
+  image: Buffer,
+  metadata: mpl.MetadataJson,
   arweaveWalletKeypair: web3.Keypair,
   connection: web3.Connection,
-): Promise<[string, string, number]> {
+): Promise<UploadResult> {
 
-  // File names to upload
-  const jsonFile = `${assetFolder}/0.json`
-  const imageFile = `${assetFolder}/0.png`
-
-  // Load .json file into buffer
-  const jsonData = JSON.parse(
-    fs.readFileSync(jsonFile).toString(),
-  );
-  const jsonBuffer = Buffer.from(JSON.stringify(jsonData))
-
-  // Estimate size of files to upload
-  const manifestFileSize = estimateManifestSize([imageFile, 'metadata.json'])
-  const pngFileSize = (await (stat(imageFile))).size
+  // Metadata string 
+  const metadataString = JSON.stringify(metadata)
 
   // Calculate cost of uploading files to Arweave
   const storageCost = await fetchCostToStore([
-    pngFileSize,
-    jsonBuffer.length,
-    manifestFileSize,
+    image.length,
+    metadataString.length,
+    estimateManifestSize(['0.png', 'metadata.json']),
   ])
 
   // Transfer upload funds to Metaplex Arweave wallet
+  console.log('Sending upload funds')
   const tx = await sendUploadFund(arweaveWalletKeypair, storageCost, connection)
 
   // Create the data to send to Arweave
   const data = new FormData()
   data.append('transaction', tx)
-  data.append('env', 'devnet')
-  data.append('file[]', fs.createReadStream(imageFile), {
+  data.append('env', 'mainnet-beta')
+  data.append('file[]', image, {
     filename: '0.png',
     contentType: 'image/png',
   })
-  data.append('file[]', jsonBuffer.toString(), 'metadata.json')
+  data.append('file[]', metadata.toString(), 'metadata.json')
+  console.log('final metadata to send')
+  console.log(metadata)
 
   // Upload data to Arweave
   const result = await upload(data)
@@ -64,12 +63,17 @@ export async function uploadToArweaveDevnet(
     const link = `https://arweave.net/${uploadedMetadataFile.transactionId}`
     const imageLink = `https://arweave.net/${uploadedImageFile.transactionId}?ext=png`
     console.log(`File uploaded: ${link}`)
-    
-    return [link, imageLink, storageCost]
+
+    return {
+      metadataUrl: link,
+      imageUrl: imageLink,
+      storageCost: storageCost
+    }
   
   } else {
-    throw new Error(`No transaction ID for upload of new assets in: ${assetFolder}`)
+    throw new Error(`No transaction ID for upload of new assets`)
   }
+  return
 }
 
 function estimateManifestSize(filenames: string[]): number {
@@ -127,7 +131,7 @@ async function sendUploadFund(
 
 async function upload(data: FormData): Promise<any> {
   return await (
-    await fetch(ARWEAVE_UPLOAD_DEVNET_ENDPOINT, {
+    await fetch(ARWEAVE_UPLOAD_ENDPOINT, {
       method: 'POST',
       // @ts-ignore
       body: data,

@@ -49,7 +49,7 @@ const BasicModal = (props: Props) => {
   return (
     <Modal
       onClose={handleOnClose}
-      onOpen={() => { setOpen(true)}}
+      onOpen={() => { setOpen(true) }}
       open={open}
       trigger={props.trigger}
       size={props.size ? props.size : "large"}
@@ -59,11 +59,11 @@ const BasicModal = (props: Props) => {
       closeOnEscape={false}
     >
       <Modal.Content image>
-        <Image size='medium' src="images/Agent-icon-2.png" className={styles.llama_img} centered verticalAlign="middle"/>
+        <Image size='medium' src="images/Agent-icon-2.png" className={styles.llama_img} centered verticalAlign="middle" />
         <Modal.Description className={styles.description}>
           <Header className={styles.header} as="h1">Agent Franz:</Header>
-          { typeof props.content === "string" ? (
-            <p className={styles.text}>{props.content}</p>  
+          {typeof props.content === "string" ? (
+            <p className={styles.text}>{props.content}</p>
           ) : (
             <div className={styles.text}>{props.content}</div>
           )}
@@ -84,7 +84,7 @@ const BasicModal = (props: Props) => {
               onClick={handleOnConfirm}
               className={`${styles.modal_button} ${styles.confirm_button}`}
             >
-              {props.confirmMessage ? props.confirmMessage : "Ok!" }
+              {props.confirmMessage ? props.confirmMessage : "Ok!"}
             </Button>
           </div>
         )}

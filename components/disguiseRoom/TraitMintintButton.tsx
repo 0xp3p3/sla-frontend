@@ -50,7 +50,6 @@ const TraitMintintButton = (props: Props) => {
           type: ModalType.Info,
           content: (
             <>
-              <p>Welcome to the Disguise Room!</p>
               <p>Start by connecting your wallet at the top of this page.</p>
             </>
           ),
@@ -160,6 +159,8 @@ const TraitMintintButton = (props: Props) => {
               <p>Bear with me while I get that for you...</p>
               <br />
               <Progress percent={getProgressPercentage()} active color="green">{mintingStatus}...</Progress>
+              <br />
+              <p style={{ fontStyle: 'italic' }}>Please be patient, this might take up to 2 minutes.</p>
             </div>
           ),
         }
@@ -175,19 +176,23 @@ const TraitMintintButton = (props: Props) => {
               <br />
               <div className={styles.new_trait_img_container}>
                 {!newTrait ? (
-                  <Segment>
-                    <Loader size="large" active inline='centered' inverted>Loading</Loader>
-                  </Segment>
+                  <>
+                    <Dimmer active inverted>
+                      <Loader size="large" active inline='centered' inverted>Loading</Loader>
+                    </Dimmer>
+                  </>
                 ) : (
                   <div>
                     <div>
                       <Image size='small' src={newTrait.externalMetadata.image} centered className={styles.new_trait_in_modal} />
                     </div>
                     <br />
-                    <p>You can view it on <a href={`https://solscan.io/token/${newTrait.mint.toString()}`} target="_blank" rel="noreferrer">Solscan here</a>.</p>
                   </div>
                 )}
               </div>
+              {newTrait &&
+                <p>You can view it on <a href={`https://solscan.io/token/${newTrait.mint.toString()}`} target="_blank" rel="noreferrer">Solscan here</a> (it might take a few minutes to show up).</p>
+              }
             </>
           ),
           onClose: handleOnResetModal
@@ -200,7 +205,7 @@ const TraitMintintButton = (props: Props) => {
           content: (
             <>
               <p>Oops, it looks like the mint failed.</p>
-              <p>Sorry about that, I must be a little sleepy today.</p>
+              <p>Sorry about that, it looks like Solana is acting up again.</p>
               <p>Refresh the page and try again!</p>
             </>
           ),
@@ -218,7 +223,7 @@ const TraitMintintButton = (props: Props) => {
       console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus, isPreMinting])
+  }, [preMintingStatus, mintingStatus, isPreMinting, newTrait])
 
   const handleOnMintConfirm = async () => {
     setIsPreMinting(false)
@@ -226,6 +231,7 @@ const TraitMintintButton = (props: Props) => {
 
     if (mint) {
       const nft = await getNFTMetadata(mint.toString(), connection)
+      console.log(`[minting ${props.collection.name}] new NFT:`, nft)
       setNewTrait(nft)
     }
   }

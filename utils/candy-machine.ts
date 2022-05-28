@@ -378,7 +378,7 @@ export const mintOneToken = async (
   console.log(e);
 }
 
-return {txs: [], mint: null};
+return {txs: [], mint: mint.publicKey};
 };
 
 export const getCandyMachineCreator = async (

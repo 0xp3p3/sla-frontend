@@ -7,6 +7,7 @@ interface Props {
   metadataOfImageToDisplay: mpl.MetadataJson | null,
   buildLayerByLayer: boolean,  // if false, we simply show the image given in the link of the metadata
   finishedLoadingCallback: (ready: boolean) => void,
+  setImageUrlS3Callback: (url: string) => void,
 }
 
 
@@ -40,6 +41,7 @@ const CombinedImage = (props: Props) => {
     
     setIsLoading(false)
     props.finishedLoadingCallback(true)
+    props.setImageUrlS3Callback(responseBody.url)
     
     return responseBody.url
   }

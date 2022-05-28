@@ -98,6 +98,8 @@ const CombineMain = () => {
   const [isCombinedFinished, setIsCombinedFinished] = useState(false)
   const [isCombineSuccess, setIsCombineSuccess] = useState(false)
 
+  const [s3ImageUrl, setS3ImageUrl] = useState('')
+
   const [firstModalShown, setFirstModalShown] = useState(false)
   const [modalContent, setModalContent] = useState<ModalContent>(modalMessages.walletNotConnected)
 
@@ -141,7 +143,22 @@ const CombineMain = () => {
       setIsCombining(true)
       setFirstModalShown(true)
       setModalContent(modalMessages.combining)
-      await sleep(5000)
+
+      const data = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+          imageUrl: s3ImageUrl,
+          metadataJson: JSON.stringify(metadataToDisplay),
+        })
+      }
+      console.log(data)
+      console.log('Calling API to upload new agent')
+      const response = await fetch("/api/combineTraits/uploadNewAgent", data)
+      const responseBody = await response.json()
+      console.log('Finished uploading new agent. Response: ', responseBody)
       setIsCombineSuccess(true)
     } catch (err: any) {
       setIsCombineSuccess(false)
@@ -174,6 +191,7 @@ const CombineMain = () => {
             metadataOfImageToDisplay={metadataToDisplay}
             buildLayerByLayer={bothLlamaAndTraitSelected}
             finishedLoadingCallback={setReadyToCombine}
+            setImageUrlS3Callback={setS3ImageUrl}
           />
         </div>
       </div>
