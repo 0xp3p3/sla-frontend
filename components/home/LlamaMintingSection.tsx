@@ -14,7 +14,7 @@ const extractEnvVar = (value: string | null): string | null => {
 const LlamaMintingSection = () => {
 
   const goLiveDate = extractEnvVar(process.env.NEXT_PUBLIC_GO_LIVE_DATE) ? new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!) : null
-  const price = 1.5
+  const price = parseFloat(process.env.NEXT_PUBLIC_MINT_PRICE)
 
   const candyMachineId = extractEnvVar(process.env.NEXT_PUBLIC_CM_ID_AVATAR) ? new PublicKey(process.env.NEXT_PUBLIC_CM_ID_AVATAR!) : null
   const candyMachineCollection = extractEnvVar(process.env.NEXT_PUBLIC_COLLECTION_AVATAR) ? new PublicKey(process.env.NEXT_PUBLIC_COLLECTION_AVATAR!) : null

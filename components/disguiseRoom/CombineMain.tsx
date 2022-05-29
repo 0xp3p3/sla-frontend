@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import * as mpl from '@metaplex/js'
-import { useWallet } from "@solana/wallet-adapter-react"
+import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Spinner } from "theme-ui"
 
 import NftSelectionDropdown from "../utils/NftSelectionDropdown"
@@ -10,7 +10,10 @@ import useWalletNFTs, { NFT } from "../../hooks/useWalletNFTs"
 import styles from "../../styles/CombineMain.module.css"
 import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal"
-import { sleep } from "../../utils/utils"
+import { sendUploadFund, UploadResult } from "../../utils/mainnetUpload"
+import useAnchorWallet from "../../hooks/useAnchorWallet"
+import { executeMerge } from "../../utils/sla/combine"
+import { web3 } from "@project-serum/anchor"
 
 
 interface ModalContent {
@@ -85,6 +88,8 @@ const modalMessages: { [name: string]: ModalContent } = {
 
 const CombineMain = () => {
   const wallet = useWallet()
+  const { anchorWallet } = useAnchorWallet()
+  const { connection } = useConnection()
   const { agentWalletNFTs, traitWalletNFTs } = useWalletNFTs()
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
@@ -99,6 +104,7 @@ const CombineMain = () => {
   const [isCombineSuccess, setIsCombineSuccess] = useState(false)
 
   const [s3ImageUrl, setS3ImageUrl] = useState('')
+  const [arweaveUploadDone, setArweaveUploadDone] = useState(false)
 
   const [firstModalShown, setFirstModalShown] = useState(false)
   const [modalContent, setModalContent] = useState<ModalContent>(modalMessages.walletNotConnected)
@@ -144,21 +150,52 @@ const CombineMain = () => {
       setFirstModalShown(true)
       setModalContent(modalMessages.combining)
 
+      // Fetch cost of uploading files to arweave
       const data = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          imageUrl: s3ImageUrl,
+          metadataJson: JSON.stringify(metadataToDisplay),
+        })
+      }
+      const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
+      const uploadCost = response.cost
+
+      // Request the user to pay the cost
+      const tx = await sendUploadFund(uploadCost, connection, anchorWallet)
+
+      // Upload files to arweave
+      const dataUpload = {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ 
           imageUrl: s3ImageUrl,
-          metadataJson: JSON.stringify(metadataToDisplay),
+          metadataJson: metadataToDisplay,
+          tx: tx,
         })
       }
-      console.log(data)
-      console.log('Calling API to upload new agent')
-      const response = await fetch("/api/combineTraits/uploadNewAgent", data)
-      const responseBody = await response.json()
-      console.log('Finished uploading new agent. Response: ', responseBody)
+      const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
+      const { metadataUrl, imageUrl }: UploadResult = responseUpload
+
+      console.log('new metadata url', metadataUrl)
+
+      if (metadataUrl) {
+        setArweaveUploadDone(true)
+
+        console.log('Executing merge')
+        const tx = await executeMerge(
+          selectedAgent.mint,
+          selectedTrait.mint,
+          anchorWallet,
+          connection,
+          metadataUrl,
+        )
+        console.log('Finished excecuting merge: ', tx)
+      }
+
       setIsCombineSuccess(true)
     } catch (err: any) {
       setIsCombineSuccess(false)

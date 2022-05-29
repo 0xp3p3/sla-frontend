@@ -6,47 +6,30 @@ import { ARWEAVE_PAYMENT_WALLET, ARWEAVE_UPLOAD_ENDPOINT } from './constants';
 import FormData from 'form-data';
 import fetch from 'node-fetch';
 import * as mpl from '@metaplex/js';
+import { sendTransactions } from "./transaction";
 
 
-interface UploadResult {
+export interface UploadResult {
   metadataUrl: string,
   imageUrl: string,
-  storageCost: number,
 }
 
 
 export async function uploadToArweave(
-  image: Buffer,
+  imageBuffer: Buffer,
   metadata: mpl.MetadataJson,
-  arweaveWalletKeypair: web3.Keypair,
-  connection: web3.Connection,
+  tx: string,
 ): Promise<UploadResult> {
-
-  // Metadata string 
-  const metadataString = JSON.stringify(metadata)
-
-  // Calculate cost of uploading files to Arweave
-  const storageCost = await fetchCostToStore([
-    image.length,
-    metadataString.length,
-    estimateManifestSize(['0.png', 'metadata.json']),
-  ])
-
-  // Transfer upload funds to Metaplex Arweave wallet
-  console.log('Sending upload funds')
-  const tx = await sendUploadFund(arweaveWalletKeypair, storageCost, connection)
 
   // Create the data to send to Arweave
   const data = new FormData()
   data.append('transaction', tx)
   data.append('env', 'mainnet-beta')
-  data.append('file[]', image, {
+  data.append('file[]', imageBuffer, {
     filename: '0.png',
     contentType: 'image/png',
   })
-  data.append('file[]', metadata.toString(), 'metadata.json')
-  console.log('final metadata to send')
-  console.log(metadata)
+  data.append('file[]', Buffer.from(JSON.stringify(metadata)), 'metadata.json')
 
   // Upload data to Arweave
   const result = await upload(data)
@@ -67,16 +50,15 @@ export async function uploadToArweave(
     return {
       metadataUrl: link,
       imageUrl: imageLink,
-      storageCost: storageCost
     }
-  
+
   } else {
     throw new Error(`No transaction ID for upload of new assets`)
   }
   return
 }
 
-function estimateManifestSize(filenames: string[]): number {
+export function estimateManifestSize(filenames: string[]): number {
   const paths = {};
 
   for (const name of filenames) {
@@ -99,34 +81,39 @@ function estimateManifestSize(filenames: string[]): number {
   return data.length
 }
 
-async function fetchCostToStore(fileSizes: number[]) {
+export async function fetchCostToStore(fileSizes: number[]) {
   const result = await calculate(fileSizes);
 
   // It shouldn't be x100 here, but it doesn't work otherwise
   return result.solana * anchor.web3.LAMPORTS_PER_SOL * 100;
 }
 
-async function sendUploadFund(
-  walletKeypair: web3.Keypair, 
+export async function sendUploadFund(
   storageCost: number,
   connection: web3.Connection,
+  wallet: anchor.Wallet,
 ): Promise<string> {
-  const transaction = new anchor.web3.Transaction().add(
+  const instructions = [
     anchor.web3.SystemProgram.transfer({
-      fromPubkey: walletKeypair.publicKey,
+      fromPubkey: wallet.publicKey,
       toPubkey: ARWEAVE_PAYMENT_WALLET,
       lamports: storageCost,
     }),
-  )
+  ]
 
   // Sign transaction, broadcast, and confirm
-  const tx = await anchor.web3.sendAndConfirmTransaction(
-    connection,
-    transaction,
-    [walletKeypair],
+  const { txs } = await sendTransactions(
+    connection, 
+    wallet, 
+    [instructions], 
+    [[]], 
+    'singleGossip',
+    [],
+    [],
+    () => null,
   )
 
-  return tx
+  return txs[0]
 }
 
 async function upload(data: FormData): Promise<any> {

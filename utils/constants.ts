@@ -19,6 +19,10 @@ export const CANDY_MACHINE_PROGRAM = new anchor.web3.PublicKey(
   'cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ',
 );
 
+export const SLA_PROGRAM_ID = new anchor.web3.PublicKey(
+  "GUSxqUfUdqchfErA3DrW1jNVJKGdMpxt71AeDkJJtG5R"
+)
+
 export const CIVIC = new anchor.web3.PublicKey(
   'gatem74V238djXdzWnJf94Wo1DcnuGkfijbf3AuBhfs',
 );
@@ -33,6 +37,9 @@ export const HAY_MINT = new anchor.web3.PublicKey(
   "CcaKx6adqp8wDeksiR15x8HMgBzjz8QY6pJCmRZQPXAB"
 )
 
+export const COMBINE_AUTHORITY_WALLET = new anchor.web3.PublicKey(
+  "2Pi1TvYf8Nku8ppq3Pn4ZEHDNo8fFhZjcLaRHi17Au4C"
+)
 
 export const ARWEAVE_UPLOAD_ENDPOINT = 'https://us-central1-metaplex-studios.cloudfunctions.net/uploadFile';
 
