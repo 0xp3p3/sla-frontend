@@ -27,7 +27,6 @@ const LlamaMintingSection = () => {
       <div className="container-s relative w-container">
         <div className="vert-cent">
           <CountDown targetDate={goLiveDate} />
-          {/* <CountDown targetDate={new Date("21 Apr 2022 11:00:00 UTC")} /> */}
           <CandyMachine
             candyMachineId={candyMachineId}
             candyMachineCollection={candyMachineCollection}
@@ -36,7 +35,7 @@ const LlamaMintingSection = () => {
             setCandyMachineStateCallback={setCndyMachineState}
             isWhitelistOn={true}
           />
-          <p className="mint-comment" style={{fontStyle: 'italic', marginBottom: "10px"}}>33% (0.5 SOL) will go to the community wallet.</p>
+          <p className="mint-comment" style={{fontStyle: 'italic', marginBottom: "10px"}}>33% will go to the community wallet.</p>
           <h3 className="h3-small get-whitelisted">
             Haven&apos;t been whitelisted yet?<br /> 
             <a href="https://discord.gg/5STFvY9nu5" target="_blank" rel="noreferrer">Join our Discord</a> for a chance to get a spot!
