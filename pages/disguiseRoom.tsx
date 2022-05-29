@@ -46,7 +46,13 @@ const DisguiseRoom: NextPage = () => {
           <div className="vert-cent">
             <div className="vert-left stretch">
               <h2 className="h3">STEP 2: COMBINE</h2>
-              <p className="p1">In this step, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you&apos;re happy with your choices, click the &apos;combine&apos; button and approve the transaction. Repeat these steps for every trait to complete your disguise.</p>
+              <p className="p1">
+                In this section, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.
+                <br /><br />
+                Once you&apos;ve selected the Llama Agent and trait you&apos;d like to combine from the dropdown menus, we&apos;ll generate a preview of what the resulting Agent would look like.
+                Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Franz' instructions. 
+                <br /><br />
+                Repeat these steps for every trait to complete your disguise.</p>
             </div>
             <CombineMain />
           </div>

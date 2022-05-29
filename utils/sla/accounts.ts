@@ -17,3 +17,5 @@ export async function generateSlaMasterPda(): Promise<[PublicKey, number]> {
     new PublicKey(SLA_PROGRAM_ID)
   )
 }
+
+

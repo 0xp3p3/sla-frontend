@@ -6,8 +6,8 @@ import styles from "../../styles/CombinedImage.module.css";
 interface Props {
   metadataOfImageToDisplay: mpl.MetadataJson | null,
   buildLayerByLayer: boolean,  // if false, we simply show the image given in the link of the metadata
-  finishedLoadingCallback: (ready: boolean) => void,
   setImageUrlS3Callback: (url: string) => void,
+  finishedLoadingCallback: () => void,
 }
 
 
@@ -25,9 +25,12 @@ const CombinedImage = (props: Props) => {
     }
   }, [props.metadataOfImageToDisplay, props.buildLayerByLayer])
 
+  useEffect(() => {
+    console.log('[combined image] image to display: ', imageUrl)
+  }, [imageUrl])
+
   const pushNewImageToS3 = async (): Promise<string> => {
     setIsLoading(true)
-    props.finishedLoadingCallback(false)
 
     const data = {
       method: "POST",
@@ -40,7 +43,7 @@ const CombinedImage = (props: Props) => {
     const responseBody = await response.json()
     
     setIsLoading(false)
-    props.finishedLoadingCallback(true)
+    props.finishedLoadingCallback()
     props.setImageUrlS3Callback(responseBody.url)
     
     return responseBody.url

@@ -1,68 +1,46 @@
 import * as anchor from '@project-serum/anchor';
-import { PublicKey } from '@solana/web3.js';
-import { MetadataJsonAttribute } from '@metaplex/js'
+import { NFT } from '../../hooks/useWalletNFTs';
+import { generateSlaAvatarPda } from './accounts';
+import { SLA_COLLECTIONS, SLA_PROGRAM_ID } from '../constants';
+import * as idl from "../../sla_idl.json";
 
-import { downloadMetadataFromArweave } from '../metadata';
 
-
-interface AvatarTraits {
-  background: boolean,
-  skin: boolean,
-  clothing: boolean,
-  eyes: boolean,
-  hat: boolean,
-  mouth: boolean,
-};
-
-export async function getAvatarTraits(
-  mint: PublicKey,
+export async function checkIfTraitCanBeCombined(
+  avatar: NFT, 
+  trait: NFT,
   connection: anchor.web3.Connection,
-): Promise<AvatarTraits> {
+  wallet: anchor.Wallet,
+): Promise<boolean> {
 
-  // Fetch metadata from Arweave
-  const metadata = await downloadMetadataFromArweave(mint, connection);
+  // Initialize a connection to SLA program
+  const provider = new anchor.Provider(connection, wallet, {preflightCommitment: 'processed'})
+  // @ts-ignore
+  const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
 
-  // Extract all attributes and cast them to lowercase
-  const traitTypes = metadata.attributes?.map((entry: any) => {
-    return { 
-      trait_type: entry.trait_type.toLowerCase(),
-      value: entry.value.toLowerCase(),
-    }
-  });
+  const [avatarPda] = await generateSlaAvatarPda(avatar.mint)
 
-  const checkIfTraitAlreadyMerged = (traits: MetadataJsonAttribute[] | undefined, target: string): boolean => {
-    const matchingTrait = traits?.filter(t => (t.trait_type === target) && (t.value != "original") );
-    return matchingTrait ? matchingTrait.length > 0 : false
+  const traitCollection = trait.onchainMetadata.collection.key
+  const traitName = Object.keys(SLA_COLLECTIONS).filter(key => SLA_COLLECTIONS[key].collection === traitCollection)[0].toLowerCase()
+
+  let allowed = true
+  try {
+    const avatarAccount = await program.account.avatarAccount.fetch(avatarPda)
+    const traits = avatarAccount.traits
+
+    if (
+      (traits.skin && traitName === 'skin') ||
+      (traits.clothing && traitName === "clothing") ||
+      (traits.eyes && traitName === "eyes") ||
+      (traits.hat && traitName === "hat") ||
+      (traits.mouth && traitName === "mouth")
+    ) {
+      allowed = false
+    } 
+  } catch (error: any) {
+    console.log('Could not fetch the llama PDA account')
   }
 
-  // For each trait, check if it's in the metadata
-  return {
-    background: checkIfTraitAlreadyMerged(traitTypes, "background"),
-    skin: checkIfTraitAlreadyMerged(traitTypes, "skin"),
-    clothing: checkIfTraitAlreadyMerged(traitTypes, "clothing"),
-    eyes: checkIfTraitAlreadyMerged(traitTypes, "eyes"),
-    hat: checkIfTraitAlreadyMerged(traitTypes, "hat"),
-    mouth: checkIfTraitAlreadyMerged(traitTypes, "mouth"),
-  };
-}
+  console.log(`[checking combination]: ${allowed ? 'allowed' : 'not allowed'}`)
 
-export async function getTraitType(
-  mint: PublicKey,
-  connection: anchor.web3.Connection
-): Promise<number> {
-    // Fetch metadata from Arweave
-    const metadata = await downloadMetadataFromArweave(mint, connection);
-
-    // Extract all "trait_type" values
-    const trait = metadata.attributes ? metadata.attributes[0].trait_type.toLocaleLowerCase() : "none";
-    
-    // Return the number that identifies the type of trait
-    switch (trait) {
-      case "skin": return 2;
-      case "clothing": return 3;
-      case "eyes": return 4;
-      case "hat": return 5;
-      case "mouth": return 6;
-      default: return -1;
-    }
+  return allowed
 }

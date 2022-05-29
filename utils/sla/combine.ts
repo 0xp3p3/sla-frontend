@@ -1,107 +1,17 @@
 import * as anchor from '@project-serum/anchor';
-import { PublicKey, SystemProgram } from '@solana/web3.js';
+import { PublicKey } from '@solana/web3.js';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import * as mpl from "@metaplex/js";
 
-import { findAssociatedTokenAddress, getProvider } from './utils';
+import { findAssociatedTokenAddress } from './utils';
 import { COMBINE_AUTHORITY_WALLET, SLA_ARWEAVE_WALLET, SLA_PROGRAM_ID } from '../constants';
-import { getTraitType } from './traits';
 import { generateSlaAvatarPda } from './accounts';
-import { sendSignedTransaction, sendTransactions, signTransaction } from '../transaction';
+import { sendSignedTransaction } from '../transaction';
 import * as idl from '../../sla_idl.json';
 
 
-export async function merge(
-  avatarMintKey: PublicKey,
-  traitMintKey: PublicKey,
-  wallet: anchor.Wallet,
-  connection: anchor.web3.Connection,
-): Promise<string> {
 
-  const provider = await getProvider(connection, wallet)
-
-  // Check whether the merge is allowed or not
-  const tx = await checkMergeIsAllowed(
-    avatarMintKey,
-    traitMintKey,
-    wallet,
-    provider,
-  );
-
-  // Check the transaction was confirmed and issue an error if it hasn't
-  const txResult = await connection.confirmTransaction(tx);
-  if (txResult.value.err !== null) {
-    throw 'Trait cannot be added to Avatar: ' + txResult.value.err.toString()
-  }
-
-  // Send a request to the server to do it
-  console.log("Sending Merge request to server")
-  const response = await requestMerge(tx)
-  console.log("Server response: ", response)
-
-  // Extract the new metadata Arweave link from the server response
-  if (response.error !== null) {
-    throw `Could not complete the merge. Error: ${response.error}`
-  }
-
-  return executeMerge(
-    avatarMintKey,
-    traitMintKey,
-    wallet,
-    provider,
-    response.metadataLink!,
-    response.uploadPrice!
-  )
-}
-
-
-async function checkMergeIsAllowed(
-  avatarMint: PublicKey,
-  traitMint: PublicKey,
-  wallet: anchor.Wallet,
-  connection: anchor.web3.Connection,
-): Promise<string> {
-
-  // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, wallet, {
-    preflightCommitment: 'processed',
-  })
-  console.log(idl)
-  // const idl = await anchor.Program.fetchIdl(SLA_PROGRAM_ID, provider)
-  // @ts-ignore
-  const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
-
-  // Get the token account address (PDA from Token program)
-  // Generate a PDA and bump for a new account 
-  const avatarTokenAccount = findAssociatedTokenAddress(wallet.publicKey, avatarMint)
-  const [avatarPda, avatarBump] = await generateSlaAvatarPda(avatarMint)
-
-  // Get the token account address (PDA from Token program)
-  const traitTokenAccount = findAssociatedTokenAddress(wallet.publicKey, traitMint)
-
-  // Get which trait we are trying to merge
-  const traitId = await getTraitType(traitMint, provider.connection)
-
-  // Send the transaction
-  return program.rpc.checkMergeIsAllowed(
-    avatarBump,
-    traitId,
-    {
-      accounts:
-      {
-        avatar: avatarPda,
-        avatarMint: avatarMint,
-        traitMint: traitMint,
-        avatarToken: await avatarTokenAccount,
-        traitToken: await traitTokenAccount,
-        payer: wallet.publicKey,
-        systemProgram: SystemProgram.programId,
-      },
-    }
-  )
-}
-
-export async function executeMerge(
+export async function updateOnChainMetadataAfterCombine(
   avatarMint: PublicKey,
   traitMint: PublicKey,
   wallet: anchor.Wallet,
