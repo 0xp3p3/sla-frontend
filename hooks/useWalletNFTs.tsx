@@ -20,41 +20,41 @@ const useWalletNFTs = () => {
   const [agentWalletNFTs, setAgentWalletNFTs] = useState<Array<NFT>>([])
   const [traitWalletNFTs, setTraitWalletNFTs] = useState<Array<NFT>>([])
 
-  useEffect(() => {
-    const fetchNFTs = async () => {
-      if (!publicKey) {
-        setWalletNFTs([])
-        setAgentWalletNFTs([])
-        setTraitWalletNFTs([])
-        return
-      }
 
-      // Fetch all NFTs
-      const NFTs = await getNFTsByOwner(publicKey, connection)
-      setWalletNFTs(NFTs)
-
-      // Filter Llama Agents
-      const agentNFTs = NFTs.filter(nft => {
-        const collection = nft.onchainMetadata.collection
-        if (!collection) { return false }
-        return (collection.key === AGENT_COLLECTION && collection.verified)
-      })
-      setAgentWalletNFTs(agentNFTs)
-
-      // Filter Traits
-      const traitNFTs = NFTs.filter(nft => {
-        const collection = nft.onchainMetadata.collection
-        if (!collection) { return false }
-        return (TRAIT_COLLECTIONS.includes(collection.key) && collection.verified)
-      })
-      setTraitWalletNFTs(traitNFTs)
+  const fetchNFTs = async () => {
+    if (!publicKey) {
+      setWalletNFTs([])
+      setAgentWalletNFTs([])
+      setTraitWalletNFTs([])
+      return
     }
 
-    fetchNFTs()  
-  
+    // Fetch all NFTs
+    const NFTs = await getNFTsByOwner(publicKey, connection)
+    setWalletNFTs(NFTs)
+
+    // Filter Llama Agents
+    const agentNFTs = NFTs.filter(nft => {
+      const collection = nft.onchainMetadata.collection
+      if (!collection) { return false }
+      return (collection.key === AGENT_COLLECTION && collection.verified)
+    })
+    setAgentWalletNFTs(agentNFTs)
+
+    // Filter Traits
+    const traitNFTs = NFTs.filter(nft => {
+      const collection = nft.onchainMetadata.collection
+      if (!collection) { return false }
+      return (TRAIT_COLLECTIONS.includes(collection.key) && collection.verified)
+    })
+    setTraitWalletNFTs(traitNFTs)
+  }
+
+  useEffect(() => {
+    fetchNFTs()
   }, [publicKey])
 
-  return { walletNFTs, agentWalletNFTs, traitWalletNFTs }
+  return { walletNFTs, agentWalletNFTs, traitWalletNFTs, fetchNFTs }
 }
 
 export default useWalletNFTs

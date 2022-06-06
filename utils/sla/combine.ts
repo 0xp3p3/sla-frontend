@@ -17,6 +17,7 @@ export async function updateOnChainMetadataAfterCombine(
   wallet: anchor.Wallet,
   connection: anchor.web3.Connection,
   new_uri: string,
+  transactionSignedCallback?: () => void,
 ): Promise<string> {
 
   // Initialize a connection to SLA program
@@ -67,7 +68,7 @@ export async function updateOnChainMetadataAfterCombine(
   let transaction = new anchor.web3.Transaction({ feePayer: wallet.publicKey }).add(instruction)
   transaction.recentBlockhash = (await connection.getRecentBlockhash('max')).blockhash
 
-  // Serialize transaction to be send to the backend
+  // Serialize transaction to be sent to the backend
   console.log('serializing transaction')
   const jsonTransaction = transaction.serialize({
     requireAllSignatures: false,
@@ -89,10 +90,9 @@ export async function updateOnChainMetadataAfterCombine(
 
   // Get the user to sign the transaction 
   console.log('signing using user wallet')
-  console.log('fee payer', transaction.feePayer)
   transactionFromJson = await wallet.signTransaction(transactionFromJson)
+  transactionSignedCallback()
 
-  console.log('sending transaction')
   const tx = await sendSignedTransaction({ signedTransaction: transactionFromJson, connection })
 
   const afterAccount = await program.account.avatarAccount.fetch(avatarPda)

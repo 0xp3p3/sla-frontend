@@ -8,7 +8,7 @@ import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal"
 import useCombine, { CombineStatus } from "../../hooks/useCombine"
 import { useEffect, useState } from "react"
-import { ModalContent } from "semantic-ui-react"
+import { ModalContent, Progress } from "semantic-ui-react"
 
 
 interface ModalContent {
@@ -18,203 +18,43 @@ interface ModalContent {
   confirmMessage?: string,
   keepOpenOnConfirm?: boolean,
   onClose?: () => void,
+  onCancel?: () => void,
+  onConfirm?: () => void,
 }
 
 
-// const modalMessages: { [name: string]: ModalContent } = {
-//   walletNotConnected: {
-//     type: ModalType.Info,
-//     content: (
-//       <>
-//         <p>Let's get you in disguise before the Alpacas find you.</p>
-//         <p>Start by connecting your wallet at the top of this page.</p>
-//       </>
-//     ),
-//     size: "small"
-//   },
-//   preCombineWarning: {
-//     type: ModalType.Warning,
-//     content: (
-//       <>
-//         <p>You are about to get in disguise.</p>
-//         <p>This action is <strong>irreversible</strong>. So make sure you're happy with your new look!</p>
-//         <div style={{ fontStyle: "italic", fontSize: "20px" }}>
-//           <p><br /></p>
-//           <p>Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.</p>
-//           <p>Thank you for your understanding!</p>
-//         </div>
-//       </>
-//     ),
-//     confirmMessage: "Combine",
-//     size: "large",
-//     keepOpenOnConfirm: true,
-//   },
-//   nftsNotSelected: {
-//     type: ModalType.Info,
-//     content: (
-//       <>
-//         <p>I can't alter your DNA without getting your consent - make sure you've selected both an Agent and a Trait to combine!</p>
-//       </>
-//     ),
-//     size: "large"
-//   },
-//   generatingNewImage: {
-//     type: ModalType.Info,
-//     content: (
-//       <>
-//         <p>It looks like I wasn't able to generate a preview of your new look.</p>
-//         <p>The most likely cause is you're trying to combine a trait already part of your DNA!</p>
-//         <p>If not, please refresh the page and try again. 🦙</p>
-//       </>
-//     ),
-//     size: "large"
-//   },
-//   combining: {
-//     type: ModalType.Info,
-//     content: (
-//       <>
-//         <p>Bear with me while I work my magic...</p>
-//       </>
-//     ),
-//     size: "small"
-//   }
-// }
-
-
 const CombineMain = () => {
-  // const wallet = useWallet()
-  // const { anchorWallet } = useAnchorWallet()
-  // const { connection } = useConnection()
-  // const { agentWalletNFTs, traitWalletNFTs } = useWalletNFTs()
-
-  // const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
-  // const [selectedTrait, setSelectedTrait] = useState<NFT>(null)
-
-  // const [metadataToDisplay, setMetadataToDisplay] = useState<mpl.MetadataJson>(null)
-  // const [bothLlamaAndTraitSelected, setBothLlamaAndTraitSelected] = useState(false)
-
-  // const [readyToCombine, setReadyToCombine] = useState(false)
-  // const [isCombining, setIsCombining] = useState(false)
-  // const [isCombinedFinished, setIsCombinedFinished] = useState(false)
-  // const [isCombineSuccess, setIsCombineSuccess] = useState(false)
-
-  // const [s3ImageUrl, setS3ImageUrl] = useState('')
-  // const [arweaveUploadDone, setArweaveUploadDone] = useState(false)
-
-  // const [firstModalShown, setFirstModalShown] = useState(false)
-  // const [modalContent, setModalContent] = useState<ModalContent>(modalMessages.walletNotConnected)
-
-  // useEffect(() => {
-  //   if (!wallet || !wallet.publicKey) {
-  //     setModalContent(modalMessages.walletNotConnected)
-  //   }
-  //   else if (!selectedAgent || !selectedTrait) {
-  //     setModalContent(modalMessages.nftsNotSelected)
-  //   }
-  //   else if (!readyToCombine) {
-  //     setModalContent(modalMessages.generatingNewImage)
-  //   } else if (isCombining) {
-  //     setModalContent(modalMessages.combining)
-  //   } else {
-  //     setModalContent(modalMessages.preCombineWarning)
-  //   }
-  // }, [selectedAgent, selectedTrait, readyToCombine, wallet?.publicKey])
-
-  // // Update the combination of Llama & Trait
-  // useEffect(() => {
-  //   if (selectedAgent && selectedTrait) {
-  //     const newMetadata = createNewAvatarMetadata(selectedAgent.externalMetadata, selectedTrait.externalMetadata)
-  //     console.log(newMetadata)
-  //     setMetadataToDisplay(newMetadata)
-  //     setBothLlamaAndTraitSelected(true)
-  //   } else if (selectedAgent && !selectedTrait) {
-  //     setMetadataToDisplay(selectedAgent.externalMetadata)
-  //     setBothLlamaAndTraitSelected(false)
-  //   } else if (!selectedAgent && selectedTrait) {
-  //     setMetadataToDisplay(selectedTrait.externalMetadata)
-  //     setBothLlamaAndTraitSelected(false)
-  //   } else {
-  //     setMetadataToDisplay(null)
-  //     setBothLlamaAndTraitSelected(false)
-  //   }
-  // }, [selectedAgent, selectedTrait])
-
-  // const handleOnCombineClick = async () => {
-  //   try {
-  //     setIsCombining(true)
-  //     setFirstModalShown(true)
-  //     setModalContent(modalMessages.combining)
-
-  //     // Fetch cost of uploading files to arweave
-  //     const data = {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         imageUrl: s3ImageUrl,
-  //         metadataJson: JSON.stringify(metadataToDisplay),
-  //       })
-  //     }
-  //     const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
-  //     const uploadCost = response.cost
-
-  //     // Request the user to pay the cost
-  //     const tx = await sendUploadFund(uploadCost, connection, anchorWallet)
-
-  //     // Upload files to arweave
-  //     const dataUpload = {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify({ 
-  //         imageUrl: s3ImageUrl,
-  //         metadataJson: metadataToDisplay,
-  //         tx: tx,
-  //       })
-  //     }
-  //     const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
-  //     const { metadataUrl, imageUrl }: UploadResult = responseUpload
-
-  //     console.log('new metadata url', metadataUrl)
-
-  //     if (metadataUrl) {
-  //       setArweaveUploadDone(true)
-
-  //       console.log('Executing merge')
-  //       const tx = await updateOnChainMetadataAfterCombine(
-  //         selectedAgent.mint,
-  //         selectedTrait.mint,
-  //         anchorWallet,
-  //         connection,
-  //         metadataUrl,
-  //       )
-  //       console.log('Finished excecuting merge: ', tx)
-  //     }
-
-  //     setIsCombineSuccess(true)
-  //   } catch (err: any) {
-  //     setIsCombineSuccess(false)
-  //     console.log(err)
-  //   } finally {
-  //     setIsCombining(false)
-  //     setIsCombinedFinished(true)
-  //   }
-  // }
-
-  const { agentWalletNFTs, traitWalletNFTs } = useWalletNFTs()
+  const { agentWalletNFTs, traitWalletNFTs, fetchNFTs } = useWalletNFTs()
   const {
     status,
+    setStatus,
     isCombining,
     setSelectedAgent,
     setSelectedTrait,
     bothAgentAndTraitSelected,
     metadataToDisplay,
     setS3ImageUrl,
-    handleOnCombineClick,
+    uploadToArweave,
+    updateOnChainMetadata,
     setReadyToCombine,
+    resetStatus,
+    newArweaveImageUrl,
   } = useCombine()
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
+
+  const getProgressBar = (step: number) => {
+    const nSteps = 6.0
+    const perc = 100 * step / nSteps
+    console.log(`[combine] setting progress to ${perc}%`)
+
+    return (
+      <>
+        <Progress percent={perc} active color="green"></Progress>
+      </>
+    )
+
+  }
 
 
   const getModalContent = () => {
@@ -241,7 +81,7 @@ const CombineMain = () => {
           type: ModalType.Info,
           content: (
             <>
-              <p>I can't alter your DNA without getting your consent - make sure you've selected both an Agent and a Trait to combine!</p>
+              <p>I can't alter your DNA without your consent - make sure you've selected both an Agent and a Trait to combine!</p>
               <br />
               <p>Also, make sure the trait you're trying to add is not already present on your Agent.</p>
             </>
@@ -270,13 +110,14 @@ const CombineMain = () => {
               <p>This action is <strong>irreversible</strong>. So make sure you're happy with your new look!</p>
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
-                <p>Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.</p>
+                <p>Solana has been rather congested lately. If one of these transactions fail, don't worry - your funds are secure. Simply try again.</p>
                 <p>Thank you for your understanding!</p>
               </div>
             </>
           ),
           confirmMessage: "Combine",
           keepOpenOnConfirm: true,
+          onConfirm: uploadToArweave,
         }
         break;
 
@@ -285,7 +126,10 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>Waiting for arweave upload signature</p>
+              <p>The first step is to upload your new look and metadata information to Arweave.</p>
+              <p>{`There's a small fee associated with that (somewhere around $0.1-0.3).`}</p>
+              <p> Make sure you comfirm the transaction popping up from your wallet and I'll take it from there.</p>
+              {getProgressBar(1)}
             </>
           )
         }
@@ -296,7 +140,9 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>Uploading to Arweave...</p>
+              <p>I'm uploading your new look and metadata to Arweave.</p>
+              <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
+              {getProgressBar(2)}
             </>
           )
         }
@@ -304,21 +150,54 @@ const CombineMain = () => {
 
       case CombineStatus.ArweaveUploadFailed:
         content = {
-          type: ModalType.Info,
+          type: ModalType.Warning,
           content: (
             <>
-              <p>Something went wrong during Arweave upload.</p>
+              <p>Something went wrong during the upload to Arweave. Either you cancelled the transaction, or Solana is heavily congested at the moment.</p>
+              <br />
+              <p>If you still want to alter your look, simply click "Try again".</p>
             </>
           ),
+          onCancel: () => {
+            resetStatus()
+            setStatus(CombineStatus.ReadyToCombine)
+          },
+          onConfirm: () => {
+            setStatus(CombineStatus.ReadyToCombine)
+            uploadToArweave()
+          },
+          confirmMessage: "Try again",
+          keepOpenOnConfirm: true,
+        }
+        break;
+
+      case CombineStatus.ArweaveUploadSuccess:
+        content = {
+          type: ModalType.Warning,
+          content: (
+            <>
+              <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here</a> is the new look that you expected.</p>
+              <p>Once satisfied, click "Next" to move on to the next step.</p>
+              {getProgressBar(3)}
+            </>
+          ),
+          onConfirm: updateOnChainMetadata,
+          onCancel: () => resetStatus(),
+          confirmMessage: "Next",
+          keepOpenOnConfirm: true,
         }
         break;
 
       case CombineStatus.AwaitingUserSignatureForMetadataUpdate:
         content = {
-          type: ModalType.Warning,
+          type: ModalType.Waiting,
           content: (
             <>
-              <p>Waiting for user's signature to update on-chain metadata</p>
+              <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
+              <p>The last thing to do is to update the blockchain accordingly.</p>
+              <p>There should be a new transaction popping up for you to sign.</p>
+              {getProgressBar(4)}
+              <p style={{ fontStyle: "italic" }}>Please be aware that this step will <strong>permanently</strong> change the look of your Agent and <strong>permanently</strong> burn your Trait NFT.</p>
             </>
           ),
         }
@@ -329,7 +208,9 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>Updating on-chain metadata</p>
+              <p>I'm updating the metadata of your Agent on the Solana blockchain.</p>
+              <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
+              {getProgressBar(5)}
             </>
           ),
         }
@@ -340,11 +221,15 @@ const CombineMain = () => {
           type: ModalType.Warning,
           content: (
             <>
-              <p>On-chain metadata update failed.</p>
+              <p>Something went wrong while updating the on-chain metadata.</p>
+              <br />
+              <p>If you still want to alter your look, simply click "Retry".</p>
             </>
           ),
+          onCancel: resetStatus,
           confirmMessage: "Retry",
           keepOpenOnConfirm: true,
+          onConfirm: () => { setStatus(CombineStatus.ArweaveUploadSuccess) }
         }
         break;
 
@@ -353,13 +238,21 @@ const CombineMain = () => {
           type: ModalType.Info,
           content: (
             <>
-              <p>Success!</p>
+              <p>Congratulations, you successfully combined a Trait with your Llama Agent!</p>
+              <br />
+              <p>Come back to see me when you want to add to your disguise. In the meantime, stay safe from the Alpacas!</p>
+              <br />
+              <p>Agent Franz out.</p>
             </>
           ),
+          onClose: () => {
+            resetStatus()
+            fetchNFTs()
+          },
         }
         break;
 
-      default: 
+      default:
         content = {
           type: ModalType.Info,
           content: (
@@ -371,7 +264,7 @@ const CombineMain = () => {
         }
         break;
     }
-    
+
     setModalContent(content)
   }
 
@@ -408,7 +301,6 @@ const CombineMain = () => {
       </div>
       <div className={styles.button_container}>
         <BasicModal
-          onConfirm={handleOnCombineClick}
           {...modalContent}
           trigger={(
             <Button>

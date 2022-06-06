@@ -42,6 +42,7 @@ const useCombine = () => {
 
   const [s3ImageUrl, setS3ImageUrl] = useState('')
   const [newArweaveMetadataUrl, setNewArweaveMetadataUrl] = useState('')
+  const [newArweaveImageUrl, setNewArweaveImageUrl] = useState('')
 
 
   // Log every change of status
@@ -59,8 +60,12 @@ const useCombine = () => {
 
   // Update the combination of Llama & Trait
   const refreshMetadataToDisplay = async () => {
+
+    if (!wallet.publicKey) { return }
+
+    // Generate a preview if both an Agent and a Trait have been selected
     if (selectedAgent && selectedTrait) {
-      
+
       // Before generating a preview, make sure that the combination is allowed
       const combinationAllowed = await checkIfTraitCanBeCombined(
         selectedAgent, selectedTrait, connection, anchorWallet,
@@ -71,15 +76,25 @@ const useCombine = () => {
       setMetadataToDisplay(newMetadata)
       setBothAgentAndTraitSelected(true)
       setStatus(CombineStatus.GeneratingPreview)
-    } else if (selectedAgent && !selectedTrait) {
+
+    }
+
+    // Show the agent if no trait has been selected
+    else if (selectedAgent && !selectedTrait) {
       setMetadataToDisplay(selectedAgent.externalMetadata)
       setBothAgentAndTraitSelected(false)
       setStatus(CombineStatus.AgentSelectedOnly)
-    } else if (!selectedAgent && selectedTrait) {
+    }
+
+    // Show the trait if no agent has been selected
+    else if (!selectedAgent && selectedTrait) {
       setMetadataToDisplay(selectedTrait.externalMetadata)
       setBothAgentAndTraitSelected(false)
       setStatus(CombineStatus.TraitSelectedOnly)
-    } else {
+    }
+
+    // Show the placeholder image otherwise
+    else {
       setMetadataToDisplay(null)
       setBothAgentAndTraitSelected(false)
       setStatus(CombineStatus.NothingSelected)
@@ -101,14 +116,15 @@ const useCombine = () => {
 
   // Once the new metadata has been uploaded to Arweave, we can update the on-chain metadata
   useEffect(() => {
-    if (newArweaveMetadataUrl && (status === CombineStatus.ArweaveUploadSuccess || status === CombineStatus.MetadataUpdateFailed)) {
+    if (newArweaveMetadataUrl && newArweaveImageUrl && (status === CombineStatus.ArweaveUploadSuccess)) {
       updateOnChainMetadata()
     }
   }, [newArweaveMetadataUrl, status])
 
 
   // Combine the Trait with the Llama
-  const handleOnCombineClick = async () => {
+  const uploadToArweave = async () => {
+
     if (status === CombineStatus.ReadyToCombine) {
       setIsCombining(true)
 
@@ -128,10 +144,14 @@ const useCombine = () => {
         const uploadCost = response.cost
 
         // Request the user to pay the cost
-        const tx = await sendUploadFund(uploadCost, connection, anchorWallet)
+        const tx = await sendUploadFund(
+          uploadCost,
+          connection,
+          anchorWallet,
+          () => setStatus(CombineStatus.UploadingToArweave)  // called after user signs transaction
+        )
 
         // Upload files to arweave
-        setStatus(CombineStatus.UploadingToArweave)
         const dataUpload = {
           method: "POST",
           headers: {
@@ -145,9 +165,15 @@ const useCombine = () => {
         }
         const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
         const arweaveUploadResult: UploadResult = responseUpload
-
         console.log('new arweave metadata url', arweaveUploadResult.metadataUrl)
+
+        if (arweaveUploadResult.error) {
+          throw Error(arweaveUploadResult.error)
+        }
+
         setNewArweaveMetadataUrl(arweaveUploadResult.metadataUrl)
+        setNewArweaveImageUrl(arweaveUploadResult.imageUrl)
+
         setStatus(CombineStatus.ArweaveUploadSuccess)
 
       } catch (error: any) {
@@ -156,6 +182,7 @@ const useCombine = () => {
       }
     }
   }
+
 
   const updateOnChainMetadata = async () => {
 
@@ -169,6 +196,7 @@ const useCombine = () => {
         anchorWallet,
         connection,
         newArweaveMetadataUrl,
+        () => setStatus(CombineStatus.UpdatingOnChainMetadata)
       )
       console.log('Finished updating metadata. Tx: ', tx)
 
@@ -189,6 +217,7 @@ const useCombine = () => {
 
   return {
     status,
+    setStatus,
     isCombining,
     resetStatus,
     selectedAgent,
@@ -198,8 +227,10 @@ const useCombine = () => {
     bothAgentAndTraitSelected,
     metadataToDisplay,
     setS3ImageUrl,
-    handleOnCombineClick,
+    uploadToArweave,
+    updateOnChainMetadata,
     setReadyToCombine,
+    newArweaveImageUrl,
   }
 }
 

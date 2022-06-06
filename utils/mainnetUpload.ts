@@ -12,6 +12,7 @@ import { sendTransactions } from "./transaction";
 export interface UploadResult {
   metadataUrl: string,
   imageUrl: string,
+  error?: string,
 }
 
 
@@ -92,6 +93,7 @@ export async function sendUploadFund(
   storageCost: number,
   connection: web3.Connection,
   wallet: anchor.Wallet,
+  transactionsSignedCallback?: () => void,
 ): Promise<string> {
   const instructions = [
     anchor.web3.SystemProgram.transfer({
@@ -110,7 +112,7 @@ export async function sendUploadFund(
     'singleGossip',
     [],
     [],
-    () => null,
+    transactionsSignedCallback,
   )
 
   return txs[0]
