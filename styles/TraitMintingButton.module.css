@@ -1,0 +1,11 @@
+
+
+.new_trait_img_container {
+  display: flex;
+  justify-content: center;
+}
+
+.new_trait_in_modal {
+  border: 1.5px;
+  border-style: solid;
+}

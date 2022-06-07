@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
-import Combine from "../components/disguiseRoom/Combine";
+import CombineMain from "../components/disguiseRoom/CombineMain";
+import IdCardMain from "../components/disguiseRoom/IdCardMain";
+import TraitMingintMain from "../components/disguiseRoom/TraitMintingMain";
 import PageWrapper from "../components/layout/PageWrapper";
 import TypingEffect from "../components/utils/TypingEffect";
 
@@ -34,50 +36,7 @@ const DisguiseRoom: NextPage = () => {
               <h2 className="h3 h-white">STEP 1: MINT YOUR TRAITS</h2>
               <p className="p1 p-white">There are 5 trait categories: Eyes, Mouth, Skin, Clothing and Hats. Each category is its own collection and will generate a random trait when you mint from it.<br/><br/> Combining a trait with your Llama Agent is permanent, making all collections deflationary.<br/><br/> Each trait costs 2 $HAY. </p>
             </div>
-            <div className="w-layout-grid grid-2">
-              <div data-hover="false" data-delay={0} id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815dd-faba1442" data-w-id="c51ac5e2-ed2e-9254-8fc8-bd71e7d815dd" className="dropdown-2 w-dropdown">
-                <nav className="dropdown-list-2 w-dropdown-list" />
-              </div>
-              <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f4-faba1442" />
-              <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f5-faba1442" className="none-mob" />
-              <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d815f6-faba1442" className="vert-left space-btw h-472">
-                <div className="vert-left">
-                  <div className="img-bg" style={{marginBottom:'30px'}}>
-                    <img src="images/Skin-15---Tiger.png" loading="lazy" sizes="(max-width: 991px) 200px, 330px" srcSet="images/Skin-15---Tiger-p-500.png 500w, images/Skin-15---Tiger-p-800.png 800w, images/Skin-15---Tiger.png 1000w" alt="" className="llama-img select" />
-                  </div>
-                  <h3 className="h3 h-white mrg-d-34">Supply: 6,000</h3>
-                </div>
-                <a href="#" className="button trait-mint w-button">mint skin</a>
-              </div>
-              <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d81601-faba1442" className="vert-left space-btw h-472">
-                <div className="vert-left">
-                  <div className="img-bg" style={{marginBottom:'30px'}}><img src="images/Eyes-34---Green-Frame.png" loading="lazy" sizes="(max-width: 991px) 200px, 330px" srcSet="images/Eyes-34---Green-Frame-p-500.png 500w, images/Eyes-34---Green-Frame-p-800.png 800w, images/Eyes-34---Green-Frame.png 1000w" alt="" className="llama-img select dis" /></div>
-                  <h3 className="h3 h-white mrg-d-34">Supply: 5,000</h3>
-                </div>
-                <a href="#" className="button trait-mint w-button">mint eyes</a>
-              </div>
-              <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d8160e-faba1442" className="vert-left space-btw h-472">
-                <div className="vert-left">
-                  <div className="img-bg" style={{marginBottom:'30px'}}><img src="images/Mouth-06---Smoking-Marijuana.png" loading="lazy" sizes="(max-width: 991px) 200px, 330px" srcSet="images/Mouth-06---Smoking-Marijuana-p-500.png 500w, images/Mouth-06---Smoking-Marijuana-p-800.png 800w, images/Mouth-06---Smoking-Marijuana.png 1000w" alt="" className="llama-img select dis" /></div>
-                  <h3 className="h3 h-white mrg-d-34">Supply: 6,000</h3>
-                </div>
-                <a href="#" className="button trait-mint w-button">mint mouth</a>
-              </div>
-              <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d8161b-faba1442" className="vert-left space-btw h-472">
-                <div className="vert-left">
-                  <div className="img-bg" style={{marginBottom:'30px'}}><img src="images/Clothing-13---Cowboy.png" loading="lazy" sizes="(max-width: 991px) 200px, 330px" srcSet="images/Clothing-13---Cowboy-p-500.png 500w, images/Clothing-13---Cowboy-p-800.png 800w, images/Clothing-13---Cowboy.png 1000w" alt="" className="llama-img select dis" /></div>
-                  <h3 className="h3 h-white mrg-d-34">Supply: 5,000</h3>
-                </div>
-                <a href="#" className="button trait-mint w-button">mint clothing</a>
-              </div>
-              <div id="w-node-c51ac5e2-ed2e-9254-8fc8-bd71e7d81628-faba1442" className="vert-left space-btw h-472">
-                <div className="vert-left">
-                  <div className="img-bg" style={{marginBottom:'30px'}}><img src="images/Hat-05---Crown.png" loading="lazy" sizes="(max-width: 991px) 200px, 330px" srcSet="images/Hat-05---Crown-p-500.png 500w, images/Hat-05---Crown-p-800.png 800w, images/Hat-05---Crown.png 1000w" alt="" className="llama-img select dis" /></div>
-                  <h3 className="h3 h-white mrg-d-34">Supply: 5,000</h3>
-                </div>
-                <a href="#" className="button trait-mint w-button">mint hat</a>
-              </div>
-            </div>
+            <TraitMingintMain />
           </div>
         </div>
       </div>
@@ -87,20 +46,23 @@ const DisguiseRoom: NextPage = () => {
           <div className="vert-cent">
             <div className="vert-left stretch">
               <h2 className="h3">STEP 2: COMBINE</h2>
-              <p className="p1">In this step, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed below will be permanent.<br /><br />To start, select your Llama Agent and trait NFT from the dropdown menus below. Once you&apos;re happy with your choices, click the &apos;combine&apos; button and approve the transactions. Repeat these steps for every trait to complete your disguise.</p>
+              <p className="p1">
+                In this section, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed here will be permanent.
+                <br /><br />
+                Once you&apos;ve selected the Llama Agent and trait you&apos;d like to combine from the dropdown menus, we&apos;ll generate a preview of what the resulting Agent would look like.
+                Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Franz&apos; instructions. 
+                <br /><br />
+                Repeat these steps for every trait to complete your disguise.</p>
             </div>
-            <Combine />
+            <CombineMain />
           </div>
         </div>
       </div>
       <div className="blue-bg-div"><img src="images/Vector-4.svg" loading="lazy" alt="" className="d-r-corner" /><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
         <div className="container-m relative w-container">
           <div className="vert-left">
-            <h3 className="h3 h-white">step 3: mint your id card</h3>
-            <p className="p1 p-white">{`ID Cards are NFTs that allow you to edit the metadata name of your Llama Agent and give it a unique alias for 60 $HAY. No two Llamas can have the same name. Mint your Card below then use the 'combine' function above to add/edit your alias.`}</p>
-            <div className="hor-cen marg-up vert-mob"><img src="images/Group-36.png" loading="lazy" alt="" className="llama-img step-3" />
-              <a href="#" className="button id-card-mint w-button">coming soon</a>
-            </div>
+            <h3 className="h3 h-white">step 3: mint your id card (coming soon!)</h3>
+            <IdCardMain />
           </div>
         </div>
       </div>

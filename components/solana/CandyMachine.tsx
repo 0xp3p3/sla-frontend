@@ -11,11 +11,10 @@ import {
   CandyMachineAccount,
   getCandyMachineState,
   mintOneToken,
-  awaitTransactionSignatureConfirmation
 } from '../../utils/candy-machine';
 import { AlertState } from '../../utils/utils';
 import { DEFAULT_TIMEOUT } from '../../utils/constants'
-import { sendTransaction } from '../../utils/connection';
+import { sendTransaction, awaitTransactionSignatureConfirmation } from '../../utils/transaction';
 
 
 interface CandyMachineProps {
@@ -181,7 +180,6 @@ const CandyMachine = (props: CandyMachineProps) => {
         mintTxId,
         DEFAULT_TIMEOUT,
         connection,
-        true,
       )
     }
 
@@ -262,12 +260,12 @@ const CandyMachine = (props: CandyMachineProps) => {
     try {
       console.log(`Sending the transaction from within the gatekeeper`)
       await sendTransaction(
-        connection,
-        wallet,
-        transaction,
-        [],
-        true,
-        'confirmed',
+        {
+          transaction: transaction,
+          wallet: anchorWallet,
+          signers: [],
+          connection: connection,
+        }
       )
       setAlertState({
         open: true,
