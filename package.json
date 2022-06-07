@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "vercel env pull & next dev",
     "build": "next build",
-    "now-build": "yum install libuuid-devel libmount-devel zlib && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/ && npm run build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,6 +18,7 @@
     "@metaplex/arweave-cost": "^1.0.4",
     "@metaplex-foundation/mpl-token-metadata": "^2.1.2",
     "@metaplex/js": "^4.12.0",
+    "@napi-rs/canvas": "^0.1.22",
     "@prisma/client": "^3.12.0",
     "@project-serum/anchor": "^0.21.0",
     "@solana/spl-token": "^0.1.8",
@@ -30,7 +30,6 @@
     "arweave": "^1.10.23",
     "aws-sdk": "^2.1120.0",
     "axios": "^0.26.1",
-    "canvas": "^2.9.0",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "formik": "^2.2.9",

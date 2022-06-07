@@ -1,8 +1,11 @@
 import * as mpl from '@metaplex/js';
-import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
+// import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
+import { Canvas, Image, SKRSContext2D } from "@napi-rs/canvas";
 import imagemin from 'imagemin';
 import imageminPngquant from 'imagemin-pngquant';
+import { readFileSync } from "fs";
 import { imageSize } from './constants';
+import axios from 'axios';
 
 
 export async function createNewAvatar(attributes: mpl.MetadataJsonAttribute[] | null): Promise<Buffer> {
@@ -20,13 +23,23 @@ async function makeCreateImageWithCanvas(
   height: number, 
   layersDirectory: string
 ): Promise<any> {
-  const canvas = createCanvas(width, height)
+  // const canvas = createCanvas(width, height)
+  const canvas = new Canvas(width, height)
   const context = canvas.getContext('2d')
 
-  const addLayer = async (context: CanvasRenderingContext2D, imageLocation: string) => {
-    const loadedImage = await loadImage(imageLocation)
-    context.patternQuality = 'best'
-    context.quality = 'best'
+  const addLayer = async (context: SKRSContext2D, imageLocation: string) => {
+  // const addLayer = async (context: CanvasRenderingContext2D, imageLocation: string) => {
+    // const loadedImage = await loadImage(imageLocation)
+    // context.patternQuality = 'best'
+    // context.quality = 'best'
+
+    const loadedImage = new Image()
+    
+    const response = await axios.get(imageLocation, { responseType: 'arraybuffer' })
+    loadedImage.src =  Buffer.from(response.data, "utf-8")
+    loadedImage.width = width
+    loadedImage.height = height
+
     context.drawImage(loadedImage, 0, 0, width, height)
   }
 
