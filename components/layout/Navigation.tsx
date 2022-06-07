@@ -22,7 +22,7 @@ const Navigation = (props: Props) => {
               <img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
             </div>
             <nav className="dropdown-list mob w-dropdown-list">
-              <a href="/disguiseRoom" className="nav-link dd-list mob w-dropdown-link">the disguise room</a>
+              <a href="/disguiseRoom" className="nav-link dd-list mob w-dropdown-link">disguise room</a>
             </nav>
           </div>
         </div>
@@ -45,7 +45,7 @@ const Navigation = (props: Props) => {
               <div>agents only</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
             </div>
             <nav className="dropdown-list w-dropdown-list">
-              <a href="/disguiseRoom" className="nav-link dd-list w-dropdown-link">the disguise room</a>
+              <a href="/disguiseRoom" className="nav-link dd-list w-dropdown-link">disguise room</a>
             </nav>
           </div>
         </div>

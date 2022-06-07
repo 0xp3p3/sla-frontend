@@ -8,7 +8,7 @@ import { PublicKey } from "@solana/web3.js"
 import useWalletNFTs, { NFT } from "./useWalletNFTs"
 import { initGemBank } from "../utils/staking/common/gem-bank"
 import { GemFarm, initGemFarm } from "../utils/staking/common/gem-farm"
-import { getNFTMetadataForMany } from "../utils/staking/nfts"
+import { getNFTMetadataForMany } from "../utils/nfts"
 import { GemBank } from "../utils/staking/common/gem-bank"
 
 

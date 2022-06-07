@@ -36,7 +36,9 @@ async function makeCreateImageWithCanvas(
   }
 
   const getImageLocation = (traitPair: mpl.MetadataJsonAttribute): string => {
-    return `${layersDirectory}/${traitPair.trait_type}/${traitPair.value}.png`
+    const url = `${layersDirectory}/${traitPair.trait_type}/${traitPair.value}.png`
+    console.log(`Fetching layer image from: ${url}`)
+    return url
   }
 
   let imageLocation

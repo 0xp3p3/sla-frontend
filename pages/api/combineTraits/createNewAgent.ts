@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import S3 from 'aws-sdk/clients/s3';
 import aws from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
 import * as mpl from '@metaplex/js';
 import { createNewAvatar } from "../../../utils/image";
+import { getS3ImageUrl } from "../../../utils/s3";
 
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  
+
   if (req.method !== 'POST') {
     res.status(405).send({ message: 'Only POST requests allowed' })
   }
@@ -24,17 +24,39 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } else {
 
     // S3 config
+    const region = process.env.S3_UPLOAD_REGION
     const config = {
       accessKeyId: process.env.S3_UPLOAD_KEY,
       secretAccessKey: process.env.S3_UPLOAD_SECRET,
-      region: process.env.S3_UPLOAD_REGION,
+      region: region,
     }
     const bucket = process.env.S3_UPLOAD_BUCKET
 
-    // Filename to upload
-    const imageBuffer: Buffer = await createNewAvatar(attributes)
-    const filename = '0.png'
-    const key = `agents/${uuidv4()}/${filename.replace(/\s/g, '-')}`
+    // Generate the filename to use based on the Llama's attributes
+    const { url, key } = getS3ImageUrl(attributes, region, bucket)
+
+    // Simply return the url if the image already exists in the bucket
+    const response = await fetch(url)
+    if (response.status === 200) {
+      console.log(`Image already present in s3, simply returning url`)
+      res.status(200).json({
+        url: url,
+      })
+      return;
+    }
+
+    // Create new image to upload
+    console.log(`Creating a new image to upload to S3`)
+    let imageBuffer: Buffer;
+    try {
+      imageBuffer = await createNewAvatar(attributes)
+      console.log(`New image buffer created`)
+    } catch (error: any) {
+      console.log('Unable to create new image buffer')
+      console.log(error)
+      res.status(500).json({ error: 'Unable to create new image buffer' })
+      return
+    }
 
     let policy = {
       Statement: [
@@ -78,8 +100,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).json({
       url: uploadResult.Location,
-      bucket: uploadResult.Bucket,
-      key: uploadResult.Key,
     })
   }
 }

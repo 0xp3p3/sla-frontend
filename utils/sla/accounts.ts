@@ -1,19 +1,21 @@
 import { PublicKey } from '@solana/web3.js';
-import solana_config from '../../../sla-config/solana/config.json';
+import { SLA_PROGRAM_ID } from '../constants';
 
 
-export async function generateSlaNftPda(
+export async function generateSlaAvatarPda(
   mint: PublicKey
 ): Promise<[PublicKey, number]> {
   return PublicKey.findProgramAddress(
-    [Buffer.from(solana_config.program.seeds.master), mint.toBuffer()], 
-    new PublicKey(solana_config.program.id)
+    [Buffer.from("sla_llama"), mint.toBuffer()], 
+    new PublicKey(SLA_PROGRAM_ID)
   )
 }
 
 export async function generateSlaMasterPda(): Promise<[PublicKey, number]> {
   return PublicKey.findProgramAddress(
-    [Buffer.from(solana_config.program.seeds.master)], 
-    new PublicKey(solana_config.program.id)
+    [Buffer.from("sla_master")], 
+    new PublicKey(SLA_PROGRAM_ID)
   )
 }
+
+

@@ -14,7 +14,7 @@ export const TOKEN_METADATA_PROGRAM_ID = new anchor.web3.PublicKey(
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
 );
 
-export const DEFAULT_TIMEOUT = 15000;
+export const DEFAULT_TIMEOUT = 30000;
 
 export const ARWEAVE_PAYMENT_WALLET = new anchor.web3.PublicKey(
   '6FKvsq4ydWFci6nGq9ckbjYMtnmaqAoatz5c9XWjiDuS',
@@ -76,5 +76,5 @@ export const SLA_TRAITS = {
 export const SLA_SYMBOL = "SLA";
 export const imageSize = { width: 1000, height: 1000 }
 
-export const ARWEAVE_UPLOAD_DEVNET_ENDPOINT =
+export const ARWEAVE_UPLOAD_ENDPOINT =
   'https://us-central1-metaplex-studios.cloudfunctions.net/uploadFile';
