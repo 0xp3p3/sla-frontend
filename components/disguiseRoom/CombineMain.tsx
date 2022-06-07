@@ -31,9 +31,8 @@ const CombineMain = () => {
     isCombining,
     setSelectedAgent,
     setSelectedTrait,
-    bothAgentAndTraitSelected,
-    metadataToDisplay,
-    setS3ImageUrl,
+    previewImageUrl,
+    isPreviewLoading,
     uploadToArweave,
     updateOnChainMetadata,
     setReadyToCombine,
@@ -160,10 +159,10 @@ const CombineMain = () => {
           ),
           onCancel: () => {
             resetStatus()
-            setStatus(CombineStatus.ReadyToCombine)
+            setReadyToCombine()
           },
           onConfirm: () => {
-            setStatus(CombineStatus.ReadyToCombine)
+            setReadyToCombine()
             uploadToArweave()
           },
           confirmMessage: "Try again",
@@ -176,6 +175,7 @@ const CombineMain = () => {
           type: ModalType.Warning,
           content: (
             <>
+              <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
               <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here</a> is the new look that you expected.</p>
               <p>Once satisfied, click "Next" to move on to the next step.</p>
               {getProgressBar(3)}
@@ -193,7 +193,6 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
               <p>The last thing to do is to update the blockchain accordingly.</p>
               <p>There should be a new transaction popping up for you to sign.</p>
               {getProgressBar(4)}
@@ -245,9 +244,11 @@ const CombineMain = () => {
               <p>Agent Franz out.</p>
             </>
           ),
-          onClose: () => {
+          onClose: async () => {
+            await fetchNFTs()
+            setSelectedAgent(null)
+            setSelectedTrait(null)
             resetStatus()
-            fetchNFTs()
           },
         }
         break;
@@ -291,11 +292,9 @@ const CombineMain = () => {
           />
         </div>
         <div>
-          <CombinedImage
-            metadataOfImageToDisplay={metadataToDisplay}
-            buildLayerByLayer={bothAgentAndTraitSelected}
-            setImageUrlS3Callback={setS3ImageUrl}
-            finishedLoadingCallback={setReadyToCombine}
+          <CombinedImage 
+            previewImageUrl={previewImageUrl}
+            isPreviewLoading={isPreviewLoading}
           />
         </div>
       </div>

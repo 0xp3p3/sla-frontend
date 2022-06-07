@@ -95,8 +95,12 @@ export async function updateOnChainMetadataAfterCombine(
 
   const tx = await sendSignedTransaction({ signedTransaction: transactionFromJson, connection })
 
-  const afterAccount = await program.account.avatarAccount.fetch(avatarPda)
-  console.log('Account after merge: ', afterAccount)
+  try {
+    const afterAccount = await program.account.avatarAccount.fetch(avatarPda)
+    console.log('Account after merge: ', afterAccount)
+  } catch (error: any) {
+    console.log(`Could not fetch Agent PDA after merge:`, error)
+  }
 
   return tx
 }

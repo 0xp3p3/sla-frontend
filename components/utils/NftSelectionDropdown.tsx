@@ -1,4 +1,4 @@
-import { Dropdown, Message } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 import { useEffect, useState } from 'react'
 
 import { NFT } from "../../hooks/useWalletNFTs"

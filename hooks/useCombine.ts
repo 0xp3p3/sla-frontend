@@ -34,21 +34,27 @@ const useCombine = () => {
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
   const [selectedTrait, setSelectedTrait] = useState<NFT>(null)
+
+  const [isPreviewLoading, setIsPreviewLoading] = useState(false)
   const [metadataToDisplay, setMetadataToDisplay] = useState<mpl.MetadataJson>(null)
-  const [bothAgentAndTraitSelected, setBothAgentAndTraitSelected] = useState(false)
+  const [previewImageUrl, setPreviewImageUrl] = useState<string>(null)
+  const [newArweaveMetadataUrl, setNewArweaveMetadataUrl] = useState('')
+  const [newArweaveImageUrl, setNewArweaveImageUrl] = useState('')
 
   const [status, setStatus] = useState<CombineStatus>(CombineStatus.WalletNoConnected)
   const [isCombining, setIsCombining] = useState(false)
-
-  const [s3ImageUrl, setS3ImageUrl] = useState('')
-  const [newArweaveMetadataUrl, setNewArweaveMetadataUrl] = useState('')
-  const [newArweaveImageUrl, setNewArweaveImageUrl] = useState('')
 
 
   // Log every change of status
   useEffect(() => {
     console.log(`[useCombine hook] setting status to ${status}`)
   }, [status])
+
+
+  // Log every time the image url changes
+  useEffect(() => {
+    console.log(`[useCombine hook] new preview url: ${previewImageUrl}`)
+  }, [previewImageUrl])
 
 
   useEffect(() => {
@@ -58,49 +64,6 @@ const useCombine = () => {
   }, [wallet.publicKey])
 
 
-  // Update the combination of Llama & Trait
-  const refreshMetadataToDisplay = async () => {
-
-    if (!wallet.publicKey) { return }
-
-    // Generate a preview if both an Agent and a Trait have been selected
-    if (selectedAgent && selectedTrait) {
-
-      // Before generating a preview, make sure that the combination is allowed
-      const combinationAllowed = await checkIfTraitCanBeCombined(
-        selectedAgent, selectedTrait, connection, anchorWallet,
-      )
-      if (!combinationAllowed) { return }
-
-      const newMetadata = createNewAvatarMetadata(selectedAgent.externalMetadata, selectedTrait.externalMetadata)
-      setMetadataToDisplay(newMetadata)
-      setBothAgentAndTraitSelected(true)
-      setStatus(CombineStatus.GeneratingPreview)
-
-    }
-
-    // Show the agent if no trait has been selected
-    else if (selectedAgent && !selectedTrait) {
-      setMetadataToDisplay(selectedAgent.externalMetadata)
-      setBothAgentAndTraitSelected(false)
-      setStatus(CombineStatus.AgentSelectedOnly)
-    }
-
-    // Show the trait if no agent has been selected
-    else if (!selectedAgent && selectedTrait) {
-      setMetadataToDisplay(selectedTrait.externalMetadata)
-      setBothAgentAndTraitSelected(false)
-      setStatus(CombineStatus.TraitSelectedOnly)
-    }
-
-    // Show the placeholder image otherwise
-    else {
-      setMetadataToDisplay(null)
-      setBothAgentAndTraitSelected(false)
-      setStatus(CombineStatus.NothingSelected)
-    }
-  }
-
   // Update the combination of Llama & Trait every time the user selects a different combination
   useEffect(() => {
     console.log('[useCombine hook] refreshing metadata to display')
@@ -108,22 +71,103 @@ const useCombine = () => {
   }, [selectedAgent, selectedTrait])
 
 
+  const refreshMetadataToDisplay = async () => {
+
+    if (!wallet.publicKey) { return }
+
+    try {
+      setIsPreviewLoading(true)
+
+      let metadata: mpl.MetadataJson = null
+      let bothNftsSelected = false
+      let newStatus = CombineStatus.NothingSelected
+
+      // Generate a preview if both an Agent and a Trait have been selected
+      if (selectedAgent && selectedTrait) {
+
+        // Before generating a preview, make sure that the combination is allowed
+        const combinationAllowed = await checkIfTraitCanBeCombined(
+          selectedAgent, selectedTrait, connection, anchorWallet,
+        )
+        if (!combinationAllowed) { return }
+
+        metadata = createNewAvatarMetadata(selectedAgent.externalMetadata, selectedTrait.externalMetadata)
+        bothNftsSelected = true
+        newStatus = CombineStatus.GeneratingPreview
+      }
+
+      // Show the agent if no trait has been selected
+      else if (selectedAgent && !selectedTrait) {
+        metadata = selectedAgent.externalMetadata
+        newStatus = CombineStatus.AgentSelectedOnly
+      }
+
+      // Show the trait if no agent has been selected
+      else if (!selectedAgent && selectedTrait) {
+        metadata = selectedTrait.externalMetadata
+        newStatus = CombineStatus.TraitSelectedOnly
+      }
+
+      const url = await getImageUrlToDisplay(metadata, bothNftsSelected)
+
+      setMetadataToDisplay(metadata)
+      setPreviewImageUrl(url)
+      setStatus(newStatus)
+
+    } catch(error: any) {
+      console.log(error)
+    } finally {
+      setIsPreviewLoading(false)
+    }
+
+    // We're ready to combine if both the agent and trait are selected
+    if (selectedAgent && selectedTrait) { 
+      setReadyToCombine()
+    }
+  }
+
+
+  const getImageUrlToDisplay = async (metadata: mpl.MetadataJson | null, newCombinationNeeded: boolean): Promise<string> => {
+    let newPreviewImageUrl: string = null
+
+    if (metadata) {
+      if (!newCombinationNeeded) {
+        // No need to generate a new image if only 1 of {trait, llama} is selected
+        newPreviewImageUrl = metadata.image
+      } else {
+        // If both are selected, we need to create / fetch a new image from S3
+        newPreviewImageUrl = await pushNewImageToS3(metadata)
+      }
+    }
+
+    return newPreviewImageUrl
+  }
+
+  const pushNewImageToS3 = async (metadata: mpl.MetadataJson): Promise<string> => {
+    const data = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ attributes: metadata.attributes })
+    }
+    const response = await fetch("/api/combineTraits/createNewAgent", data)
+    const responseBody = await response.json()
+
+    return responseBody.url
+  }
+
+
   // Once the url from S3 is known, we're ready to display the preview
   const setReadyToCombine = () => {
+    console.log(`setting status to ready to combine`)
     setStatus(CombineStatus.ReadyToCombine)
   }
 
 
-  // Once the new metadata has been uploaded to Arweave, we can update the on-chain metadata
-  useEffect(() => {
-    if (newArweaveMetadataUrl && newArweaveImageUrl && (status === CombineStatus.ArweaveUploadSuccess)) {
-      updateOnChainMetadata()
-    }
-  }, [newArweaveMetadataUrl, status])
-
-
   // Combine the Trait with the Llama
   const uploadToArweave = async () => {
+    console.log(`function entry: ${previewImageUrl}`)
 
     if (status === CombineStatus.ReadyToCombine) {
       setIsCombining(true)
@@ -132,15 +176,21 @@ const useCombine = () => {
         setStatus(CombineStatus.AwaitingUserSignatureForArweaveUpload)
 
         // Fetch cost of uploading files to arweave
+        console.log(`[useCombine hook] about to upload this image to Arweave: ${previewImageUrl}`)
         const data = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            imageUrl: s3ImageUrl,
+            imageUrl: previewImageUrl,
             metadataJson: JSON.stringify(metadataToDisplay),
           })
         }
         const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
+
+        if (response.error) {
+          throw Error('Unable to fetch Arweave upload cost')
+        }
+
         const uploadCost = response.cost
 
         // Request the user to pay the cost
@@ -158,7 +208,7 @@ const useCombine = () => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            imageUrl: s3ImageUrl,
+            imageUrl: previewImageUrl,
             metadataJson: metadataToDisplay,
             tx: tx,
           })
@@ -210,9 +260,9 @@ const useCombine = () => {
     setIsCombining(false)
   }
 
-  const resetStatus = () => {
+  const resetStatus = async () => {
     setIsCombining(false)
-    refreshMetadataToDisplay()
+    await refreshMetadataToDisplay()
   }
 
   return {
@@ -224,9 +274,10 @@ const useCombine = () => {
     setSelectedAgent,
     selectedTrait,
     setSelectedTrait,
-    bothAgentAndTraitSelected,
+    isPreviewLoading,
     metadataToDisplay,
-    setS3ImageUrl,
+    previewImageUrl,
+    setPreviewImageUrl,
     uploadToArweave,
     updateOnChainMetadata,
     setReadyToCombine,
