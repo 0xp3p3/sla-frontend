@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "vercel env pull & next dev",
     "build": "next build",
+    "now-build": "yum install libuuid-devel libmount-devel && cp /lib64/{libuuid,libmount,libblkid}.so.1 node_modules/canvas/build/Release/ && npm run build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "now"
   },
   "dependencies": {
     "@civic/solana-gateway-react": "^0.4.13",

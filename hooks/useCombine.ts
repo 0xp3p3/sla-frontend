@@ -60,6 +60,8 @@ const useCombine = () => {
   useEffect(() => {
     if (!wallet.publicKey) {
       setStatus(CombineStatus.WalletNoConnected)
+    } else {
+      refreshMetadataToDisplay()      
     }
   }, [wallet.publicKey])
 
