@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vercel env pull & next dev",
     "build": "next build",
-    "vercel-build": "yum install libuuid-devel libmount-devel zlib && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/ && npm run build",
+    "canvas:fix": "yum install gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel libuuid-devel libmount-devel zlib && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/",
+    "vercel-build": "npm run canvas:fix && npm run build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -30,7 +31,7 @@
     "arweave": "^1.10.23",
     "aws-sdk": "^2.1120.0",
     "axios": "^0.26.1",
-    "canvas": "^2.6.1",
+    "canvas": "=2.6.1",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "formik": "^2.2.9",
