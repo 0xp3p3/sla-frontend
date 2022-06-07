@@ -65,7 +65,7 @@ const CombineMain = () => {
           type: ModalType.Info,
           content: (
             <>
-              <p>Let's get you in disguise before the Alpacas find you.</p>
+              <p>{`Let's get you in disguise before the Alpacas find you.`}</p>
               <p>Start by connecting your wallet at the top of this page.</p>
             </>
           ),
@@ -154,7 +154,7 @@ const CombineMain = () => {
             <>
               <p>Something went wrong during the upload to Arweave. Either you cancelled the transaction, or Solana is heavily congested at the moment.</p>
               <br />
-              <p>If you still want to alter your look, simply click "Try again".</p>
+              <p>{`If you still want to alter your look, simply click "Try again".`}</p>
             </>
           ),
           onCancel: () => {
@@ -177,7 +177,7 @@ const CombineMain = () => {
             <>
               <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
               <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here</a> is the new look that you expected.</p>
-              <p>Once satisfied, click "Next" to move on to the next step.</p>
+              <p>{`Once satisfied, click "Next" to move on to the next step.`}</p>
               {getProgressBar(3)}
             </>
           ),
@@ -222,7 +222,7 @@ const CombineMain = () => {
             <>
               <p>Something went wrong while updating the on-chain metadata.</p>
               <br />
-              <p>If you still want to alter your look, simply click "Retry".</p>
+              <p>{`If you still want to alter your look, simply click "Retry".`}</p>
             </>
           ),
           onCancel: resetStatus,
