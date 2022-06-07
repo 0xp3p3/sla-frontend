@@ -63,7 +63,7 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
         </div>
         <BasicModal
           type={ModalType.Waiting}
-          content={ }
+          content={<></>}
           trigger={(
             <Button className="button" isWaiting={waiting}>
               {"Create Account"}
