@@ -1,0 +1,27 @@
+
+.container {
+  width: 100%;
+  margin-top: 80px;
+}
+
+.dropdown_image_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.dropdowns_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 70px;
+  margin-top: 30px;
+  /* width: 350px; */
+  /* font-size: 25px; */
+}
+
+.button_container {
+  display: flex;
+  justify-content: center;
+}
