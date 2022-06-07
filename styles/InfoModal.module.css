@@ -1,0 +1,46 @@
+
+.header {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.description {
+  width: 100% !important;
+  display: flex;
+}
+
+.text {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  /* font-style: italic; */
+  font-family: 'DM Sans', sans-serif;
+}
+
+.llama_img {
+  border: 3px;
+  border-style: solid;
+}
+
+.modal_button {
+  display: inline-block;
+  width: 150px;
+  padding: 9 15;
+  margin-left: 30px;
+}
+
+.close_button {
+  background-color: black;
+}
+
+.cancel_button {
+  background-color: black;
+}
+
+.confirm_button {
+}
+
+@media screen and (max-width: 479px) {
+  .confirm_button {
+    margin-top: 20px
+  }
+}

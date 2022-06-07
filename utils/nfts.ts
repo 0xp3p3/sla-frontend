@@ -3,7 +3,7 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token"
 import axios from "axios"
 import { programs } from "@metaplex/js"
 
-import { NFT } from "../../hooks/useWalletNFTs"
+import { NFT } from "../hooks/useWalletNFTs"
 
 const {
   metadata: { Metadata },
@@ -43,10 +43,6 @@ export async function getNFTMetadataForMany(
   return nfts
 }
 
-/**
- *
- * @author https://github.com/gemworks/gem-farm/tree/main/app/gem-farm
- */
 export async function getNFTsByOwner(
   owner: PublicKey,
   conn: Connection

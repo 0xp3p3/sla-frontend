@@ -1,0 +1,603 @@
+{
+  "version": "0.1.0",
+  "name": "sla",
+  "instructions": [
+    {
+      "name": "createCollection",
+      "accounts": [
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "collectionAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMasterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "treasuryBump",
+          "type": "u8"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "sellerFeeBasisPoints",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "createMasterEdition",
+      "accounts": [
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "ata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "collectionMasterEdition",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "creator",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "treasuryBump",
+          "type": "u8"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "name": "sellerFeeBasisPoints",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "mintEdition",
+      "accounts": [
+        {
+          "name": "hayMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hayUserAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hayTreasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionMarker",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterMetadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "masterAta",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mplTokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "masterMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "treasuryBump",
+          "type": "u8"
+        },
+        {
+          "name": "editionNumber",
+          "type": "u64"
+        },
+        {
+          "name": "editionType",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "mintUnlimitedHay",
+      "accounts": [
+        {
+          "name": "hayMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hayAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "treasuryBump",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "merge",
+      "accounts": [
+        {
+          "name": "avatar",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "avatarMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "traitMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "avatarToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "traitToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "avatarMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "traitMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "combineAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "avatarBump",
+          "type": "u8"
+        },
+        {
+          "name": "metadataUri",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AvatarAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "traits",
+            "type": {
+              "option": {
+                "defined": "AvatarData"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "AvatarData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "skin",
+            "type": "bool"
+          },
+          {
+            "name": "clothing",
+            "type": "bool"
+          },
+          {
+            "name": "eyes",
+            "type": "bool"
+          },
+          {
+            "name": "hat",
+            "type": "bool"
+          },
+          {
+            "name": "mouth",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidCreatorPubkey",
+      "msg": "The creator pubkey is not valid"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidPubkey",
+      "msg": "Invalid hard-coded pubkey"
+    },
+    {
+      "code": 6002,
+      "name": "AtaAmountIsNotOne",
+      "msg": "ATA's amount is not 1"
+    },
+    {
+      "code": 6003,
+      "name": "MintAndAtaMismatch",
+      "msg": "Mint and ATA do not match"
+    },
+    {
+      "code": 6004,
+      "name": "UserDoesNotOwnMint",
+      "msg": "The user account is not owner of the Mint"
+    },
+    {
+      "code": 6005,
+      "name": "TokenPDAMismatch",
+      "msg": "The user is not the owner of the token specified"
+    },
+    {
+      "code": 6006,
+      "name": "AvatarNotInCollection",
+      "msg": "Avatar is not part of the collection"
+    },
+    {
+      "code": 6007,
+      "name": "CreatorInvalid",
+      "msg": "Candy machine creator is not valid or unverified"
+    },
+    {
+      "code": 6008,
+      "name": "TraitNotInVerifiedCollection",
+      "msg": "Trait is not part of a verified collection"
+    },
+    {
+      "code": 6009,
+      "name": "TraitCollectionUnknown",
+      "msg": "Trait is not part of any trait collection"
+    },
+    {
+      "code": 6010,
+      "name": "SignerIsNotHayTreasury",
+      "msg": "Signer is not the $HAY treasury wallet"
+    },
+    {
+      "code": 6011,
+      "name": "MasterEditionNotRecognised",
+      "msg": "Master Edition not recognised"
+    },
+    {
+      "code": 6012,
+      "name": "TokenToMintNotRecognised",
+      "msg": "Token to be minted not recognised"
+    },
+    {
+      "code": 6013,
+      "name": "PDAIsNotAnAvatar",
+      "msg": "The Avatar PDA is not an Avatar account"
+    },
+    {
+      "code": 6014,
+      "name": "PDAIsNotATrait",
+      "msg": "The Trait PDA is not a Trait account"
+    },
+    {
+      "code": 6015,
+      "name": "TraitTypeInvalid",
+      "msg": "The Trait type specified is not valid"
+    },
+    {
+      "code": 6016,
+      "name": "AvatarAlreadyInitialized",
+      "msg": "The Avatar PDA has already been initialized"
+    },
+    {
+      "code": 6017,
+      "name": "AvatarPDANotInitialized",
+      "msg": "The Avatar PDA has not been initialized yet"
+    },
+    {
+      "code": 6018,
+      "name": "MergeCheckFailed",
+      "msg": "The Trait specified cannot be merged"
+    },
+    {
+      "code": 6019,
+      "name": "MergeCheckFailedBecauseAvatarNotInitialized",
+      "msg": "The Trait cannot be merged because the Avatar has not been initialized"
+    },
+    {
+      "code": 6020,
+      "name": "ArweaveAccountMismatch",
+      "msg": "The specified arweave_wallet account does not match the stored pubkey"
+    },
+    {
+      "code": 6021,
+      "name": "AvatarCannotMintTrait",
+      "msg": "The trait cannot be minted by this avatar"
+    },
+    {
+      "code": 6022,
+      "name": "InvalidWhitelistMint",
+      "msg": "The Whitelist Mint does not match the Trait Type"
+    },
+    {
+      "code": 6023,
+      "name": "HayCannotBeMinted",
+      "msg": "Hay cannot be minted at this time"
+    }
+  ]
+}

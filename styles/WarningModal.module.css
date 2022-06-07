@@ -1,0 +1,15 @@
+
+.text {
+  font-size: 25px;
+  font-style: italic;
+}
+
+.llama_img {
+  border: 3px;
+  border-style: solid;
+}
+
+.close_button {
+  align-items: flex-end;
+  line-height: 50%;
+}
