@@ -7,9 +7,7 @@ const extractEnvVar = (value: string | null): string | null => {
 
 
 const useCountdown = () => {
-  // const goLiveDate = extractEnvVar(process.env.NEXT_PUBLIC_GO_LIVE_DATE) ? new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!) : null
-  const goLiveDate = new Date("21 May 2022 00:00:00 UTC")
-
+  const goLiveDate = extractEnvVar(process.env.NEXT_PUBLIC_GO_LIVE_DATE) ? new Date(process.env.NEXT_PUBLIC_GO_LIVE_DATE!) : null
   const countDownDate = goLiveDate ? new Date(goLiveDate).getTime() : null
 
   const [countDown, setCountDown] = useState<number | null>(
