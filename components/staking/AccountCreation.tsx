@@ -11,8 +11,6 @@ interface ModalContent {
 }
 
 
-
-
 const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
 
   const [waiting, setWaiting] = useState(false)
@@ -38,8 +36,8 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
         type: ModalType.Waiting,
         content: (
           <>
-            <p>Let's create a new staking account for you so you can stake your Llama Agent and generate some $HAY.</p>
-            <p>To proceed, you'll have to approuve the transaction popping up in your wallet. I'll handle the rest!</p>
+            <p>{`Let's create a new staking account for you so you can stake your Llama Agent and generate some $HAY.`}</p>
+            <p>{`To proceed, you'll have to approuve the transaction popping up in your wallet. I'll handle the rest!`}</p>
             <br />
             <p>Solana has been rather congested lately. If this transaction fails, simply refresh the page and try again!</p>
           </>

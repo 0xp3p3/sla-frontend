@@ -80,9 +80,9 @@ const CombineMain = () => {
           type: ModalType.Info,
           content: (
             <>
-              <p>I can't alter your DNA without your consent - make sure you've selected both an Agent and a Trait to combine!</p>
+              <p>{`I cant alter your DNA without your consent - make sure you've selected both an Agent and a Trait to combine!`}</p>
               <br />
-              <p>Also, make sure the trait you're trying to add is not already present on your Agent.</p>
+              <p>{`Also, make sure the trait you're trying to add is not already present on your Agent.`}</p>
             </>
           ),
           size: "large"
@@ -106,10 +106,10 @@ const CombineMain = () => {
           content: (
             <>
               <p>You are about to get in disguise.</p>
-              <p>This action is <strong>irreversible</strong>. So make sure you're happy with your new look!</p>
+              <p>This action is <strong>irreversible</strong>. {`So make sure you're happy with your new look!`}</p>
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
-                <p>Solana has been rather congested lately. If one of these transactions fail, don't worry - your funds are secure. Simply try again.</p>
+                <p>{`Solana has been rather congested lately. If one of these transactions fail, don't worry - your funds are secure. Simply try again.`}</p>
                 <p>Thank you for your understanding!</p>
               </div>
             </>
@@ -127,7 +127,7 @@ const CombineMain = () => {
             <>
               <p>The first step is to upload your new look and metadata information to Arweave.</p>
               <p>{`There's a small fee associated with that (somewhere around $0.1-0.3).`}</p>
-              <p> Make sure you comfirm the transaction popping up from your wallet and I'll take it from there.</p>
+              <p>{`Make sure you comfirm the transaction popping up from your wallet and I'll take it from there.`}</p>
               {getProgressBar(1)}
             </>
           )
@@ -139,7 +139,7 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>I'm uploading your new look and metadata to Arweave.</p>
+              <p>{`I'm uploading your new look and metadata to Arweave.`}</p>
               <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
               {getProgressBar(2)}
             </>
@@ -207,7 +207,7 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>I'm updating the metadata of your Agent on the Solana blockchain.</p>
+              <p>{`I'm updating the metadata of your Agent on the Solana blockchain.`}</p>
               <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
               {getProgressBar(5)}
             </>

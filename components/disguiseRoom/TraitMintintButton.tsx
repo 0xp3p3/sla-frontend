@@ -106,7 +106,7 @@ const TraitMintintButton = (props: Props) => {
               <p>Hurry up - only {cm?.state?.itemsRemaining} left!</p>
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
-                <p>Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.</p>
+                <p>{`Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.`}</p>
                 <p>Thank you for your understanding!</p>
               </div>
             </>
@@ -172,7 +172,7 @@ const TraitMintintButton = (props: Props) => {
           content: (
             <>
               <p>Congratulations, the mint was successful! 🎉</p>
-              <p>Here's your new {props.collection.name} Trait:</p>
+              <p>{`Here's your new {props.collection.name} Trait:`}</p>
               <br />
               <div className={styles.new_trait_img_container}>
                 {!newTrait ? (

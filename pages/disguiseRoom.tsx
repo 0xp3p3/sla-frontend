@@ -50,7 +50,7 @@ const DisguiseRoom: NextPage = () => {
                 In this section, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed here will be permanent.
                 <br /><br />
                 Once you&apos;ve selected the Llama Agent and trait you&apos;d like to combine from the dropdown menus, we&apos;ll generate a preview of what the resulting Agent would look like.
-                Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Franz' instructions. 
+                Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Franz&apos; instructions. 
                 <br /><br />
                 Repeat these steps for every trait to complete your disguise.</p>
             </div>

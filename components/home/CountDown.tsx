@@ -1,9 +1,6 @@
+import { useEffect, useState } from 'react';
 import useCountdown from '../../hooks/useCountdown';
 
-const getCountdown = (): (number | null)[] => {
-  const { countDown } = useCountdown()
-  return countDown ? getReturnValues(countDown) : [null, null, null, null]
-}
 
 const getReturnValues = (countDown: number): number[] => {
   // calculate time left
@@ -25,7 +22,14 @@ const CountDownBlock = (props: { interval: string, amount: number | null }) => {
 }
 
 const CountDown = ({ targetDate }: { targetDate: Date | null }) => {  
-  const [days, hours, minutes, seconds] = getCountdown()
+  const { countDown } = useCountdown()
+
+  const [countDownTimes, setCountdownTimes] = useState<(number | null)[]>([null, null, null, null])
+  const [days, hours, minutes, seconds] = countDownTimes
+
+  useEffect(() => {
+    setCountdownTimes(countDown ? getReturnValues(countDown) : [null, null, null, null])
+  }, [countDown])
 
   if (targetDate && (days + hours + minutes + seconds <= 0)) {
     return <h1 className="h1 countdown" style={{marginBottom: "50px"}}>WHITELIST MINTING NOW</h1>
