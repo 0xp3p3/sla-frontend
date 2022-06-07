@@ -42,14 +42,10 @@ const CombineMain = () => {
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
 
-  const getProgressBar = (step: number) => {
-    const nSteps = 6.0
-    const perc = 100 * step / nSteps
-    console.log(`[combine] setting progress to ${perc}%`)
-
+  const getProgressBar = (perc: number) => {
     return (
       <>
-        <Progress percent={perc} active color="green"></Progress>
+        <Progress percent={perc} active={perc < 100} color="green"></Progress>
       </>
     )
 
@@ -128,7 +124,7 @@ const CombineMain = () => {
               <p>The first step is to upload your new look and metadata information to Arweave.</p>
               <p>{`There's a small fee associated with that (somewhere around $0.1-0.3).`}</p>
               <p>{`Make sure you comfirm the transaction popping up from your wallet and I'll take it from there.`}</p>
-              {getProgressBar(1)}
+              {getProgressBar(33)}
             </>
           )
         }
@@ -141,7 +137,7 @@ const CombineMain = () => {
             <>
               <p>{`I'm uploading your new look and metadata to Arweave.`}</p>
               <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
-              {getProgressBar(2)}
+              {getProgressBar(67)}
             </>
           )
         }
@@ -178,7 +174,7 @@ const CombineMain = () => {
               <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
               <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here</a> is the new look that you expected.</p>
               <p>{`Once satisfied, click "Next" to move on to the next step.`}</p>
-              {getProgressBar(3)}
+              {getProgressBar(100)}
             </>
           ),
           onConfirm: updateOnChainMetadata,
@@ -195,7 +191,7 @@ const CombineMain = () => {
             <>
               <p>The last thing to do is to update the blockchain accordingly.</p>
               <p>There should be a new transaction popping up for you to sign.</p>
-              {getProgressBar(4)}
+              {getProgressBar(33)}
               <p style={{ fontStyle: "italic" }}>Please be aware that this step will <strong>permanently</strong> change the look of your Agent and <strong>permanently</strong> burn your Trait NFT.</p>
             </>
           ),
@@ -209,7 +205,7 @@ const CombineMain = () => {
             <>
               <p>{`I'm updating the metadata of your Agent on the Solana blockchain.`}</p>
               <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
-              {getProgressBar(5)}
+              {getProgressBar(67)}
             </>
           ),
         }
