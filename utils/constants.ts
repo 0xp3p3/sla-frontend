@@ -60,8 +60,8 @@ export const SLA_COLLECTIONS: {[name: string]: SlaCollection} = {
   agent: {
     id: 0,
     name: "Llama-Agent",
-    collection: "va43C1zLwaSeq54KTFir5KWTUp7kQgg6JLALiTA3dBi",
-    candyMachine: "APaYKFd3oJniUf7GAnZ3JdzFDvvFP4bbF51GT6dJmHX7",
+    collection: "EwjT29GipXoZ2stp78dP7thD8QCKkVtYEWVfPy3AL53o",
+    candyMachine: "BLYfPoVBoB2aW1LU4F7AUSFudfu4SioYPdxffHE8x7BN",
     expression: "a new Agent"
   },
   skin: {

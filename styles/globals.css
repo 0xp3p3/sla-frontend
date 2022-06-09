@@ -2536,6 +2536,10 @@ a.button:hover {
   margin: auto;
 }
 
+.ui.active.progress .bar::after {
+  animation: progress-active 1s ease infinite;
+}
+
 .navbar {
   position: -webkit-sticky;
   position: sticky;
@@ -2603,7 +2607,7 @@ a.button:hover {
 .mint-llama {
   position: relative;
   display: block;
-  padding-top: 80px;
+  padding-top: 40px;
   padding-bottom: 40px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
