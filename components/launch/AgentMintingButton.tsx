@@ -137,7 +137,7 @@ const AgentMintingButton = () => {
   const [itemsRedeemed, setItemsRedeemed] = useState(0)
   useEffect(() => {
     if (cm) {
-      setItemsRedeemed(currentTime > presaleStart ? cm.state.itemsRedeemed : 0)
+      setItemsRedeemed(currentTime > presaleStart ? cm.state.itemsRedeemed + (cm.state.itemsAvailable - cm.state.endSettings.number.toNumber()) : 0)
     }
   }, [cm])
 
