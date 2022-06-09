@@ -172,7 +172,7 @@ const TraitMintintButton = (props: Props) => {
           content: (
             <>
               <p>Congratulations, the mint was successful! 🎉</p>
-              <p>{`Here's your new {props.collection.name} Trait:`}</p>
+              <p>{`Here's your new Trait:`}</p>
               <br />
               <div className={styles.new_trait_img_container}>
                 {!newTrait ? (

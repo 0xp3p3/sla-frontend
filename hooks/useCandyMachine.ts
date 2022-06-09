@@ -1,6 +1,6 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Wallet } from "@project-serum/anchor"
-import { PublicKey } from "@solana/web3.js"
+import { PublicKey, Keypair, LAMPORTS_PER_SOL } from "@solana/web3.js"
 import { useEffect, useMemo, useState } from "react"
 import { CandyMachineAccount, getCandyMachineState, mintOneToken } from "../utils/candy-machine"
 import { awaitTransactionSignatureConfirmation } from "../utils/transaction"
@@ -9,11 +9,11 @@ import useCountdown from "./useCountdown"
 
 
 export enum PreMintingStatus {
-  WalletNotConnected,
-  CmStateNotFetched,
-  BalanceTooSmall,
-  NotLiveYet,
-  Ready,
+  WalletNotConnected = "Wallet not connected",
+  CmStateNotFetched = "CM not fetched",
+  BalanceTooSmall = "Balance too small",
+  NotLiveYet = "Not live yet",
+  Ready = "Ready",
 }
 
 export enum MintingStatus {
@@ -51,7 +51,7 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
   }, [wallet])
 
   const refreshState = async () => {
-    if (!anchorWallet) {
+    if (!wallet) {
       if (cm) { cm.state.isActive = false }
       return
     }
@@ -71,13 +71,16 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
   }, [wallet.publicKey, connection])
 
   useEffect(() => {
+    if (cm) {
+      console.log(`isActive`, cm.state.isActive)
+    }
     if (!wallet || !wallet.publicKey) {
       setPreMintingStatus(PreMintingStatus.WalletNotConnected)
     } else if (!cm || !cm.state) {
       setPreMintingStatus(PreMintingStatus.CmStateNotFetched)
-    } else if (!cm.state.isActive || !countdown.isLive()) {
+    } else if (!cm.state.isActive) {
       setPreMintingStatus(PreMintingStatus.NotLiveYet)
-    } else if (balance < cm.state.price.toNumber()) {
+    } else if (balance < cm.state.price) {
       setPreMintingStatus(PreMintingStatus.BalanceTooSmall)
     } else {
       setPreMintingStatus(PreMintingStatus.Ready)
@@ -96,8 +99,8 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
     let newMint: PublicKey | null = null
     try {
       console.log(`[cm hook] starting to mint from ${id.toString()}`)
-      
       setIsMinting(true)
+
       setMintingStatus(MintingStatus.WaitingForUserConfirmation)
       console.log(`[cm hook] setting mintingStatus to ${MintingStatus.WaitingForUserConfirmation}`)
 

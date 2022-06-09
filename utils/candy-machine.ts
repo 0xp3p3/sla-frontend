@@ -1,6 +1,6 @@
 import * as anchor from '@project-serum/anchor';
 import { MintLayout, TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
-import { SystemProgram, Transaction, SYSVAR_SLOT_HASHES_PUBKEY } from '@solana/web3.js';
+import { SystemProgram, Transaction, SYSVAR_SLOT_HASHES_PUBKEY, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import * as mpl from "@metaplex/js";
 
 import { sendTransactions } from './transaction';
@@ -19,7 +19,7 @@ interface CandyMachineState {
   isSoldOut: boolean;
   isActive: boolean;
   goLiveDate: anchor.BN;
-  price: anchor.BN;
+  price: number;
   gatekeeper: null | {
     expireOnUse: boolean;
     gatekeeperNetwork: anchor.web3.PublicKey;
@@ -79,12 +79,12 @@ export const getCandyMachineState = async (
   candyMachineId: anchor.web3.PublicKey,
   connection: anchor.web3.Connection,
 ): Promise<CandyMachineAccount> => {
+  
   const provider = new anchor.Provider(connection, anchorWallet, {
     preflightCommitment: 'processed',
   });
 
   const idl = await anchor.Program.fetchIdl(CANDY_MACHINE_PROGRAM, provider);
-
   const program = new anchor.Program(idl!, CANDY_MACHINE_PROGRAM, provider);
 
   const state: any = await program.account.candyMachine.fetch(candyMachineId);
@@ -125,6 +125,11 @@ export const getCandyMachineState = async (
     isActive = false
   }
 
+  let price = state.data.price.toNumber()
+  if (!state.tokenMint) {
+    price /= LAMPORTS_PER_SOL
+  }
+
   return {
     id: candyMachineId,
     program,
@@ -141,7 +146,7 @@ export const getCandyMachineState = async (
       gatekeeper: state.data.gatekeeper,
       endSettings: state.data.endSettings,
       whitelistMintSettings: state.data.whitelistMintSettings,
-      price: state.data.price,
+      price,
       retainAuthority: state.data.retainAuthority,
     },
   };
