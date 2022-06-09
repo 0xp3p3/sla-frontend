@@ -1,14 +1,13 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
-import { Dimmer, Grid, Loader, Menu, Progress, Segment, Image, Message } from "semantic-ui-react"
 import BasicModal, { ModalType } from "../modals/BasicModal";
+import { Grid, Menu, Progress, Segment, Message } from "semantic-ui-react"
 import useBalances from "../../hooks/useBalances"
 import useCandyMachine, { MintingStatus, PreMintingStatus } from "../../hooks/useCandyMachine"
 import { SLA_COLLECTIONS } from "../../utils/constants"
 import Button from "../common/Button"
 import { getNFTMetadata } from "../../utils/nfts";
 import { NFT } from "../../hooks/useWalletNFTs";
-import styles from "../../styles/AgentMintingButton.module.css";
 import { sleep } from "../../utils/utils";
 
 
@@ -88,6 +87,7 @@ const AgentMintingButton = () => {
   const presaleEnd = new Date(process.env.NEXT_PUBLIC_PRESALE_END)
   const publicSaleStart = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_START)
   const publicSaleEnd = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_END)
+  // const price = parseFloat(process.env.NEXT_PUBLIC_MINT_PRICE)
 
   const [currentTime, setCurrentTime] = useState(new Date())
   const [isPresale, setIsPresale] = useState(false)
@@ -214,7 +214,7 @@ const AgentMintingButton = () => {
           content: (
             <>
               <p>Looks like your wallet contains {`${solBalance.toFixed(2)}`} SOL.</p>
-              <p>Minting a new Llama Agent costs 1.5 SOL.</p>
+              <p>Minting a new Llama Agent costs {cm ? cm.state.price : '0.75'} SOL.</p>
             </>
           )
         }
@@ -226,7 +226,7 @@ const AgentMintingButton = () => {
           content: (
             <>
               <p>You are about to mint a Secret Llama Agent!</p>
-              <p>Doing so will cost you 1.5 SOL.</p>
+              <p>Doing so will cost you ${cm ? cm.state.price : '0.75'} SOL.</p>
               {isPresale &&
                 <p>{`You still have ${whitelistSpots} spot(s) on the whitelist.`}</p>
               }
@@ -442,7 +442,7 @@ const AgentMintingButton = () => {
                     {...modalContent}
                     trigger={(
                       <Button style={{ margin: "auto" }} isWaiting={isMinting}>
-                        {`Mint (1.5 SOL)`}
+                        {`Mint (${cm ? cm.state.price : '0.75'} SOL)`}
                       </Button>
                     )}>
                   </BasicModal>
@@ -455,7 +455,6 @@ const AgentMintingButton = () => {
       </div>
     </>
   )
-
 }
 
 export default AgentMintingButton
