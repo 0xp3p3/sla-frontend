@@ -84,7 +84,8 @@ const AgentMintingButton = () => {
   } = useCandyMachine(collection, solBalance)
 
   // Extract important times from environment variables
-  const presaleStart = new Date(process.env.NEXT_PUBLIC_PRESALE_START)
+  // const presaleStart = new Date(process.env.NEXT_PUBLIC_PRESALE_START)
+  const presaleStart = new Date("09 Jun 2022 11:00:00 UTC")
   const presaleEnd = new Date(process.env.NEXT_PUBLIC_PRESALE_END)
   const publicSaleStart = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_START)
   const publicSaleEnd = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_END)
@@ -146,6 +147,7 @@ const AgentMintingButton = () => {
   const fetchWhitelistStatus = async () => {
     if (isPresale && wallet.publicKey) {
       const resp = await (await (fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`))).json()
+      console.log(`[minting ${collection.name}] whitelisted? ${resp.whitelisted}, leftToMint: ${resp.leftToMint}`)
       setIsWhitelistUser(resp.whitelisted)
       setWhitelistSpots(resp.leftToMint)
       if (resp.whitelisted) {
@@ -158,15 +160,13 @@ const AgentMintingButton = () => {
     }
   }
 
+  // Fetch whitelist status when ready to mint
   useEffect(() => {
-    fetchWhitelistStatus()
-  }, [wallet])
-
-
-  // Log changes in whitelist status
-  useEffect(() => {
-    console.log(`[minting ${collection.name}] is user whitelisted: ${isWhitelistUser}`)
-  }, [isWhitelistUser])
+    if (preMintingStatus === PreMintingStatus.Ready) {
+      console.log(`[minting ${collection.name}] Fetching whitelist status`)
+      fetchWhitelistStatus()
+    }
+  }, [preMintingStatus])
 
 
   const getPreMintingStatus = () => {

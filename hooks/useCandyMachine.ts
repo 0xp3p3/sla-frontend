@@ -78,7 +78,7 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
       setPreMintingStatus(PreMintingStatus.WalletNotConnected)
     } else if (!cm || !cm.state) {
       setPreMintingStatus(PreMintingStatus.CmStateNotFetched)
-    } else if (!cm.state.isActive || !countdown.isLive()) {
+    } else if (!cm.state.isActive) {
       setPreMintingStatus(PreMintingStatus.NotLiveYet)
     } else if (balance < cm.state.price) {
       setPreMintingStatus(PreMintingStatus.BalanceTooSmall)
