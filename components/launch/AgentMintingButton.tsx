@@ -48,7 +48,7 @@ const getCountdownTimes = (now: Date, target: Date): { times: TimeCountdown, pas
 const CountdownDisplay = ({ times }: { times: TimeCountdown }) => {
   const pad = (n) => n < 10 ? `0${n}` : n;
 
-  return <>{`${pad(times.hours)}:${pad(times.minutes)}:${pad(times.seconds)}`}</>
+  return <>{`${pad(times.days)}:${pad(times.hours)}:${pad(times.minutes)}:${pad(times.seconds)}`}</>
 }
 
 const Countdown = ({ start, end, now }: { start: Date, end: Date, now: Date }) => {
