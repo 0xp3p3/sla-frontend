@@ -84,8 +84,7 @@ const AgentMintingButton = () => {
   } = useCandyMachine(collection, solBalance)
 
   // Extract important times from environment variables
-  // const presaleStart = new Date(process.env.NEXT_PUBLIC_PRESALE_START)
-  const presaleStart = new Date("09 Jun 2022 11:00:00 UTC")
+  const presaleStart = new Date(process.env.NEXT_PUBLIC_PRESALE_START)
   const presaleEnd = new Date(process.env.NEXT_PUBLIC_PRESALE_END)
   const publicSaleStart = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_START)
   const publicSaleEnd = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_END)
