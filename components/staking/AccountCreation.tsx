@@ -1,55 +1,23 @@
 import { useEffect, useState } from "react"
 import { Spinner } from "theme-ui"
 import { FarmState } from "../../hooks/useGemFarmStaking"
-// import Button from "../common/Button"
-// import BasicModal, { ModalType } from "../modals/BasicModal"
-
-
-
-// interface ModalContent {
-//   type: ModalType,
-//   content: JSX.Element,
-// }
 
 
 const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
 
   const [waiting, setWaiting] = useState(false)
-  // const [modal, setModal] = useState<ModalContent>(null)
-
 
   const initStakingAccount = async () => {
     try {
       setWaiting(true)
       await farmState.handleInitStakingButtonClick()
+      await farmState.handleRefreshRewardsButtonClick()
     } catch (error: any) {
       console.log('Failed to create an account', error)
     } finally {
       setWaiting(false)
     }
   }
-
-  // useEffect(() => {
-
-  //   let content: ModalContent
-  //   if (waiting) {
-  //     content = {
-  //       type: ModalType.Waiting,
-  //       content: (
-  //         <>
-  //           <p>{`Let's create a new staking account for you so you can stake your Llama Agent and generate some $HAY.`}</p>
-  //           <p>{`To proceed, you'll have to approuve the transaction popping up in your wallet. I'll handle the rest!`}</p>
-  //           <br />
-  //           <p>Solana has been rather congested lately. If this transaction fails, simply refresh the page and try again!</p>
-  //         </>
-  //       )
-  //     }
-  //   }
-
-  // }, [waiting])
-
-
-
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "80px" }}>
@@ -65,16 +33,6 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
         <button className="button" onClick={initStakingAccount} style={{ marginTop: "20px" }}>
           {waiting ? <Spinner /> : "Create Account"}
         </button>
-        {/* <BasicModal
-          type={ModalType.Waiting}
-          content={<></>}
-          trigger={(
-            <Button className="button" isWaiting={waiting}>
-              {"Create Account"}
-            </Button>
-          )}
-        >
-        </BasicModal> */}
       </div>
     </div>
   )
