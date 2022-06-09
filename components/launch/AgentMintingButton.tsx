@@ -9,6 +9,7 @@ import Button from "../common/Button"
 import { getNFTMetadata } from "../../utils/nfts";
 import { NFT } from "../../hooks/useWalletNFTs";
 import styles from "../../styles/AgentMintingButton.module.css";
+import { sleep } from "../../utils/utils";
 
 
 interface ModalContent {
@@ -297,6 +298,7 @@ const AgentMintingButton = () => {
         break;
 
       case MintingStatus.Success:
+        sleep(2000)
         content = {
           type: ModalType.Info,
           content: (
