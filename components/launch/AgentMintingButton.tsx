@@ -226,7 +226,7 @@ const AgentMintingButton = () => {
           content: (
             <>
               <p>You are about to mint a Secret Llama Agent!</p>
-              <p>Doing so will cost you ${cm ? cm.state.price : '0.75'} SOL.</p>
+              <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
               {isPresale &&
                 <p>{`You still have ${whitelistSpots} spot(s) on the whitelist.`}</p>
               }
