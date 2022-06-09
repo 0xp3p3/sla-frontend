@@ -51,7 +51,7 @@ const CountdownDisplay = ({ times }: { times: TimeCountdown }) => {
   return <>{`${pad(times.days)}:${pad(times.hours)}:${pad(times.minutes)}:${pad(times.seconds)}`}</>
 }
 
-const Countdown = ({ start, end, now }: { start: Date, end: Date, now: Date }) => {
+const Countdown = ({ start, end, now, noTimeDisplay }: { start: Date, end: Date, now: Date, noTimeDisplay?: boolean }) => {
 
   const untilStart = getCountdownTimes(now, start)
   const untilEnd = getCountdownTimes(now, end)
@@ -61,7 +61,7 @@ const Countdown = ({ start, end, now }: { start: Date, end: Date, now: Date }) =
       {!untilStart.passed ? (
         <>Starts in {<CountdownDisplay times={untilStart.times} />}</>
       ) : !untilEnd.passed ? (
-        <>Ends in {<CountdownDisplay times={untilEnd.times} />}</>
+        !noTimeDisplay ? <>Ends in {<CountdownDisplay times={untilEnd.times} />}</> : "LIVE"
       ) : <>Finished</>}
     </div>
   )
@@ -403,7 +403,7 @@ const AgentMintingButton = () => {
                 <Menu vertical style={{ margin: "auto" }}>
                   <Menu.Item className="header">Public Mint</Menu.Item>
                   <Menu.Item>
-                    <Countdown start={publicSaleStart} end={publicSaleEnd} now={currentTime} />
+                    <Countdown start={publicSaleStart} end={publicSaleEnd} now={currentTime} noTimeDisplay />
                   </Menu.Item>
                 </Menu>
               </Grid.Column>
