@@ -108,7 +108,7 @@ const AgentMintingButton = () => {
       const now = new Date()
       const _presale = now >= presaleStart && now <= presaleEnd
       const _public = now >= publicSaleStart && now <= publicSaleEnd
-      console.log(`[minting ${collection.name} isPresale: ${_presale}, isPublic: ${_public}]`)
+      console.log(`[minting ${collection.name}] isPresale: ${_presale}, isPublic: ${_public}`)
 
       setIsPresale(_presale)
       setIsPublic(_public)
@@ -159,7 +159,7 @@ const AgentMintingButton = () => {
 
   useEffect(() => {
     fetchWhitelistStatus()
-  }, [cm, wallet])
+  }, [wallet])
 
 
   // Log changes in whitelist status
@@ -359,7 +359,7 @@ const AgentMintingButton = () => {
       console.log(`[minting ${collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent])
+  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, isWhitelistUser, whitelistSpots])
 
 
   // Handler for minting
