@@ -291,7 +291,7 @@ const AgentMintingButton = () => {
     return percent
   }
 
-  const getMintingStatus = () => {
+  const getMintingStatus = async () => {
     let content: ModalContent
     switch (mintingStatus) {
       case MintingStatus.WaitingForUserConfirmation:
@@ -310,7 +310,7 @@ const AgentMintingButton = () => {
         break;
 
       case MintingStatus.Success:
-        sleep(2000)
+        if (!newAgent) { await sleep(1000) }  
         content = {
           type: ModalType.Info,
           content: (
@@ -350,7 +350,7 @@ const AgentMintingButton = () => {
             <>
               <p>Oops, it looks like the mint failed.</p>
               <p>Sorry about that, it looks like Solana is acting up again.</p>
-              <p>Refresh the page and try again!</p>
+              <p>Close this and try again!</p>
             </>
           ),
           onClose: handleOnResetModal
