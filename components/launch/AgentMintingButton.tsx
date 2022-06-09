@@ -1,6 +1,6 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
-import { Dimmer, Grid, Loader, Menu, Progress, Segment, Image } from "semantic-ui-react"
+import { Dimmer, Grid, Loader, Menu, Progress, Segment, Image, Message } from "semantic-ui-react"
 import BasicModal, { ModalType } from "../modals/BasicModal";
 import useBalances from "../../hooks/useBalances"
 import useCandyMachine, { MintingStatus, PreMintingStatus } from "../../hooks/useCandyMachine"
@@ -227,7 +227,7 @@ const AgentMintingButton = () => {
             <>
               <p>You are about to mint a Secret Llama Agent!</p>
               <p>Doing so will cost you 1.5 SOL.</p>
-              {isPresale && 
+              {isPresale &&
                 <p>{`You still have ${whitelistSpots} spot(s) on the whitelist.`}</p>
               }
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
@@ -265,8 +265,8 @@ const AgentMintingButton = () => {
             </>
           )
         }
-      } 
-    } 
+      }
+    }
     setModalContent(content)
   }
 
@@ -309,7 +309,7 @@ const AgentMintingButton = () => {
         break;
 
       case MintingStatus.Success:
-        if (!newAgent) { await sleep(1000) }  
+        if (!newAgent) { await sleep(1000) }
         content = {
           type: ModalType.Info,
           content: (
@@ -369,7 +369,7 @@ const AgentMintingButton = () => {
         const resp = await (await (fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`))).json()
         if (!resp?.whitelisted) {
           console.log(`Cannot mint because user is not whitelisted`)
-          return 
+          return
         }
       }
 
@@ -410,7 +410,11 @@ const AgentMintingButton = () => {
             </Grid.Row>
             {cm &&
               <Grid.Row columns={1} style={{ marginBottom: "50px" }}>
-                <Grid.Column>
+                <Grid.Column textAlign="center">
+                  <Message warning color="red" size="big" compact style={{marginBottom: "50px" }}>
+                    <Message.Header>PLEASE NOTE</Message.Header>
+                    <p>All royalties will be set to 90% until mint is complete.</p>
+                  </Message>
                   <Progress
                     value={itemsRedeemed}
                     total={cm.state.itemsAvailable}
@@ -443,8 +447,7 @@ const AgentMintingButton = () => {
                     )}>
                   </BasicModal>
                 }
-                <p className="mint-comment" style={{fontStyle: "normal"}}>33% of the mint fund will go to the community wallet.</p>
-                <p className="mint-comment">PLEASE NOTE: All royalties will be set to 90% until mint is complete.</p>
+                <p className="mint-comment" style={{ fontStyle: "normal" }}>33% of the mint fund will go to the community wallet.</p>
               </Grid.Column>
             </Grid.Row>
           </Grid>
