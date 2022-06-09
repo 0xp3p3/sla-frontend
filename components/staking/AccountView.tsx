@@ -249,6 +249,16 @@ const AccountPage = ({ farmState }: { farmState: FarmState }) => {
         <p>{`Solana is a little congested these days, but don't worry - it will end up working.`}</p>
         <p>{`Thanks for your understanding.`}</p>
       </Message>
+      <Message size="mini" color="yellow" style={{ marginTop: "20px" }}>
+        <Message.Header>Staking instructions</Message.Header>
+        <ul>
+          <li>{`Select Agents from your wallet and click the down arrow to move Agents from your wallet into the Vault.`}</li>
+          <li>{`Click "Stake" to lock the Vault and start the staking period.`}</li>
+          <li>{`You should now see the number of Agents in your Vault under "Your Staked Agents" and the yielding rate should be 2X the number of Agents in the Vault.`}</li>
+          <li>{`If one of the transactions fail, simply refresh the page and try again!`}</li>
+        </ul>
+        
+      </Message>
       <AccountSummaryRow
         farmerAcc={farmState.farmerAccount}
         rewardAvailable={farmState.availableA}
@@ -265,7 +275,7 @@ const AccountPage = ({ farmState }: { farmState: FarmState }) => {
         />
         <MoveButtons farmState={farmState} />
         <NftGrid2
-          title="Staked Llama Agents"
+          title="Staking Vault"
           nfts={farmState.farmerVaultNFTs}
           selectedNfts={farmState.selectedVaultItems}
           isLocked={farmState.isLocked}
