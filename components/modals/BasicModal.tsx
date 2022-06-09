@@ -21,6 +21,7 @@ interface Props {
   trigger: ReactNode,
   type: ModalType,
   style?: any,
+  imageSrc?: string,
   children
 }
 
@@ -59,7 +60,7 @@ const BasicModal = (props: Props) => {
       closeOnEscape={false}
     >
       <Modal.Content image>
-        <Image size='medium' src="images/Agent-icon-2.png" className={styles.llama_img} centered verticalAlign="middle" />
+        <Image size='medium' src={props.imageSrc ? props.imageSrc : "images/Agent-icon-2.png"} className={styles.llama_img} centered verticalAlign="middle" />
         <Modal.Description className={styles.description}>
           <Header className={styles.header} as="h1">Agent Franz:</Header>
           {typeof props.content === "string" ? (

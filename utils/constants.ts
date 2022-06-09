@@ -1,7 +1,7 @@
 import * as anchor from '@project-serum/anchor';
 
 
-export const DEFAULT_TIMEOUT = 15000;
+export const DEFAULT_TIMEOUT = 30000;
 
 export const TOKEN_PROGRAM_ID = new anchor.web3.PublicKey(
   'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
@@ -60,8 +60,8 @@ export const SLA_COLLECTIONS: {[name: string]: SlaCollection} = {
   agent: {
     id: 0,
     name: "Llama-Agent",
-    collection: "va43C1zLwaSeq54KTFir5KWTUp7kQgg6JLALiTA3dBi",
-    candyMachine: "APaYKFd3oJniUf7GAnZ3JdzFDvvFP4bbF51GT6dJmHX7",
+    collection: "GqxAoZaqww9zp6y5RddRhExrwTVySfAjLnheaJVjSvag",
+    candyMachine: "CiBuYi3W3aVQbMWcjvfKBpwjHS6fViuuxQdSUUqkjkn4",
     expression: "a new Agent"
   },
   skin: {

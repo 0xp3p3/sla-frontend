@@ -5,13 +5,14 @@ import SummaryItem from "./SummaryItem";
 import { FarmState } from "../../hooks/useGemFarmStaking";
 import { useEffect, useState } from "react";
 import { Spinner } from "theme-ui"
+import { Message } from "semantic-ui-react";
 
 
 const AccountSummaryRow = ({ farmerAcc, rewardAvailable }: { farmerAcc: any, rewardAvailable: number }) => {
   const wallet = useWallet()
 
   const [rewardRate, setRewardRate] = useState(0)
-  
+
   useEffect(() => {
     if (farmerAcc && farmerAcc.identity) {
       const rate = farmerAcc.rarityPointsStaked
@@ -82,10 +83,10 @@ const getButtonStyle = (isOn: boolean): any => {
 }
 
 const MoveButtons = ({ farmState }: { farmState: FarmState }) => {
-  
+
   const [isMovingToWallet, setIsMovingToWallet] = useState(false)
   const [isMovingToVault, setIsMovingToVault] = useState(false)
-  
+
   if (!farmState) { return <></> }
 
   const handleMoveToWallet = async () => {
@@ -119,7 +120,7 @@ const MoveButtons = ({ farmState }: { farmState: FarmState }) => {
         style={{ width: "60px", ...getButtonStyle(farmState.selectedWalletItems.length > 0) }}
         disabled={farmState.selectedWalletItems.length === 0}
       >
-        { isMovingToVault ? <Spinner /> : "\u2193" }
+        {isMovingToVault ? <Spinner /> : "\u2193"}
       </button>
 
       <button
@@ -128,7 +129,7 @@ const MoveButtons = ({ farmState }: { farmState: FarmState }) => {
         style={{ width: "60px", ...getButtonStyle(farmState.selectedVaultItems.length > 0) }}
         disabled={farmState.selectedVaultItems.length === 0}
       >
-        { isMovingToVault ? <Spinner /> : '\u2191' }
+        {isMovingToWallet ? <Spinner /> : '\u2191'}
       </button>
 
     </div>
@@ -141,26 +142,41 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
 
   const [isStakeButtonOn, setIsStakeButtonOn] = useState(false)
   const [isWhithrawButtonOn, setIsWithdrawButtonOn] = useState(false)
-  
+
   const [isTogglingStaking, setIsTogglingStaking] = useState(false)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [isWithdrawing, setIsWithdrawing] = useState(false)
 
-  useEffect(() => {
+  const refreshStakeButton = async () => {
     const isOn = farmState.farmerVaultNFTs && farmState.farmerVaultNFTs.length > 0
     setIsStakeButtonOn(isOn)
-  }, [farmState])
+  }
 
   useEffect(() => {
+    refreshStakeButton()
+  }, [farmState])
+
+  const refreshWithdrawButton = async () => {
     const isOn = farmState.availableA && farmState.availableA > 0
     setIsWithdrawButtonOn(isOn)
+  }
+
+  useEffect(() => {
+    refreshWithdrawButton()
   }, [farmState])
 
   const handleStakingToggleClick = async () => {
     try {
       setIsTogglingStaking(true)
       if (isStakeButtonOn) {
-        farmState.isLocked ? await farmState.handleUnstakeButtonClick() : await farmState.handleStakeButtonClick()
+        if (farmState.isLocked) {
+          await farmState.handleUnstakeButtonClick()
+        } else {
+          await farmState.handleStakeButtonClick()
+        }
+
+        await farmState.handleRefreshRewardsButtonClick()
+        refreshStakeButton()
       }
     } catch (error: any) {
       console.log('Failed to toggle staking', error)
@@ -202,21 +218,21 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
         onClick={handleStakingToggleClick}
         style={getButtonStyle(isStakeButtonOn)}
       >
-        { isTogglingStaking ? <Spinner /> : (farmState.isLocked ? "Unstake" : "Stake") }
+        {isTogglingStaking ? <Spinner /> : (farmState.isLocked ? "Unstake" : "Stake")}
       </button>
       <button
         className="button"
         onClick={handleRefreshAccountClick}
         style={getButtonStyle(true)}
       >
-        { isRefreshing ? <Spinner /> : "Refresh Account" }
+        {isRefreshing ? <Spinner /> : "Refresh Account"}
       </button>
       <button
         className="button"
         onClick={handleWithdrawClick}
         style={getButtonStyle(isWhithrawButtonOn)}
       >
-        { isWithdrawing ? <Spinner /> : "Withdraw $HAY" }
+        {isWithdrawing ? <Spinner /> : "Withdraw $HAY"}
       </button>
     </div>
   )
@@ -227,6 +243,12 @@ const AccountPage = ({ farmState }: { farmState: FarmState }) => {
 
   return (
     <div style={{ marginBottom: "50px", marginTop: "20px" }}>
+      <Message info size="mini" color="yellow" style={{ marginTop: "20px" }}>
+        <Message.Header>Please note</Message.Header>
+        <p>{`If what you are trying to do (e.g., click "stake") does not seem to work, please refresh the page and / or your staking account.`}</p>
+        <p>{`Solana is a little congested these days, but don't worry - it will end up working.`}</p>
+        <p>{`Thanks for your understanding.`}</p>
+      </Message>
       <AccountSummaryRow
         farmerAcc={farmState.farmerAccount}
         rewardAvailable={farmState.availableA}
