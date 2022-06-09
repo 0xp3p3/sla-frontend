@@ -315,24 +315,7 @@ const AgentMintingButton = () => {
           content: (
             <>
               <p>Congratulations, the mint was successful! 🎉</p>
-              <p>{`Here's your new Llama Agent:`}</p>
               <br />
-              <div className={styles.new_nft_img_container}>
-                {!newAgent ? (
-                  <>
-                    <Dimmer active inverted>
-                      <Loader size="large" active inline='centered' inverted>Loading</Loader>
-                    </Dimmer>
-                  </>
-                ) : (
-                  <div>
-                    <div>
-                      <Image size='small' src={newAgent.externalMetadata.image} centered className={styles.new_nft_in_modal} />
-                    </div>
-                    <br />
-                  </div>
-                )}
-              </div>
               {newAgent &&
                 <p>You can view it on <a href={`https://solscan.io/token/${newAgent.mint.toString()}`} target="_blank" rel="noreferrer">Solscan here</a> (it might take a few minutes to show up).</p>
               }
@@ -382,6 +365,14 @@ const AgentMintingButton = () => {
     const mint = await onMint()
 
     if (mint) {
+      if (isPresale) {
+        const resp = await (await (fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`))).json()
+        if (!resp?.whitelisted) {
+          console.log(`Cannot mint because user is not whitelisted`)
+          return 
+        }
+      }
+
       const nft = await getNFTMetadata(mint.toString(), connection)
       console.log(`[minting ${collection.name}] new NFT:`, nft)
       setNewAgent(nft)
