@@ -94,6 +94,7 @@ const AgentMintingButton = () => {
   const [isPresale, setIsPresale] = useState(false)
   const [isPublic, setIsPublic] = useState(false)
 
+  const [whitelistChecked, setWhitelistChecked] = useState(false)
   const [isWhitelistUser, setIsWhitelistUser] = useState(false)
   const [whitelistSpots, setWhitelistSpots] = useState(0)
   const [isPreMinting, setIsPreMinting] = useState(true)
@@ -150,6 +151,7 @@ const AgentMintingButton = () => {
       console.log(`[minting ${collection.name}] whitelisted? ${resp.whitelisted}, leftToMint: ${resp.leftToMint}`)
       setIsWhitelistUser(resp.whitelisted)
       setWhitelistSpots(resp.leftToMint)
+      setWhitelistChecked(true)
       if (resp.whitelisted) {
         console.log(`[minting ${collection.name}] user can still mint ${resp.leftToMint} Agents`)
       }
@@ -244,19 +246,29 @@ const AgentMintingButton = () => {
     }
 
     // Special case when people are not on the whitelist during presale
-    if (isPresale && !isWhitelistUser) {
-      setModalContent({
-        type: ModalType.Info,
-        content: (
-          <>
-            <p>Your wallet does not appear to be on the whitelist.</p>
-            <p>Check the countdown and come back for the public mint!</p>
-          </>
-        )
-      })
-    } else {
-      setModalContent(content)
-    }
+    if (isPresale && preMintingStatus === PreMintingStatus.Ready) {
+      if (!whitelistChecked) {
+        content = {
+          type: ModalType.Info,
+          content: (
+            <>
+              <p>Bear with me while I check the whitelist.</p>
+            </>
+          )
+        }
+      } else if (!isWhitelistUser) {
+        content = {
+          type: ModalType.Info,
+          content: (
+            <>
+              <p>Your wallet does not appear to be on the whitelist.</p>
+              <p>Check the countdown and come back for the public mint!</p>
+            </>
+          )
+        }
+      } 
+    } 
+    setModalContent(content)
   }
 
   const getProgressPercentage = (): number => {
@@ -361,7 +373,7 @@ const AgentMintingButton = () => {
       console.log(`[minting ${collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, isWhitelistUser, whitelistSpots])
+  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, isWhitelistUser, whitelistSpots, whitelistChecked])
 
 
   // Handler for minting
