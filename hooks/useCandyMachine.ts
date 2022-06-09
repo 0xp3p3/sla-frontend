@@ -1,11 +1,10 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { Wallet } from "@project-serum/anchor"
-import { PublicKey, Keypair, LAMPORTS_PER_SOL } from "@solana/web3.js"
+import { PublicKey } from "@solana/web3.js"
 import { useEffect, useMemo, useState } from "react"
 import { CandyMachineAccount, getCandyMachineState, mintOneToken } from "../utils/candy-machine"
 import { awaitTransactionSignatureConfirmation } from "../utils/transaction"
 import { SlaCollection, DEFAULT_TIMEOUT } from "../utils/constants"
-import useCountdown from "./useCountdown"
 
 
 export enum PreMintingStatus {
@@ -31,7 +30,6 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
   const wallet = useWallet()
   const id = new PublicKey(collection.candyMachine)
 
-  const countdown = useCountdown()
   const [cm, setCm] = useState<CandyMachineAccount>(null)
   
   const [isMinting, setIsMinting] = useState(false)
