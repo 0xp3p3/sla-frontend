@@ -426,7 +426,6 @@ const AgentMintingButton = () => {
                     active={isPresale || isPublic}
                     size="medium"
                     inverted
-                    // disabled={!isPresale && !isPublic}
                     color="green"
                     style={{ width: "70.8%", margin: "auto" }}
                   >

@@ -16,7 +16,8 @@ const Navigation = (props: Props) => {
           <a href="/hay" className="nav-link mob">$HAY</a>
           <a href="/home#roadmap" className="nav-link mob">ROADMAP</a>
           <a href="/staking" className="nav-link mob">STAKE</a>
-          <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
+          <a href="/disguiseRoom" className="nav-link mob">disguise room</a>
+          {/* <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
               <div>agents only</div>
               <img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
@@ -24,7 +25,7 @@ const Navigation = (props: Props) => {
             <nav className="dropdown-list mob w-dropdown-list">
               <a href="/disguiseRoom" className="nav-link dd-list mob w-dropdown-link">disguise room</a>
             </nav>
-          </div>
+          </div> */}
         </div>
         <div className="hor-cen center">
           <ConnectWallet className="button blue nav mob w-button" />
@@ -40,17 +41,18 @@ const Navigation = (props: Props) => {
           <a href="/hay" className="nav-link">$HAY</a>
           <a href="/home#roadmap" className="nav-link">roadmap</a>
           <a href="/staking" className="nav-link">stake</a>
-          <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
+          <a href="/disguiseRoom" className="nav-link">disguise room</a>
+          {/* <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
               <div>agents only</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
             </div>
             <nav className="dropdown-list w-dropdown-list">
               <a href="/disguiseRoom" className="nav-link dd-list w-dropdown-link">disguise room</a>
             </nav>
-          </div>
+          </div> */}
         </div>
-        <div className="right-nav">  
-          <ConnectWallet className="button blue nav w-button"/>
+        <div className="right-nav">
+          <ConnectWallet className="button blue nav w-button" />
           <a data-w-id={props.webflowSandwichMenuId} href="#" className="menu-button w-inline-block"><img src="images/Hamburger-1.svg" loading="lazy" alt="" className="hamburger-img" /></a>
           <div className="socials-wrap _2 desk">
             <a href="https://www.tiktok.com/@secretllamaagency" target="_blank" rel="noreferrer" className="social-link w-inline-block"><img src="images/Vector-17.svg" loading="lazy" alt="" className="socials-img" /></a>
