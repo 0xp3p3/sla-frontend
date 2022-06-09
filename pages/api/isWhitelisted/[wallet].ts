@@ -10,9 +10,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await prisma.whitelist.findFirst({
     where: {
       wallet: wallet,
-      minted: false,
     },
   })
   
-  res.send({whitelisted: user !== null, id: user ? user.id : null})
+  if (!user) {
+    res.send({ whitelisted: false, id: null })
+    return
+  }
+
+  const leftToMint = user.reserved - user.minted
+  res.send({ whitelisted: leftToMint > 0, id: user.id, leftToMint: leftToMint })
 }

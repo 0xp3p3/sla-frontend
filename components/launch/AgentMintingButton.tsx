@@ -1,18 +1,14 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
-import { Grid, Menu, Progress, Segment } from "semantic-ui-react"
-import { ModalType } from "../modals/BasicModal";
+import { Dimmer, Grid, Loader, Menu, Progress, Segment, Image } from "semantic-ui-react"
+import BasicModal, { ModalType } from "../modals/BasicModal";
 import useBalances from "../../hooks/useBalances"
 import useCandyMachine, { MintingStatus, PreMintingStatus } from "../../hooks/useCandyMachine"
 import { SLA_COLLECTIONS } from "../../utils/constants"
 import Button from "../common/Button"
 import { getNFTMetadata } from "../../utils/nfts";
-import {
-  findGatewayToken,
-  getGatewayTokenAddressForOwnerAndGatekeeperNetwork,
-  onGatewayTokenChange,
-  removeAccountChangeListener,
-} from '@identity.com/solana-gateway-ts';
+import { NFT } from "../../hooks/useWalletNFTs";
+import styles from "../../styles/AgentMintingButton.module.css";
 
 
 interface ModalContent {
@@ -87,22 +83,20 @@ const AgentMintingButton = () => {
   } = useCandyMachine(collection, solBalance)
 
   // Extract important times from environment variables
-  const presaleStart = new Date("09 Jun 2022 17:00:00 UTC")
-  const presaleEnd = new Date("09 Jun 2022 20:00:00 UTC")
-  const publicSaleStart = new Date("09 Jun 2022 20:00:00 UTC")
-  const publicSaleEnd = new Date("15 Jun 2022 23:59:00 UTC")
+  const presaleStart = new Date(process.env.NEXT_PUBLIC_PRESALE_START)
+  const presaleEnd = new Date(process.env.NEXT_PUBLIC_PRESALE_END)
+  const publicSaleStart = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_START)
+  const publicSaleEnd = new Date(process.env.NEXT_PUBLIC_PUBLIC_SALE_END)
 
   const [currentTime, setCurrentTime] = useState(new Date())
   const [isPresale, setIsPresale] = useState(false)
   const [isPublic, setIsPublic] = useState(false)
 
+  const [isWhitelistUser, setIsWhitelistUser] = useState(false)
+  const [whitelistSpots, setWhitelistSpots] = useState(0)
   const [isPreMinting, setIsPreMinting] = useState(true)
   const [modalContent, setModalContent] = useState<ModalContent>(null)
-
-  const [verified, setVerified] = useState(false);
-  const [webSocketSubscriptionId, setWebSocketSubscriptionId] = useState(-1);
-  const [clicked, setClicked] = useState(false);
-
+  const [newAgent, setNewAgent] = useState<NFT>(null)
 
   // Update time variables every 1 second
   useEffect(() => {
@@ -112,8 +106,12 @@ const AgentMintingButton = () => {
 
       // Check which minting phase is currently active
       const now = new Date()
-      setIsPresale(now >= presaleStart && now <= presaleEnd)
-      setIsPublic(now >= publicSaleStart && now <= publicSaleEnd)
+      const _presale = now >= presaleStart && now <= presaleEnd
+      const _public = now >= publicSaleStart && now <= publicSaleEnd
+      console.log(`[minting ${collection.name} isPresale: ${_presale}, isPublic: ${_public}]`)
+
+      setIsPresale(_presale)
+      setIsPublic(_public)
     }, 1000)
 
     return () => clearInterval(timer)
@@ -140,6 +138,34 @@ const AgentMintingButton = () => {
       setItemsRedeemed(currentTime > presaleStart ? cm.state.itemsRedeemed : 0)
     }
   }, [cm])
+
+
+  // Update whether the user is whitelisted if necessary
+  // If there's no whitelist, set to `true`
+  const fetchWhitelistStatus = async () => {
+    if (isPresale && wallet.publicKey) {
+      const resp = await (await (fetch(`/api/isWhitelisted/${wallet.publicKey.toBase58()}`))).json()
+      setIsWhitelistUser(resp.whitelisted)
+      setWhitelistSpots(resp.leftToMint)
+      if (resp.whitelisted) {
+        console.log(`[minting ${collection.name}] user can still mint ${resp.leftToMint} Agents`)
+      }
+    } else if (isPublic) {
+      setIsWhitelistUser(true)
+    } else {
+      setIsWhitelistUser(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchWhitelistStatus()
+  }, [cm, wallet])
+
+
+  // Log changes in whitelist status
+  useEffect(() => {
+    console.log(`[minting ${collection.name}] is user whitelisted: ${isWhitelistUser}`)
+  }, [isWhitelistUser])
 
 
   const getPreMintingStatus = () => {
@@ -199,6 +225,9 @@ const AgentMintingButton = () => {
             <>
               <p>You are about to mint a Secret Llama Agent!</p>
               <p>Doing so will cost you 1.5 SOL.</p>
+              {isPresale && 
+                <p>{`You still have ${whitelistSpots} spot(s) on the whitelist.`}</p>
+              }
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
                 <p>{`Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.`}</p>
@@ -212,7 +241,21 @@ const AgentMintingButton = () => {
         }
         break;
     }
-    setModalContent(content)
+
+    // Special case when people are not on the whitelist during presale
+    if (isPresale && !isWhitelistUser) {
+      setModalContent({
+        type: ModalType.Info,
+        content: (
+          <>
+            <p>Your wallet does not appear to be on the whitelist.</p>
+            <p>Check the countdown and come back for the public mint!</p>
+          </>
+        )
+      })
+    } else {
+      setModalContent(content)
+    }
   }
 
   const getProgressPercentage = (): number => {
@@ -261,8 +304,8 @@ const AgentMintingButton = () => {
               <p>Congratulations, the mint was successful! 🎉</p>
               <p>{`Here's your new Llama Agent:`}</p>
               <br />
-              {/* <div className={styles.new_trait_img_container}>
-                {!newTrait ? (
+              <div className={styles.new_nft_img_container}>
+                {!newAgent ? (
                   <>
                     <Dimmer active inverted>
                       <Loader size="large" active inline='centered' inverted>Loading</Loader>
@@ -271,15 +314,15 @@ const AgentMintingButton = () => {
                 ) : (
                   <div>
                     <div>
-                      <Image size='small' src={newTrait.externalMetadata.image} centered className={styles.new_trait_in_modal} />
+                      <Image size='small' src={newAgent.externalMetadata.image} centered className={styles.new_nft_in_modal} />
                     </div>
                     <br />
                   </div>
                 )}
               </div>
-              {newTrait &&
-                <p>You can view it on <a href={`https://solscan.io/token/${newTrait.mint.toString()}`} target="_blank" rel="noreferrer">Solscan here</a> (it might take a few minutes to show up).</p>
-              } */}
+              {newAgent &&
+                <p>You can view it on <a href={`https://solscan.io/token/${newAgent.mint.toString()}`} target="_blank" rel="noreferrer">Solscan here</a> (it might take a few minutes to show up).</p>
+              }
             </>
           ),
           onClose: handleOnResetModal
@@ -305,6 +348,7 @@ const AgentMintingButton = () => {
 
   const handleOnResetModal = () => {
     setIsPreMinting(true)
+    setNewAgent(null)
   }
 
   useEffect(() => {
@@ -315,87 +359,25 @@ const AgentMintingButton = () => {
       console.log(`[minting ${collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus, isPreMinting])
+  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent])
 
-
-  useEffect(() => {
-    const mint = async () => {
-      await removeAccountChangeListener(
-        connection,
-        webSocketSubscriptionId,
-      )
-      await _onMint()
-
-      setClicked(false);
-      setVerified(false);
-    }
-
-    if (verified && clicked) {
-      console.log(`[cm hook] minting after detecting a gateway verification`)
-      mint();
-    }
-
-  }, [
-    verified,
-    clicked,
-    connection,
-    webSocketSubscriptionId,
-  ])
 
   // Handler for minting
   const handleOnMintConfirm = async () => {
     setIsPreMinting(false)
-    setClicked(true)
 
-    // Request a gatekeeper token if necessary
-    if (cm.state.gatekeeper) {
-      console.log('[cm hook] Requesting a gatekeeper token before minting')
-
-      const network = cm.state.gatekeeper.gatekeeperNetwork.toBase58()
-      if (network === 'tibePmPaoTgrs929rWpu755EXaxC7M3SthVCf6GzjZt') {
-        const gatewayToken = await findGatewayToken(
-          connection,
-          wallet.publicKey,
-          cm.state.gatekeeper.gatekeeperNetwork,
-        )
-
-        if (gatewayToken?.isValid()) {
-          console.log(`[cm hook] gateway token already valid`)
-          await _onMint()
-        } else {
-          window.open(`https://verify.encore.fans/?gkNetwork=${network}`, '_blank')
-
-          const gatewayTokenAddress =
-            await getGatewayTokenAddressForOwnerAndGatekeeperNetwork(
-              wallet.publicKey!,
-              cm.state.gatekeeper.gatekeeperNetwork,
-            )
-
-          setWebSocketSubscriptionId(
-            onGatewayTokenChange(
-              connection,
-              gatewayTokenAddress,
-              () => setVerified(true),
-              'confirmed',
-            ),
-          )
-        }
-      } else {
-        console.log(`[cm hook] Unknown Gatekeeper Network: ${network}`)
-      }
-    } else {
-      console.log(`[cm hook] gateway token not needed`)
-      await _onMint()
-    }
-    setClicked(false)
-  }
-
-  const _onMint = async () => {
     const mint = await onMint()
 
     if (mint) {
       const nft = await getNFTMetadata(mint.toString(), connection)
       console.log(`[minting ${collection.name}] new NFT:`, nft)
+      setNewAgent(nft)
+
+      // Update the whitelist after minting
+      if (isPresale) {
+        await fetch(`/api/mintAgent/${wallet.publicKey.toBase58()}`)
+        fetchWhitelistStatus()
+      }
     }
   }
 
@@ -445,23 +427,21 @@ const AgentMintingButton = () => {
             }
             <Grid.Row columns={1} style={{ marginTop: "10px" }}>
               <Grid.Column>
-                {cm?.state.gatekeeper &&
-                  //   <BasicModal
-                  //   content={modalContent}
-                  //   onConfirm={handleOnMintConfirm}
-                  //   imageSrc="images/rectangle-8-1.png"
-                  //   {...modalContent}
-                  //   trigger={(
-                  //     <Button style={{ margin: "auto" }} isWaiting={isMinting}>
-                  //       {`Mint (1.5 SOL)`}
-                  //     </Button>
-                  //   )}>
-                  // </BasicModal>
-                  <Button style={{ margin: "auto" }} isWaiting={isMinting} onClick={handleOnMintConfirm}>
-                    {`Mint (1.5 SOL)`}
-                  </Button>
+                {cm &&
+                  <BasicModal
+                    content={modalContent}
+                    onConfirm={handleOnMintConfirm}
+                    imageSrc="images/nasr.png"
+                    {...modalContent}
+                    trigger={(
+                      <Button style={{ margin: "auto" }} isWaiting={isMinting}>
+                        {`Mint (1.5 SOL)`}
+                      </Button>
+                    )}>
+                  </BasicModal>
                 }
-                <p className="mint-comment" style={{ fontStyle: 'italic', marginBottom: "10px" }}>33% will go to the community wallet.</p>
+                <p className="mint-comment" style={{fontStyle: "normal"}}>33% of the mint fund will go to the community wallet.</p>
+                <p className="mint-comment">PLEASE NOTE: All royalties will be set to 90% until mint is complete.</p>
               </Grid.Column>
             </Grid.Row>
           </Grid>

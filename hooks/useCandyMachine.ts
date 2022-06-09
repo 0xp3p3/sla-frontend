@@ -71,6 +71,9 @@ const useCandyMachine = (collection: SlaCollection, balance: number) => {
   }, [wallet.publicKey, connection])
 
   useEffect(() => {
+    if (cm) {
+      console.log(`isActive`, cm.state.isActive)
+    }
     if (!wallet || !wallet.publicKey) {
       setPreMintingStatus(PreMintingStatus.WalletNotConnected)
     } else if (!cm || !cm.state) {
