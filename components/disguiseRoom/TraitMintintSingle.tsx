@@ -8,7 +8,7 @@ import { SlaCollection } from "../../utils/constants"
 import { getNFTMetadata } from "../../utils/nfts"
 import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal";
-import styles from "../../styles/TraitMintingButton.module.css";
+import styles from "../../styles/TraitMintingSingle.module.css";
 
 
 interface ModalContent {
@@ -26,7 +26,7 @@ interface Props {
 }
 
 
-const TraitMintintButton = (props: Props) => {
+const TraitMintintSingle = (props: Props) => {
   const { connection } = useConnection()
   const { hayBalance } = useBalances()
   const {
@@ -103,7 +103,6 @@ const TraitMintintButton = (props: Props) => {
             <>
               <p>You are about to mint {props.collection.expression}!</p>
               <p>Doing so will cost you 2 $HAY.</p>
-              <p>Hurry up - only {cm?.state?.itemsRemaining} left!</p>
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
                 <p>{`Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.`}</p>
@@ -237,18 +236,23 @@ const TraitMintintButton = (props: Props) => {
   }
 
   return (
-    <BasicModal
-      content={modalContent}
-      onConfirm={handleOnMintConfirm}
-      {...modalContent}
-      trigger={(
-        <Button className="trait-mint" isWaiting={isMinting}>
-          {"mint " + props.collection.name}
-        </Button>
-      )}
-    >
-    </BasicModal>
+    <>
+      {cm &&
+      <h3 className="h3 h-white mrg-d-34">Available: {cm.state.itemsRemaining} / {cm.state.itemsAvailable === 5993 ? 6000 : cm.state.itemsAvailable}</h3>
+      }
+      <BasicModal
+        content={modalContent}
+        onConfirm={handleOnMintConfirm}
+        {...modalContent}
+        trigger={(
+          <Button className="trait-mint" isWaiting={isMinting}>
+            {"mint " + props.collection.name}
+          </Button>
+        )}
+      >
+      </BasicModal>
+    </>
   )
 }
 
-export default TraitMintintButton
+export default TraitMintintSingle
