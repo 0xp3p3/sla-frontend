@@ -4,10 +4,23 @@ import axios from "axios"
 import { programs } from "@metaplex/js"
 
 import { NFT } from "../hooks/useWalletNFTs"
+import { AGENT_COLLECTION, SLA_COLLECTIONS, TRAIT_COLLECTIONS } from "./constants"
+import { String } from "aws-sdk/clients/batch"
 
 const {
   metadata: { Metadata },
 } = programs
+
+
+interface SlaNFTs {
+  agents: NFT[],
+  clothing: NFT[],
+  eyes: NFT[],
+  hats: NFT[],
+  mouths: NFT[],
+  skins: NFT[],
+}
+
 
 export async function getNFTMetadata(
   mint: string,
@@ -65,4 +78,33 @@ export async function getNFTsByOwner(
     })
 
   return await getNFTMetadataForMany(tokens, conn)
+}
+
+export async function getSlaNFTsByOwner(
+  owner: PublicKey,
+  connection: Connection
+): Promise<SlaNFTs> {
+
+  const nfts = await getNFTsByOwner(owner, connection)
+
+  return {
+    agents: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.agent.collection),
+    clothing: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.clothing.collection),
+    eyes: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.eyes.collection),
+    hats: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.hat.collection),
+    mouths: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.mouth.collection),
+    skins: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.skin.collection)
+  }
+}
+
+export function filterNFTsFromCollection(
+  nfts: NFT[],
+  collection: string,
+): NFT[] {
+
+  return nfts.filter(nft => {
+    const onChainCollection = nft.onchainMetadata.collection
+    if (!onChainCollection) { return false }
+    return (onChainCollection.key === collection && onChainCollection.verified)
+  })
 }

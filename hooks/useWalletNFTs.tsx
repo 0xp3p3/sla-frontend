@@ -1,9 +1,8 @@
 import { PublicKey } from "@solana/web3.js"
 import { programs, MetadataJson } from "@metaplex/js"
 import { useEffect, useState } from "react"
-import { getNFTsByOwner } from "../utils/nfts"
+import { getSlaNFTsByOwner } from "../utils/nfts"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { AGENT_COLLECTION, TRAIT_COLLECTIONS } from "../utils/constants"
 
 export type NFT = {
   pubkey?: PublicKey
@@ -16,45 +15,28 @@ const useWalletNFTs = () => {
   const { connection } = useConnection()
   const { publicKey } = useWallet()
 
-  const [walletNFTs, setWalletNFTs] = useState<Array<NFT>>([])
   const [agentWalletNFTs, setAgentWalletNFTs] = useState<Array<NFT>>([])
   const [traitWalletNFTs, setTraitWalletNFTs] = useState<Array<NFT>>([])
 
-
   const fetchNFTs = async () => {
     if (!publicKey) {
-      setWalletNFTs([])
       setAgentWalletNFTs([])
       setTraitWalletNFTs([])
       return
     }
 
-    // Fetch all NFTs
-    const NFTs = await getNFTsByOwner(publicKey, connection)
-    setWalletNFTs(NFTs)
+    const nfts = await getSlaNFTsByOwner(publicKey, connection)
+    setAgentWalletNFTs(nfts.agents)
 
-    // Filter Llama Agents
-    const agentNFTs = NFTs.filter(nft => {
-      const collection = nft.onchainMetadata.collection
-      if (!collection) { return false }
-      return (collection.key === AGENT_COLLECTION && collection.verified)
-    })
-    setAgentWalletNFTs(agentNFTs)
-
-    // Filter Traits
-    const traitNFTs = NFTs.filter(nft => {
-      const collection = nft.onchainMetadata.collection
-      if (!collection) { return false }
-      return (TRAIT_COLLECTIONS.includes(collection.key) && collection.verified)
-    })
-    setTraitWalletNFTs(traitNFTs)
+    const traits = nfts.clothing.concat(nfts.eyes, nfts.hats, nfts.mouths, nfts.skins)
+    setTraitWalletNFTs(traits)
   }
 
   useEffect(() => {
     fetchNFTs()
   }, [publicKey])
 
-  return { walletNFTs, agentWalletNFTs, traitWalletNFTs, fetchNFTs }
+  return { agentWalletNFTs, traitWalletNFTs, fetchNFTs }
 }
 
 export default useWalletNFTs

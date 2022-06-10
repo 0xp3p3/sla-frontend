@@ -243,8 +243,8 @@ const useCombine = () => {
       setStatus(CombineStatus.AwaitingUserSignatureForMetadataUpdate)
 
       const tx = await updateOnChainMetadataAfterCombine(
-        selectedAgent.mint,
-        selectedTrait.mint,
+        selectedAgent.mint.toString(),
+        selectedTrait.mint.toString(),
         anchorWallet,
         connection,
         newArweaveMetadataUrl,
