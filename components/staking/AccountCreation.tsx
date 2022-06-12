@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Container, Image, Message } from "semantic-ui-react"
 import { Spinner } from "theme-ui"
 import { FarmState } from "../../hooks/useGemFarmStaking"
 
@@ -20,20 +21,18 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "80px" }}>
-      <div style={{ width: "300px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div className="hor-left vert-mob">
-          <img src="images/agent_stacy.png" loading="lazy" alt="" className="llama-img" />
+    <div >
+      <Container textAlign="center">
+        <div className="hor-left vert-mob" style={{marginTop: "30px"}}>
+          <Image src="images/agent_stacy.png" className="llama-img" centered />
         </div>
-        <div style={{ textAlign: "center" }}>
-          <p className="p1">
-            <strong>Agent Stacy</strong>: You need a staking account to get started!
-          </p>
-        </div>
-        <button className="button" onClick={initStakingAccount} style={{ marginTop: "20px" }}>
-          {waiting ? <Spinner /> : "Create Account"}
-        </button>
-      </div>
+        <Message color="red" compact>
+          <Message.Header>AGENT STACY - STAKING UPDATE</Message.Header>
+          <p>Our new staking platform <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer">is live here</a>. </p>
+          <p>Please migrate all your Secret Agents over to the new platform as soon as possible.</p>
+          <p>The old platform will be removed soon. </p>
+        </Message>
+      </Container>
     </div>
   )
 }

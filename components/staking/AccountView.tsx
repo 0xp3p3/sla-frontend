@@ -5,7 +5,7 @@ import SummaryItem from "./SummaryItem";
 import { FarmState } from "../../hooks/useGemFarmStaking";
 import { useEffect, useState } from "react";
 import { Spinner } from "theme-ui"
-import { Message } from "semantic-ui-react";
+import { Container, Message } from "semantic-ui-react";
 
 
 const AccountSummaryRow = ({ farmerAcc, rewardAvailable }: { farmerAcc: any, rewardAvailable: number }) => {
@@ -243,21 +243,26 @@ const AccountPage = ({ farmState }: { farmState: FarmState }) => {
 
   return (
     <div style={{ marginBottom: "50px", marginTop: "20px" }}>
+      <Container textAlign="center">
+        <Message color="red" compact size="small">
+          <Message.Header>STAKING UPDATE</Message.Header>
+          <p>Our new staking platform <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer">is live here</a>. </p>
+          <p>Please migrate all your Secret Agents over to the new platform as soon as possible.</p>
+          <p>The old platform will be removed soon. </p>
+        </Message>
+      </Container>
       <Message info size="mini" color="yellow" style={{ marginTop: "20px" }}>
-        <Message.Header>Please note</Message.Header>
-        <p>{`If what you are trying to do (e.g., click "stake") does not seem to work, please refresh the page and / or your staking account.`}</p>
-        <p>{`Solana is a little congested these days, but don't worry - it will end up working.`}</p>
-        <p>{`Thanks for your understanding.`}</p>
-      </Message>
-      <Message size="mini" color="yellow" style={{ marginTop: "20px" }}>
-        <Message.Header>Staking instructions</Message.Header>
+        <Message.Header>Migrate Instructions</Message.Header>
+        <p>To migrate your staked Llama Agents to the new platform, you will need to:</p>
         <ul>
-          <li>{`Select Agents from your wallet and click the down arrow to move Agents from your wallet into the Vault.`}</li>
-          <li>{`Click "Stake" to lock the Vault and start the staking period.`}</li>
-          <li>{`You should now see the number of Agents in your Vault under "Your Staked Agents" and the yielding rate should be 2X the number of Agents in the Vault.`}</li>
-          <li>{`If one of the transactions fail, simply refresh the page and try again!`}</li>
+          <li>{`Unstake your Agents staked here (by clicking "Unstake")`}</li>
+          <li>{`Move your Agents out of the vault and back into your wallet.`}</li>
+          <li>{`Don't forget to claim any accumulated $HAY.`}</li>
         </ul>
-        
+        <p>{`Don't worry, we will help you unstake your Agents if they seem "stuck". Come find us on Discord if you require assistance.`}</p>
+        <br />
+        <p>{`Thank you for your patience ❤️. `}</p>
+        <p>{`The SLA Team.`}</p>
       </Message>
       <AccountSummaryRow
         farmerAcc={farmState.farmerAccount}
