@@ -25,7 +25,18 @@ export enum MintingStatus {
 }
 
 
-const useCandyMachine = (collection: SlaCollection, balance: number) => {
+export interface CandyMachine {
+  cm: CandyMachineAccount,
+  isMinting: boolean,
+  refreshState: () => Promise<void>,
+  canUserMint: () => boolean,
+  onMint: () => Promise<PublicKey | null>,
+  preMintingStatus: PreMintingStatus,
+  mintingStatus: MintingStatus,
+}
+
+
+const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachine => {
   const { connection } = useConnection()
   const wallet = useWallet()
   const id = new PublicKey(collection.candyMachine)
