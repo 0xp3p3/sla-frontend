@@ -86,7 +86,7 @@ const AgentMintingButton = (props: Props) => {
           type: ModalType.Info,
           content: (
             <>
-              <p>Looks like your wallet contains {`${props.solBalance.toFixed(2)}`} SOL.</p>
+              <p>Looks like your wallet contains {`${props.solBalance.toFixed(4)}`} SOL.</p>
               <p>Minting a new Llama Agent costs {cm ? cm.state.price : '0.75'} SOL.</p>
             </>
           )
@@ -94,15 +94,21 @@ const AgentMintingButton = (props: Props) => {
         break;
 
       case PreMintingStatus.Ready:
+        console.log(`isUserWhitelisted:`, isUserWhitelisted, `discoutnPrice:`, discountPrice)
         content = {
           type: ModalType.Warning,
           content: (
             <>
-              <p>You are about to mint a Secret Llama Agent!</p>
               {(isUserWhitelisted && discountPrice <= 0.0001) ? (
-                <p>{`Looks like you're eligible for a free Llama Agent!`}</p>
+                <>
+                  <p>{`Looks like you're eligible for a free Llama Agent!`}</p>
+                  <p>{`Thanks for supporting us from the start. ❤️`}</p>
+                </>
               ) : (
-                <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
+                <>
+                  <p>You are about to mint a Secret Llama Agent!</p>
+                  <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
+                </>
               )}
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
@@ -230,7 +236,7 @@ const AgentMintingButton = (props: Props) => {
         {...modalContent}
         trigger={(
           <Button style={{ margin: "auto", width: (isUserWhitelisted && discountPrice) ? "300px" : "220px" }} isWaiting={isMinting}>
-            {`Mint (${cm ? ((isUserWhitelisted && discountPrice) ? 'FREE AIRDROP' : cm.state.price + ' SOL' ) : '0.75 SOL'})`}
+            {`Mint (${cm ? ((isUserWhitelisted && discountPrice) ? 'FREE AIRDROP' : cm.state.price + ' SOL') : '0.75 SOL'})`}
           </Button>
         )}
       >

@@ -99,7 +99,7 @@ const AgentMintingMain = () => {
 
 
   // Update the number of items redeemed on cm state refresh, only if past the go-live time
-  const [itemsRedeemed, setItemsRedeemed] = useState(0)
+  const [itemsRedeemed, setItemsRedeemed] = useState(null)
   const refreshItemsRedeemed = async () => {
     if (cm) {
       // Check how many airdrops have been collected
@@ -142,7 +142,7 @@ const AgentMintingMain = () => {
                 </Menu>
               </Grid.Column>
             </Grid.Row>
-            {cm &&
+            {(cm && itemsRedeemed) &&
               <Grid.Row columns={1} style={{ marginBottom: "50px" }}>
                 <Grid.Column textAlign="center">
                   <Message warning color="red" size="big" compact style={{ marginBottom: "50px" }}>
