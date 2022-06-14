@@ -209,20 +209,22 @@ const AgentMintingButton = (props: Props) => {
       console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent])
+  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, discountPrice, isUserWhitelisted])
 
   const handleOnMintConfirm = async (isWhitelistMint: boolean) => {
     setIsPreMinting(false)
     const mint = await onMint()
 
     if (mint) {
-      const nft = await getNFTMetadata(mint.toString(), connection)
-      console.log(`[minting ${props.collection.name}] new NFT:`, nft)
-      setNewAgent(nft)
+      // const nft = await getNFTMetadata(mint.toString(), connection)
+      // console.log(`[minting ${props.collection.name}] new NFT:`, nft)
+      // setNewAgent(nft)
 
       // Update the whitelist after minting
-      if (isWhitelistMint) {
-        await fetch(`/api/airdrop/recordAirdropMint}`)
+      if (true) {
+        const resp = await (await (fetch(`/api/airdrop/recordAirdropMint/`))).json()
+        console.log('airdrop recorded!')
+        console.log(resp)
       }
     }
   }

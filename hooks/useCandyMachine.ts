@@ -87,16 +87,18 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
   }, [wallet.publicKey, connection])
 
   const checkWhitelistStatus = async (cm: CandyMachineAccount) => {
-    let discountPrice = null
+    let whitelistPrice = null
     let userIsWhitelisted = false
 
+    console.log(`[cm hook] checking whitelist status`)
+
     // The whitelist is on if the settings are not null and it's a "presale"
-    if (wallet?.publicKey && cm?.state.whitelistMintSettings && cm?.state.whitelistMintSettings.presale) {
+    if (wallet?.publicKey && cm?.state.whitelistMintSettings?.presale) {
       
       // Is there a discount?
-      discountPrice = cm.state.price
+      whitelistPrice = cm.state.price
       if (cm.state.whitelistMintSettings.discountPrice) {
-        discountPrice = cm.state.whitelistMintSettings.discountPrice
+        whitelistPrice = cm.state.whitelistMintSettings.discountPrice
       } 
 
       // Is the user whitelisted?
@@ -113,7 +115,8 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
       }
     }
 
-    setDiscountPrice(discountPrice)
+    console.log(`[cm hook] whitelisted? ${userIsWhitelisted}, discount price: ${whitelistPrice}`)
+    setDiscountPrice(whitelistPrice)
     setIsUserWhitelisted(userIsWhitelisted)
   }
 
