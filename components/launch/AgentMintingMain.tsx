@@ -106,10 +106,10 @@ const AgentMintingMain = () => {
       const resp = await (await (fetch(`/api/airdrop/getAirdropMinted/`))).json()
       if (resp.total === undefined || resp?.error) {
         console.log(`an error occurred`)
-        console.log(resp.error)  
+        console.log(resp.error)
       } else {
         console.log(`Airdrops redeemed so far: ${resp.total}`)
-        const redeemed = cm.state.itemsRedeemed + 1000 - resp.total 
+        const redeemed = cm.state.itemsRedeemed + 1000 - resp.total
         setItemsRedeemed(redeemed)
       }
     }
@@ -142,13 +142,14 @@ const AgentMintingMain = () => {
                 </Menu>
               </Grid.Column>
             </Grid.Row>
-            {(cm && itemsRedeemed) &&
-              <Grid.Row columns={1} style={{ marginBottom: "50px" }}>
-                <Grid.Column textAlign="center">
-                  <Message warning color="red" size="big" compact style={{ marginBottom: "50px" }}>
-                    <Message.Header>PLEASE NOTE</Message.Header>
-                    <p>All royalties will be set to 90% until mint is complete.</p>
-                  </Message>
+
+            <Grid.Row columns={1} style={{ marginBottom: "50px" }}>
+              <Grid.Column textAlign="center">
+                <Message warning color="red" size="big" compact style={{ marginBottom: "50px" }}>
+                  <Message.Header>PLEASE NOTE</Message.Header>
+                  <p>All royalties will be set to 90% until mint is complete.</p>
+                </Message>
+                {(cm && itemsRedeemed) &&
                   <Progress
                     value={itemsRedeemed}
                     total={cm.state.itemsAvailable}
@@ -163,9 +164,10 @@ const AgentMintingMain = () => {
                       <p>{`(Last refresh: ${lastRefresh.toLocaleTimeString()})`}</p>
                     </div>
                   </Progress>
-                </Grid.Column>
-              </Grid.Row>
-            }
+                }
+              </Grid.Column>
+            </Grid.Row>
+
             <Grid.Row columns={1} style={{ marginTop: "10px" }}>
               <Grid.Column>
                 {cm && (
