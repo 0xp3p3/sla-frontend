@@ -6,7 +6,7 @@ import { SLA_COLLECTIONS } from "../../utils/constants"
 import AgentMintingButton from "./AgentMintingButton";
 
 
-const FIXED_MINTED_VALUE = 3028;
+const FIXED_MINTED_VALUE = 3034;
 
 
 interface TimeCountdown {
@@ -161,7 +161,8 @@ const AgentMintingMain = () => {
                     style={{ width: "70.8%", margin: "auto" }}
                   >
                     <div style={{ marginTop: "10px" }}>
-                      <p style={{ fontSize: "22px" }}>{`Minted: ${itemsRedeemed} / ${cm.state.itemsAvailable}`}</p>
+                      {/* <p style={{ fontSize: "22px" }}>{`Minted: ${itemsRedeemed} / ${cm.state.itemsAvailable}`}</p> */}
+                      <p style={{ fontSize: "22px" }}>{`Minted: ${FIXED_MINTED_VALUE} / ${cm.state.itemsAvailable}`}</p>
                       <p>{`(Last refresh: ${lastRefresh.toLocaleTimeString()})`}</p>
                     </div>
                   </Progress>
