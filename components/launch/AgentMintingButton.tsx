@@ -100,7 +100,7 @@ const AgentMintingButton = (props: Props) => {
             <>
               <p>You are about to mint a Secret Llama Agent!</p>
               {(isUserWhitelisted && discountPrice <= 0.0001) ? (
-                <p>Looks like you're eligible for a free Secret Agent!</p>
+                <p>{`Looks like you're eligible for a free Llama Agent!`}</p>
               ) : (
                 <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
               )}
