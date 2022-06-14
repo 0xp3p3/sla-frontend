@@ -6,7 +6,7 @@ import { SLA_COLLECTIONS } from "../../utils/constants"
 import AgentMintingButton from "./AgentMintingButton";
 
 
-const FIXED_MINTED_VALUE = 3027;
+const FIXED_MINTED_VALUE = 3028;
 
 
 interface TimeCountdown {
