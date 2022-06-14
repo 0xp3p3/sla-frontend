@@ -91,7 +91,7 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
     let userIsWhitelisted = false
 
     // The whitelist is on if the settings are not null and it's a "presale"
-    if (cm?.state.whitelistMintSettings && cm?.state.whitelistMintSettings.presale) {
+    if (wallet?.publicKey && cm?.state.whitelistMintSettings && cm?.state.whitelistMintSettings.presale) {
       
       // Is there a discount?
       discountPrice = cm.state.price
@@ -101,7 +101,7 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
 
       // Is the user whitelisted?
       const whitelistMint = new PublicKey(cm.state.whitelistMintSettings.mint)
-      const token = findAssociatedTokenAddress(wallet.publicKey, whitelistMint)[0]
+      const [token] = await findAssociatedTokenAddress(wallet.publicKey, whitelistMint)
 
       // Check if the user has a whitelist token
       try {

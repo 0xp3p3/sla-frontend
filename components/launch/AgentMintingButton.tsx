@@ -229,8 +229,8 @@ const AgentMintingButton = (props: Props) => {
         imageSrc="images/nasr.png"
         {...modalContent}
         trigger={(
-          <Button style={{ margin: "auto" }} isWaiting={isMinting}>
-            {`Mint (${cm ? cm.state.price : '0.75'} SOL)`}
+          <Button style={{ margin: "auto", width: (isUserWhitelisted && discountPrice) ? "300px" : "220px" }} isWaiting={isMinting}>
+            {`Mint (${cm ? ((isUserWhitelisted && discountPrice) ? 'FREE AIRDROP' : cm.state.price + ' SOL' ) : '0.75 SOL'})`}
           </Button>
         )}
       >
