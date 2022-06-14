@@ -1,11 +1,8 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
 import { Grid, Menu, Progress, Segment, Message } from "semantic-ui-react"
 import useBalances from "../../hooks/useBalances"
 import useCandyMachine from "../../hooks/useCandyMachine"
 import { SLA_COLLECTIONS } from "../../utils/constants"
-
-import { NFT } from "../../hooks/useWalletNFTs";
 import AgentMintingButton from "./AgentMintingButton";
 
 
@@ -96,17 +93,29 @@ const AgentMintingMain = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       candyMachine.refreshState().then(() => setLastRefresh(new Date()))
-    }, 10000)
+    }, 60000)
     return () => clearInterval(timer)
   }, [])
 
 
   // Update the number of items redeemed on cm state refresh, only if past the go-live time
   const [itemsRedeemed, setItemsRedeemed] = useState(0)
-  useEffect(() => {
+  const refreshItemsRedeemed = async () => {
     if (cm) {
-      setItemsRedeemed(currentTime > presaleStart ? cm.state.itemsRedeemed + (cm.state.itemsAvailable - cm.state.endSettings.number.toNumber()) : 0)
+      // Check how many airdrops have been collected
+      const resp = await (await (fetch(`/api/airdrop/getAirdropMinted/`))).json()
+      if (!resp?.total || resp?.error) {
+        console.log(resp.error)  
+      } else {
+        console.log(`Airdrops redeemed so far: ${resp.total}`)
+        const redeemed = cm.state.itemsRedeemed + 1000 - resp.total 
+        setItemsRedeemed(redeemed)
+      }
     }
+  }
+
+  useEffect(() => {
+    refreshItemsRedeemed()
   }, [cm])
 
   return (

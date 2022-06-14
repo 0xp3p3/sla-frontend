@@ -34,6 +34,8 @@ const AgentMintingButton = (props: Props) => {
     preMintingStatus,
     mintingStatus,
     cm,
+    isUserWhitelisted,
+    discountPrice,
   } = props.candyMachine
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
@@ -97,7 +99,11 @@ const AgentMintingButton = (props: Props) => {
           content: (
             <>
               <p>You are about to mint a Secret Llama Agent!</p>
-              <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
+              {(isUserWhitelisted && discountPrice <= 0.0001) ? (
+                <p>Looks like you're eligible for a free Secret Agent!</p>
+              ) : (
+                <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
+              )}
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
                 <p>{`Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.`}</p>
@@ -199,7 +205,7 @@ const AgentMintingButton = (props: Props) => {
     }
   }, [preMintingStatus, mintingStatus, isPreMinting, newAgent])
 
-  const handleOnMintConfirm = async () => {
+  const handleOnMintConfirm = async (isWhitelistMint: boolean) => {
     setIsPreMinting(false)
     const mint = await onMint()
 
@@ -207,6 +213,11 @@ const AgentMintingButton = (props: Props) => {
       const nft = await getNFTMetadata(mint.toString(), connection)
       console.log(`[minting ${props.collection.name}] new NFT:`, nft)
       setNewAgent(nft)
+
+      // Update the whitelist after minting
+      if (isWhitelistMint) {
+        await fetch(`/api/airdrop/recordAirdropMint}`)
+      }
     }
   }
 
@@ -214,7 +225,7 @@ const AgentMintingButton = (props: Props) => {
     <>
       <BasicModal
         content={modalContent}
-        onConfirm={handleOnMintConfirm}
+        onConfirm={() => handleOnMintConfirm(isUserWhitelisted)}
         imageSrc="images/nasr.png"
         {...modalContent}
         trigger={(
