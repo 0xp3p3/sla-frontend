@@ -12,7 +12,5 @@ generator client {
 
 model Whitelist {
   id        Int       @id @default(autoincrement())
-  wallet    String    @unique
-  reserved  Int 
-  minted    Int
+  total     Int
 }

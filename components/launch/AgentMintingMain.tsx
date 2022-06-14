@@ -1,11 +1,8 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
 import { Grid, Menu, Progress, Segment, Message } from "semantic-ui-react"
 import useBalances from "../../hooks/useBalances"
 import useCandyMachine from "../../hooks/useCandyMachine"
 import { SLA_COLLECTIONS } from "../../utils/constants"
-
-import { NFT } from "../../hooks/useWalletNFTs";
 import AgentMintingButton from "./AgentMintingButton";
 
 
@@ -96,17 +93,28 @@ const AgentMintingMain = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       candyMachine.refreshState().then(() => setLastRefresh(new Date()))
-    }, 10000)
+    }, 60000)
     return () => clearInterval(timer)
   }, [])
 
 
   // Update the number of items redeemed on cm state refresh, only if past the go-live time
-  const [itemsRedeemed, setItemsRedeemed] = useState(0)
-  useEffect(() => {
+  const [itemsRedeemed, setItemsRedeemed] = useState(null)
+  const refreshItemsRedeemed = async () => {
     if (cm) {
-      setItemsRedeemed(currentTime > presaleStart ? cm.state.itemsRedeemed + (cm.state.itemsAvailable - cm.state.endSettings.number.toNumber()) : 0)
+      // Check how many airdrops have been collected
+      const resp = await (await (fetch(`/api/airdrop/getAirdropMinted/`))).json()
+      if (resp.total === undefined || resp?.error) {
+        console.log(`an error occurred while fetching number of airdrops`)
+      } else {
+        const redeemed = cm.state.itemsRedeemed + 1000 - resp.total
+        setItemsRedeemed(redeemed)
+      }
     }
+  }
+
+  useEffect(() => {
+    refreshItemsRedeemed()
   }, [cm])
 
   return (
@@ -132,13 +140,14 @@ const AgentMintingMain = () => {
                 </Menu>
               </Grid.Column>
             </Grid.Row>
-            {cm &&
-              <Grid.Row columns={1} style={{ marginBottom: "50px" }}>
-                <Grid.Column textAlign="center">
-                  <Message warning color="red" size="big" compact style={{ marginBottom: "50px" }}>
-                    <Message.Header>PLEASE NOTE</Message.Header>
-                    <p>All royalties will be set to 90% until mint is complete.</p>
-                  </Message>
+
+            <Grid.Row columns={1} style={{ marginBottom: "50px" }}>
+              <Grid.Column textAlign="center">
+                <Message warning color="red" size="big" compact style={{ marginBottom: "50px" }}>
+                  <Message.Header>PLEASE NOTE</Message.Header>
+                  <p>All royalties will be set to 90% until mint is complete.</p>
+                </Message>
+                {(cm && itemsRedeemed) &&
                   <Progress
                     value={itemsRedeemed}
                     total={cm.state.itemsAvailable}
@@ -153,9 +162,10 @@ const AgentMintingMain = () => {
                       <p>{`(Last refresh: ${lastRefresh.toLocaleTimeString()})`}</p>
                     </div>
                   </Progress>
-                </Grid.Column>
-              </Grid.Row>
-            }
+                }
+              </Grid.Column>
+            </Grid.Row>
+
             <Grid.Row columns={1} style={{ marginTop: "10px" }}>
               <Grid.Column>
                 {cm && (

@@ -34,6 +34,8 @@ const AgentMintingButton = (props: Props) => {
     preMintingStatus,
     mintingStatus,
     cm,
+    isUserWhitelisted,
+    discountPrice,
   } = props.candyMachine
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
@@ -84,7 +86,7 @@ const AgentMintingButton = (props: Props) => {
           type: ModalType.Info,
           content: (
             <>
-              <p>Looks like your wallet contains {`${props.solBalance.toFixed(2)}`} SOL.</p>
+              <p>Looks like your wallet contains {`${props.solBalance.toFixed(4)}`} SOL.</p>
               <p>Minting a new Llama Agent costs {cm ? cm.state.price : '0.75'} SOL.</p>
             </>
           )
@@ -92,12 +94,22 @@ const AgentMintingButton = (props: Props) => {
         break;
 
       case PreMintingStatus.Ready:
+        console.log(`isUserWhitelisted:`, isUserWhitelisted, `discoutnPrice:`, discountPrice)
         content = {
           type: ModalType.Warning,
           content: (
             <>
-              <p>You are about to mint a Secret Llama Agent!</p>
-              <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
+              {(isUserWhitelisted && discountPrice <= 0.0001) ? (
+                <>
+                  <p>{`Looks like you're eligible for a free Llama Agent!`}</p>
+                  <p>{`Thanks for supporting us from the start. ❤️`}</p>
+                </>
+              ) : (
+                <>
+                  <p>You are about to mint a Secret Llama Agent!</p>
+                  <p>Doing so will cost you {cm ? cm.state.price : '0.75'} SOL.</p>
+                </>
+              )}
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <p><br /></p>
                 <p>{`Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.`}</p>
@@ -197,9 +209,9 @@ const AgentMintingButton = (props: Props) => {
       console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent])
+  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, discountPrice, isUserWhitelisted])
 
-  const handleOnMintConfirm = async () => {
+  const handleOnMintConfirm = async (isWhitelistMint: boolean) => {
     setIsPreMinting(false)
     const mint = await onMint()
 
@@ -207,6 +219,13 @@ const AgentMintingButton = (props: Props) => {
       const nft = await getNFTMetadata(mint.toString(), connection)
       console.log(`[minting ${props.collection.name}] new NFT:`, nft)
       setNewAgent(nft)
+
+      // Update the whitelist after minting
+      if (isWhitelistMint) {
+        const resp = await (await (fetch(`/api/airdrop/recordAirdropMint/`))).json()
+        console.log('airdrop recorded!')
+        console.log(resp)
+      }
     }
   }
 
@@ -214,12 +233,12 @@ const AgentMintingButton = (props: Props) => {
     <>
       <BasicModal
         content={modalContent}
-        onConfirm={handleOnMintConfirm}
+        onConfirm={() => handleOnMintConfirm(isUserWhitelisted)}
         imageSrc="images/nasr.png"
         {...modalContent}
         trigger={(
-          <Button style={{ margin: "auto" }} isWaiting={isMinting}>
-            {`Mint (${cm ? cm.state.price : '0.75'} SOL)`}
+          <Button style={{ margin: "auto", width: (isUserWhitelisted && discountPrice) ? "300px" : "220px" }} isWaiting={isMinting}>
+            {`Mint (${cm ? ((isUserWhitelisted && discountPrice) ? 'FREE AIRDROP' : cm.state.price + ' SOL') : '0.75 SOL'})`}
           </Button>
         )}
       >

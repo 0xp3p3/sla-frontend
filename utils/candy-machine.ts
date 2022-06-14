@@ -32,7 +32,7 @@ interface CandyMachineState {
     mode: any;
     mint: anchor.web3.PublicKey;
     presale: boolean;
-    discountPrice: null | anchor.BN;
+    discountPrice: null | number;
   };
   retainAuthority: boolean;
 }
@@ -130,6 +130,11 @@ export const getCandyMachineState = async (
     price /= LAMPORTS_PER_SOL
   }
 
+  let whitelistSettings = state.data.whitelistMintSettings
+  if (whitelistSettings?.discountPrice) {
+    whitelistSettings.discountPrice = whitelistSettings.discountPrice.toNumber() / LAMPORTS_PER_SOL
+  }
+
   return {
     id: candyMachineId,
     program,
@@ -145,7 +150,7 @@ export const getCandyMachineState = async (
       tokenMint: state.tokenMint,
       gatekeeper: state.data.gatekeeper,
       endSettings: state.data.endSettings,
-      whitelistMintSettings: state.data.whitelistMintSettings,
+      whitelistMintSettings: whitelistSettings,
       price,
       retainAuthority: state.data.retainAuthority,
     },

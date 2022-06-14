@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { CandyMachineAccount, getCandyMachineState, mintOneToken } from "../utils/candy-machine"
 import { awaitTransactionSignatureConfirmation } from "../utils/transaction"
 import { SlaCollection, DEFAULT_TIMEOUT } from "../utils/constants"
+import { findAssociatedTokenAddress } from "../utils/token"
 
 
 export enum PreMintingStatus {
@@ -33,6 +34,8 @@ export interface CandyMachine {
   onMint: () => Promise<PublicKey | null>,
   preMintingStatus: PreMintingStatus,
   mintingStatus: MintingStatus,
+  isUserWhitelisted: boolean,
+  discountPrice: number,
 }
 
 
@@ -46,6 +49,9 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
   const [isMinting, setIsMinting] = useState(false)
   const [preMintingStatus, setPreMintingStatus] = useState<PreMintingStatus>(PreMintingStatus.WalletNotConnected)
   const [mintingStatus, setMintingStatus] = useState<MintingStatus>(MintingStatus.NotMinting)
+
+  const [isUserWhitelisted, setIsUserWhitelisted] = useState(false)
+  const [discountPrice, setDiscountPrice] = useState(null)
 
   const anchorWallet = useMemo(() => {
     if (!wallet || !wallet.publicKey || !wallet.signAllTransactions || !wallet.signTransaction) {
@@ -67,6 +73,7 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
 
     try {
       const cndy = await getCandyMachineState(anchorWallet, id, connection)
+      await checkWhitelistStatus(cndy)
       setCm(cndy)
       console.log(`[cm hook] successfully fetched CM state`)
     } catch (error: any) {
@@ -79,6 +86,40 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
     refreshState()
   }, [wallet.publicKey, connection])
 
+  const checkWhitelistStatus = async (cm: CandyMachineAccount) => {
+    let whitelistPrice = null
+    let userIsWhitelisted = false
+
+    console.log(`[cm hook] checking whitelist status`)
+
+    // The whitelist is on if the settings are not null and it's a "presale"
+    if (wallet?.publicKey && cm?.state.whitelistMintSettings?.presale) {
+      
+      // Is there a discount?
+      whitelistPrice = cm.state.price
+      if (cm.state.whitelistMintSettings.discountPrice) {
+        whitelistPrice = cm.state.whitelistMintSettings.discountPrice
+      } 
+
+      // Is the user whitelisted?
+      const whitelistMint = new PublicKey(cm.state.whitelistMintSettings.mint)
+      const [token] = await findAssociatedTokenAddress(wallet.publicKey, whitelistMint)
+
+      // Check if the user has a whitelist token
+      try {
+        const balance = await connection.getTokenAccountBalance(token)
+        userIsWhitelisted = parseInt(balance.value.amount) > 0
+      } catch(error: any) {
+        console.log(`[cm hook] unable to fetch whitelist token balance`)
+        console.log(error)
+      }
+    }
+
+    console.log(`[cm hook] whitelisted? ${userIsWhitelisted}, discount price: ${whitelistPrice}`)
+    setDiscountPrice(whitelistPrice)
+    setIsUserWhitelisted(userIsWhitelisted)
+  }
+
   useEffect(() => {
     if (cm) {
       console.log(`isActive`, cm.state.isActive)
@@ -89,7 +130,10 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
       setPreMintingStatus(PreMintingStatus.CmStateNotFetched)
     } else if (!cm.state.isActive) {
       setPreMintingStatus(PreMintingStatus.NotLiveYet)
-    } else if (balance < cm.state.price) {
+    } 
+    
+     // = user is not whitelisted + doesn't have enough for non-whitelist 
+    else if (((!discountPrice || !isUserWhitelisted) && (balance < cm.state.price))) {
       setPreMintingStatus(PreMintingStatus.BalanceTooSmall)
     } else {
       setPreMintingStatus(PreMintingStatus.Ready)
@@ -162,6 +206,8 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
     onMint, 
     preMintingStatus, 
     mintingStatus,
+    isUserWhitelisted,
+    discountPrice,
   }
 }
 
