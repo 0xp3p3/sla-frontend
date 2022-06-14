@@ -6,6 +6,9 @@ import { SLA_COLLECTIONS } from "../../utils/constants"
 import AgentMintingButton from "./AgentMintingButton";
 
 
+const FIXED_MINTED_VALUE = 3027;
+
+
 interface TimeCountdown {
   days: number,
   hours: number,
@@ -149,7 +152,7 @@ const AgentMintingMain = () => {
                 </Message>
                 {(cm && itemsRedeemed) &&
                   <Progress
-                    value={itemsRedeemed}
+                    value={FIXED_MINTED_VALUE} // itemsRedeemed}
                     total={cm.state.itemsAvailable}
                     active={isPresale || isPublic}
                     size="medium"
