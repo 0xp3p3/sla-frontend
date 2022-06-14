@@ -105,10 +105,8 @@ const AgentMintingMain = () => {
       // Check how many airdrops have been collected
       const resp = await (await (fetch(`/api/airdrop/getAirdropMinted/`))).json()
       if (resp.total === undefined || resp?.error) {
-        console.log(`an error occurred`)
-        console.log(resp.error)
+        console.log(`an error occurred while fetching number of airdrops`)
       } else {
-        console.log(`Airdrops redeemed so far: ${resp.total}`)
         const redeemed = cm.state.itemsRedeemed + 1000 - resp.total
         setItemsRedeemed(redeemed)
       }

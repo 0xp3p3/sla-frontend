@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       where: { id: 0 },
       data: { total: { increment: 1 } }
     })
-    res.send({message: "Airdrop mint recorded"})
+    res.send({message: "Airdrop completed"})
   } catch (error: any) {
     res.send({error: error})
   }

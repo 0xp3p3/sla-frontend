@@ -216,12 +216,12 @@ const AgentMintingButton = (props: Props) => {
     const mint = await onMint()
 
     if (mint) {
-      // const nft = await getNFTMetadata(mint.toString(), connection)
-      // console.log(`[minting ${props.collection.name}] new NFT:`, nft)
-      // setNewAgent(nft)
+      const nft = await getNFTMetadata(mint.toString(), connection)
+      console.log(`[minting ${props.collection.name}] new NFT:`, nft)
+      setNewAgent(nft)
 
       // Update the whitelist after minting
-      if (true) {
+      if (isWhitelistMint) {
         const resp = await (await (fetch(`/api/airdrop/recordAirdropMint/`))).json()
         console.log('airdrop recorded!')
         console.log(resp)
