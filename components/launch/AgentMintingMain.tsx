@@ -6,9 +6,6 @@ import { SLA_COLLECTIONS } from "../../utils/constants"
 import AgentMintingButton from "./AgentMintingButton";
 
 
-const FIXED_MINTED_VALUE = 3034;
-
-
 interface TimeCountdown {
   days: number,
   hours: number,
@@ -106,13 +103,8 @@ const AgentMintingMain = () => {
   const refreshItemsRedeemed = async () => {
     if (cm) {
       // Check how many airdrops have been collected
-      const resp = await (await (fetch(`/api/airdrop/getAirdropMinted/`))).json()
-      if (resp.total === undefined || resp?.error) {
-        console.log(`an error occurred while fetching number of airdrops`)
-      } else {
-        const redeemed = cm.state.itemsRedeemed + 1000 - resp.total
-        setItemsRedeemed(redeemed)
-      }
+      const redeeemd = cm.state.itemsRedeemed + parseInt(process.env.NEXT_PUBLIC_MINTED_OFFSET!)
+      setItemsRedeemed(redeeemd)
     }
   }
 
@@ -152,7 +144,7 @@ const AgentMintingMain = () => {
                 </Message>
                 {(cm && itemsRedeemed) &&
                   <Progress
-                    value={FIXED_MINTED_VALUE} // itemsRedeemed}
+                    value={itemsRedeemed}
                     total={cm.state.itemsAvailable}
                     active={isPresale || isPublic}
                     size="medium"
@@ -161,8 +153,7 @@ const AgentMintingMain = () => {
                     style={{ width: "70.8%", margin: "auto" }}
                   >
                     <div style={{ marginTop: "10px" }}>
-                      {/* <p style={{ fontSize: "22px" }}>{`Minted: ${itemsRedeemed} / ${cm.state.itemsAvailable}`}</p> */}
-                      <p style={{ fontSize: "22px" }}>{`Minted: ${FIXED_MINTED_VALUE} / ${cm.state.itemsAvailable}`}</p>
+                      <p style={{ fontSize: "22px" }}>{`Minted: ${itemsRedeemed} / ${cm.state.itemsAvailable}`}</p>
                       <p>{`(Last refresh: ${lastRefresh.toLocaleTimeString()})`}</p>
                     </div>
                   </Progress>
