@@ -56,7 +56,7 @@ async function makeCreateImageWithCanvas(
   await addLayer(context, imageLocation)
 
   // Add [Skin, Eyes, Mouth, Hat, Clothing] traits
-  const traits = ["Skin", "Eyes", "Mouth", "Hat", "Clothing",]
+  const traits = ["Skin", "Mouth", "Eyes", "Hat", "Clothing",]
   for (const trait of traits) {
     traitPair = extractTraitPair(trait)
     if (traitPair) {
