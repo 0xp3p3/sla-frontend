@@ -173,7 +173,7 @@ const CombineMain = () => {
           content: (
             <>
               <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
-              <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here</a> is the new look that you expected.</p>
+              <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here (click me!)</a> is the new look that you expected.</p>
               <p>{`Once satisfied, click "Next" to move on to the next step.`}</p>
               {getProgressBar(100)}
             </>
