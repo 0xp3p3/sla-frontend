@@ -235,22 +235,32 @@ const TraitMintintSingle = (props: Props) => {
     }
   }
 
+
   return (
     <>
       {cm &&
-      <h3 className="h3 h-white mrg-d-34">Available: {cm.state.itemsRemaining} / {cm.state.itemsAvailable === 5993 ? 6000 : cm.state.itemsAvailable}</h3>
+        <>
+          <h3 className="h3 h-white mrg-d-34">Available: {cm.state.itemsAvailable - cm.state.itemsRedeemed} / {cm.state.itemsAvailable === 5993 ? 6000 : cm.state.itemsAvailable}</h3>
+          {cm.state.isSoldOut ? (
+            <Button className="trait-mint" isWaiting={isMinting} disabled={true}>
+              {cm.state.isSoldOut ? "on pause" : `mint ${props.collection.name}`}
+            </Button>
+          ) : (
+            <BasicModal
+              content={modalContent}
+              onConfirm={handleOnMintConfirm}
+              {...modalContent}
+              trigger={(
+                <Button className="trait-mint" isWaiting={isMinting}>
+                  {cm.state.isSoldOut ? "on pause" : `mint ${props.collection.name}`}
+                </Button>
+              )}
+            >
+            </BasicModal>
+          )}
+
+        </>
       }
-      <BasicModal
-        content={modalContent}
-        onConfirm={handleOnMintConfirm}
-        {...modalContent}
-        trigger={(
-          <Button className="trait-mint" isWaiting={isMinting}>
-            {"mint " + props.collection.name}
-          </Button>
-        )}
-      >
-      </BasicModal>
     </>
   )
 }
