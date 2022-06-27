@@ -168,6 +168,7 @@ const AgentMintingMain = () => {
                     collection={SLA_COLLECTIONS.agent}
                     candyMachine={candyMachine}
                     solBalance={solBalance}
+                    mintingIsOver={!(isPublic || isPresale)}
                   />
                 )}
                 <p className="mint-comment" style={{ fontStyle: "normal" }}>33% of the mint fund will go to the community wallet.</p>

@@ -15,8 +15,8 @@ const Navigation = (props: Props) => {
           <a href="documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link mob">WHITEPAPER</a>
           <a href="/hay" className="nav-link mob">$HAY</a>
           <a href="/home#roadmap" className="nav-link mob">ROADMAP</a>
-          <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer" className="nav-link mob">STAKE (NEW)</a>
-          <a href="/staking" className="nav-link mob">STAKE (OLD)</a>
+          <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer" className="nav-link mob">STAKE</a>
+          {/* <a href="/staking" className="nav-link mob">STAKE (OLD)</a> */}
           <a href="/disguiseRoom" className="nav-link mob">disguise room</a>
           {/* <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
@@ -41,8 +41,8 @@ const Navigation = (props: Props) => {
           <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link">white paper</a>
           <a href="/hay" className="nav-link">$HAY</a>
           <a href="/home#roadmap" className="nav-link">roadmap</a>
-          <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer" className="nav-link">STAKE (NEW)</a>
-          <a href="/staking" className="nav-link">stake (old)</a>
+          <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer" className="nav-link">STAKE</a>
+          {/* <a href="/staking" className="nav-link">stake (old)</a> */}
           <a href="/disguiseRoom" className="nav-link">disguise room</a>
           {/* <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">

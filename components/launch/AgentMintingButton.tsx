@@ -23,6 +23,7 @@ interface Props {
   candyMachine: CandyMachine,
   collection: SlaCollection,
   solBalance: number,
+  mintingIsOver?: boolean,
 }
 
 
@@ -102,7 +103,7 @@ const AgentMintingButton = (props: Props) => {
               {(isUserWhitelisted && discountPrice <= 0.0001) ? (
                 <>
                   <p>{`Looks like you're eligible for a free Llama Agent!`}</p>
-                  <p>{`Thanks for supporting us from the start. ❤️`}</p>
+                  {/* <p>{`Thanks for supporting us from the start. ❤️`}</p> */}
                 </>
               ) : (
                 <>
@@ -123,6 +124,21 @@ const AgentMintingButton = (props: Props) => {
         }
         break;
     }
+
+    // If the sale has ended and the user doesn't have a whitelist token, they cannot mint
+    console.log(`Minting is over: ${props.mintingIsOver}`)
+    if (props.mintingIsOver && !isUserWhitelisted && preMintingStatus !== PreMintingStatus.WalletNotConnected) {
+      content = {
+        type: ModalType.Info,
+        content: (
+          <>
+            <p>Llama Agents cannot be minted at this time.</p>
+            <p>Find us on Discord for more information!</p>
+          </>
+        )
+      }
+    }
+
     setModalContent(content)
   }
 
@@ -209,7 +225,7 @@ const AgentMintingButton = (props: Props) => {
       console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
-  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, discountPrice, isUserWhitelisted])
+  }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, discountPrice, isUserWhitelisted, props.mintingIsOver])
 
   const handleOnMintConfirm = async (isWhitelistMint: boolean) => {
     setIsPreMinting(false)
@@ -231,18 +247,21 @@ const AgentMintingButton = (props: Props) => {
 
   return (
     <>
-      <BasicModal
-        content={modalContent}
-        onConfirm={() => handleOnMintConfirm(isUserWhitelisted)}
-        imageSrc="images/nasr.png"
-        {...modalContent}
-        trigger={(
-          <Button style={{ margin: "auto", width: (isUserWhitelisted && discountPrice) ? "300px" : "220px" }} isWaiting={isMinting}>
-            {`Mint (${cm ? ((isUserWhitelisted && discountPrice) ? 'FREE AIRDROP' : cm.state.price + ' SOL') : '0.75 SOL'})`}
-          </Button>
-        )}
-      >
-      </BasicModal>
+      {/* {!props.mintingIsOver && */}
+        <BasicModal
+          content={modalContent}
+          onConfirm={() => handleOnMintConfirm(isUserWhitelisted)}
+          imageSrc="images/nasr.png"
+          {...modalContent}
+          trigger={(
+            <Button style={{ margin: "auto", width: (isUserWhitelisted && discountPrice) ? "220px" : "220px" }} isWaiting={isMinting}>
+              {/* {`Mint (${cm ? ((isUserWhitelisted && discountPrice) ? 'FREE' : cm.state.price + ' SOL') : '0.75 SOL'})`} */}
+              {`Mint ${(cm && isUserWhitelisted && discountPrice) ? '(FREE)' : ''}`}
+            </Button>
+          )}
+        >
+        </BasicModal>
+      {/* } */}
     </>
   )
 }
