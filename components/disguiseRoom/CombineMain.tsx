@@ -41,6 +41,8 @@ const CombineMain = () => {
   } = useCombine()
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
+  const combineFeatureOff = process.env.NEXT_PUBLIC_COMBINE_FEATURE_OFF! == 'false'
+
 
   const getProgressBar = (perc: number) => {
     return (
@@ -50,7 +52,6 @@ const CombineMain = () => {
     )
 
   }
-
 
   const getModalContent = () => {
     let content: ModalContent
@@ -261,6 +262,18 @@ const CombineMain = () => {
           )
         }
         break;
+    }
+
+    if (combineFeatureOff) {
+      content = {
+        type: ModalType.Info,
+        content: (
+          <>
+            <p>We are in the process of updating our ecosystem - traits cannot be combined right now. </p>
+            <p>Check our Discord for more information! ❤️ </p>
+          </>
+        )
+      }
     }
 
     setModalContent(content)
