@@ -71,16 +71,16 @@ const AgentMintingButton = (props: Props) => {
         }
         break;
 
-      case PreMintingStatus.NotLiveYet:
-        content = {
-          type: ModalType.Info,
-          content: (
-            <>
-              <p>Llama Agents cannot be minted at this time.</p>
-            </>
-          )
-        }
-        break;
+      // case PreMintingStatus.NotLiveYet:
+      //   content = {
+      //     type: ModalType.Info,
+      //     content: (
+      //       <>
+      //         <p>Llama Agents cannot be minted at this time.</p>
+      //       </>
+      //     )
+      //   }
+      //   break;
 
       case PreMintingStatus.BalanceTooSmall:
         content = {
