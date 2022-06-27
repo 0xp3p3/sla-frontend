@@ -128,9 +128,10 @@ const useCandyMachine = (collection: SlaCollection, balance: number): CandyMachi
       setPreMintingStatus(PreMintingStatus.WalletNotConnected)
     } else if (!cm || !cm.state) {
       setPreMintingStatus(PreMintingStatus.CmStateNotFetched)
-    } else if (!cm.state.isActive) {
-      setPreMintingStatus(PreMintingStatus.NotLiveYet)
     } 
+    // else if (!cm.state.isActive) {
+    //   setPreMintingStatus(PreMintingStatus.NotLiveYet)
+    // } 
     
      // = user is not whitelisted + doesn't have enough for non-whitelist 
     else if (((!discountPrice || !isUserWhitelisted) && (balance < cm.state.price))) {
