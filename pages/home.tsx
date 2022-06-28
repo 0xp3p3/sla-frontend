@@ -71,11 +71,11 @@ const Home: NextPage = () => {
           <div className="container-l w-container">
             <div className="hor-cen vert-mob">
               <div className="_50div">
-                <div className="tb-32 s-font">sign up to get a reminder</div>
+                {/* <div className="tb-32 s-font">sign up to get a reminder</div> */}
               </div>
               <div className="_50div padd-right mob-all">
                 <div className="form-block w-form">
-                  <SignupForm />
+                  {/* <SignupForm /> */}
                   <div className="w-form-done">
                     <div>Thank you! Your submission has been received!</div>
                   </div>
