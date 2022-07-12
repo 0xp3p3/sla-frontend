@@ -104,8 +104,6 @@ const CombineMain = () => {
             <>
               <p>You are about to get in disguise.</p>
               <p>This action is <strong>irreversible</strong>. {`So make sure you're happy with your new look!`}</p>
-              <br />
-              <p>Note: This will only work if your NFT has been officially verified. Keep an eye out on Discord for announcements from the core team as to when that has been done. Thank you for your patience.</p>
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <br />
                 <p>{`Solana has been rather congested lately. If one of these transactions fail, don't worry - your funds are secure. Simply try again!`}</p>

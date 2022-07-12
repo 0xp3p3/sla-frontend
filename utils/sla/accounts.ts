@@ -18,4 +18,10 @@ export async function generateSlaMasterPda(): Promise<[PublicKey, number]> {
   )
 }
 
+export async function getSlaTreasuryPda(): Promise<[PublicKey, number]> {
+  return PublicKey.findProgramAddress(
+    [Buffer.from("sla_treasury")],
+    new PublicKey(SLA_PROGRAM_ID)
+  )
+}
 

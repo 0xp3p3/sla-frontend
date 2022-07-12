@@ -2,6 +2,7 @@ import { PublicKey } from "@solana/web3.js"
 import { programs, MetadataJson } from "@metaplex/js"
 import { useEffect, useState } from "react"
 import { getSlaNFTsByOwner } from "../utils/nfts"
+import { SLA_TOKEN_TYPE } from "../utils/constants"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 
 export type NFT = {
@@ -9,6 +10,7 @@ export type NFT = {
   mint: PublicKey
   onchainMetadata: programs.metadata.MetadataData
   externalMetadata: MetadataJson
+  type?: SLA_TOKEN_TYPE
 }
 
 const useWalletNFTs = () => {
@@ -17,11 +19,13 @@ const useWalletNFTs = () => {
 
   const [agentWalletNFTs, setAgentWalletNFTs] = useState<Array<NFT>>([])
   const [traitWalletNFTs, setTraitWalletNFTs] = useState<Array<NFT>>([])
+  const [idCardWalletNFTs, setIdCardWalletNFTs] = useState<Array<NFT>>([])
 
   const fetchNFTs = async () => {
     if (!publicKey) {
       setAgentWalletNFTs([])
       setTraitWalletNFTs([])
+      setIdCardWalletNFTs([])
       return
     }
 
@@ -30,13 +34,16 @@ const useWalletNFTs = () => {
 
     const traits = nfts.clothing.concat(nfts.eyes, nfts.hats, nfts.mouths, nfts.skins)
     setTraitWalletNFTs(traits)
+
+    console.log(nfts.idCards)
+    setIdCardWalletNFTs(nfts.idCards)
   }
 
   useEffect(() => {
     fetchNFTs()
   }, [publicKey])
 
-  return { agentWalletNFTs, traitWalletNFTs, fetchNFTs }
+  return { agentWalletNFTs, traitWalletNFTs, fetchNFTs, idCardWalletNFTs }
 }
 
 export default useWalletNFTs
