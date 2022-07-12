@@ -428,6 +428,72 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "mintIdCard",
+      "accounts": [
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hayMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hayUserAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hayTreasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "treasuryBump",
+          "type": "u8"
+        }
+      ]
     }
   ],
   "accounts": [

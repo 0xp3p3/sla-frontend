@@ -7,6 +7,7 @@ import { createNewAvatarMetadata } from "../utils/metadata"
 import { sendUploadFund, UploadResult } from "../utils/mainnetUpload"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { checkIfTraitCanBeCombined } from "../utils/sla/traits"
+import { SLA_TOKEN_TYPE } from "../utils/constants"
 
 
 
@@ -85,7 +86,7 @@ const useCombine = () => {
       let newStatus = CombineStatus.NothingSelected
 
       // Generate a preview if both an Agent and a Trait have been selected
-      if (selectedAgent && selectedTrait) {
+      if (selectedAgent && selectedTrait && (selectedTrait.type === SLA_TOKEN_TYPE.TRAIT)) {
 
         // Before generating a preview, make sure that the combination is allowed
         const combinationAllowed = await checkIfTraitCanBeCombined(
@@ -99,13 +100,13 @@ const useCombine = () => {
       }
 
       // Show the agent if no trait has been selected
-      else if (selectedAgent && !selectedTrait) {
+      else if (selectedAgent && (!selectedTrait || (selectedTrait && !(selectedTrait.type === SLA_TOKEN_TYPE.TRAIT)))) {
         metadata = selectedAgent.externalMetadata
         newStatus = CombineStatus.AgentSelectedOnly
       }
 
       // Show the trait if no agent has been selected
-      else if (!selectedAgent && selectedTrait) {
+      else if (!selectedAgent && selectedTrait && (selectedTrait.type === SLA_TOKEN_TYPE.TRAIT)) {
         metadata = selectedTrait.externalMetadata
         newStatus = CombineStatus.TraitSelectedOnly
       }

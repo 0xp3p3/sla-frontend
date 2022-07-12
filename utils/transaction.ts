@@ -29,7 +29,7 @@ export async function sendTransaction({
   timeout = DEFAULT_TIMEOUT,
 }: {
   transaction: Transaction;
-  wallet: Wallet;
+  wallet: any;
   signers?: Array<Keypair>;
   connection: Connection;
   sendingMessage?: string;
