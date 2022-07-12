@@ -48,7 +48,7 @@ const modalMessages: { [name: string]: ModalContent } = {
     type: ModalType.Waiting,
     content: (
       <>
-        <p>You're minting a new ID Card.</p>
+        <p>{`You're minting a new ID Card.`}</p>
         <p>Make sure to confirm the transaction popping up.</p>
       </>
     ),
