@@ -5,7 +5,7 @@ import BasicModal, { ModalType } from "../modals/BasicModal"
 
 import { mintIdCard } from "../../utils/sla/idCard"
 import { useEffect, useMemo, useState } from "react"
-import { Loader } from "semantic-ui-react"
+import { Loader, Progress } from "semantic-ui-react"
 
 
 
@@ -50,6 +50,11 @@ const modalMessages: { [name: string]: ModalContent } = {
       <>
         <p>{`You're minting a new ID Card.`}</p>
         <p>Make sure to confirm the transaction popping up.</p>
+        <br />
+        <Progress percent={50} active color="green">Minting an ID Card...</Progress>
+        <br />
+        <p style={{ fontStyle: 'italic' }}>Please be patient, this might take up to 2 minutes.</p>
+
       </>
     ),
     size: "large",
