@@ -4,8 +4,7 @@ import axios from "axios"
 import { programs } from "@metaplex/js"
 
 import { NFT } from "../hooks/useWalletNFTs"
-import { AGENT_COLLECTION, SLA_COLLECTIONS, TRAIT_COLLECTIONS } from "./constants"
-import { String } from "aws-sdk/clients/batch"
+import { SLA_COLLECTIONS, ID_CARD_MINT, SLA_TOKEN_TYPE } from "./constants"
 
 const {
   metadata: { Metadata },
@@ -19,6 +18,7 @@ interface SlaNFTs {
   hats: NFT[],
   mouths: NFT[],
   skins: NFT[],
+  idCards: NFT[],
 }
 
 
@@ -68,7 +68,7 @@ export async function getNFTsByOwner(
     .filter((tokenAccount) => {
       const amount = tokenAccount.account.data.parsed.info.tokenAmount
 
-      return amount.decimals === 0 && amount.uiAmount === 1
+      return amount.decimals === 0 && amount.uiAmount >= 1
     })
     .map((tokenAccount) => {
       return {
@@ -88,23 +88,40 @@ export async function getSlaNFTsByOwner(
   const nfts = await getNFTsByOwner(owner, connection)
 
   return {
-    agents: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.agent.collection),
-    clothing: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.clothing.collection),
-    eyes: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.eyes.collection),
-    hats: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.hat.collection),
-    mouths: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.mouth.collection),
-    skins: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.skin.collection)
+    agents: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.agent.collection, SLA_TOKEN_TYPE.AGENT),
+    clothing: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.clothing.collection, SLA_TOKEN_TYPE.TRAIT),
+    eyes: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.eyes.collection, SLA_TOKEN_TYPE.TRAIT),
+    hats: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.hat.collection, SLA_TOKEN_TYPE.TRAIT),
+    mouths: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.mouth.collection, SLA_TOKEN_TYPE.TRAIT),
+    skins: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.skin.collection, SLA_TOKEN_TYPE.TRAIT),
+    idCards: filterTokensByMint(nfts, ID_CARD_MINT.toString()),
   }
 }
 
 export function filterNFTsFromCollection(
   nfts: NFT[],
   collection: string,
+  tokenType?: SLA_TOKEN_TYPE,
 ): NFT[] {
 
-  return nfts.filter(nft => {
+  const filtered = nfts.filter(nft => {
     const onChainCollection = nft.onchainMetadata.collection
     if (!onChainCollection) { return false }
     return (onChainCollection.key === collection && onChainCollection.verified)
   })
+
+  // Add a boolean to mark these NFTs as traits if needed
+  filtered.forEach(nft => nft.type = tokenType ? tokenType : null)
+
+  return filtered
+}
+
+function filterTokensByMint(
+  nfts: NFT[],
+  mint: string,
+  tokenType?: SLA_TOKEN_TYPE,
+): NFT[] {
+  const filtered = nfts.filter(nft => nft.mint.toString() === mint)
+  filtered.forEach(nft => nft.type = tokenType ? tokenType : null)
+  return filtered
 }

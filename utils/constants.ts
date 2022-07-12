@@ -37,6 +37,10 @@ export const HAY_MINT = new anchor.web3.PublicKey(
   "CcaKx6adqp8wDeksiR15x8HMgBzjz8QY6pJCmRZQPXAB"
 )
 
+export const SLA_HAY_TREASURY_WALLET = new anchor.web3.PublicKey(
+  "GYoijtAH31pDLNGz4UYCf5aRGe92iwx7BWv2CZtwUKDC"
+)
+
 export const COMBINE_AUTHORITY_WALLET = new anchor.web3.PublicKey(
   "2Pi1TvYf8Nku8ppq3Pn4ZEHDNo8fFhZjcLaRHi17Au4C"
 )
@@ -110,3 +114,13 @@ export const TRAIT_COLLECTIONS = [
   SLA_COLLECTIONS.hat.collection,
   SLA_COLLECTIONS.mouth.collection,
 ]
+
+export const ID_CARD_MINT = new anchor.web3.PublicKey(
+  "9mxy4zbRkb4CJbWz3cyjgVas3ok9dqdAZPWHQD34o2Jo"
+)
+
+export enum SLA_TOKEN_TYPE {
+  AGENT,
+  TRAIT, 
+  ID_CARD,
+}
