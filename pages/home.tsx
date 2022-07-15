@@ -26,11 +26,11 @@ const Home: NextPage = () => {
     },
     5: {
       title: 'ID CARDS RELEASE',
-      text: <>Mint an ID Card NFT in exchange for $HAY in <a href="/disguiseRoom">The Disguise Room</a>.<br/><br/> Combine one with your Llama Agent to change its alias.</>
+      text: <>Mint an ID Card token in exchange for $HAY in <a href="/disguiseRoom">The Disguise Room</a>.<br/><br/> Combine one with your Llama Agent to change its alias.</>
     },
     6: {
       title: 'PROMOTIONS',
-      text: <>Holders begin having enough $HAY accumulated to enter The Ceremonial Hall and get promoted. <br/><br/>Higher ranks receive bonus $HAY.</>
+      text: <>Holders begin having enough $HAY accumulated to mint Badges in The Ceremonial Hall and get promoted. <br/><br/>Higher ranks receive bonus $HAY.</>
     },
     7: {
       title: 'TROUBLE BREWING',
@@ -172,7 +172,6 @@ const Home: NextPage = () => {
               <p className="p1">
                 Staked Llama Agents earn 2 $HAY a day. Getting promoted means your Llama Agent receives even more $HAY! The higher you rank, the more you earn. <br /><br />
                 You can mint your promotion badges and combine them with your Llama Agent in The Ceremonial Hall.<br /><br />
-                Access is exclusive to those that hold a minimum of 60 $HAY in their wallet. 
                 Check out <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer">our whitepaper</a> to learn more about the $HAY ecosystem and its utility.
               </p>
             </div><img src="images/Img-26.png" loading="lazy" sizes="(max-width: 479px) 86vw, (max-width: 646px) 90vw, (max-width: 991px) 582px, 100vw" srcSet="images/Img-26-p-500.png 500w, images/Img-26.png 582w" alt="" className="img-582 mob" />
@@ -181,31 +180,31 @@ const Home: NextPage = () => {
             <div id="w-node-_3aba37f8-29c7-92cb-1450-1628618f3d33-90cb9dd4" className="vert-cent space-btw"><img src="images/Mask-group.png" loading="lazy" sizes="137.828125px" srcSet="images/Mask-group-p-500.png 500w, images/Mask-group-p-800.png 800w, images/Mask-group.png 992w" alt="" className="medal-img" />
               <div className="vert-cent">
                 <h3 className="h3">Bronze</h3>
-                <div className="p1 p-center">+5 $HAY<br />6,000 Supply</div>
+                <div className="p1 p-center">+5 $HAY<br />3,000 Supply</div>
               </div>
             </div>
             <div id="w-node-_73893607-b4a6-985d-5faf-d925bada0e0e-90cb9dd4" className="vert-cent space-btw"><img src="images/Icon-2.png" loading="lazy" sizes="177.8125px" srcSet="images/Icon-2-p-500.png 500w, images/Icon-2-p-800.png 800w, images/Icon-2-p-1080.png 1080w, images/Icon-2.png 1288w" alt="" className="medal-img" />
               <div className="vert-cent">
                 <h3 className="h3">silver</h3>
-                <div className="p1 p-center">+7 $HAY<br />4,200 Supply</div>
+                <div className="p1 p-center">+7 $HAY<br />2,100 Supply</div>
               </div>
             </div>
             <div id="w-node-_0883c520-3067-57da-43a7-e42b65709bfa-90cb9dd4" className="vert-cent space-btw"><img src="images/Icon-3.png" loading="lazy" sizes="205.3671875px" srcSet="images/Icon-3-p-500.png 500w, images/Icon-3-p-800.png 800w, images/Icon-3-p-1080.png 1080w, images/Icon-3.png 1453w" alt="" className="medal-img gold" />
               <div className="vert-cent">
                 <h3 className="h3">gold</h3>
-                <div className="p1 p-center">+9 $HAY<br />2,700 Supply</div>
+                <div className="p1 p-center">+9 $HAY<br />1,350 Supply</div>
               </div>
             </div>
             <div id="w-node-_4e637392-2729-564f-e996-4d36d3647ea7-90cb9dd4" className="vert-cent space-btw"><img src="images/Icon-4.png" loading="lazy" sizes="152.8828125px" srcSet="images/Icon-4-p-500.png 500w, images/Icon-4-p-800.png 800w, images/Icon-4-p-1080.png 1080w, images/Icon-4.png 1202w" alt="" className="medal-img" />
               <div className="vert-cent">
                 <h3 className="h3">platinum</h3>
-                <div className="p1 p-center">+11 $HAY<br />1,500 Supply</div>
+                <div className="p1 p-center">+11 $HAY<br />750 Supply</div>
               </div>
             </div>
             <div id="w-node-_099b3ed8-9cdc-4dd0-eadf-a71e82473bf3-90cb9dd4" className="vert-cent space-btw"><img src="images/Icon-5.png" loading="lazy" sizes="168.203125px" srcSet="images/Icon-5-p-500.png 500w, images/Icon-5-p-800.png 800w, images/Icon-5-p-1080.png 1080w, images/Icon-5.png 1432w" alt="" className="medal-img" />
               <div className="vert-cent">
                 <h3 className="h3">diamond</h3>
-                <div className="p1 p-center">+15 $HAY<br />600 Supply</div>
+                <div className="p1 p-center">+15 $HAY<br />300 Supply</div>
               </div>
             </div>
           </div>
