@@ -7,7 +7,7 @@ import { Connection, Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import * as mpl from "@metaplex/js"
 import { findAssociatedTokenAddress } from "../../../utils/sla/utils";
 import { generateSlaAvatarPda } from "../../../utils/sla/accounts";
-import { COMBINE_AUTHORITY_WALLET, SLA_ARWEAVE_WALLET, TOKEN_PROGRAM_ID, SLA_PROGRAM_ID } from "../../../utils/constants";
+import { COMBINE_AUTHORITY_WALLET, SLA_ARWEAVE_WALLET, TOKEN_PROGRAM_ID, SLA_PROGRAM_ID, ID_CARD_MINT } from "../../../utils/constants";
 import idl from '../../../sla_idl.json'
 
 
@@ -26,15 +26,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       new Uint8Array(JSON.parse(process.env.COMBINE_AUTHORITY_SECRET))
     )
 
+    console.log(body)
+
     // Create transaction + check that the new metadata is correct
-    console.log('creating transaction')
-    const transaction = await createTransaction(
-      new PublicKey(body.agentMint),
-      new PublicKey(body.traitMint),
-      new PublicKey(body.owner),
-      body.newUri,
-      keypair,
-    )
+    let transaction: anchor.web3.Transaction
+    if (body.newName) {
+      console.log('creating ChangeAlias transaction')
+      transaction = await createChangeAliasTransaction(
+        new PublicKey(body.agentMint),
+        new PublicKey(body.owner),
+        body.newUri,
+        body.newName,
+        keypair,
+      )
+    } else {
+      console.log(`creating TraitCombine transaction`)
+      transaction = await createTraitCombineTransaction(
+        new PublicKey(body.agentMint),
+        new PublicKey(body.traitMint),
+        new PublicKey(body.owner),
+        body.newUri,
+        keypair,
+      )
+    }
     
     // Serialize transaction
     console.log('re-serializing transaction')
@@ -53,7 +67,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 
-async function createTransaction(
+async function createTraitCombineTransaction(
   agentMint: PublicKey,
   traitMint: PublicKey,
   owner: PublicKey,
@@ -106,6 +120,63 @@ async function createTransaction(
         traitToken: await traitTokenAccount,
         avatarMetadata: await avatarMetadataAccount,
         traitMetadata: await traitMetadataAccount,
+        payer: owner,
+        combineAuthority: COMBINE_AUTHORITY_WALLET,
+        arweaveWallet: SLA_ARWEAVE_WALLET,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        metadataProgram: mpl.programs.metadata.MetadataProgram.PUBKEY,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      }
+    }
+  )
+  let transaction = new anchor.web3.Transaction({ feePayer: owner }).add(instruction)
+  transaction.recentBlockhash = (await connection.getRecentBlockhash('max')).blockhash
+
+  // Sign transaction with the update authority
+  console.log('Signing transaction with combine authority')
+  transaction.partialSign(updateAuthority)
+
+  return transaction
+}
+
+
+
+async function createChangeAliasTransaction(
+  agentMint: PublicKey,
+  owner: PublicKey,
+  newUri: string,
+  newName: string,
+  updateAuthority: Keypair,
+): Promise<Transaction> {
+
+  // Initialize a connection to the blockchain
+  const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT
+  const connection = new anchor.web3.Connection(endpoint)
+
+  // Initialize a connection to SLA program
+  const provider = new anchor.Provider(connection, new anchor.Wallet(updateAuthority), {
+    preflightCommitment: 'processed',
+  })
+  // @ts-ignore
+  const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
+
+  const avatarMetadataAccount = mpl.programs.metadata.Metadata.getPDA(agentMint)
+  const avatarTokenAccount = findAssociatedTokenAddress(owner, agentMint)
+
+  const idCardAta = findAssociatedTokenAddress(owner, ID_CARD_MINT)
+
+  // Create the transaction
+  const instruction = await program.instruction.changeAlias(
+    newUri,
+    newName,
+    {
+      accounts:
+      {
+        avatarMint: agentMint,
+        avatarToken: await avatarTokenAccount,
+        avatarMetadata: await avatarMetadataAccount,
+        idCardMint: ID_CARD_MINT,
+        idCardAta: await idCardAta,
         payer: owner,
         combineAuthority: COMBINE_AUTHORITY_WALLET,
         arweaveWallet: SLA_ARWEAVE_WALLET,

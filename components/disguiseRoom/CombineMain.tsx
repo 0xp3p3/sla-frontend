@@ -9,6 +9,8 @@ import BasicModal, { ModalType } from "../modals/BasicModal"
 import useCombine, { CombineStatus } from "../../hooks/useCombine"
 import { useEffect, useState } from "react"
 import { ModalContent, Progress } from "semantic-ui-react"
+import { SLA_TOKEN_TYPE } from "../../utils/constants"
+import AliasInput from "./AliasInput"
 
 
 interface ModalContent {
@@ -20,17 +22,19 @@ interface ModalContent {
   onClose?: () => void,
   onCancel?: () => void,
   onConfirm?: () => void,
+  disabled?: boolean,
 }
 
 
 const CombineMain = () => {
-  const { agentWalletNFTs, traitWalletNFTs, fetchNFTs } = useWalletNFTs()
+  const { agentWalletNFTs, traitWalletNFTs, idCardWalletNFTs, fetchNFTs } = useWalletNFTs()
   const {
     status,
     setStatus,
     isCombining,
     setSelectedAgent,
     setSelectedTrait,
+    selectedTrait,
     previewImageUrl,
     isPreviewLoading,
     uploadToArweave,
@@ -38,6 +42,8 @@ const CombineMain = () => {
     setReadyToCombine,
     resetStatus,
     newArweaveImageUrl,
+    setNewAlias,
+    newAlias,
   } = useCombine()
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
@@ -50,10 +56,9 @@ const CombineMain = () => {
         <Progress percent={perc} active={perc < 100} color="green"></Progress>
       </>
     )
-
   }
 
-  const getModalContent = () => {
+  const refreshModalContent = () => {
     let content: ModalContent
     switch (status) {
 
@@ -102,15 +107,26 @@ const CombineMain = () => {
           type: ModalType.Warning,
           content: (
             <>
-              <p>You are about to get in disguise.</p>
-              <p>This action is <strong>irreversible</strong>. {`So make sure you're happy with your new look!`}</p>
+              {selectedTrait && (selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD) ? (
+                <>
+                  <p>What should your new alias be?</p>
+                  <AliasInput
+                    setNameCallback={(alias: string) => { setNewAlias(alias) }}
+                  />
+                </>
+              ) : (
+                <>
+                  <p>You are about to get in disguise.</p>
+                  <p>This action is <strong>irreversible</strong>. {`So make sure you're happy with your new look!`}</p>
+                </>
+              )}
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <br />
                 <p>{`Solana has been rather congested lately. If one of these transactions fail, don't worry - your funds are secure. Simply try again!`}</p>
               </div>
             </>
           ),
-          confirmMessage: "Combine",
+          confirmMessage: selectedTrait && (selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD) ? "Rename" : "Combine",
           keepOpenOnConfirm: true,
           onConfirm: uploadToArweave,
         }
@@ -121,7 +137,11 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>The first step is to upload your new look and metadata information to Arweave.</p>
+              {selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD ? (
+                <p>The first step is to update your alias in the off-chain metadata.</p>
+              ) : (
+                <p>The first step is to upload your new look and metadata information to Arweave.</p>
+              )}
               <p>{`There's a small fee associated with that (somewhere around $0.1-0.3).`}</p>
               <p>{`Make sure you comfirm the transaction popping up from your wallet and I'll take it from there.`}</p>
               {getProgressBar(33)}
@@ -135,7 +155,11 @@ const CombineMain = () => {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>{`I'm uploading your new look and metadata to Arweave.`}</p>
+              {selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD ? (
+                <p>{`I'm updating your metadata on Arweave.`}</p>
+              ) : (
+                <p>{`I'm uploading your new look and metadata to Arweave.`}</p>
+              )}
               <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
               {getProgressBar(67)}
             </>
@@ -171,9 +195,18 @@ const CombineMain = () => {
           type: ModalType.Warning,
           content: (
             <>
-              <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
-              <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here (click me!)</a> is the new look that you expected.</p>
-              <p>{`Once satisfied, click "Next" to move on to the next step.`}</p>
+              {selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD ? (
+                <>
+                  <p>Your new alias has been successfully uploaded to Arweave.</p>
+                  <p>{`Click "Next" to move on to the next step.`}</p>
+                </>
+              ) : (
+                <>
+                  <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
+                  <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here (click me!)</a> is the new look that you expected.</p>
+                  <p>{`Once satisfied, click "Next" to move on to the next step.`}</p>
+                </>
+              )}
               {getProgressBar(100)}
             </>
           ),
@@ -192,7 +225,9 @@ const CombineMain = () => {
               <p>The last thing to do is to update the blockchain accordingly.</p>
               <p>There should be a new transaction popping up for you to sign.</p>
               {getProgressBar(33)}
-              <p style={{ fontStyle: "italic" }}>Please be aware that this step will <strong>permanently</strong> change the look of your Agent and <strong>permanently</strong> burn your Trait NFT.</p>
+              {(selectedTrait.type === SLA_TOKEN_TYPE.TRAIT) &&
+                <p style={{ fontStyle: "italic" }}>Please be aware that this step will <strong>permanently</strong> change the look of your Agent and <strong>permanently</strong> burn your Trait NFT.</p>
+              }
             </>
           ),
         }
@@ -218,7 +253,7 @@ const CombineMain = () => {
             <>
               <p>Something went wrong while updating the on-chain metadata.</p>
               <br />
-              <p>{`If you still want to alter your look, simply click "Retry".`}</p>
+              <p>{`If you still want to update your Agent, simply click "Retry".`}</p>
             </>
           ),
           onCancel: resetStatus,
@@ -233,9 +268,17 @@ const CombineMain = () => {
           type: ModalType.Info,
           content: (
             <>
-              <p>Congratulations, you successfully combined a Trait with your Llama Agent!</p>
-              <br />
-              <p>Come back to see me when you want to add to your disguise. In the meantime, stay safe from the Alpacas!</p>
+              {selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD ? (
+                <>
+                  <p>Congratulations, you successfully modified your Alias!</p>
+                </>
+              ) : (
+                <>
+                  <p>Congratulations, you successfully combined a Trait with your Llama Agent!</p>
+                  <br />
+                  <p>Come back to see me when you want to add to your disguise. In the meantime, stay safe from the Alpacas!</p>
+                </>
+              )}
               <br />
               <p>Agent Franz out.</p>
             </>
@@ -279,8 +322,8 @@ const CombineMain = () => {
 
   // Refresh the modal every time the combine status changes
   useEffect(() => {
-    getModalContent()
-  }, [status])
+    refreshModalContent()
+  }, [status, newAlias])
 
   return (
     <div className={styles.container}>
@@ -293,14 +336,14 @@ const CombineMain = () => {
             onChange={setSelectedAgent}
           />
           <NftSelectionDropdown
-            nfts={traitWalletNFTs}
+            nfts={traitWalletNFTs.concat(idCardWalletNFTs)}
             text="Select your trait"
             emptyText="No trait to display"
             onChange={setSelectedTrait}
           />
         </div>
         <div>
-          <CombinedImage 
+          <CombinedImage
             previewImageUrl={previewImageUrl}
             isPreviewLoading={isPreviewLoading}
           />
@@ -308,6 +351,7 @@ const CombineMain = () => {
       </div>
       <div className={styles.button_container}>
         <BasicModal
+          disabled={selectedTrait && selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD && !newAlias}
           {...modalContent}
           trigger={(
             <Button>

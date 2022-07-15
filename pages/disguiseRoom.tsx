@@ -65,9 +65,7 @@ const DisguiseRoom: NextPage = () => {
             <p className="p1 p-white">
               So, you want a new identity, hmm?
               <br/><br/>
-              {`You're now able to get an ID Card: a token you can use to edit the metadata of your Llama Agent and give it a unique alias!`}
-              <br/><br/>
-              No two Llamas can have the same name.
+              {`You're now able to get an ID Card: a token you can use to edit the metadata of your Llama Agent and give it a custom alias!`}
               <br/><br/>
               ID Cards cost 60 $HAY each.
             </p>

@@ -8,8 +8,11 @@ export async function updateOnChainMetadataAfterCombine(
   wallet: anchor.Wallet,
   connection: anchor.web3.Connection,
   new_uri: string,
+  newName: string | null,
   transactionSignedCallback?: () => void,
 ): Promise<string> {
+
+  console.log(`newName: ${newName}`)
 
   // Fetch the combine transaction signed by the Combine authority
   const response = await (await fetch("/api/combineTraits/getUpdateOnChainMetadataInstruction", {
@@ -20,6 +23,7 @@ export async function updateOnChainMetadataAfterCombine(
       traitMint: traitMint,
       owner: wallet.publicKey.toString(),
       newUri: new_uri,
+      newName: newName,
     })
   })).json()
 
