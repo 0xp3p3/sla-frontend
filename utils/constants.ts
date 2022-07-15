@@ -58,6 +58,8 @@ export interface SlaCollection {
   collection: string,
   candyMachine: string,
   expression: string,
+  supply: number,
+  magicEdenUrl: string,
 }
 
 export const SLA_COLLECTIONS: {[name: string]: SlaCollection} = {
@@ -66,42 +68,54 @@ export const SLA_COLLECTIONS: {[name: string]: SlaCollection} = {
     name: "Llama-Agent",
     collection: "GqxAoZaqww9zp6y5RddRhExrwTVySfAjLnheaJVjSvag",
     candyMachine: "CiBuYi3W3aVQbMWcjvfKBpwjHS6fViuuxQdSUUqkjkn4",
-    expression: "a new Agent"
+    expression: "a new Agent",
+    supply: 0,
+    magicEdenUrl: "https://www.magiceden.io/marketplace/secret_llama_agency",
   },
   skin: {
     id: 1,
     name: "Skin",
     collection: "12HL4jiRkDry3gd9HssESWUcKUmfLusu1ryqtCeMKQE2",
     candyMachine: "596CUro736DCYQRrRSvqceWvB2xm9NmYWzn9XGYrVAX5",
-    expression: "a new Skin"
+    expression: "a new Skin",
+    supply: 4356,
+    magicEdenUrl: "https://www.magiceden.io/marketplace/sla_skin_traits",
   },
   clothing: {
     id: 2,
     name: "Clothing",
     collection: "94GkHEUrEn8JB8femCa2DzpdMLaqs8CAMV6s2vVfeg6F",
     candyMachine: "8C23amhiUafSiKjzHDHMF2FWMr5U3y1FTNca7JeCGEan",
-    expression: "some new Clothes"
+    expression: "some new Clothes",
+    supply: 2546,
+    magicEdenUrl: "https://www.magiceden.io/marketplace/sla_clothing_traits",
   },
   eyes: {
     id: 3,
     name: "Eyes",
     collection: "6qiRWftfRPhqGDWEbvwm2sFttWGfPnr1EsnLEfvbyUma",
     candyMachine: "3duZdeGAjATA7mP4zDFkcRymRwuj71iVJNzauQGZgoHb",
-    expression: "a new pair of Eyes"
+    expression: "a new pair of Eyes",
+    supply: 2500,
+    magicEdenUrl: "https://www.magiceden.io/marketplace/sla_eyes_traits",
   },
   hat: {
     id: 4,
     name: "Hat",
     collection: "2PVhyZ3W2vwFnNLTj8iDZyLXajtt7wYMqiFpAjZGUm1Y",
     candyMachine: "86DqxGnQ1GrpsQojCD9eNR2oY13FL4h8aVTBF4w6wg6E",
-    expression: "a new Hat"
+    expression: "a new Hat",
+    supply: 2481,
+    magicEdenUrl: "https://www.magiceden.io/marketplace/sla_hat_traits",
   },
   mouth: {
     id: 5,
     name: "Mouth",
     collection: "5AtYVqj4kBg3QqcuWq4tD4mrVZBCb9Fp2SubRJSzit2c",
     candyMachine: "7wfMxZMJ4KeP4v2AW2oZGg5QiAWDnNLRdpttm3K1tNhP",
-    expression: "a new Mouth"
+    expression: "a new Mouth",
+    supply: 3500,
+    magicEdenUrl: "https://www.magiceden.io/marketplace/sla_mouth_traits",
   }
 }
 

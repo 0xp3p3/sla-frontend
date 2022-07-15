@@ -35,7 +35,6 @@ const useWalletNFTs = () => {
     const traits = nfts.clothing.concat(nfts.eyes, nfts.hats, nfts.mouths, nfts.skins)
     setTraitWalletNFTs(traits)
 
-    console.log(nfts.idCards)
     setIdCardWalletNFTs(nfts.idCards)
   }
 

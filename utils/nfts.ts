@@ -94,7 +94,7 @@ export async function getSlaNFTsByOwner(
     hats: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.hat.collection, SLA_TOKEN_TYPE.TRAIT),
     mouths: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.mouth.collection, SLA_TOKEN_TYPE.TRAIT),
     skins: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.skin.collection, SLA_TOKEN_TYPE.TRAIT),
-    idCards: filterTokensByMint(nfts, ID_CARD_MINT.toString()),
+    idCards: filterTokensByMint(nfts, ID_CARD_MINT.toString(), SLA_TOKEN_TYPE.ID_CARD),
   }
 }
 
@@ -124,4 +124,28 @@ function filterTokensByMint(
   const filtered = nfts.filter(nft => nft.mint.toString() === mint)
   filtered.forEach(nft => nft.type = tokenType ? tokenType : null)
   return filtered
+}
+
+
+async function getOnchainMetadataForMint(
+  mint: string, 
+  connection: Connection
+): Promise<programs.metadata.MetadataData> {
+    const metadataPDA = await Metadata.getPDA(mint)
+    const onchainMetadata = (await Metadata.load(connection, metadataPDA)).data
+    return onchainMetadata
+}
+
+export async function getOnchainMetadataForMints(
+  mintList: string[],
+  connection: Connection,
+): Promise<programs.metadata.MetadataData[]> {
+
+  const promises: Promise<programs.metadata.MetadataData | undefined>[] = []
+  mintList.forEach((mint) =>
+    promises.push(getOnchainMetadataForMint(mint, connection))
+  )
+  const data = (await Promise.all(promises)).filter((n) => !!n)
+
+  return data
 }
