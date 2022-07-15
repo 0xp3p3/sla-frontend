@@ -22,7 +22,8 @@ interface Props {
   type: ModalType,
   style?: any,
   imageSrc?: string,
-  children
+  children,
+  disabled?: boolean,
 }
 
 
@@ -82,8 +83,9 @@ const BasicModal = (props: Props) => {
             </Button>
             <Button
               content="Ok!"
-              onClick={handleOnConfirm}
+              onClick={!props.disabled ? handleOnConfirm : null}
               className={`${styles.modal_button} ${styles.confirm_button}`}
+              disabled={props.disabled}
             >
               {props.confirmMessage ? props.confirmMessage : "Ok!"}
             </Button>

@@ -182,179 +182,6 @@
       ]
     },
     {
-      "name": "mintEdition",
-      "accounts": [
-        {
-          "name": "hayMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "hayUserAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "hayTreasuryAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newMetadata",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newEdition",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newMint",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "newAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "editionMarker",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "masterEdition",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "masterMetadata",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "masterAta",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "treasury",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "mplTokenMetadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "masterMint",
-          "type": "publicKey"
-        },
-        {
-          "name": "treasuryBump",
-          "type": "u8"
-        },
-        {
-          "name": "editionNumber",
-          "type": "u64"
-        },
-        {
-          "name": "editionType",
-          "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "mintUnlimitedHay",
-      "accounts": [
-        {
-          "name": "hayMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "hayAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "treasury",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "treasuryBump",
-          "type": "u8"
-        },
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
       "name": "merge",
       "accounts": [
         {
@@ -492,6 +319,71 @@
         {
           "name": "treasuryBump",
           "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "changeAlias",
+      "accounts": [
+        {
+          "name": "avatarMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "idCardMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "idCardAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "combineAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "metadataUri",
+          "type": "string"
+        },
+        {
+          "name": "newName",
+          "type": "string"
         }
       ]
     }

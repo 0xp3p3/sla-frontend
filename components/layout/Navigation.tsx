@@ -11,22 +11,22 @@ const Navigation = (props: Props) => {
     <>
       <div style={{ display: 'none', WebkitTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', msTransform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)', transform: 'translate3d(0, -100%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)' }} className="menu-overlay">
         <div className="vert-left">
-          <a href="/home" className="nav-link mob">Mint Llama</a>
+          <a href="/home" className="nav-link mob">Home</a>
           <a href="documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link mob">WHITEPAPER</a>
           <a href="/hay" className="nav-link mob">$HAY</a>
           <a href="/home#roadmap" className="nav-link mob">ROADMAP</a>
           <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer" className="nav-link mob">STAKE</a>
-          {/* <a href="/staking" className="nav-link mob">STAKE (OLD)</a> */}
-          <a href="/disguiseRoom" className="nav-link mob">disguise room</a>
-          {/* <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
+          {/* <a href="/disguiseRoom" className="nav-link mob">disguise room</a> */}
+          <div data-hover="false" data-delay={0} className="dropdown mob w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
-              <div>agents only</div>
+              <div>Rooms</div>
               <img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
             </div>
             <nav className="dropdown-list mob w-dropdown-list">
               <a href="/disguiseRoom" className="nav-link dd-list mob w-dropdown-link">disguise room</a>
+              <a href="/ceremonialHall" className="nav-link dd-list mob w-dropdown-link">ceremonial hall</a>
             </nav>
-          </div> */}
+          </div>
         </div>
         <div className="hor-cen center">
           <ConnectWallet className="button blue nav mob w-button" />
@@ -37,21 +37,21 @@ const Navigation = (props: Props) => {
           <img src="images/Logo-7.png" loading="lazy" sizes="80px" srcSet="images/Logo-7-p-500.png 500w, images/Logo-7-p-800.png 800w, images/Logo-7.png 1000w" alt="" className="logo-n-img" />
         </a>
         <div className="navbar-middle">
-          <a href="/home#top-of-page" className="nav-link">Mint Llama</a>
+          <a href="/home#top-of-page" className="nav-link">Home</a>
           <a href="/documents/Whitepaper.pdf" target="_blank" rel="noreferrer" className="nav-link">white paper</a>
           <a href="/hay" className="nav-link">$HAY</a>
           <a href="/home#roadmap" className="nav-link">roadmap</a>
           <a href="https://staking.secretllamaagency.com" target="_blank" rel="noreferrer" className="nav-link">STAKE</a>
-          {/* <a href="/staking" className="nav-link">stake (old)</a> */}
-          <a href="/disguiseRoom" className="nav-link">disguise room</a>
-          {/* <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
+          {/* <a href="/disguiseRoom" className="nav-link">disguise room</a> */}
+          <div data-hover="false" data-delay={0} className="dropdown w-dropdown">
             <div className="nav-link dd w-dropdown-toggle">
-              <div>agents only</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
+              <div>Rooms</div><img src="images/Vector-13.svg" loading="lazy" alt="" className="arrow-dd" />
             </div>
             <nav className="dropdown-list w-dropdown-list">
               <a href="/disguiseRoom" className="nav-link dd-list w-dropdown-link">disguise room</a>
+              <a href="/ceremonialHall" className="nav-link dd-list w-dropdown-link">ceremonial hall</a>
             </nav>
-          </div> */}
+          </div>
         </div>
         <div className="right-nav">
           <ConnectWallet className="button blue nav w-button" />
