@@ -99,7 +99,6 @@ const useCombine = () => {
 
           metadata = createNewAvatarMetadata(selectedAgent.externalMetadata, selectedTrait.externalMetadata)
           newCombinationNeeded = true
-          newStatus = CombineStatus.GeneratingPreview
         }
 
         else if (selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD) {
