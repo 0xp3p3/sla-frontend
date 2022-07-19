@@ -5,7 +5,7 @@ import BasicModal, { ModalType } from "../modals/BasicModal"
 
 import { mintIdCard } from "../../utils/sla/idCard"
 import { useEffect, useMemo, useState } from "react"
-import { Loader, Progress } from "semantic-ui-react"
+import { Progress } from "semantic-ui-react"
 
 
 

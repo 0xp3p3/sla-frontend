@@ -34,8 +34,11 @@ export async function mintIdCard(
   const hayUserAta = findAssociatedTokenAddress(wallet.publicKey, HAY_MINT)
   const hayTreasuryAta = findAssociatedTokenAddress(SLA_HAY_TREASURY_WALLET, HAY_MINT)
 
-  const instruction = await program.instruction.mintIdCard(
+  const assetId = 1
+
+  const instruction = await program.instruction.mintFungibleAsset(
     treasuryBump,
+    assetId,
     {
       accounts: {
         mint: ID_CARD_MINT,
