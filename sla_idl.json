@@ -257,7 +257,7 @@
       ]
     },
     {
-      "name": "mintIdCard",
+      "name": "mintFungibleAsset",
       "accounts": [
         {
           "name": "mint",
@@ -318,6 +318,10 @@
       "args": [
         {
           "name": "treasuryBump",
+          "type": "u8"
+        },
+        {
+          "name": "assetId",
           "type": "u8"
         }
       ]
@@ -431,6 +435,32 @@
           {
             "name": "mouth",
             "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FungibleAsset",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "ID_CARD"
+          },
+          {
+            "name": "BADGE_BRONZE"
+          },
+          {
+            "name": "BADGE_SILVER"
+          },
+          {
+            "name": "BADGE_GOLD"
+          },
+          {
+            "name": "BADGE_PLATINUM"
+          },
+          {
+            "name": "BADGE_DIAMOND"
           }
         ]
       }
