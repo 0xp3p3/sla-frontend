@@ -4,7 +4,7 @@ import { PublicKey } from "@solana/web3.js";
 import { useEffect, useState } from "react";
 
 import { getSlaRankingPda } from "../utils/sla/accounts";
-import { BadgeAccount, getBadgeAccount } from "../utils/sla/badge";
+import { BadgeAccount, badgeAccountToBadgeInfo, getBadgeAccount } from "../utils/sla/badge";
 import { SlaBadge, SLA_BADGES, SLA_BRONZE_BADGE, SLA_DIAMOND_BADGE, SLA_GOLD_BADGE, SLA_PLATINUM_BADGE, SLA_SILVER_BADGE } from "../utils/constants";
 
 
@@ -53,15 +53,10 @@ const useBadge = (llamaMint: PublicKey | null): CurrentBadgeInfo => {
       
       setCurrentBadgeAccount(badgeAccount)
       console.log(`[useBadge hook] badge account:`, badgeAccount)
-
-      const matchingBadge = SLA_BADGES.filter(b => b.id === badgeAccount.ranking)
-      if (matchingBadge.length === 0) {
-        console.log(`[useBadge hook] rank in PDA does not match any badge`)
-        setCurrentBadge(null)
-      } else {
-        console.log(`[useBadge hook] setting badge to ${matchingBadge[0].name}`)
-        setCurrentBadge(matchingBadge[0])
-      }
+      
+      const badge = badgeAccountToBadgeInfo(badgeAccount)
+      console.log(`[useBadge hook] setting badge to ${badge ? badge.name: null}`)
+      setCurrentBadge(badge)
     }
   }
 

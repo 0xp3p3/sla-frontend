@@ -59,20 +59,15 @@ const useCombineBadge = () => {
   }, [previewImageUrl])
 
 
+  // Update the combination of Llama & Trait every time the user selects a different combination
   useEffect(() => {
     if (!wallet.publicKey) {
       setStatus(BadgeCombineStatus.WalletNoConnected)
     } else {
+      console.log('[useCombineBadge hook] refreshing metadata to display')
       refreshMetadataToDisplay()      
     }
-  }, [wallet.publicKey])
-
-
-  // Update the combination of Llama & Trait every time the user selects a different combination
-  useEffect(() => {
-    console.log('[useCombineBadge hook] refreshing metadata to display')
-    refreshMetadataToDisplay()
-  }, [selectedAgent, selectedBadge])
+  }, [wallet.publicKey, selectedAgent, selectedBadge])
 
 
   const refreshMetadataToDisplay = async () => {
@@ -88,8 +83,6 @@ const useCombineBadge = () => {
 
       // Generate a preview if both an Agent and a Trait have been selected
       if (selectedAgent && selectedBadge) {
-        console.log(selectedBadge)
-
         // Before generating a preview, make sure that the combination is allowed
         const combinationAllowed = checkIfBadgeCanBeCombined(
           currentBadgeInfo.currentBadge, selectedBadge,
