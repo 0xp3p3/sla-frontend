@@ -137,4 +137,69 @@ export enum SLA_TOKEN_TYPE {
   AGENT,
   TRAIT, 
   ID_CARD,
+  BADGE,
 }
+
+export interface SlaBadge {
+  id: number,
+  name: string,
+  expression: string,
+  supply: number,
+  bonusHay: number,
+  mint: string,
+  price: number,
+}
+
+export const SLA_BADGES: SlaBadge[] = [
+  {
+    id: 2,
+    name: "Bronze",
+    expression: "a Bronze Badge",
+    supply: 3000,
+    bonusHay: 5,
+    mint: "AxJohkM2mvtXzkSf6oLy4NjXtrvJUehiMAPjsJ6V1S1u",
+    price: 60,
+  },
+  {
+    id: 3,
+    name: "Silver",
+    expression: "a Silver Badge",
+    supply: 2100,
+    bonusHay: 7,
+    mint: "HVXkw7SaH3i1KKhisgVfE8meUpdawyo6BtjX1YvRCEHL",
+    price: 150,
+  },
+  {
+    id: 4,
+    name: "Gold",
+    expression: "a Gold Badge",
+    supply: 1350,
+    bonusHay: 9,
+    mint: "6MsxoFAhvfL4DcYniQ4FoMdhaRATgzkG1XwyNdLKeMc2",
+    price: 210,
+  },
+  {
+    id: 5,
+    name: "Platinum",
+    expression: "a Platinum Badge",
+    supply: 750,
+    bonusHay: 11,
+    mint: "HZktv6wRgAaLJSoGsXcEhZbJaH6CsmFnuXLbZ93h8LZt",
+    price: 405,
+  },
+  {
+    id: 6,
+    name: "Diamond",
+    expression: "a Diamond Badge",
+    supply: 300,
+    bonusHay: 15,
+    mint: "gQrMXw5EpWVmiikvapTxcHGuaDH3NYbTJwC9voyqfFG",
+    price: 660,
+  }
+]
+
+export const SLA_BRONZE_BADGE = SLA_BADGES.filter(badge => badge.id === 2)[0]
+export const SLA_SILVER_BADGE = SLA_BADGES.filter(badge => badge.id === 3)[0]
+export const SLA_GOLD_BADGE = SLA_BADGES.filter(badge => badge.id === 4)[0]
+export const SLA_PLATINUM_BADGE = SLA_BADGES.filter(badge => badge.id === 5)[0]
+export const SLA_DIAMOND_BADGE = SLA_BADGES.filter(badge => badge.id === 6)[0]

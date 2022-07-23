@@ -24,6 +24,7 @@ interface Props {
   imageSrc?: string,
   children,
   disabled?: boolean,
+  agentName?: string,
 }
 
 
@@ -63,7 +64,7 @@ const BasicModal = (props: Props) => {
       <Modal.Content image>
         <Image size='medium' src={props.imageSrc ? props.imageSrc : "images/Agent-icon-2.png"} className={styles.llama_img} centered verticalAlign="middle" />
         <Modal.Description className={styles.description}>
-          <Header className={styles.header} as="h1">Agent Franz:</Header>
+          <Header className={styles.header} as="h1">{props.agentName ? props.agentName : 'Agent Franz'}:</Header>
           {typeof props.content === "string" ? (
             <p className={styles.text}>{props.content}</p>
           ) : (
