@@ -36,7 +36,7 @@ export async function mintIdCard(
 
   const assetId = 1
 
-  const instruction = await program.instruction.mintFungibleAsset(
+  const instruction = await program.instruction.mintIdCard(
     treasuryBump,
     assetId,
     {
