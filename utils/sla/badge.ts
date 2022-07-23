@@ -141,5 +141,5 @@ export function checkIfBadgeCanBeCombined(
   const badgeInfo = SLA_BADGES.filter(b => b.mint === badgeToCombine.mint.toString())[0]
   console.log('badge info: ', badgeInfo)
   console.log('current badge: ', currentBadge)
-  return (!currentBadge && badgeInfo.id === 2) || (currentBadge.id === badgeInfo.id - 1)
+  return (!currentBadge && badgeInfo.id === 2) || (currentBadge && (currentBadge.id === badgeInfo.id - 1))
 }

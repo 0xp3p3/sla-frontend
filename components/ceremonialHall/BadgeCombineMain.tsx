@@ -309,6 +309,7 @@ const BadgeCombineMain = () => {
         <BasicModal
           {...modalContent}
           imageSrc='/images/Bigspoon.png'
+          agentName="Agent Bigspoon"
           trigger={(
             <Button>
               {isCombining ? <Spinner /> : (status === BadgeCombineStatus.ReadyToCombine ? "combine" : "How To")}
