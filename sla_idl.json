@@ -305,6 +305,80 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "mergeBadge",
+      "accounts": [
+        {
+          "name": "avatarMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "badgeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "badgeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ranking",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "combineAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rankingBump",
+          "type": "u8"
+        },
+        {
+          "name": "assetId",
+          "type": "u8"
+        },
+        {
+          "name": "metadataUri",
+          "type": "string"
+        }
+      ]
     }
   ],
   "accounts": [

@@ -2,11 +2,12 @@ import * as anchor from "@project-serum/anchor";
 import { Wallet } from "@project-serum/anchor"
 import * as mpl from "@metaplex/js"
 
-import { HAY_MINT, SlaBadge, SLA_HAY_TREASURY_WALLET, SLA_PROGRAM_ID, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from "../constants";
+import { HAY_MINT, SlaBadge, SLA_BADGES, SLA_HAY_TREASURY_WALLET, SLA_PROGRAM_ID, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from "../constants";
 import idl from '../../sla_idl.json'
 import { getSlaRankingPda, getSlaTreasuryPda } from "./accounts";
 import { findAssociatedTokenAddress } from "./utils";
 import { sendTransaction } from "../transaction";
+import { NFT } from "../../hooks/useWalletNFTs";
 
 
 export interface BadgeAccount {
@@ -40,7 +41,6 @@ export async function getBadgeAccount(
 
 
 export function isRequirementMet(currentBadge: SlaBadge | null, requiredBadge: SlaBadge | null): boolean {
-
   if (!requiredBadge && !currentBadge) { 
     return true 
   } else if (!currentBadge) {
@@ -113,4 +113,13 @@ export async function mintBadge(
     signers: [],
     connection,
   })
+}
+
+
+export function checkIfBadgeCanBeCombined(
+  currentBadge: SlaBadge,
+  badgeToCombine: NFT,
+): boolean {
+  const badgeInfo = SLA_BADGES.filter(b => b.mint === badgeToCombine.mint.toString())[0]
+  return (!currentBadge && badgeInfo.id === 2) || (currentBadge.id === badgeInfo.id - 1)
 }

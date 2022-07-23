@@ -20,12 +20,14 @@ const useWalletNFTs = () => {
   const [agentWalletNFTs, setAgentWalletNFTs] = useState<Array<NFT>>([])
   const [traitWalletNFTs, setTraitWalletNFTs] = useState<Array<NFT>>([])
   const [idCardWalletNFTs, setIdCardWalletNFTs] = useState<Array<NFT>>([])
+  const [badgeWalletNFTs, setBadgeWalletNFTs] = useState<Array<NFT>>([])
 
   const fetchNFTs = async () => {
     if (!publicKey) {
       setAgentWalletNFTs([])
       setTraitWalletNFTs([])
       setIdCardWalletNFTs([])
+      setBadgeWalletNFTs([])
       return
     }
 
@@ -35,6 +37,9 @@ const useWalletNFTs = () => {
     const traits = nfts.clothing.concat(nfts.eyes, nfts.hats, nfts.mouths, nfts.skins)
     setTraitWalletNFTs(traits)
 
+    const badges = nfts.bronzeBadges.concat(nfts.silverBadges, nfts.goldBadges, nfts.platinumBadges, nfts.diamondBadges)
+    setBadgeWalletNFTs(badges)
+
     setIdCardWalletNFTs(nfts.idCards)
   }
 
@@ -42,7 +47,7 @@ const useWalletNFTs = () => {
     fetchNFTs()
   }, [publicKey])
 
-  return { agentWalletNFTs, traitWalletNFTs, fetchNFTs, idCardWalletNFTs }
+  return { agentWalletNFTs, traitWalletNFTs, fetchNFTs, idCardWalletNFTs, badgeWalletNFTs }
 }
 
 export default useWalletNFTs

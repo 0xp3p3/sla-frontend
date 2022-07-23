@@ -137,6 +137,7 @@ export enum SLA_TOKEN_TYPE {
   AGENT,
   TRAIT, 
   ID_CARD,
+  BADGE,
 }
 
 export interface SlaBadge {
