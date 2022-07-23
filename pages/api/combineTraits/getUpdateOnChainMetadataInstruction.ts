@@ -6,7 +6,7 @@ import { createNewAvatarMetadata } from "../../../utils/metadata";
 import { Connection, Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import * as mpl from "@metaplex/js"
 import { findAssociatedTokenAddress } from "../../../utils/sla/utils";
-import { generateSlaAvatarPda } from "../../../utils/sla/accounts";
+import { generateSlaAvatarPda, getSlaRankingPda } from "../../../utils/sla/accounts";
 import { COMBINE_AUTHORITY_WALLET, SLA_ARWEAVE_WALLET, TOKEN_PROGRAM_ID, SLA_PROGRAM_ID, ID_CARD_MINT } from "../../../utils/constants";
 import idl from '../../../sla_idl.json'
 
@@ -40,16 +40,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         keypair,
       )
     } else {
-      console.log(`creating TraitCombine transaction`)
-      transaction = await createTraitCombineTransaction(
-        new PublicKey(body.agentMint),
-        new PublicKey(body.traitMint),
-        new PublicKey(body.owner),
-        body.newUri,
-        keypair,
-      )
+      if (body.badgeAssetId) {
+        console.log(`creating Badgecombine transaction`)
+        transaction = await createBadgecombineTransaction(
+          new PublicKey(body.agentMint),
+          new PublicKey(body.traitMint),
+          body.badgeAssetId,
+          new PublicKey(body.owner),
+          body.newUri,
+          keypair,
+        )
+      } else {
+        console.log(`creating TraitCombine transaction`)
+        transaction = await createTraitCombineTransaction(
+          new PublicKey(body.agentMint),
+          new PublicKey(body.traitMint),
+          new PublicKey(body.owner),
+          body.newUri,
+          keypair,
+        )
+      }
     }
-    
+
     // Serialize transaction
     console.log('re-serializing transaction')
     const serializedTransaction = transaction.serialize({
@@ -194,6 +206,78 @@ async function createChangeAliasTransaction(
   transaction.partialSign(updateAuthority)
 
   return transaction
+}
+
+
+async function createBadgecombineTransaction(
+  agentMint: PublicKey,
+  badgeMint: PublicKey,
+  badgeAssetId: number,
+  owner: PublicKey,
+  newUri: string,
+  updateAuthority: Keypair,
+): Promise<Transaction> {
+
+  // Initialize a connection to the blockchain
+  const endpoint = process.env.NEXT_PUBLIC_SOLANA_ENDPOINT
+  const connection = new anchor.web3.Connection(endpoint)
+
+  // Before doing anything else, check that the new metadata file is as-expected
+  if (!validateMerge(owner, agentMint, badgeMint, newUri, connection)) {
+    throw Error('Requested combination is invalid.')
+  }
+
+  // Initialize a connection to SLA program
+  const provider = new anchor.Provider(connection, new anchor.Wallet(updateAuthority), {
+    preflightCommitment: 'processed',
+  })
+  // @ts-ignore
+  const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
+
+  const avatarTokenAccount = findAssociatedTokenAddress(owner, agentMint)
+  const avatarMetadataAccount = mpl.programs.metadata.Metadata.getPDA(agentMint)
+
+  const badgeTokenAccount = findAssociatedTokenAddress(owner, badgeMint)
+  const [rankingPda, rankingBump] = await getSlaRankingPda(agentMint)
+
+  try {
+    const beforeAccount = await program.account.avatarAccount.fetch(rankingPda)
+    console.log('Account Before merge: ', beforeAccount)
+  } catch (error: any) {
+    console.log('Could not fetch avatar PDA account before transaction. Probably doesnt exist yet')
+  }
+
+  // Create the transaction
+  const instruction = await program.instruction.mergeBadge(
+    rankingBump,
+    badgeAssetId,
+    newUri,
+    {
+      accounts:
+      {
+        avatarMint: agentMint,
+        avatarToken: await avatarTokenAccount,
+        avatarMetadata: await avatarMetadataAccount,
+        payer: owner,
+        badgeMint: badgeMint,
+        badgeAta: await badgeTokenAccount,
+        ranking: rankingPda,
+        combineAuthority: COMBINE_AUTHORITY_WALLET,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        metadataProgram: mpl.programs.metadata.MetadataProgram.PUBKEY,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      }
+    }
+  )
+  let transaction = new anchor.web3.Transaction({ feePayer: owner }).add(instruction)
+  transaction.recentBlockhash = (await connection.getRecentBlockhash('max')).blockhash
+
+  // Sign transaction with the update authority
+  console.log('Signing transaction with combine authority')
+  transaction.partialSign(updateAuthority)
+
+  return transaction
+
 }
 
 

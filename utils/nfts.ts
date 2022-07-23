@@ -4,7 +4,7 @@ import axios from "axios"
 import { programs } from "@metaplex/js"
 
 import { NFT } from "../hooks/useWalletNFTs"
-import { SLA_COLLECTIONS, ID_CARD_MINT, SLA_TOKEN_TYPE } from "./constants"
+import { SLA_COLLECTIONS, ID_CARD_MINT, SLA_TOKEN_TYPE, SLA_BRONZE_BADGE, SLA_SILVER_BADGE, SLA_GOLD_BADGE, SLA_PLATINUM_BADGE, SLA_DIAMOND_BADGE } from "./constants"
 
 const {
   metadata: { Metadata },
@@ -19,6 +19,11 @@ interface SlaNFTs {
   mouths: NFT[],
   skins: NFT[],
   idCards: NFT[],
+  bronzeBadges: NFT[], 
+  silverBadges: NFT[],
+  goldBadges: NFT[],
+  platinumBadges: NFT[],
+  diamondBadges: NFT[],
 }
 
 
@@ -95,6 +100,11 @@ export async function getSlaNFTsByOwner(
     mouths: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.mouth.collection, SLA_TOKEN_TYPE.TRAIT),
     skins: filterNFTsFromCollection(nfts, SLA_COLLECTIONS.skin.collection, SLA_TOKEN_TYPE.TRAIT),
     idCards: filterTokensByMint(nfts, ID_CARD_MINT.toString(), SLA_TOKEN_TYPE.ID_CARD),
+    bronzeBadges: filterTokensByMint(nfts, SLA_BRONZE_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
+    silverBadges: filterTokensByMint(nfts, SLA_SILVER_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
+    goldBadges: filterTokensByMint(nfts, SLA_GOLD_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
+    platinumBadges: filterTokensByMint(nfts, SLA_PLATINUM_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
+    diamondBadges: filterTokensByMint(nfts, SLA_DIAMOND_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
   }
 }
 

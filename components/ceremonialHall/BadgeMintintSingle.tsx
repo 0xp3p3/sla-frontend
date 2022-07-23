@@ -104,7 +104,7 @@ const BadgeMintingSingle = (props: Props) => {
         content: (
           <>
             <p>Looks like your Agent currently has {!currentBadge ? 'no rank' : `rank ${currentBadge.name}`}.</p>
-            <p>To mint {props.badge.expression}, you need rank {props.requiredBadge.name}.</p>
+            <p>To mint {props.badge.expression}, you must have {props.requiredBadge ? `rank ${props.requiredBadge.name}` : 'no rank'}.</p>
           </>
         )
       }
@@ -226,6 +226,8 @@ const BadgeMintingSingle = (props: Props) => {
   return (
     <>
       <BasicModal
+        imageSrc='images/Bigspoon.png'
+        agentName="Agent Bigspoon"
         {...modalContent}
         onConfirm={onMintConfirm}
         trigger={<Button isWaiting={isMinting}>Mint {props.badge.name}</Button>}

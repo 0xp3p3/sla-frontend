@@ -10,6 +10,7 @@ export async function updateOnChainMetadataAfterCombine(
   new_uri: string,
   newName: string | null,
   transactionSignedCallback?: () => void,
+  badgeAssetId?: number | null,
 ): Promise<string> {
 
   console.log(`newName: ${newName}`)
@@ -24,6 +25,7 @@ export async function updateOnChainMetadataAfterCombine(
       owner: wallet.publicKey.toString(),
       newUri: new_uri,
       newName: newName,
+      badgeAssetId: badgeAssetId,
     })
   })).json()
 

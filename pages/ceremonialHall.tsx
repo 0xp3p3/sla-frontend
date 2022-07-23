@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import BadgeCombineMain from "../components/ceremonialHall/BadgeCombineMain";
 import BadgeMintingMain from "../components/ceremonialHall/BadgeMintingMain";
 import PageWrapper from "../components/layout/PageWrapper";
 import TypingEffect from "../components/utils/TypingEffect";
@@ -43,6 +44,23 @@ const DisguiseRoom: NextPage = () => {
             <div className="w-layout-grid grid-2">
               <BadgeMintingMain />
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="step-2">
+        <img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
+        <div className="container-m relative w-container">
+          <div className="vert-cent">
+            <div className="vert-left stretch">
+              <h2 className="h3">STEP 2: COMBINE</h2>
+              <p className="p1">
+                In this section, you&apos;ll be able to combine badges with your Llama Agent. Any badge combination completed here will be permanent.
+                <br /><br />
+                Once you&apos;ve selected the Llama Agent and Badge you&apos;d like to combine from the dropdown menus, we&apos;ll generate a preview of what the resulting Agent would look like.
+                Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Bigspoon&apos;s instructions.
+              </p>
+            </div>
+            <BadgeCombineMain />
           </div>
         </div>
       </div>
