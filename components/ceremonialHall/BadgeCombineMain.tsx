@@ -61,7 +61,7 @@ const BadgeCombineMain = () => {
           type: ModalType.Info,
           content: (
             <>
-              <p>{`Time to get promoted?.`}</p>
+              <p>{`Ready to get promoted?`}</p>
               <p>Start by connecting your wallet at the top of this page.</p>
             </>
           ),
@@ -308,6 +308,7 @@ const BadgeCombineMain = () => {
       <div className={styles.button_container}>
         <BasicModal
           {...modalContent}
+          imageSrc='/images/Bigspoon.png'
           trigger={(
             <Button>
               {isCombining ? <Spinner /> : (status === BadgeCombineStatus.ReadyToCombine ? "combine" : "How To")}

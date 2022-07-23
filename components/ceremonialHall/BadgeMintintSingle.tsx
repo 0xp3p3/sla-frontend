@@ -226,6 +226,7 @@ const BadgeMintingSingle = (props: Props) => {
   return (
     <>
       <BasicModal
+        imageSrc='images/Bigspoon.png'
         {...modalContent}
         onConfirm={onMintConfirm}
         trigger={<Button isWaiting={isMinting}>Mint {props.badge.name}</Button>}
