@@ -1,0 +1,8 @@
+
+
+.dropdowns_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 70px;
+  margin-top: 30px;
+}

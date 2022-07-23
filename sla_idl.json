@@ -148,7 +148,7 @@
       ]
     },
     {
-      "name": "minBadge",
+      "name": "mintBadge",
       "accounts": [
         {
           "name": "mint",
@@ -163,7 +163,7 @@
         {
           "name": "user",
           "isMut": false,
-          "isSigner": false
+          "isSigner": true
         },
         {
           "name": "treasury",
@@ -336,6 +336,10 @@
                 "defined": "FungibleAsset"
               }
             }
+          },
+          {
+            "name": "mintedNext",
+            "type": "bool"
           }
         ]
       }
@@ -465,68 +469,68 @@
     },
     {
       "code": 6013,
+      "name": "NextBadgeAlreadyMinted",
+      "msg": "Agent has already minted the next badge"
+    },
+    {
+      "code": 6014,
+      "name": "AssetMaxSupplyReached",
+      "msg": "Max supply has been reached"
+    },
+    {
+      "code": 6015,
       "name": "MasterEditionNotRecognised",
       "msg": "Master Edition not recognised"
     },
     {
-      "code": 6014,
+      "code": 6016,
       "name": "TokenToMintNotRecognised",
       "msg": "Token to be minted not recognised"
     },
     {
-      "code": 6015,
+      "code": 6017,
       "name": "PDAIsNotAnAvatar",
       "msg": "The Avatar PDA is not an Avatar account"
     },
     {
-      "code": 6016,
+      "code": 6018,
       "name": "PDAIsNotATrait",
       "msg": "The Trait PDA is not a Trait account"
     },
     {
-      "code": 6017,
+      "code": 6019,
       "name": "TraitTypeInvalid",
       "msg": "The Trait type specified is not valid"
     },
     {
-      "code": 6018,
+      "code": 6020,
       "name": "AvatarAlreadyInitialized",
       "msg": "The Avatar PDA has already been initialized"
     },
     {
-      "code": 6019,
+      "code": 6021,
       "name": "AvatarPDANotInitialized",
       "msg": "The Avatar PDA has not been initialized yet"
     },
     {
-      "code": 6020,
+      "code": 6022,
       "name": "MergeCheckFailed",
       "msg": "The Trait specified cannot be merged"
     },
     {
-      "code": 6021,
+      "code": 6023,
       "name": "MergeCheckFailedBecauseAvatarNotInitialized",
       "msg": "The Trait cannot be merged because the Avatar has not been initialized"
     },
     {
-      "code": 6022,
+      "code": 6024,
       "name": "ArweaveAccountMismatch",
       "msg": "The specified arweave_wallet account does not match the stored pubkey"
     },
     {
-      "code": 6023,
+      "code": 6025,
       "name": "AvatarCannotMintTrait",
       "msg": "The trait cannot be minted by this avatar"
-    },
-    {
-      "code": 6024,
-      "name": "InvalidWhitelistMint",
-      "msg": "The Whitelist Mint does not match the Trait Type"
-    },
-    {
-      "code": 6025,
-      "name": "HayCannotBeMinted",
-      "msg": "Hay cannot be minted at this time"
     }
   ]
 }
