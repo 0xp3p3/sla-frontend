@@ -30,7 +30,7 @@ const BadgeMintingMain = () => {
         <div className="vert-left marg-mob">
           <img src="../images/Bronze.png" loading="lazy" sizes="(max-width: 479px) 100vw, (max-width: 767px) 94vw, 330px" srcSet="../images/Bronze-p-500.png 500w, ../images/Bronze-p-800.png 800w, ../images/Bronze.png 1000w" alt="" className="llama-img select" />
           {currentBadgeInfo.bronzeSupply &&
-            <h3 className="h3 h-white mrg-d-34">{currentBadgeInfo.bronzeSupply.toLocaleString("en-US")} Supply<br />+{SLA_BRONZE_BADGE.bonusHay} bonus $HAY</h3>
+            <h3 className="h3 h-white mrg-d-34">Total Supply: {SLA_BRONZE_BADGE.supply.toLocaleString("en-US")}<br />+{SLA_BRONZE_BADGE.bonusHay} bonus $HAY</h3>
           }
           <div className="p1 p-white">Requirement:<br />- 60 $HAY</div>
         </div>
@@ -41,7 +41,7 @@ const BadgeMintingMain = () => {
         <div className="vert-left marg-mob">
           <img src="../images/Silver.png" loading="lazy" sizes="(max-width: 479px) 100vw, (max-width: 767px) 94vw, 330px" srcSet="../images/Silver-p-500.png 500w, ../images/Silver-p-800.png 800w, ../images/Silver.png 1000w" alt="" className="llama-img select" />
           {currentBadgeInfo.silverSupply &&
-            <h3 className="h3 h-white mrg-d-34">{currentBadgeInfo.silverSupply.toLocaleString("en-US")} Supply<br />+{SLA_SILVER_BADGE.bonusHay} Bonus $HAY</h3>
+            <h3 className="h3 h-white mrg-d-34">Total Supply: {SLA_SILVER_BADGE.supply.toLocaleString("en-US")}<br />+{SLA_SILVER_BADGE.bonusHay} Bonus $HAY</h3>
           }
           <div className="p1 p-white">Requirement:<br />- 150 $HAY<br />- Must have a Bronze Ranked Llama agent</div>
         </div>
@@ -52,7 +52,7 @@ const BadgeMintingMain = () => {
         <div className="vert-left marg-mob">
           <img src="../images/Gold.png" loading="lazy" sizes="(max-width: 479px) 100vw, (max-width: 767px) 94vw, 330px" srcSet="../images/Gold-p-500.png 500w, ../images/Gold-p-800.png 800w, ../images/Gold.png 1000w" alt="" className="llama-img select" />
           {currentBadgeInfo.goldSupply &&
-            <h3 className="h3 h-white mrg-d-34">{currentBadgeInfo.goldSupply.toLocaleString("en-US")} Supply<br />+{SLA_GOLD_BADGE.bonusHay} Bonus $HAY</h3>
+            <h3 className="h3 h-white mrg-d-34">Total Supply: {SLA_GOLD_BADGE.supply.toLocaleString("en-US")}<br />+{SLA_GOLD_BADGE.bonusHay} Bonus $HAY</h3>
           }
           <div className="p1 p-white">Requirement:<br />- 210 $HAY<br />- Must have a Silver Ranked Llama Agent</div>
         </div>
@@ -63,7 +63,7 @@ const BadgeMintingMain = () => {
         <div className="vert-left marg-mob">
           <img src="../images/Platinum.png" loading="lazy" sizes="(max-width: 479px) 100vw, (max-width: 767px) 94vw, 330px" srcSet="../images/Platinum-p-500.png 500w, ../images/Platinum-p-800.png 800w, ../images/Platinum.png 1000w" alt="" className="llama-img select" />
           {currentBadgeInfo.platinumSupply &&
-            <h3 className="h3 h-white mrg-d-34">{currentBadgeInfo.platinumSupply.toLocaleString("en-US")} Supply<br />+{SLA_PLATINUM_BADGE.bonusHay} Bonus $HAY</h3>
+            <h3 className="h3 h-white mrg-d-34">Total Supply: {SLA_PLATINUM_BADGE.supply.toLocaleString("en-US")}<br />+{SLA_PLATINUM_BADGE.bonusHay} Bonus $HAY</h3>
           }
           <div className="p1 p-white">Requirement:<br />- 405 $HAY<br />- Must have a Gold Ranked Llama Agent</div>
         </div>
@@ -74,7 +74,7 @@ const BadgeMintingMain = () => {
         <div className="vert-left marg-mob">
           <img src="../images/Diamond.png" loading="lazy" sizes="(max-width: 479px) 100vw, (max-width: 767px) 94vw, 330px" srcSet="../images/Diamond-p-500.png 500w, ../images/Diamond-p-800.png 800w, ../images/Diamond.png 1000w" alt="" className="llama-img select" />
           {currentBadgeInfo.diamondSupply &&
-            <h3 className="h3 h-white mrg-d-34">{currentBadgeInfo.diamondSupply.toLocaleString("en-US")} Supply<br />+{SLA_DIAMOND_BADGE.bonusHay} Bonus $HAY</h3>
+            <h3 className="h3 h-white mrg-d-34">Total Supply: {SLA_DIAMOND_BADGE.supply.toLocaleString("en-US")}<br />+{SLA_DIAMOND_BADGE.bonusHay} Bonus $HAY</h3>
           }
           <div className="p1 p-white">Requirement:<br />- 660 $HAY<br />- Must have a Platinum Ranked Llama Agent</div>
         </div>
