@@ -32,3 +32,9 @@ export async function getSlaRankingPda(mint: PublicKey): Promise<[PublicKey, num
   )
 }
 
+export async function getBadgeSupplyCounter(): Promise<[PublicKey, number]> {
+  return PublicKey.findProgramAddress(
+    [Buffer.from("sla_badge_pot")],
+    new PublicKey(SLA_PROGRAM_ID)
+  )
+}

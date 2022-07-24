@@ -4,7 +4,7 @@ import * as mpl from "@metaplex/js"
 
 import { HAY_MINT, SlaBadge, SLA_BADGES, SLA_HAY_TREASURY_WALLET, SLA_PROGRAM_ID, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from "../constants";
 import idl from '../../sla_idl.json'
-import { getSlaRankingPda, getSlaTreasuryPda } from "./accounts";
+import { getBadgeSupplyCounter, getSlaRankingPda, getSlaTreasuryPda } from "./accounts";
 import { findAssociatedTokenAddress } from "./utils";
 import { sendTransaction } from "../transaction";
 import { NFT } from "../../hooks/useWalletNFTs";
@@ -94,6 +94,7 @@ export async function mintBadge(
   const avatarToken = findAssociatedTokenAddress(wallet.publicKey, agentMint)
   const avatarMetadataAccount = mpl.programs.metadata.Metadata.getPDA(agentMint)
   const [rankingPda, rankingBump] = await getSlaRankingPda(agentMint)
+  const [badgeSupplyCounter, badgeSupplyCounterBump] = await getBadgeSupplyCounter()
   
   console.log(`Badge to mint:`)
   console.log(badgeToMint)
@@ -101,7 +102,8 @@ export async function mintBadge(
   console.log(`creating transaction`)
   const instruction = program.instruction.mintBadge(
     new anchor.BN(treasuryBump),
-    rankingBump,
+    new anchor.BN(rankingBump),
+    new anchor.BN(badgeSupplyCounterBump),
     new anchor.BN(badgeToMint.id),
     {
       accounts: {
@@ -116,6 +118,7 @@ export async function mintBadge(
         avatarToken: await avatarToken,
         avatarMetadata: await avatarMetadataAccount,
         ranking: rankingPda,
+        badgeSupplyCounter,
         rent: anchor.web3.SYSVAR_RENT_PUBKEY, 
         tokenProgram: TOKEN_PROGRAM_ID,
         associatedTokenProgram: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
