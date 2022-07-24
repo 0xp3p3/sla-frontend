@@ -9,6 +9,7 @@ import BasicModal, { ModalType } from "../modals/BasicModal"
 import useCombineBadge, { BadgeCombineStatus } from "../../hooks/useCombineBadge"
 import { useEffect, useState } from "react"
 import { ModalContent, Progress } from "semantic-ui-react"
+import { setInitialBadgeSupply } from "../../utils/sla/badgeSupply"
 
 
 interface ModalContent {
