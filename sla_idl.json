@@ -206,6 +206,11 @@
           "isSigner": false
         },
         {
+          "name": "badgeSupplyCounter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "rent",
           "isMut": false,
           "isSigner": false
@@ -233,6 +238,10 @@
         },
         {
           "name": "rankingBump",
+          "type": "u8"
+        },
+        {
+          "name": "badgeSupplyCounterBump",
           "type": "u8"
         },
         {
@@ -414,6 +423,34 @@
           {
             "name": "mintedNext",
             "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BadgeSupplyCounter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bronze",
+            "type": "u16"
+          },
+          {
+            "name": "silver",
+            "type": "u16"
+          },
+          {
+            "name": "gold",
+            "type": "u16"
+          },
+          {
+            "name": "platinum",
+            "type": "u16"
+          },
+          {
+            "name": "diamond",
+            "type": "u16"
           }
         ]
       }

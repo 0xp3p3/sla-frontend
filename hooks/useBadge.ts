@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 
 import { getSlaRankingPda } from "../utils/sla/accounts";
 import { BadgeAccount, badgeAccountToBadgeInfo, getBadgeAccount } from "../utils/sla/badge";
-import { SlaBadge, SLA_BADGES, SLA_BRONZE_BADGE, SLA_DIAMOND_BADGE, SLA_GOLD_BADGE, SLA_PLATINUM_BADGE, SLA_SILVER_BADGE } from "../utils/constants";
+import { SlaBadge, SLA_BRONZE_BADGE, SLA_DIAMOND_BADGE, SLA_GOLD_BADGE, SLA_PLATINUM_BADGE, SLA_SILVER_BADGE } from "../utils/constants";
+import { fetchBadgeSupply } from "../utils/sla/badgeSupply";
 
 
 
@@ -68,16 +69,13 @@ const useBadge = (llamaMint: PublicKey | null): CurrentBadgeInfo => {
   const fetchCurrentBadgeSupplies = async () => {
     if (!connection) { return }
 
-    const fetchSupplyForSingleBadge = async (mint: string, maxSupply: number): Promise<number>  => {
-      const supply = (await connection.getTokenSupply(new PublicKey(mint))).value
-      return Math.max(0, maxSupply - parseInt(supply.amount))
-    }
+    const supplies = await fetchBadgeSupply(anchorWallet, connection)
 
-    setBronzeSupply(await fetchSupplyForSingleBadge(SLA_BRONZE_BADGE.mint, SLA_BRONZE_BADGE.supply))
-    setSilverSupply(await fetchSupplyForSingleBadge(SLA_SILVER_BADGE.mint, SLA_SILVER_BADGE.supply))
-    setGoldSupply(await fetchSupplyForSingleBadge(SLA_GOLD_BADGE.mint, SLA_GOLD_BADGE.supply))
-    setPlatinumSupply(await fetchSupplyForSingleBadge(SLA_PLATINUM_BADGE.mint, SLA_PLATINUM_BADGE.supply))
-    setDiamondSupply(await fetchSupplyForSingleBadge(SLA_DIAMOND_BADGE.mint, SLA_DIAMOND_BADGE.supply))
+    setBronzeSupply(SLA_BRONZE_BADGE.supply - supplies?.bronze)
+    setSilverSupply(SLA_SILVER_BADGE.supply - supplies?.silver)
+    setGoldSupply(SLA_GOLD_BADGE.supply - supplies?.gold)
+    setPlatinumSupply(SLA_PLATINUM_BADGE.supply - supplies?.platinum)
+    setDiamondSupply(SLA_DIAMOND_BADGE.supply - supplies?.diamond)
   }
 
   useEffect(() => {
