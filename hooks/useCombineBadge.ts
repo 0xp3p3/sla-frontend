@@ -6,7 +6,7 @@ import { NFT } from "./useWalletNFTs"
 import { createNewAvatarMetadata } from "../utils/metadata"
 import { sendUploadFund, UploadResult } from "../utils/mainnetUpload"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
-import { checkIfBadgeCanBeCombined } from "../utils/sla/badge"
+import { checkIfBadgeCanBeCombined } from "../utils/sla/badgeV2"
 import useBadge from "./useBadge"
 
 

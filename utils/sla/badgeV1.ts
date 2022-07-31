@@ -4,19 +4,19 @@ import * as mpl from "@metaplex/js"
 
 import { HAY_MINT, SlaBadge, SLA_BADGES, SLA_HAY_TREASURY_WALLET, SLA_PROGRAM_ID, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from "../constants";
 import idl from '../../sla_idl.json'
-import { getBadgeSupplyCounter, getSlaRankingPda, getSlaTreasuryPda } from "./accounts";
+import { getBadgeSupplyCounter, getSlaRankingV1Pda, getSlaTreasuryPda } from "./accounts";
 import { findAssociatedTokenAddress } from "./utils";
 import { sendTransaction } from "../transaction";
 import { NFT } from "../../hooks/useWalletNFTs";
 
 
-export interface BadgeAccount {
+export interface BadgeAccountV1 {
   ranking: any,
   mintedNext: boolean,
 }
 
 
-export async function getBadgeAccount(
+export async function getBadgeAccountV1(
   wallet: Wallet,
   connection: anchor.web3.Connection,
   rankingPda: anchor.web3.PublicKey,
@@ -40,9 +40,12 @@ export async function getBadgeAccount(
 }
 
 
-export function badgeAccountToBadgeInfo(badgeAccount: BadgeAccount): SlaBadge | null {
+export function badgeAccountV1ToBadgeInfo(badgeAccount: BadgeAccountV1): SlaBadge | null {
 
-  if (!badgeAccount) { return null }
+  if (!badgeAccount || !badgeAccount.ranking) { return null }
+
+  console.log('badge account V1')
+  console.log(badgeAccount)
 
   // The Rust Enum has fields following the pattern "badgeBronze"
   const filtered = SLA_BADGES.filter(b => `badge${b.name}` in badgeAccount.ranking)
@@ -55,23 +58,7 @@ export function badgeAccountToBadgeInfo(badgeAccount: BadgeAccount): SlaBadge | 
 }
 
 
-export function isRequirementMet(currentBadge: SlaBadge | null, requiredBadge: SlaBadge | null): boolean {
-  console.log('current badge: ', currentBadge)
-  console.log('required badge', requiredBadge)
-
-  if (!requiredBadge && !currentBadge) { 
-    return true 
-  } else if (!currentBadge || !requiredBadge) {
-    return false 
-  } else if (currentBadge.id === requiredBadge.id) {
-    return true 
-  } else {
-    return false 
-  }
-}
-
-
-export async function mintBadge(
+export async function mintBadgeV1(
   wallet: Wallet,
   connection: anchor.web3.Connection,
   badgeToMint: SlaBadge,
@@ -93,7 +80,7 @@ export async function mintBadge(
   const hayTreasuryAta = findAssociatedTokenAddress(SLA_HAY_TREASURY_WALLET, HAY_MINT)
   const avatarToken = findAssociatedTokenAddress(wallet.publicKey, agentMint)
   const avatarMetadataAccount = mpl.programs.metadata.Metadata.getPDA(agentMint)
-  const [rankingPda, rankingBump] = await getSlaRankingPda(agentMint)
+  const [rankingPda, rankingBump] = await getSlaRankingV1Pda(agentMint)
   const [badgeSupplyCounter, badgeSupplyCounterBump] = await getBadgeSupplyCounter()
   
   console.log(`Badge to mint:`)
@@ -137,7 +124,7 @@ export async function mintBadge(
 }
 
 
-export function checkIfBadgeCanBeCombined(
+export function checkIfBadgeCanBeCombinedV1(
   currentBadge: SlaBadge,
   badgeToCombine: NFT,
 ): boolean {

@@ -3,15 +3,17 @@ import useAnchorWallet from "./useAnchorWallet"
 import { PublicKey } from "@solana/web3.js";
 import { useEffect, useState } from "react";
 
-import { getSlaRankingPda } from "../utils/sla/accounts";
-import { BadgeAccount, badgeAccountToBadgeInfo, getBadgeAccount } from "../utils/sla/badge";
+import { getSlaRankingV1Pda, getSlaRankingV2Pda } from "../utils/sla/accounts";
 import { SlaBadge, SLA_BRONZE_BADGE, SLA_DIAMOND_BADGE, SLA_GOLD_BADGE, SLA_PLATINUM_BADGE, SLA_SILVER_BADGE } from "../utils/constants";
 import { fetchBadgeSupply } from "../utils/sla/badgeSupply";
+import { BadgeAccountV2, badgeAccountV2ToBadgeInfo, getBadgeAccountV2 } from "../utils/sla/badgeV2";
+import { BadgeAccountV1, badgeAccountV1ToBadgeInfo, getBadgeAccountV1 } from "../utils/sla/badgeV1";
 
 
 
 export interface CurrentBadgeInfo {
-  currentBadgeAccount: BadgeAccount | null,
+  currentBadgeAccountV1: BadgeAccountV1 | null,
+  currentBadgeAccountV2: BadgeAccountV2 | null,
   currentBadge: SlaBadge | null,
   bronzeSupply: number,
   silverSupply: number,
@@ -28,7 +30,8 @@ const useBadge = (llamaMint: PublicKey | null): CurrentBadgeInfo => {
   const { anchorWallet } = useAnchorWallet()
 
   const [currentBadge, setCurrentBadge] = useState<SlaBadge | null>(null)
-  const [currentBadgeAccount, setCurrentBadgeAccount] = useState<any | null>(null)
+  const [currentBadgeAccountV1, setCurrentBadgeAccountV1] = useState<any | null>(null)
+  const [currentBadgeAccountV2, setCurrentBadgeAccountV2] = useState<any | null>(null)
 
   const [bronzeSupply, setBronzeSupply] = useState<number>(null)
   const [silverSupply, setSilverSupply] = useState<number>(null)
@@ -39,26 +42,46 @@ const useBadge = (llamaMint: PublicKey | null): CurrentBadgeInfo => {
   const fetchRanking = async () => {
     if (!publicKey || !llamaMint) {
       setCurrentBadge(null)
-      setCurrentBadgeAccount(null)
+      setCurrentBadgeAccountV1(null)
+      setCurrentBadgeAccountV2(null)
       return
     }
 
-    const [rankingPda] = await getSlaRankingPda(llamaMint)
-    const badgeAccount = await getBadgeAccount(anchorWallet, connection, rankingPda)
+    let badgeFound: SlaBadge | null = null
 
-    if (!badgeAccount) {
-      console.log(`[useBadge hook] no badge found for ${llamaMint.toString()}`)
-      setCurrentBadge(null) 
-      setCurrentBadgeAccount(null)
+    // Fetch V2 account
+    const [rankingPdaV2] = await getSlaRankingV2Pda(llamaMint)
+    const badgeAccountV2 = await getBadgeAccountV2(anchorWallet, connection, rankingPdaV2)
+
+    if (!badgeAccountV2) {
+      console.log(`[useBadge hook] no V2 badge found for ${llamaMint.toString()}`)
+      setCurrentBadgeAccountV2(null)
+    } else {
+      setCurrentBadgeAccountV2(badgeAccountV2)
+      console.log(`[useBadge hook] badge V2 account:`, badgeAccountV2)
+      
+      badgeFound = badgeAccountV2ToBadgeInfo(badgeAccountV2)
+    }
+
+    // Fetch V1 account 
+    const [rankingPdaV1] = await getSlaRankingV1Pda(llamaMint)
+    const badgeAccountV1 = await getBadgeAccountV1(anchorWallet, connection, rankingPdaV1)
+
+    if (!badgeAccountV1) {
+      console.log(`[useBadge hook] no V1 badge found for ${llamaMint.toString()}`)
+      setCurrentBadgeAccountV1(null)
     } else {
       
-      setCurrentBadgeAccount(badgeAccount)
-      console.log(`[useBadge hook] badge account:`, badgeAccount)
+      setCurrentBadgeAccountV1(badgeAccountV1)
+      console.log(`[useBadge hook] badge account:`, badgeAccountV1)
       
-      const badge = badgeAccountToBadgeInfo(badgeAccount)
-      console.log(`[useBadge hook] setting badge to ${badge ? badge.name: null}`)
-      setCurrentBadge(badge)
+      // Only override the V2 badge if it is None
+      if (!badgeFound) {
+        badgeFound = badgeAccountV1ToBadgeInfo(badgeAccountV1)
+      }
     }
+
+    setCurrentBadge(badgeFound)
   }
 
   useEffect(() => {
@@ -84,7 +107,8 @@ const useBadge = (llamaMint: PublicKey | null): CurrentBadgeInfo => {
 
   
   return { 
-    currentBadgeAccount, 
+    currentBadgeAccountV1,
+    currentBadgeAccountV2, 
     currentBadge,
     bronzeSupply, 
     silverSupply,
