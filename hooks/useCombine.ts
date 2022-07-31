@@ -7,7 +7,6 @@ import { createNewAvatarMetadata } from "../utils/metadata"
 import { sendUploadFund, UploadResult } from "../utils/mainnetUpload"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { checkIfTraitCanBeCombined } from "../utils/sla/traits"
-import { SLA_TOKEN_TYPE } from "../utils/constants"
 
 
 
@@ -42,8 +41,6 @@ const useCombine = () => {
   const [newArweaveMetadataUrl, setNewArweaveMetadataUrl] = useState('')
   const [newArweaveImageUrl, setNewArweaveImageUrl] = useState('')
 
-  const [newAlias, setNewAlias] = useState<string>(null)
-
   const [status, setStatus] = useState<CombineStatus>(CombineStatus.WalletNoConnected)
   const [isCombining, setIsCombining] = useState(false)
 
@@ -64,7 +61,7 @@ const useCombine = () => {
     if (!wallet.publicKey) {
       setStatus(CombineStatus.WalletNoConnected)
     } else {
-      refreshMetadataToDisplay()
+      refreshMetadataToDisplay()      
     }
   }, [wallet.publicKey])
 
@@ -84,53 +81,50 @@ const useCombine = () => {
       setIsPreviewLoading(true)
 
       let metadata: mpl.MetadataJson = null
-      let newCombinationNeeded = false
+      let bothNftsSelected = false
       let newStatus = CombineStatus.NothingSelected
 
       // Generate a preview if both an Agent and a Trait have been selected
       if (selectedAgent && selectedTrait) {
-        if (selectedTrait.type === SLA_TOKEN_TYPE.TRAIT) {
 
-          // Before generating a preview, make sure that the combination is allowed
-          const combinationAllowed = await checkIfTraitCanBeCombined(
-            selectedAgent, selectedTrait, connection, anchorWallet,
-          )
-          if (!combinationAllowed) { return }
+        // Before generating a preview, make sure that the combination is allowed
+        const combinationAllowed = await checkIfTraitCanBeCombined(
+          selectedAgent, selectedTrait, connection, anchorWallet,
+        )
+        if (!combinationAllowed) { return }
 
-          metadata = createNewAvatarMetadata(selectedAgent.externalMetadata, selectedTrait.externalMetadata)
-          newCombinationNeeded = true
-        }
-
-        else if (selectedTrait.type === SLA_TOKEN_TYPE.ID_CARD) {
-          metadata = selectedAgent.externalMetadata
-        }
-
-        newStatus = CombineStatus.ReadyToCombine
+        metadata = createNewAvatarMetadata(selectedAgent.externalMetadata, selectedTrait.externalMetadata)
+        bothNftsSelected = true
+        newStatus = CombineStatus.GeneratingPreview
       }
 
       // Show the agent if no trait has been selected
-      else if (selectedAgent && (!selectedTrait || (selectedTrait && !(selectedTrait.type === SLA_TOKEN_TYPE.TRAIT)))) {
+      else if (selectedAgent && !selectedTrait) {
         metadata = selectedAgent.externalMetadata
         newStatus = CombineStatus.AgentSelectedOnly
       }
 
       // Show the trait if no agent has been selected
-      else if (!selectedAgent && selectedTrait && (selectedTrait.type === SLA_TOKEN_TYPE.TRAIT)) {
+      else if (!selectedAgent && selectedTrait) {
         metadata = selectedTrait.externalMetadata
         newStatus = CombineStatus.TraitSelectedOnly
       }
 
-      console.log(metadata)
-      const url = await getImageUrlToDisplay(metadata, newCombinationNeeded)
+      const url = await getImageUrlToDisplay(metadata, bothNftsSelected)
 
       setMetadataToDisplay(metadata)
       setPreviewImageUrl(url)
       setStatus(newStatus)
 
-    } catch (error: any) {
+    } catch(error: any) {
       console.log(error)
     } finally {
       setIsPreviewLoading(false)
+    }
+
+    // We're ready to combine if both the agent and trait are selected
+    if (selectedAgent && selectedTrait) { 
+      setReadyToCombine()
     }
   }
 
@@ -172,24 +166,16 @@ const useCombine = () => {
     setStatus(CombineStatus.ReadyToCombine)
   }
 
+
   // Combine the Trait with the Llama
   const uploadToArweave = async () => {
+    console.log(`function entry: ${previewImageUrl}`)
+
     if (status === CombineStatus.ReadyToCombine) {
       setIsCombining(true)
 
-      console.log(`New alias before uploading: ${newAlias}`)
-
-      let metadata: mpl.MetadataJson = JSON.parse(JSON.stringify(metadataToDisplay))
-      if (newAlias && selectedAgent) {
-        metadata.name = newAlias
-        metadata.image = '0.png'
-        metadata.properties.files[0].uri = '0.png'
-      }
-
       try {
         setStatus(CombineStatus.AwaitingUserSignatureForArweaveUpload)
-
-        console.log('before upload', metadata)
 
         // Fetch cost of uploading files to arweave
         console.log(`[useCombine hook] about to upload this image to Arweave: ${previewImageUrl}`)
@@ -198,7 +184,7 @@ const useCombine = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             imageUrl: previewImageUrl,
-            metadataJson: JSON.stringify(metadata),
+            metadataJson: JSON.stringify(metadataToDisplay),
           })
         }
         const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
@@ -225,13 +211,13 @@ const useCombine = () => {
           },
           body: JSON.stringify({
             imageUrl: previewImageUrl,
-            metadataJson: metadata,
+            metadataJson: metadataToDisplay,
             tx: tx,
           })
         }
         const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
         const arweaveUploadResult: UploadResult = responseUpload
-        console.log('[combine hook] new arweave metadata url', arweaveUploadResult.metadataUrl)
+        console.log('new arweave metadata url', arweaveUploadResult.metadataUrl)
 
         if (arweaveUploadResult.error) {
           throw Error(arweaveUploadResult.error)
@@ -253,8 +239,7 @@ const useCombine = () => {
   const updateOnChainMetadata = async () => {
 
     try {
-      console.log('[combine hook] Updating on-chain metadata with new url')
-      console.log(`[combine hook] new alias: ${newAlias}`)
+      console.log('Updating on-chain metadata with new url')
       setStatus(CombineStatus.AwaitingUserSignatureForMetadataUpdate)
 
       const tx = await updateOnChainMetadataAfterCombine(
@@ -263,10 +248,10 @@ const useCombine = () => {
         anchorWallet,
         connection,
         newArweaveMetadataUrl,
-        newAlias,
+        null,
         () => setStatus(CombineStatus.UpdatingOnChainMetadata)
       )
-      console.log('[combine hook] Finished updating metadata. Tx: ', tx)
+      console.log('Finished updating metadata. Tx: ', tx)
 
       setStatus(CombineStatus.MetadataUpdateSuccess)
 
@@ -279,7 +264,6 @@ const useCombine = () => {
   }
 
   const resetStatus = async () => {
-    console.log(`[combine hook] resetting status`)
     setIsCombining(false)
     await refreshMetadataToDisplay()
   }
@@ -301,9 +285,6 @@ const useCombine = () => {
     updateOnChainMetadata,
     setReadyToCombine,
     newArweaveImageUrl,
-    newArweaveMetadataUrl,
-    newAlias,
-    setNewAlias,
   }
 }
 

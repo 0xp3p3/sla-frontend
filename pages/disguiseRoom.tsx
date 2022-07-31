@@ -1,17 +1,26 @@
 import type { NextPage } from "next";
+import { useState } from "react";
 import CombineMain from "../components/disguiseRoom/CombineMain";
 import IdCardMain from "../components/disguiseRoom/IdCardMain";
+import IdCombineMain from "../components/disguiseRoom/IdCombineMain";
 import TraitMingintMain from "../components/disguiseRoom/TraitMintingMain";
 import PageWrapper from "../components/layout/PageWrapper";
 import TypingEffect from "../components/utils/TypingEffect";
 
 
 const DisguiseRoom: NextPage = () => {
+
+  // Toggle a state boolean to let sub-components know they need to refresh all dropdown items
+  const [dropdownRefreshToggle, setDropdownRefreshToggle] = useState(false)
+  const refreshAllDropdownsCallback = () => {
+    setDropdownRefreshToggle(!dropdownRefreshToggle)
+  }
+
   return (
-    <PageWrapper 
-      title="SLA Disguise Room" 
-      ogImageSource="/images/Logo-7-p-500.png" 
-      webflowPageId="622dfe66d1256c4dfaba1442" 
+    <PageWrapper
+      title="SLA Disguise Room"
+      ogImageSource="/images/Logo-7-p-500.png"
+      webflowPageId="622dfe66d1256c4dfaba1442"
       webflowSandwichMenuId="7db65d3f-0335-cb2e-4fb0-d844ff729209"
       toTopArrow={true}
     >
@@ -34,7 +43,7 @@ const DisguiseRoom: NextPage = () => {
             <h1 className="h2">How it works</h1>
             <div className="vert-left stretch">
               <h2 className="h3 h-white">STEP 1: MINT YOUR TRAITS</h2>
-              <p className="p1 p-white">There are 5 trait categories: Eyes, Mouth, Skin, Clothing and Hats. Each category is its own collection and will generate a random trait when you mint from it.<br/><br/> Combining a trait with your Llama Agent is permanent, making all collections deflationary.<br/><br/> Each trait costs 2 $HAY. </p>
+              <p className="p1 p-white">There are 5 trait categories: Eyes, Mouth, Skin, Clothing and Hats. Each category is its own collection and will generate a random trait when you mint from it.<br /><br /> Combining a trait with your Llama Agent is permanent, making all collections deflationary.<br /><br /> Each trait costs 2 $HAY. </p>
             </div>
             <TraitMingintMain />
           </div>
@@ -50,11 +59,14 @@ const DisguiseRoom: NextPage = () => {
                 In this section, you&apos;ll be able to combine your traits with your Llama Agent. Any trait combinations completed here will be permanent.
                 <br /><br />
                 Once you&apos;ve selected the Llama Agent and trait you&apos;d like to combine from the dropdown menus, we&apos;ll generate a preview of what the resulting Agent would look like.
-                Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Franz&apos; instructions. 
+                Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Franz&apos; instructions.
                 <br /><br />
                 Repeat these steps for every trait to complete your disguise.</p>
             </div>
-            <CombineMain />
+            <CombineMain 
+              dropdownRefreshToggle={dropdownRefreshToggle}
+              refreshAllNfts={refreshAllDropdownsCallback}
+            />
           </div>
         </div>
       </div>
@@ -64,12 +76,31 @@ const DisguiseRoom: NextPage = () => {
             <h3 className="h3 h-white">step 3: mint your id card</h3>
             <p className="p1 p-white">
               So, you want a new identity, hmm?
-              <br/><br/>
+              <br /><br />
               {`You're now able to get an ID Card: a token you can use to edit the metadata of your Llama Agent and give it a custom alias!`}
-              <br/><br/>
+              <br /><br />
               ID Cards cost 60 $HAY each.
             </p>
             <IdCardMain />
+          </div>
+        </div>
+      </div>
+      <div className="step-2">
+        <img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
+        <div className="container-m relative w-container">
+          <div className="vert-cent">
+            <div className="vert-left stretch">
+              <h2 className="h3">STEP 4: Change your alias</h2>
+              <p className="p1">
+                In this section, you&apos;ll be able to use an ID Card to change your Agent&apos;s alias.
+                <br /><br />
+                Once you&apos;ve selected a Llama Agent from the dropdown menu, you&apos;ll be able to choose a new name (assuming you have an ID Card in your wallet).
+              </p>
+            </div>
+            <IdCombineMain 
+              dropdownRefreshToggle={dropdownRefreshToggle}
+              refreshAllNfts={refreshAllDropdownsCallback}
+            />
           </div>
         </div>
       </div>
