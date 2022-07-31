@@ -25,9 +25,16 @@ export async function getSlaTreasuryPda(): Promise<[PublicKey, number]> {
   )
 }
 
-export async function getSlaRankingPda(mint: PublicKey): Promise<[PublicKey, number]> {
+export async function getSlaRankingV1Pda(mint: PublicKey): Promise<[PublicKey, number]> {
   return PublicKey.findProgramAddress(
     [Buffer.from("sla_ranking"), mint.toBuffer()],
+    new PublicKey(SLA_PROGRAM_ID),
+  )
+}
+
+export async function getSlaRankingV2Pda(mint: PublicKey): Promise<[PublicKey, number]> {
+  return PublicKey.findProgramAddress(
+    [Buffer.from("sla_ranking_v2"), mint.toBuffer()],
     new PublicKey(SLA_PROGRAM_ID),
   )
 }

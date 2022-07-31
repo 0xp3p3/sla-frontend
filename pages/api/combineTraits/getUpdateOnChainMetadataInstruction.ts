@@ -6,7 +6,7 @@ import { createNewAvatarMetadata } from "../../../utils/metadata";
 import { Connection, Keypair, PublicKey, Transaction } from "@solana/web3.js";
 import * as mpl from "@metaplex/js"
 import { findAssociatedTokenAddress } from "../../../utils/sla/utils";
-import { generateSlaAvatarPda, getSlaRankingPda } from "../../../utils/sla/accounts";
+import { generateSlaAvatarPda, getSlaRankingV1Pda, getSlaRankingV2Pda } from "../../../utils/sla/accounts";
 import { COMBINE_AUTHORITY_WALLET, SLA_ARWEAVE_WALLET, TOKEN_PROGRAM_ID, SLA_PROGRAM_ID, ID_CARD_MINT } from "../../../utils/constants";
 import idl from '../../../sla_idl.json'
 
@@ -238,18 +238,13 @@ async function createBadgecombineTransaction(
   const avatarMetadataAccount = mpl.programs.metadata.Metadata.getPDA(agentMint)
 
   const badgeTokenAccount = findAssociatedTokenAddress(owner, badgeMint)
-  const [rankingPda, rankingBump] = await getSlaRankingPda(agentMint)
-
-  try {
-    const beforeAccount = await program.account.avatarAccount.fetch(rankingPda)
-    console.log('Account Before merge: ', beforeAccount)
-  } catch (error: any) {
-    console.log('Could not fetch avatar PDA account before transaction. Probably doesnt exist yet')
-  }
+  const [rankingV1Pda, rankingV1Bump] = await getSlaRankingV1Pda(agentMint)
+  const [rankingV2Pda, rankingV2Bump] = await getSlaRankingV2Pda(agentMint)
 
   // Create the transaction
-  const instruction = await program.instruction.mergeBadge(
-    rankingBump,
+  const instruction = await program.instruction.mergeBadgeV2(
+    rankingV1Bump,
+    rankingV2Bump,
     badgeAssetId,
     newUri,
     {
@@ -261,7 +256,8 @@ async function createBadgecombineTransaction(
         payer: owner,
         badgeMint: badgeMint,
         badgeAta: await badgeTokenAccount,
-        ranking: rankingPda,
+        rankingV1: rankingV1Pda,
+        rankingV2: rankingV2Pda,
         combineAuthority: COMBINE_AUTHORITY_WALLET,
         tokenProgram: TOKEN_PROGRAM_ID,
         metadataProgram: mpl.programs.metadata.MetadataProgram.PUBKEY,

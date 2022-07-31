@@ -8,7 +8,7 @@ import { SlaBadge } from "../../utils/constants"
 import BasicModal, { ModalType } from "../modals/BasicModal";
 import { NFT } from "../../hooks/useWalletNFTs"
 import { CurrentBadgeInfo } from "../../hooks/useBadge"
-import { isRequirementMet, mintBadge } from "../../utils/sla/badge"
+import { hasAgentAlreadyMintedBadge, hasAgentReachedRequiredGradeToMint, mintBadge } from "../../utils/sla/badgeV2"
 
 
 interface ModalContent {
@@ -33,7 +33,7 @@ const BadgeMintingSingle = (props: Props) => {
   const { connection } = useConnection()
   const wallet = useWallet()
   const { hayBalance } = useBalances()
-  const { currentBadgeAccount, currentBadge } = props.currentBadgeInfo
+  const { currentBadgeAccountV1, currentBadgeAccountV2, currentBadge } = props.currentBadgeInfo
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
   const [isMinting, setIsMinting] = useState(false)
@@ -98,25 +98,23 @@ const BadgeMintingSingle = (props: Props) => {
       }
     }
 
-    else if (!isRequirementMet(currentBadge, props.requiredBadge)) {
+    else if (!hasAgentReachedRequiredGradeToMint(props.badge, currentBadgeAccountV1, currentBadgeAccountV2)) {
       content = {
         type: ModalType.Info,
         content: (
           <>
-            <p>Looks like your Agent currently has {!currentBadge ? 'no rank' : `rank ${currentBadge.name}`}.</p>
-            <p>To mint {props.badge.expression}, you must have {props.requiredBadge ? `rank ${props.requiredBadge.name}` : 'no rank'}.</p>
+            <p>Looks like your Agent currently has {!currentBadge ? 'no rank' : `rank ${currentBadge.name}`} and is thus not allowed to mint {props.badge.expression}.</p>
           </>
         )
       }
     }
 
-    else if (currentBadgeAccount && currentBadgeAccount.mintedNext) {
+    else if (hasAgentAlreadyMintedBadge(props.badge, currentBadgeAccountV2)) {
       content = {
         type: ModalType.Info,
         content: (
           <>
-            <p>Looks like your Agent has already minted {props.badge.expression}.</p>
-            <p>Each Agent can only mint 1 of each Badge.</p>
+            <p>Looks like your Agent currently has {!currentBadge ? 'no rank' : `rank ${currentBadge.name}`} and has already minted {props.badge.expression}.</p>
           </>
         )
       }
@@ -194,7 +192,7 @@ const BadgeMintingSingle = (props: Props) => {
   useEffect(() => {
     console.log('[Badge mint] refreshing modal content')
     refreshModalContent()
-  }, [wallet, isMinting, isFailure, isSuccess, hayBalance, props.selectedLlama, currentBadge, currentBadgeAccount])
+  }, [wallet, isMinting, isFailure, isSuccess, hayBalance, props.selectedLlama, currentBadge, currentBadgeAccountV1, currentBadgeAccountV2])
 
 
   const onMintConfirm = async () => {

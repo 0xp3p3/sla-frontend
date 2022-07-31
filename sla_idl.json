@@ -251,6 +251,118 @@
       ]
     },
     {
+      "name": "mintBadgeV2",
+      "accounts": [
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hayMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "hayUserAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "hayTreasuryAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "avatarMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rankingV1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rankingV2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "badgeSupplyCounter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "treasuryBump",
+          "type": "u8"
+        },
+        {
+          "name": "rankingV1Bump",
+          "type": "u8"
+        },
+        {
+          "name": "rankingV2Bump",
+          "type": "u8"
+        },
+        {
+          "name": "badgeSupplyCounterBump",
+          "type": "u8"
+        },
+        {
+          "name": "assetId",
+          "type": "u8"
+        }
+      ]
+    },
+    {
       "name": "changeAlias",
       "accounts": [
         {
@@ -388,6 +500,89 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "mergeBadgeV2",
+      "accounts": [
+        {
+          "name": "avatarMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarToken",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "avatarMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "badgeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "badgeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rankingV1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rankingV2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "combineAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rankingV1Bump",
+          "type": "u8"
+        },
+        {
+          "name": "rankingV2Bump",
+          "type": "u8"
+        },
+        {
+          "name": "assetId",
+          "type": "u8"
+        },
+        {
+          "name": "metadataUri",
+          "type": "string"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -422,6 +617,42 @@
           },
           {
             "name": "mintedNext",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RankingV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ranking",
+            "type": {
+              "option": {
+                "defined": "FungibleAsset"
+              }
+            }
+          },
+          {
+            "name": "bronzeMinted",
+            "type": "bool"
+          },
+          {
+            "name": "silverMinted",
+            "type": "bool"
+          },
+          {
+            "name": "goldMinted",
+            "type": "bool"
+          },
+          {
+            "name": "platinumMinted",
+            "type": "bool"
+          },
+          {
+            "name": "diamondMinted",
             "type": "bool"
           }
         ]
@@ -590,56 +821,61 @@
     },
     {
       "code": 6015,
+      "name": "NotAllowedToUpgradeRank",
+      "msg": "Aggent does not have the reqiured rank to use this badge"
+    },
+    {
+      "code": 6016,
       "name": "MasterEditionNotRecognised",
       "msg": "Master Edition not recognised"
     },
     {
-      "code": 6016,
+      "code": 6017,
       "name": "TokenToMintNotRecognised",
       "msg": "Token to be minted not recognised"
     },
     {
-      "code": 6017,
+      "code": 6018,
       "name": "PDAIsNotAnAvatar",
       "msg": "The Avatar PDA is not an Avatar account"
     },
     {
-      "code": 6018,
+      "code": 6019,
       "name": "PDAIsNotATrait",
       "msg": "The Trait PDA is not a Trait account"
     },
     {
-      "code": 6019,
+      "code": 6020,
       "name": "TraitTypeInvalid",
       "msg": "The Trait type specified is not valid"
     },
     {
-      "code": 6020,
+      "code": 6021,
       "name": "AvatarAlreadyInitialized",
       "msg": "The Avatar PDA has already been initialized"
     },
     {
-      "code": 6021,
+      "code": 6022,
       "name": "AvatarPDANotInitialized",
       "msg": "The Avatar PDA has not been initialized yet"
     },
     {
-      "code": 6022,
+      "code": 6023,
       "name": "MergeCheckFailed",
       "msg": "The Trait specified cannot be merged"
     },
     {
-      "code": 6023,
+      "code": 6024,
       "name": "MergeCheckFailedBecauseAvatarNotInitialized",
       "msg": "The Trait cannot be merged because the Avatar has not been initialized"
     },
     {
-      "code": 6024,
+      "code": 6025,
       "name": "ArweaveAccountMismatch",
       "msg": "The specified arweave_wallet account does not match the stored pubkey"
     },
     {
-      "code": 6025,
+      "code": 6026,
       "name": "AvatarCannotMintTrait",
       "msg": "The trait cannot be minted by this avatar"
     }
