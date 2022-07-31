@@ -6,9 +6,10 @@ import useWalletNFTs from "../../hooks/useWalletNFTs"
 import styles from "../../styles/CombineMain.module.css"
 import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal"
-import useCombine, { CombineStatus } from "../../hooks/useCombine"
+import useCombineIdCard, { CombineIdCardStatus } from "../../hooks/useCombineIdCard"
 import { useEffect, useState } from "react"
 import { ModalContent, Progress } from "semantic-ui-react"
+import AliasInput from "./AliasInput"
 
 
 interface ModalContent {
@@ -22,36 +23,46 @@ interface ModalContent {
   onConfirm?: () => void,
 }
 
-
 interface Props {
   dropdownRefreshToggle: boolean,
   refreshAllNfts: () => void,
 }
 
 const CombineMain = (props: Props) => {
-  const { agentWalletNFTs, traitWalletNFTs, fetchNFTs } = useWalletNFTs()
+  const { agentWalletNFTs, fetchNFTs } = useWalletNFTs()
   const {
     status,
     setStatus,
     isCombining,
     setSelectedAgent,
-    setSelectedTrait,
     previewImageUrl,
     isPreviewLoading,
     uploadToArweave,
     updateOnChainMetadata,
-    setReadyToCombine,
     resetStatus,
-    newArweaveImageUrl,
-  } = useCombine()
+  } = useCombineIdCard()
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
   const combineFeatureOff = process.env.NEXT_PUBLIC_COMBINE_FEATURE_OFF! == 'false'
+
+  const [newAlias, setNewAlias] = useState<string | null>(null)
+  const [confirmedClicked, setConfirmedClicked] = useState(false)
 
   // Refetch all NFTs when the switch toggles
   useEffect(() => {
     fetchNFTs()
   }, [props.dropdownRefreshToggle])
+
+  useEffect(() => {
+    console.log(`[idCombineMain] new alias set to ${newAlias}`)
+  }, [newAlias])
+
+  useEffect(() => {
+    console.log(`[idCombineMain] Rename was click`)
+    if (confirmedClicked) {
+      uploadToArweave(newAlias)
+    }
+  }, [confirmedClicked])
 
   const getProgressBar = (perc: number) => {
     return (
@@ -59,14 +70,13 @@ const CombineMain = (props: Props) => {
         <Progress percent={perc} active={perc < 100} color="green"></Progress>
       </>
     )
-
   }
 
   const getModalContent = () => {
     let content: ModalContent
     switch (status) {
 
-      case CombineStatus.WalletNoConnected:
+      case CombineIdCardStatus.WalletNoConnected:
         content = {
           type: ModalType.Info,
           content: (
@@ -79,58 +89,62 @@ const CombineMain = (props: Props) => {
         }
         break;
 
-      case CombineStatus.NothingSelected:
-      case CombineStatus.TraitSelectedOnly:
-      case CombineStatus.AgentSelectedOnly:
+      case CombineIdCardStatus.NoIdCardInWallet:
+        content = (
+          content = {
+            type: ModalType.Info,
+            content: (
+              <>
+                <p>{`Oops, it looks like your wallet doesn't contain any ID Card.`}</p>
+                <br/>
+                <p>Go back to Step 3 to mint one!</p>
+              </>
+            ),
+          }
+        )
+        break;
+
+      case CombineIdCardStatus.NothingSelected:
         content = {
           type: ModalType.Info,
           content: (
             <>
-              <p>{`I cant alter your DNA without your consent - make sure you've selected both an Agent and a Trait to combine!`}</p>
+              <p>{`I cant alter your alias without your consent - make sure you've selected an Agent to update!`}</p>
               <br />
-              <p>{`Also, make sure the trait you're trying to add is not already present on your Agent.`}</p>
+              <p>{`Also, make sure you have an ID Card in your wallet.`}</p>
             </>
           ),
           size: "large"
         }
         break;
 
-      case CombineStatus.GeneratingPreview:
-        content = {
-          type: ModalType.Info,
-          content: (
-            <>
-              <p>Give me a few moments to generate a preview for you.</p>
-            </>
-          )
-        }
-        break;
-
-      case CombineStatus.ReadyToCombine:
+      case CombineIdCardStatus.ReadyToCombine:
         content = {
           type: ModalType.Warning,
           content: (
             <>
-              <p>You are about to get in disguise.</p>
-              <p>This action is <strong>irreversible</strong>. {`So make sure you're happy with your new look!`}</p>
+              <p>What should your new alias be?</p>
+              <AliasInput
+                setNameCallback={(alias: string) => { setNewAlias(alias) }}
+              />
               <div style={{ fontStyle: "italic", fontSize: "20px" }}>
                 <br />
                 <p>{`Solana has been rather congested lately. If one of these transactions fail, don't worry - your funds are secure. Simply try again!`}</p>
               </div>
             </>
           ),
-          confirmMessage: "Combine",
+          confirmMessage: "Rename",
           keepOpenOnConfirm: true,
-          onConfirm: uploadToArweave,
+          onConfirm: () => { setConfirmedClicked(true) }
         }
         break;
 
-      case CombineStatus.AwaitingUserSignatureForArweaveUpload:
+      case CombineIdCardStatus.AwaitingUserSignatureForArweaveUpload:
         content = {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>The first step is to upload your new look and metadata information to Arweave.</p>
+              <p>The first step is to update your alias in the off-chain metadata.</p>
               <p>{`There's a small fee associated with that (somewhere around $0.1-0.3).`}</p>
               <p>{`Make sure you comfirm the transaction popping up from your wallet and I'll take it from there.`}</p>
               {getProgressBar(33)}
@@ -139,12 +153,12 @@ const CombineMain = (props: Props) => {
         }
         break;
 
-      case CombineStatus.UploadingToArweave:
+      case CombineIdCardStatus.UploadingToArweave:
         content = {
           type: ModalType.Waiting,
           content: (
             <>
-              <p>{`I'm uploading your new look and metadata to Arweave.`}</p>
+              <p>{`I'm updating your metadata on Arweave.`}</p>
               <p style={{ fontStyle: "italic" }}>Please be patient, this might take up to 2 minutes to complete.</p>
               {getProgressBar(67)}
             </>
@@ -152,48 +166,51 @@ const CombineMain = (props: Props) => {
         }
         break;
 
-      case CombineStatus.ArweaveUploadFailed:
+      case CombineIdCardStatus.ArweaveUploadFailed:
         content = {
           type: ModalType.Warning,
           content: (
             <>
               <p>Something went wrong during the upload to Arweave. Either you cancelled the transaction, or Solana is heavily congested at the moment.</p>
               <br />
-              <p>{`If you still want to alter your look, simply click "Try again".`}</p>
+              <p>{`If you still want to change your alias, simply click "Try again".`}</p>
             </>
           ),
           onCancel: () => {
             resetStatus()
-            setReadyToCombine()
+            setConfirmedClicked(false)
+            setNewAlias(null)
           },
           onConfirm: () => {
-            setReadyToCombine()
-            uploadToArweave()
+            setConfirmedClicked(true)
           },
           confirmMessage: "Try again",
           keepOpenOnConfirm: true,
         }
         break;
 
-      case CombineStatus.ArweaveUploadSuccess:
+      case CombineIdCardStatus.ArweaveUploadSuccess:
         content = {
           type: ModalType.Warning,
           content: (
             <>
-              <p>Your new look and metadata have been successfully uploaded to Arweave.</p>
-              <p>Please double check that the image <a href={newArweaveImageUrl} target="_blank" rel="noreferrer">here (click me!)</a> is the new look that you expected.</p>
-              <p>{`Once satisfied, click "Next" to move on to the next step.`}</p>
+              <p>Your new alias has been successfully uploaded to Arweave.</p>
+              <p>{`Click "Next" to move on to the next step.`}</p>
               {getProgressBar(100)}
             </>
           ),
-          onConfirm: updateOnChainMetadata,
-          onCancel: () => resetStatus(),
+          onConfirm: () => { updateOnChainMetadata(newAlias) },
+          onCancel: () => {
+            resetStatus()
+            setConfirmedClicked(false)
+            setNewAlias(null)
+          },
           confirmMessage: "Next",
           keepOpenOnConfirm: true,
         }
         break;
 
-      case CombineStatus.AwaitingUserSignatureForMetadataUpdate:
+      case CombineIdCardStatus.AwaitingUserSignatureForMetadataUpdate:
         content = {
           type: ModalType.Waiting,
           content: (
@@ -201,13 +218,12 @@ const CombineMain = (props: Props) => {
               <p>The last thing to do is to update the blockchain accordingly.</p>
               <p>There should be a new transaction popping up for you to sign.</p>
               {getProgressBar(33)}
-              <p style={{ fontStyle: "italic" }}>Please be aware that this step will <strong>permanently</strong> change the look of your Agent and <strong>permanently</strong> burn your Trait NFT.</p>
             </>
           ),
         }
         break;
 
-      case CombineStatus.UpdatingOnChainMetadata:
+      case CombineIdCardStatus.UpdatingOnChainMetadata:
         content = {
           type: ModalType.Waiting,
           content: (
@@ -220,7 +236,7 @@ const CombineMain = (props: Props) => {
         }
         break;
 
-      case CombineStatus.MetadataUpdateFailed:
+      case CombineIdCardStatus.MetadataUpdateFailed:
         content = {
           type: ModalType.Warning,
           content: (
@@ -230,21 +246,23 @@ const CombineMain = (props: Props) => {
               <p>{`If you still want to alter your look, simply click "Retry".`}</p>
             </>
           ),
-          onCancel: resetStatus,
+          onCancel: () => {
+            resetStatus()
+            setConfirmedClicked(false)
+            setNewAlias(null)
+          },
           confirmMessage: "Retry",
           keepOpenOnConfirm: true,
-          onConfirm: () => { setStatus(CombineStatus.ArweaveUploadSuccess) }
+          onConfirm: () => { setStatus(CombineIdCardStatus.ArweaveUploadSuccess) }
         }
         break;
 
-      case CombineStatus.MetadataUpdateSuccess:
+      case CombineIdCardStatus.MetadataUpdateSuccess:
         content = {
           type: ModalType.Info,
           content: (
             <>
-              <p>Congratulations, you successfully combined a Trait with your Llama Agent!</p>
-              <br />
-              <p>Come back to see me when you want to add to your disguise. In the meantime, stay safe from the Alpacas!</p>
+              <p>Congratulations, you successfully modified your Alias!</p>
               <br />
               <p>Agent Franz out.</p>
             </>
@@ -252,8 +270,9 @@ const CombineMain = (props: Props) => {
           onClose: async () => {
             props.refreshAllNfts()
             setSelectedAgent(null)
-            setSelectedTrait(null)
             resetStatus()
+            setConfirmedClicked(false)
+            setNewAlias(null)
           },
         }
         break;
@@ -301,15 +320,9 @@ const CombineMain = (props: Props) => {
             emptyText="No agent to display"
             onChange={setSelectedAgent}
           />
-          <NftSelectionDropdown
-            nfts={traitWalletNFTs}
-            text="Select your trait"
-            emptyText="No trait to display"
-            onChange={setSelectedTrait}
-          />
         </div>
         <div>
-          <CombinedImage 
+          <CombinedImage
             previewImageUrl={previewImageUrl}
             isPreviewLoading={isPreviewLoading}
           />
@@ -317,10 +330,11 @@ const CombineMain = (props: Props) => {
       </div>
       <div className={styles.button_container}>
         <BasicModal
+        disabled={!newAlias}
           {...modalContent}
           trigger={(
             <Button>
-              {isCombining ? <Spinner /> : (status === CombineStatus.ReadyToCombine ? "combine" : "How To")}
+              {isCombining ? <Spinner /> : (status === CombineIdCardStatus.ReadyToCombine ? "rename" : "How To")}
             </Button>
           )}
         >
