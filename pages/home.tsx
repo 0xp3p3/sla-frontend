@@ -9,44 +9,56 @@ const Home: NextPage = () => {
 
   const roadmap = {
     1: {
-      title: 'Agent Recruitment',
-      text: <>Launch Llama Agent minting and staking.</>
+      title: <span style={{ textDecoration: "line-through" }}>Chapter I. Agent Recruitment</span>,
+      text: <span style={{ textDecoration: "line-through" }}>Launch Llama Agent minting and staking.</span>
     },
     2: {
-      title: 'GET IN DISGUISE',
-      text: <>Begin earning $HAY from staking & use it to mint your trait NFTs in <a href="/disguiseRoom">The Disguise Room</a>.</>,
+      title: <span style={{ textDecoration: "line-through" }}>Chapter 2. GET IN DISGUISE</span>,
+      text: <span style={{ textDecoration: "line-through" }}>Begin earning $HAY from staking & use it to mint your trait NFTs in <a href="/disguiseRoom">The Disguise Room</a>.</span>,
     },
     3: {
-      title: 'Set up communications',
-      text: <>Exclusive Discord channel for Llama Agent holders unlocked for community votes. <br /><br /> Blue Chip NFTs are chosen to be added to the Agency Marketplace.</>
+      title: <span style={{ textDecoration: "line-through" }}>Chapter 3. Set up communications</span>,
+      text: (
+        <>
+          <span style={{ textDecoration: "line-through" }}>Exclusive Discord channel for Llama Agent holders unlocked for community votes.</span>
+          <br /><br />
+          <>Blue Chip NFTs are chosen to be added to the Agency Marketplace.</>
+        </>
+      )
     },
     4: {
-      title: 'Stand Out',
-      text: <>Legendary skins auction begins. Winners can earn +2 $HAY daily. <br/><br/>We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</>
+      title: <span style={{ textDecoration: "line-through" }}>Chapter 4. Stand Out</span>,
+      text: (
+        <>
+          <span style={{ textDecoration: "line-through" }}>Legendary skins auction begins. Winners can earn +2 $HAY daily.</span>   
+          <br /><br />
+          <>We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</>
+        </>
+      )
     },
     5: {
-      title: 'ID CARDS RELEASE',
-      text: <>Mint an ID Card token in exchange for $HAY in <a href="/disguiseRoom">The Disguise Room</a>.<br/><br/> Combine one with your Llama Agent to change its alias.</>
+      title: <span style={{ textDecoration: "line-through" }}>Chapter 5. ID CARDS RELEASE</span>,
+      text: <span style={{ textDecoration: "line-through" }}>Mint an ID Card token in exchange for $HAY in <a href="/disguiseRoom">The Disguise Room</a>.<br /><br /> Combine one with your Llama Agent to change its alias.</span>
     },
     6: {
-      title: 'PROMOTIONS',
-      text: <>Holders begin having enough $HAY accumulated to mint Badges in The Ceremonial Hall and get promoted. <br/><br/>Higher ranks receive bonus $HAY.</>
+      title: <span style={{ textDecoration: "line-through" }}>CHAPTER 6. PROMOTIONS</span>,
+      text: <span style={{ textDecoration: "line-through" }}>Holders begin having enough $HAY accumulated to mint Badges in The Ceremonial Hall and get promoted. <br /><br />Higher ranks receive bonus $HAY.</span>
     },
     7: {
-      title: 'TROUBLE BREWING',
-      text: <>Reveal the 25 Alpaca imposters disguised as Llamas within the collection.<br/><br/> The lucky holders will earn +5 $HAY daily.</>
+      title: `Chapter 7. TROUBLE BREWING`,
+      text: <>Reveal the 25 Alpaca imposters disguised as Llamas within the collection.<br /><br /> The lucky holders will earn +5 $HAY daily.</>
     },
     8: {
       title: 'SEASON 2',
-      text: <>New drop with Alpacas: The Alpacalypse.<br/><br/>The new NFT drop will be purchasable with $HAY tokens.</>
+      text: <>New drop with Alpacas: The Alpacalypse.<br /><br />The new NFT drop will be purchasable with $HAY tokens.</>
     }
   }
 
   return (
-    <PageWrapper 
-      title="SLA Home" 
-      ogImageSource="/images/Logo-7-p-500.png" 
-      webflowPageId="6227e74c03fec25390cb9dd4" 
+    <PageWrapper
+      title="SLA Home"
+      ogImageSource="/images/Logo-7-p-500.png"
+      webflowPageId="6227e74c03fec25390cb9dd4"
       webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c"
       toTopArrow={true}
     >
@@ -68,25 +80,25 @@ const Home: NextPage = () => {
       </div>
       <LlamaMintingSection />
       <div className="reminder-cta">
-          <div className="container-l w-container">
-            <div className="hor-cen vert-mob">
-              <div className="_50div">
-                {/* <div className="tb-32 s-font">sign up to get a reminder</div> */}
-              </div>
-              <div className="_50div padd-right mob-all">
-                <div className="form-block w-form">
-                  {/* <SignupForm /> */}
-                  <div className="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
-                  </div>
-                  <div className="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
-                  </div>
+        <div className="container-l w-container">
+          <div className="hor-cen vert-mob">
+            <div className="_50div">
+              {/* <div className="tb-32 s-font">sign up to get a reminder</div> */}
+            </div>
+            <div className="_50div padd-right mob-all">
+              <div className="form-block w-form">
+                {/* <SignupForm /> */}
+                <div className="w-form-done">
+                  <div>Thank you! Your submission has been received!</div>
+                </div>
+                <div className="w-form-fail">
+                  <div>Oops! Something went wrong while submitting the form.</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       <div id="about" data-w-id="5aefb5c2-9130-2695-7e31-d3e2103a421d" className="about">
         <div className="container-l w-container">
           <div className="vert-stretch">
@@ -219,7 +231,7 @@ const Home: NextPage = () => {
               <div className="_50div roadmap-50">
                 <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">Chapter 1. {roadmap['1'].title}</h3>
+                    <h3 className="h3">{roadmap['1'].title}</h3>
                     <div className="p1">{roadmap['1'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
@@ -227,13 +239,13 @@ const Home: NextPage = () => {
                 <div className="hor-cen roadmap-hor mob">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 2. {roadmap['2'].title}</h3>
+                    <h3 className="h3">{roadmap['2'].title}</h3>
                     <div className="p1">{roadmap['2'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">CHapter 3. {roadmap['3'].title}</h3>
+                    <h3 className="h3">{roadmap['3'].title}</h3>
                     <div className="p1">{roadmap['3'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
@@ -241,13 +253,13 @@ const Home: NextPage = () => {
                 <div className="hor-cen roadmap-hor mob">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 4. {roadmap['4'].title}</h3>
+                    <h3 className="h3">{roadmap['4'].title}</h3>
                     <div className="p1">{roadmap['4'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">Chapter 5. {roadmap['5'].title}</h3>
+                    <h3 className="h3">{roadmap['5'].title}</h3>
                     <div className="p1">{roadmap['5'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
@@ -255,13 +267,13 @@ const Home: NextPage = () => {
                 <div className="hor-cen roadmap-hor mob">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">CHAPTER 6. {roadmap['6'].title}</h3>
+                    <h3 className="h3">{roadmap['6'].title}</h3>
                     <div className="p1">{roadmap['6'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor">
                   <div className="roadmap-item"><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner small" />
-                    <h3 className="h3">CHapter 7. {roadmap['7'].title}</h3>
+                    <h3 className="h3">{roadmap['7'].title}</h3>
                     <div className="p1">{roadmap['7'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small mob" />
                   </div>
                   <div className="hor-line" />
@@ -271,21 +283,21 @@ const Home: NextPage = () => {
                 <div className="hor-cen roadmap-hor desk">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 2. {roadmap['2'].title}</h3>
+                    <h3 className="h3">{roadmap['2'].title}</h3>
                     <div className="p1">{roadmap['2'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor desk">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">Chapter 4. {roadmap['4'].title}</h3>
+                    <h3 className="h3">{roadmap['4'].title}</h3>
                     <div className="p1">{roadmap['4'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>
                 <div className="hor-cen roadmap-hor desk">
                   <div className="hor-line" />
                   <div className="roadmap-item">
-                    <h3 className="h3">CHAPTER 6. {roadmap['6'].title}</h3>
+                    <h3 className="h3">{roadmap['6'].title}</h3>
                     <div className="p1">{roadmap['6'].text}</div><img src="images/Vector-5.svg" loading="lazy" alt="" className="u-r-corner small" />
                   </div>
                 </div>

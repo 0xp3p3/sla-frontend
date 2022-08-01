@@ -104,6 +104,21 @@ const DisguiseRoom: NextPage = () => {
           </div>
         </div>
       </div>
+      <div className="blue-bg-div"><img src="images/Vector-4.svg" loading="lazy" alt="" className="d-r-corner" /><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
+        <div className="container-m relative w-container">
+          <div className="vert-left">
+            <h3 className="h3 h-white">step 5: alpaca reveal</h3>
+            <p className="p1 p-white">
+              So, you want a new identity, hmm?
+              <br /><br />
+              {`You're now able to get an ID Card: a token you can use to edit the metadata of your Llama Agent and give it a custom alias!`}
+              <br /><br />
+              ID Cards cost 60 $HAY each.
+            </p>
+            <IdCardMain />
+          </div>
+        </div>
+      </div>
     </PageWrapper>
   )
 }
