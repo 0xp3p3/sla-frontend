@@ -111,7 +111,7 @@ const DisguiseRoom: NextPage = () => {
           <div className="vert-left">
             <h3 className="h3 h-white">step 5: mint an imposter scanning device</h3>
             <p className="p1 p-white">
-              In this section, you&apos;ll be able to mint Agent Franz' high-tech DNA Scanning Device.
+              In this section, you&apos;ll be able to mint Agent Franz&apos; high-tech DNA Scanning Device.
               <br /><br />
               {`Don't miss out on the chance to find out if one of your Llama Agents is an Alpaca Imposter!`}
               <br /><br />
