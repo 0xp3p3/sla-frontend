@@ -17,33 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).send({ message: 'Only POST requests allowed' })
   }
 
-  const IMPOSTERS = [
-    "2Zi1wHh3d3T3x4YvUignHXm8CrCn7rjc8x87zzTLYj8u",
-    "FuADMiubzkMXYp1TNkg4qWzrkMXtgdMqWNqNHdxU8YAH",
-    "4jGVmYk4Nv9FRtK6bR789Z3UkbRwx315FRJ87UKswyYL",
-    "4H6nAvzMGs165KVZ1ncYoaGLEyq9DqmxFZMBQvLUNEpB",
-    "DCXdjMLQp2EHDvr67xwNye94eNM2gAHjSWvFjtG57Kw8",
-    "DaEVMrhJ6aBZ1Naq5z2qxtpuEdN5MJSS6TVUd5oF9aoD",
-    "EgcABPDQrqUSB5GrQKgfYbQ1QAWdaqR62NQs5z1e6wjv",
-    "FoRUtkvz6EgWpiNeFaZrnzoR1U1aNpai5uNfuDitCHFU",
-    "Br5oPAoWNokVYBsErxK9dBs4MRbZqLT7bVJhSW7seAc5",
-    "7tWAKkAjuHaDGCg7EBmfx2XCkTPCvJXqf9Rz7VoRBaF4", 
-    "EcfYt4JxzibVh2bAUbEyvQYDXgx724pXkZ9wwYYTVoLB",
-    "8WHcJWf3bomvtw4vfpWwHFQ9h9uH8DfaR76L686ZYB9v",
-    "APojxEfGpkXgR9sn4pgVQXRNagg8JobgbUybCMLm4n5R",
-    "Bxfv5ZKJd5VhEAwQrSyjyJVP4NDYQs6eLagbVwLStRK",
-    "GbE4AQZmYsJFRPp1oE4zb3s6FWRwnWT4Kck49hV3gag2",
-    "DgvLsWQNt7pK5uQEcoBhzqufWWY7BmcESWEMmEPcFg2e",
-    "J9qzEMSeJ5mV62fLYDzispWhEBf3yTXGnug5ea3rCquJ",
-    "6ZXhu93fZZ5muAvi2fe5QTwBQ3Qpo8RkRoUqdqxoQtUz",
-    "6LkahB84KG3d7LAJSfqi8qw4bUDnf41K8dzxJ4L8w5da",
-    "HwFsJVtJHjwV68gHZfZ6uB5ntgSXtVp1WxNXqaBJTFe8",
-    "BnZYC8oKeWa36QTd9fXr8azyTgPus9ykxSP8FKhKA4ma",
-    "CFweBbRchbWCDJy8VcRueedM72VqPfX3jhs9qpbiX5t3",
-    "3qBfMEfZqD2LiCtnyJVXoCFB8q5qwc5Qfv5Pn6HEL2VA",
-    "CFJZa5FaDTkXxwcp4RcdL2U4w6fmGo1zmV4rH819A4b2", 
-    "BE8tTa8CFoLG3VSZPGYNBgHcvQ8TUAxnK38xmm6VB7oA"
-  ]
+  const IMPOSTERS = JSON.parse(process.env.IMPOSTER_MINTS)
 
   const body = req.body
   let metadataJson: mpl.MetadataJson = body.metadataJson
