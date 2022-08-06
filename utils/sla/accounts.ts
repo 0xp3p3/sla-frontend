@@ -45,3 +45,10 @@ export async function getBadgeSupplyCounter(): Promise<[PublicKey, number]> {
     new PublicKey(SLA_PROGRAM_ID)
   )
 }
+
+export async function getScannerPda(mint: PublicKey): Promise<[PublicKey, number]> {
+  return PublicKey.findProgramAddress(
+    [Buffer.from("sla_scanner"), mint.toBuffer()],
+    new PublicKey(SLA_PROGRAM_ID),
+  )
+}

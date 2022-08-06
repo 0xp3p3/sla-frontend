@@ -3,6 +3,8 @@ import { useState } from "react";
 import CombineMain from "../components/disguiseRoom/CombineMain";
 import IdCardMain from "../components/disguiseRoom/IdCardMain";
 import IdCombineMain from "../components/disguiseRoom/IdCombineMain";
+import ScannerCombineMain from "../components/disguiseRoom/ScannerCombineMain";
+import ScannerMain from "../components/disguiseRoom/ScannerMain";
 import TraitMingintMain from "../components/disguiseRoom/TraitMintingMain";
 import PageWrapper from "../components/layout/PageWrapper";
 import TypingEffect from "../components/utils/TypingEffect";
@@ -98,6 +100,38 @@ const DisguiseRoom: NextPage = () => {
               </p>
             </div>
             <IdCombineMain 
+              dropdownRefreshToggle={dropdownRefreshToggle}
+              refreshAllNfts={refreshAllDropdownsCallback}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="blue-bg-div"><img src="images/Vector-4.svg" loading="lazy" alt="" className="d-r-corner" /><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
+        <div className="container-m relative w-container">
+          <div className="vert-left">
+            <h3 className="h3 h-white">step 5: mint an imposter scanning device</h3>
+            <p className="p1 p-white">
+              In this section, you&apos;ll be able to mint Agent Franz&apos; high-tech DNA Scanning Device.
+              <br /><br />
+              {`Don't miss out on the chance to find out if one of your Llama Agents is an Alpaca Imposter!`}
+              <br /><br />
+              DNA Scanning Devices cost 50 $HAY each.
+            </p>
+            <ScannerMain />
+          </div>
+        </div>
+      </div>
+      <div className="step-2">
+        <img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
+        <div className="container-m relative w-container">
+          <div className="vert-cent">
+            <div className="vert-left stretch">
+              <h2 className="h3">STEP 6: reveal the imposters</h2>
+              <p className="p1">
+                In this section, you&apos;ll be able to use your DNA Scanning Device to find out if you hold one of the 25 Alpacas.
+              </p>
+            </div>
+            <ScannerCombineMain 
               dropdownRefreshToggle={dropdownRefreshToggle}
               refreshAllNfts={refreshAllDropdownsCallback}
             />

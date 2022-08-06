@@ -21,6 +21,7 @@ const useWalletNFTs = () => {
   const [traitWalletNFTs, setTraitWalletNFTs] = useState<Array<NFT>>([])
   const [idCardWalletNFTs, setIdCardWalletNFTs] = useState<Array<NFT>>([])
   const [badgeWalletNFTs, setBadgeWalletNFTs] = useState<Array<NFT>>([])
+  const [scannerWalletNFTs, setScannerWalletNFTs] = useState<Array<NFT>>([])
 
   const fetchNFTs = async () => {
     if (!publicKey) {
@@ -28,6 +29,7 @@ const useWalletNFTs = () => {
       setTraitWalletNFTs([])
       setIdCardWalletNFTs([])
       setBadgeWalletNFTs([])
+      setScannerWalletNFTs([])
       return
     }
 
@@ -41,13 +43,14 @@ const useWalletNFTs = () => {
     setBadgeWalletNFTs(badges)
 
     setIdCardWalletNFTs(nfts.idCards)
+    setScannerWalletNFTs(nfts.scanners)
   }
 
   useEffect(() => {
     fetchNFTs()
   }, [publicKey])
 
-  return { agentWalletNFTs, traitWalletNFTs, fetchNFTs, idCardWalletNFTs, badgeWalletNFTs }
+  return { agentWalletNFTs, traitWalletNFTs, fetchNFTs, idCardWalletNFTs, badgeWalletNFTs, scannerWalletNFTs }
 }
 
 export default useWalletNFTs

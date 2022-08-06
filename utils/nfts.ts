@@ -4,7 +4,7 @@ import axios from "axios"
 import { programs } from "@metaplex/js"
 
 import { NFT } from "../hooks/useWalletNFTs"
-import { SLA_COLLECTIONS, ID_CARD_MINT, SLA_TOKEN_TYPE, SLA_BRONZE_BADGE, SLA_SILVER_BADGE, SLA_GOLD_BADGE, SLA_PLATINUM_BADGE, SLA_DIAMOND_BADGE } from "./constants"
+import { SLA_COLLECTIONS, ID_CARD_MINT, SLA_TOKEN_TYPE, SLA_BRONZE_BADGE, SLA_SILVER_BADGE, SLA_GOLD_BADGE, SLA_PLATINUM_BADGE, SLA_DIAMOND_BADGE, SCANNER_MINT } from "./constants"
 
 const {
   metadata: { Metadata },
@@ -24,6 +24,7 @@ interface SlaNFTs {
   goldBadges: NFT[],
   platinumBadges: NFT[],
   diamondBadges: NFT[],
+  scanners: NFT[],
 }
 
 
@@ -105,6 +106,7 @@ export async function getSlaNFTsByOwner(
     goldBadges: filterTokensByMint(nfts, SLA_GOLD_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
     platinumBadges: filterTokensByMint(nfts, SLA_PLATINUM_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
     diamondBadges: filterTokensByMint(nfts, SLA_DIAMOND_BADGE.mint, SLA_TOKEN_TYPE.BADGE),
+    scanners: filterTokensByMint(nfts, SCANNER_MINT.toString(), SLA_TOKEN_TYPE.SCANNER),
   }
 }
 

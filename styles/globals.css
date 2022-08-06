@@ -3041,6 +3041,10 @@ a.button:hover {
   border-bottom: 3px solid #000;
 }
 
+.scanner-img {  
+  background-color: rgba(0,0,0,.1);
+}
+
 .llama-img {
   width: 300px;
   margin-bottom: 20px;

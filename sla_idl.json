@@ -148,7 +148,7 @@
       ]
     },
     {
-      "name": "mintBadge",
+      "name": "mintScanner",
       "accounts": [
         {
           "name": "mint",
@@ -163,7 +163,7 @@
         {
           "name": "user",
           "isMut": false,
-          "isSigner": true
+          "isSigner": false
         },
         {
           "name": "treasury",
@@ -182,31 +182,6 @@
         },
         {
           "name": "hayTreasuryAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "avatarMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "avatarToken",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "avatarMetadata",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "ranking",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "badgeSupplyCounter",
           "isMut": true,
           "isSigner": false
         },
@@ -234,18 +209,6 @@
       "args": [
         {
           "name": "treasuryBump",
-          "type": "u8"
-        },
-        {
-          "name": "rankingBump",
-          "type": "u8"
-        },
-        {
-          "name": "badgeSupplyCounterBump",
-          "type": "u8"
-        },
-        {
-          "name": "assetId",
           "type": "u8"
         }
       ]
@@ -428,7 +391,7 @@
       ]
     },
     {
-      "name": "mergeBadge",
+      "name": "scanAgent",
       "accounts": [
         {
           "name": "avatarMint",
@@ -446,24 +409,19 @@
           "isSigner": false
         },
         {
-          "name": "payer",
+          "name": "scannerMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "scannerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
           "isMut": true,
           "isSigner": true
-        },
-        {
-          "name": "badgeMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "badgeAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "ranking",
-          "isMut": true,
-          "isSigner": false
         },
         {
           "name": "combineAuthority",
@@ -488,16 +446,10 @@
       ],
       "args": [
         {
-          "name": "rankingBump",
-          "type": "u8"
-        },
-        {
-          "name": "assetId",
-          "type": "u8"
-        },
-        {
           "name": "metadataUri",
-          "type": "string"
+          "type": {
+            "option": "string"
+          }
         }
       ]
     },
@@ -826,56 +778,61 @@
     },
     {
       "code": 6016,
+      "name": "ScannerAlreadyMinted",
+      "msg": "Agent has already minted a scanner"
+    },
+    {
+      "code": 6017,
       "name": "MasterEditionNotRecognised",
       "msg": "Master Edition not recognised"
     },
     {
-      "code": 6017,
+      "code": 6018,
       "name": "TokenToMintNotRecognised",
       "msg": "Token to be minted not recognised"
     },
     {
-      "code": 6018,
+      "code": 6019,
       "name": "PDAIsNotAnAvatar",
       "msg": "The Avatar PDA is not an Avatar account"
     },
     {
-      "code": 6019,
+      "code": 6020,
       "name": "PDAIsNotATrait",
       "msg": "The Trait PDA is not a Trait account"
     },
     {
-      "code": 6020,
+      "code": 6021,
       "name": "TraitTypeInvalid",
       "msg": "The Trait type specified is not valid"
     },
     {
-      "code": 6021,
+      "code": 6022,
       "name": "AvatarAlreadyInitialized",
       "msg": "The Avatar PDA has already been initialized"
     },
     {
-      "code": 6022,
+      "code": 6023,
       "name": "AvatarPDANotInitialized",
       "msg": "The Avatar PDA has not been initialized yet"
     },
     {
-      "code": 6023,
+      "code": 6024,
       "name": "MergeCheckFailed",
       "msg": "The Trait specified cannot be merged"
     },
     {
-      "code": 6024,
+      "code": 6025,
       "name": "MergeCheckFailedBecauseAvatarNotInitialized",
       "msg": "The Trait cannot be merged because the Avatar has not been initialized"
     },
     {
-      "code": 6025,
+      "code": 6026,
       "name": "ArweaveAccountMismatch",
       "msg": "The specified arweave_wallet account does not match the stored pubkey"
     },
     {
-      "code": 6026,
+      "code": 6027,
       "name": "AvatarCannotMintTrait",
       "msg": "The trait cannot be minted by this avatar"
     }
