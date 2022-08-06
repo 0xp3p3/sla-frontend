@@ -45,8 +45,8 @@ const Home: NextPage = () => {
       text: <span style={{ textDecoration: "line-through" }}>Holders begin having enough $HAY accumulated to mint Badges in The Ceremonial Hall and get promoted. <br /><br />Higher ranks receive bonus $HAY.</span>
     },
     7: {
-      title: `Chapter 7. TROUBLE BREWING`,
-      text: <>Reveal the 25 Alpaca imposters disguised as Llamas within the collection.<br /><br /> The lucky holders will earn +5 $HAY daily.</>
+      title: <span style={{ textDecoration: "line-through" }}>Chapter 7. TROUBLE BREWING</span>,
+      text: <span style={{ textDecoration: "line-through" }}>Reveal the 25 Alpaca imposters disguised as Llamas within the collection.<br /><br /> The lucky holders will earn +5 $HAY daily.</span>
     },
     8: {
       title: 'SEASON 2',
