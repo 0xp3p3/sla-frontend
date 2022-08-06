@@ -23,6 +23,18 @@ async function makeCreateImageWithCanvas(
   const canvas = createCanvas(width, height)
   const context = canvas.getContext('2d')
 
+  let newAttributes: mpl.MetadataJsonAttribute[] = JSON.parse(JSON.stringify(attributes))
+
+  // Add the original Ears if they're not specified
+  if (newAttributes.filter(a => a.trait_type === 'Ears').length === 0) {
+    newAttributes.push({"trait_type": "Ears", "value": "Original"})
+  }
+
+  const skin = newAttributes.filter(a => a.trait_type === "Skin")[0]
+  if (skin.value === "Original") {
+    skin.value = "Original_no_ears"
+  }
+
   const addLayer = async (context: CanvasRenderingContext2D, imageLocation: string) => {
     const loadedImage = await loadImage(imageLocation)
     context.patternQuality = 'best'
@@ -31,7 +43,7 @@ async function makeCreateImageWithCanvas(
   }
 
   const extractTraitPair = (trait: string): mpl.MetadataJsonAttribute | null => {
-    const pairs = attributes.filter(a => a.trait_type === trait)
+    const pairs = newAttributes.filter(a => a.trait_type === trait)
     return pairs.length > 0 ? pairs[0] : null
   }
 
@@ -45,19 +57,8 @@ async function makeCreateImageWithCanvas(
   let imageLocation
   let traitPair
 
-  // Add the Background layer 
-  traitPair = extractTraitPair('Background')
-  if (traitPair) {
-    imageLocation = getImageLocation(traitPair)
-    await addLayer(context, imageLocation)
-  }
-
-  // Add the Ears 
-  imageLocation = `${layersDirectory}/Ears/Original.png`
-  await addLayer(context, imageLocation)
-
   // Add [Skin, Eyes, Mouth, Hat, Clothing] traits
-  const traits = ["Skin", "Mouth", "Eyes", "Hat", "Clothing", "Badge"]
+  const traits = ["Background", "Vignette", "Ears", "Skin", "Mouth", "Eyes", "Hat", "Clothing", "Badge"]
   for (const trait of traits) {
     traitPair = extractTraitPair(trait)
     if (traitPair) {

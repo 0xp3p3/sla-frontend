@@ -92,7 +92,7 @@ export async function fetchCostToStore(fileSizes: number[]) {
 export async function sendUploadFund(
   storageCost: number,
   connection: web3.Connection,
-  wallet: anchor.Wallet,
+  wallet: any,
   transactionsSignedCallback?: () => void,
 ): Promise<string> {
   const instructions = [

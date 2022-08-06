@@ -133,11 +133,16 @@ export const ID_CARD_MINT = new anchor.web3.PublicKey(
   "9mxy4zbRkb4CJbWz3cyjgVas3ok9dqdAZPWHQD34o2Jo"
 )
 
+export const SCANNER_MINT = new anchor.web3.PublicKey(
+  "D2RDTgj4HPKq6k6Fqz9cQBHbLv7NHT6gQEtuH3kfNC3m"
+)
+
 export enum SLA_TOKEN_TYPE {
   AGENT,
   TRAIT, 
   ID_CARD,
   BADGE,
+  SCANNER,
 }
 
 export interface SlaBadge {
