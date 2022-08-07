@@ -115,7 +115,7 @@ const DisguiseRoom: NextPage = () => {
               <br /><br />
               {`Don't miss out on the chance to find out if one of your Llama Agents is an Alpaca Imposter!`}
               <br /><br />
-              DNA Scanning Devices cost 50 $HAY each.
+              DNA Scanning Devices cost 10 $HAY each.
             </p>
             <ScannerMain />
           </div>
