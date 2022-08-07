@@ -45,7 +45,7 @@ const modalMessages: { [name: string]: ModalContent } = {
     content: (
       <>
         <p>{`Go ahead and click "Mint" to get a DNA Scanning Device!`}</p>
-        <p>Doing so will cost you 50 $HAY.</p>
+        <p>Doing so will cost you 10 $HAY.</p>
         <div style={{ fontStyle: "italic", fontSize: "20px" }}>
           <p><br /></p>
           <p>{`Solana has been rather congested lately. If this transaction fails, don't worry - your funds are secure. Simply refresh the page and try again.`}</p>
