@@ -535,6 +535,60 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "addBadge",
+      "accounts": [
+        {
+          "name": "avatarMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rankingV1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rankingV2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "combineAuthority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rankingV1Bump",
+          "type": "u8"
+        },
+        {
+          "name": "rankingV2Bump",
+          "type": "u8"
+        },
+        {
+          "name": "assetId",
+          "type": "u8"
+        }
+      ]
     }
   ],
   "accounts": [
