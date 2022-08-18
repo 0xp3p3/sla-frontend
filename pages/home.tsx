@@ -386,68 +386,6 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="team">
-        <div className="container-l relative team-c w-container">
-          <div className="vert-cent">
-            <h3 className="h1">THE&nbsp;team</h3>
-            <div className="w-layout-grid team-grid">
-              <div id="w-node-f05bdcef-e83b-f504-0149-3f6d71c96aba-90cb9dd4" className="hor-left vert-mob"><img src="images/Rectangle-18_1.png" loading="lazy" sizes="(max-width: 479px) 78vw, 300px" srcSet="images/Rectangle-18_1-p-500.png 500w, images/Rectangle-18_1-p-800.png 800w, images/Rectangle-18_1.png 900w" alt="" className="llama-img team-img" />
-                <div className="vert-left space-btw">
-                  <div className="vert-left">
-                    <h4 className="h3-big">Agent Bigspoon (Amr)</h4>
-                    <div className="p1 p-bold">Project manager</div>
-                    <div className="tb-15">Digital Marketing Specialist&nbsp;at Shoelace inc. and Former&nbsp;Secret Agent in Club Penguin.</div>
-                  </div>
-                  <div className="hor-cen">
-                    <a href="https://twitter.com/AgentBigSpoon" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
-                    <a href="https://www.linkedin.com/in/amr-bitar/" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
-                  </div>
-                </div>
-              </div>
-              <div id="w-node-b979447f-3238-6e7e-567b-8a82f1bc8be4-90cb9dd4" className="hor-left vert-mob"><img src="images/Rectangle-18-2.png" loading="lazy" sizes="(max-width: 479px) 78vw, 300px" srcSet="images/Rectangle-18-2-p-800.png 800w, images/Rectangle-18-2.png 900w" alt="" className="llama-img team-img" />
-                <div className="vert-left space-btw">
-                  <div className="vert-left">
-                    <h4 className="h3-big">Agent FUbar (Robin)</h4>
-                    <div className="p1 p-bold">Developer</div>
-                    <div className="tb-15">Engineer and Computer Scientist interested in disruptive technology.&nbsp;Writes smart contracts to protect the Secret Llama Agency.</div>
-                  </div>
-                  <div className="hor-cen">
-                    {/* <a href="https://twitter.com/robinxhenry" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a> */}
-                    <a href="https://www.linkedin.com/in/rhenry012/" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
-                  </div>
-                </div>
-              </div>
-              <div id="w-node-_2d1f99f2-08c6-691d-47f9-9b97dd1e0b54-90cb9dd4" className="hor-left vert-mob"><img src="images/omotayo.png" loading="lazy" alt="" className="llama-img team-img" />
-                <div className="vert-left space-btw">
-                  <div className="vert-left">
-                    <h4 className="h3-big">Agent ashiri (omotayo)</h4>
-                    <div className="p1 p-bold">Artist</div>
-                    <div className="tb-15">Digital Artist and Illustrator in Web 3.0.</div>
-                  </div>
-                  <div className="hor-cen">
-                    <a href="https://twitter.com/EOA_art" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-15.svg" loading="lazy" alt="" className="social-img" /></a>
-                    <a href="http://www.instagram.com/eoa_art_" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
-                    <a href="https://emmanuel_01.artstation.com/" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/4373813_artstation_logo_logos_icon.svg" loading="lazy" alt="" className="social-img" /></a>
-                  </div>
-                </div>
-              </div>
-              <div id="w-node-dbb9e34d-c2f9-13fa-9a5b-69cacbc74214-90cb9dd4" className="hor-left vert-mob"><img src="images/nasr.png" loading="lazy" alt="" className="llama-img team-img" />
-                <div className="vert-left space-btw">
-                  <div className="vert-left">
-                    <h4 className="h3-big">Agent fuzz (nas)</h4>
-                    <div className="p1 p-bold">Marketing Manager</div>
-                    <div className="tb-15">Content creator @Nas.Alive. Former Marketing Specialist at the University of British Columbia and Content Creation Lead Trainer at the Nas Academy, by @NasDaily. Now a full-time secret Llama Agent.</div>
-                  </div>
-                  <div className="hor-cen">
-                    <a href="https://instagram.com/nas.alive?utm_medium=copy_link" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-14.svg" loading="lazy" alt="" className="social-img" /></a>
-                    <a href="https://www.linkedin.com/in/nasrbitar" target="_blank" rel='noreferrer' className="social-link-2 w-inline-block"><img src="images/Vector-19.svg" loading="lazy" alt="" className="social-img" /></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div><img src="images/Rectangle-10.png" loading="lazy" sizes="(max-width: 991px) 99vw, 100vw" srcSet="images/Rectangle-10-p-500.png 500w, images/Rectangle-10.png 1867w" alt="" className="absolute-bg" />
-      </div>
     </PageWrapper>
   )
 }
