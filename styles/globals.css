@@ -5381,17 +5381,33 @@ a.button:hover {
   background-color: #333333;
 }
 
+.q-page-links,
 .home--anchors {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-flow: row wrap;
   gap: 2rem;
   width: 100%;
 }
 
+.q-page-links {
+  justify-content: space-around;
+}
+
+.home--anchors {
+
+  justify-content: space-between;
+}
+
 .hero-section * {
   color: #ffffff;
+}
+
+.q-page-links a {
+  color: #1d1d1d;
+  flex: 0 0 40%;
+max-width: 445px;
+  font-family: Staatliches, sans-serif;
 }
 
 .home--anchors a {
@@ -5400,6 +5416,32 @@ a.button:hover {
   min-width: 150px;
   text-align: center;
   font-family: Staatliches, sans-serif;
+}
+
+.q-page-link.dr {
+  background-image: url('/images/Disguise-Room-Art-p-500.jpeg');
+}
+
+.q-page-link.ch {
+  background-image: url('/images/Ceremonial-Hall-1.png');
+}
+
+.q-page-link {
+  min-width: 200px;
+  min-height: 200px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.q-page-link div {
+  position: relative;
+  /* color: violet; */
+  filter: drop-shadow(0 0 0.75rem rgb(0, 0, 0));
 }
 
 
@@ -5962,5 +6004,11 @@ a.button:hover {
     grid-row-start: span 3;
     -ms-grid-row-span: 3;
     grid-row-end: span 3;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .q-page-links a {
+    flex: 0 0 90%;
   }
 }

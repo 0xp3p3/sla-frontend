@@ -83,7 +83,22 @@ const Home: NextPage = () => {
           </span>
         </div>)
     }
-    return null;
+    return (<div className="hero-content q-page-links">
+      <a href="/disguiseRoom" >
+
+        <div className="q-page-link dr" >
+          <div> The Disguise Room</div>
+        </div>
+      </a>
+      <a href="/ceremonialHall">
+
+        <div className="q-page-link ch">
+          <div>
+            Ceremonial Hall
+          </div>
+        </div>
+      </a>
+    </div>);
   }
 
   function toggleMakenVideoDismissal() {
@@ -113,9 +128,9 @@ const Home: NextPage = () => {
             <Link className="home--anchor" href="#features">Features</Link>
             <Link className="home--anchor" href="#roadmap">Big Plans</Link>
             <Link className="home--anchor" href="#parade">Llama Parade</Link>
-          </div>
         </div>
         <MakenIntro />
+          </div>
       </div>
 
       <div id="about" data-w-id="5aefb5c2-9130-2695-7e31-d3e2103a421d" className="about">
