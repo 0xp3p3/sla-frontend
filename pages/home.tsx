@@ -55,8 +55,9 @@ const Home: NextPage = () => {
     }
   }
 
+  /* //* Not Used Yet, but was planning on using this to have the "toTop Arrow" be visible
   const [toTopVisible, setToTopVisible] = useState(false)
-
+*/
   const [makenVideoDismissal, setMakenVideoDismissal] = useState(false);
 
   const MakenIntro = () => {
@@ -65,8 +66,6 @@ const Home: NextPage = () => {
         <div className="hero-content">
           <div className="hero-img">
             <img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" />
-
-
           </div>
           <div className="agent-div h">
             <img src="images/Rectangle-8-1.png" loading="lazy" sizes="(max-width: 767px) 120px, (max-width: 991px) 140px, 200px" srcSet="images/Rectangle-8-1-p-500.png 500w, images/Rectangle-8-1-p-800.png 800w, images/Rectangle-8-1-p-1080.png 1080w, images/Rectangle-8-1.png 1280w" alt="" className="agent-img" />
@@ -84,31 +83,31 @@ const Home: NextPage = () => {
         </div>)
     }
     return (
-    <div className="hero-content q-page-links">
-      <a href="/disguiseRoom" >
-        <div className="q-page-link dr" >
-          <div> The Disguise Room</div>
-        </div>
-      </a>
-      <a href="/ceremonialHall">
-
-        <div className="q-page-link ch">
-          <div>
-            Ceremonial Hall
+      <div className="hero-content q-page-links">
+        <a href="/disguiseRoom" >
+          <div className="q-page-link dr" >
+            <div> The Disguise Room</div>
           </div>
-        </div>
-      </a>
-    </div>);
+        </a>
+        <a href="/ceremonialHall">
+
+          <div className="q-page-link ch">
+            <div>
+              Ceremonial Hall
+            </div>
+          </div>
+        </a>
+      </div>);
   }
 
   function toggleMakenVideoDismissal() {
     setMakenVideoDismissal(!makenVideoDismissal);
   }
-  useEffect(() => {
-    if (window.location.hash.includes("#")) {
-      setToTopVisible(true)
-    }
-  })
+  // useEffect(() => {
+  //   if (window.location.hash.includes("#")) {
+  //     setToTopVisible(true)
+  //   }
+  // })
   return (
     <PageWrapper
       title="SLA Home"
@@ -117,55 +116,60 @@ const Home: NextPage = () => {
       webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c"
       toTopArrow={true}
     >
-      <div id="hero" className="hero-section">
-        <div id="qnav">
+      <section id="first--section">
 
-          <h4>Quick Navigation:</h4>
-          <div className="home--anchors">
-            <Link className="home--anchor" href="#about">SLA Core</Link>
-            <Link className="home--anchor" href="#mint-llama">Join the Agency</Link>
-            <Link className="home--anchor" href="#promotions">Promotions</Link>
-            <Link className="home--anchor" href="#features">Features</Link>
-            <Link className="home--anchor" href="#roadmap">Big Plans</Link>
-            <Link className="home--anchor" href="#parade">Llama Parade</Link>
+        <div id="hero" className="hero-section">
+          <div id="qnav">
+            <h4>Quick Navigation:</h4>
+            <div className="home--anchors">
+              <Link className="home--anchor" href="#about">SLA Core</Link>
+              <Link className="home--anchor" href="#mint-llama">Join the Agency</Link>
+              <Link className="home--anchor" href="#promotions">Promotions</Link>
+              <Link className="home--anchor" href="#features">Features</Link>
+              <Link className="home--anchor" href="#roadmap">Big Plans</Link>
+              <Link className="home--anchor" href="#parade">Llama Parade</Link>
+            </div>
+          </div>
+          <MakenIntro />
         </div>
-        <MakenIntro />
-          </div>
-      </div>
+      </section>
+      <br></br>
+      <section id="about">
 
-      <div id="about" data-w-id="5aefb5c2-9130-2695-7e31-d3e2103a421d" className="about">
-        <div className="container-l w-container">
-          <div className="vert-stretch">
-            <div className="blue-div">
-              <div className="_50div display-none" />
-              <div className="_50div padd-right mob-all cent"><img src="images/Rectangle-18.png" loading="lazy" alt="" className="llama-img mob" />
-                <h2 className="h2">Welcome to the<br />secret llama agency</h2>
-                <p className="p1 p-white">The first ever PFP project with customizable traits and aliases. <br /><br />Our community of Llamas will represent your online identity, and earn you $HAY daily. The token can be used to purchase blue chip NFTs from our Agency Marketplace, mint Traits, Promotion Badges, ID Cards and much more!</p>
-              </div><img src="images/pattern-big.png" loading="lazy" sizes="(max-width: 479px) 85vw, (max-width: 991px) 89vw, 83vw" srcSet="images/pattern-big-p-500.png 500w, images/pattern-big.png 1866w" alt="" className="absolute-bg" /><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner" />
-            </div>
-            <div className="hor-cen padd-110">
-              <div className="_50div display-none" />
-              <div className="_50div padd-right mob-all">
-                <h2 className="h2 h-black">giving the choice<br />back to you</h2>
-                <p className="p1">Mint your Llama Agent &amp; traits separately. <br />Combine the traits with your Agent OR find different ones that you like on the secondary market - the choice is yours!</p>
+        <div data-w-id="5aefb5c2-9130-2695-7e31-d3e2103a421d" className="about">
+          <div className="container-l w-container">
+            <div className="vert-stretch">
+              <div className="blue-div">
+                <div className="_50div display-none" />
+                <div className="_50div padd-right mob-all cent"><img src="images/Rectangle-18.png" loading="lazy" alt="" className="llama-img mob" />
+                  <h2 className="h2">Welcome to the<br />secret llama agency</h2>
+                  <p className="p1 p-white">The first ever PFP project with customizable traits and aliases. <br /><br />Our community of Llamas will represent your online identity, and earn you $HAY daily. The token can be used to purchase blue chip NFTs from our Agency Marketplace, mint Traits, Promotion Badges, ID Cards and much more!</p>
+                </div><img src="images/pattern-big.png" loading="lazy" sizes="(max-width: 479px) 85vw, (max-width: 991px) 89vw, 83vw" srcSet="images/pattern-big-p-500.png 500w, images/pattern-big.png 1866w" alt="" className="absolute-bg" /><img src="images/Vector-3-1.svg" loading="lazy" alt="" className="u-l-corner" />
               </div>
-            </div>
-            <div className="loop-wrap">
-              <div className="loop-line-wrap">
-                <div className="loop-line">
-                  <img src="images/Rectangle-18-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-18-1-p-500.png 500w, images/Rectangle-18-1-p-800.png 800w, images/Rectangle-18-1-p-1080.png 1080w, images/Rectangle-18-1.png 1383w" alt="" className="llama-img" />
-                  <img src="images/Rectangle-21-5.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-21-5-p-500.png 500w, images/Rectangle-21-5-p-800.png 800w, images/Rectangle-21-5-p-1080.png 1080w, images/Rectangle-21-5.png 1383w" alt="" className="llama-img" />
-                  <img src="images/Rectangle-20-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-20-1-p-500.png 500w, images/Rectangle-20-1-p-800.png 800w, images/Rectangle-20-1-p-1080.png 1080w, images/Rectangle-20-1.png 1383w" alt="" className="llama-img" />
-                  <img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" />
-                  <img src="images/Rectangle-38-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-38-1_1-p-500.png 500w, images/Rectangle-38-1_1-p-800.png 800w, images/Rectangle-38-1_1-p-1080.png 1080w, images/Rectangle-38-1_1.png 1383w" alt="" className="llama-img" />
-                  <img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" />
+              <div className="hor-cen padd-110">
+                <div className="_50div display-none" />
+                <div className="_50div padd-right mob-all">
+                  <h2 className="h2 h-black">giving the choice<br />back to you</h2>
+                  <p className="p1">Mint your Llama Agent &amp; traits separately. <br />Combine the traits with your Agent OR find different ones that you like on the secondary market - the choice is yours!</p>
                 </div>
-                <div className="loop-line"><img src="images/Rectangle-18-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-18-1-p-500.png 500w, images/Rectangle-18-1-p-800.png 800w, images/Rectangle-18-1-p-1080.png 1080w, images/Rectangle-18-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-21-5.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-21-5-p-500.png 500w, images/Rectangle-21-5-p-800.png 800w, images/Rectangle-21-5-p-1080.png 1080w, images/Rectangle-21-5.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-20-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-20-1-p-500.png 500w, images/Rectangle-20-1-p-800.png 800w, images/Rectangle-20-1-p-1080.png 1080w, images/Rectangle-20-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-38-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-38-1_1-p-500.png 500w, images/Rectangle-38-1_1-p-800.png 800w, images/Rectangle-38-1_1-p-1080.png 1080w, images/Rectangle-38-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /></div>
+              </div>
+              <div className="loop-wrap">
+                <div className="loop-line-wrap">
+                  <div className="loop-line">
+                    <img src="images/Rectangle-18-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-18-1-p-500.png 500w, images/Rectangle-18-1-p-800.png 800w, images/Rectangle-18-1-p-1080.png 1080w, images/Rectangle-18-1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-21-5.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-21-5-p-500.png 500w, images/Rectangle-21-5-p-800.png 800w, images/Rectangle-21-5-p-1080.png 1080w, images/Rectangle-21-5.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-20-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-20-1-p-500.png 500w, images/Rectangle-20-1-p-800.png 800w, images/Rectangle-20-1-p-1080.png 1080w, images/Rectangle-20-1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-38-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-38-1_1-p-500.png 500w, images/Rectangle-38-1_1-p-800.png 800w, images/Rectangle-38-1_1-p-1080.png 1080w, images/Rectangle-38-1_1.png 1383w" alt="" className="llama-img" />
+                    <img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" />
+                  </div>
+                  <div className="loop-line"><img src="images/Rectangle-18-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-18-1-p-500.png 500w, images/Rectangle-18-1-p-800.png 800w, images/Rectangle-18-1-p-1080.png 1080w, images/Rectangle-18-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-21-5.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-21-5-p-500.png 500w, images/Rectangle-21-5-p-800.png 800w, images/Rectangle-21-5-p-1080.png 1080w, images/Rectangle-21-5.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-20-1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-20-1-p-500.png 500w, images/Rectangle-20-1-p-800.png 800w, images/Rectangle-20-1-p-1080.png 1080w, images/Rectangle-20-1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-38-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-38-1_1-p-500.png 500w, images/Rectangle-38-1_1-p-800.png 800w, images/Rectangle-38-1_1-p-1080.png 1080w, images/Rectangle-38-1_1.png 1383w" alt="" className="llama-img" /><img src="images/Rectangle-40-1_1.png" loading="lazy" sizes="(max-width: 991px) 100vw, 300px" srcSet="images/Rectangle-40-1_1-p-500.png 500w, images/Rectangle-40-1_1-p-800.png 800w, images/Rectangle-40-1_1-p-1080.png 1080w, images/Rectangle-40-1_1.png 1383w" alt="" className="llama-img" /></div>
+                </div>
               </div>
             </div>
-          </div>
-        </div><img src="images/Vector-4.svg" loading="lazy" alt="" className="d-r-corner" />
-      </div>
+          </div><img src="images/Vector-4.svg" loading="lazy" alt="" className="d-r-corner" />
+        </div>
+      </section>
       <LlamaMintingSection />
       <div className="video-div">
         <div className="container-l padd-116 w-container">
