@@ -8,7 +8,7 @@ import TypingEffect from "../components/utils/TypingEffect";
 const DisguiseRoom: NextPage = () => {
   return (
     <PageWrapper
-      title="SLA Ceramonial Hall"
+      title="SLA Ceremonial Hall"
       ogImageSource="/images/Logo-7-p-500.png"
       webflowPageId="622dc4049da7133fe7db2ab3"
       webflowSandwichMenuId="2464aa90-69fb-9b33-28e5-69a60a9f4a65"

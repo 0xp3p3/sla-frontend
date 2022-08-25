@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
+import Link from "next/link"
 import PageWrapper from "../components/layout/PageWrapper";
 import LlamaMintingSection from "../components/home/LlamaMintingSection";
 import TypingEffect from "../components/utils/TypingEffect";
+import { useEffect, useState } from "react";
 
 
 const Home: NextPage = () => {
@@ -29,7 +31,7 @@ const Home: NextPage = () => {
       title: <span style={{ textDecoration: "line-through" }}>Chapter 4. Stand Out</span>,
       text: (
         <>
-          <span style={{ textDecoration: "line-through" }}>Legendary skins auction begins. Winners can earn +2 $HAY daily.</span>   
+          <span style={{ textDecoration: "line-through" }}>Legendary skins auction begins. Winners can earn +2 $HAY daily.</span>
           <br /><br />
           <>We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</>
         </>
@@ -53,18 +55,18 @@ const Home: NextPage = () => {
     }
   }
 
-  return (
-    <PageWrapper
-      title="SLA Home"
-      ogImageSource="/images/Logo-7-p-500.png"
-      webflowPageId="6227e74c03fec25390cb9dd4"
-      webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c"
-      toTopArrow={true}
-    >
-      <div id="hero" className="hero-section">
+  const [toTopVisible, setToTopVisible] = useState(false)
+
+  const [makenVideoDismissal, setMakenVideoDismissal] = useState(false);
+
+  const MakenIntro = () => {
+    if (!makenVideoDismissal) {
+      return (
         <div className="hero-content">
           <div className="hero-img">
             <img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" />
+
+
           </div>
           <div className="agent-div h">
             <img src="images/Rectangle-8-1.png" loading="lazy" sizes="(max-width: 767px) 120px, (max-width: 991px) 140px, 200px" srcSet="images/Rectangle-8-1-p-500.png 500w, images/Rectangle-8-1-p-800.png 800w, images/Rectangle-8-1-p-1080.png 1080w, images/Rectangle-8-1.png 1280w" alt="" className="agent-img" />
@@ -74,30 +76,63 @@ const Home: NextPage = () => {
                 <TypingEffect text={`I see that you've snuck your way in pretty easily. We could use your kind of talent.`} />
               </div>
             </div>
+
+          </div>
+          <span style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+            <a style={{ width: "300px" }} onClick={toggleMakenVideoDismissal} className="button w-button">"Thanks Maken. . ."</a>
+          </span>
+        </div>)
+    }
+    return (
+    <div className="hero-content q-page-links">
+      <a href="/disguiseRoom" >
+        <div className="q-page-link dr" >
+          <div> The Disguise Room</div>
+        </div>
+      </a>
+      <a href="/ceremonialHall">
+
+        <div className="q-page-link ch">
+          <div>
+            Ceremonial Hall
           </div>
         </div>
-      </div>
-      <LlamaMintingSection />
-      <div className="reminder-cta">
-        <div className="container-l w-container">
-          <div className="hor-cen vert-mob">
-            <div className="_50div">
-              {/* <div className="tb-32 s-font">sign up to get a reminder</div> */}
-            </div>
-            <div className="_50div padd-right mob-all">
-              <div className="form-block w-form">
-                {/* <SignupForm /> */}
-                <div className="w-form-done">
-                  <div>Thank you! Your submission has been received!</div>
-                </div>
-                <div className="w-form-fail">
-                  <div>Oops! Something went wrong while submitting the form.</div>
-                </div>
-              </div>
-            </div>
-          </div>
+      </a>
+    </div>);
+  }
+
+  function toggleMakenVideoDismissal() {
+    setMakenVideoDismissal(!makenVideoDismissal);
+  }
+  useEffect(() => {
+    if (window.location.hash.includes("#")) {
+      setToTopVisible(true)
+    }
+  })
+  return (
+    <PageWrapper
+      title="SLA Home"
+      ogImageSource="/images/Logo-7-p-500.png"
+      webflowPageId="6227e74c03fec25390cb9dd4"
+      webflowSandwichMenuId="71e26f4a-7c30-586b-66a0-c09294f2d09c"
+      toTopArrow={true}
+    >
+      <div id="hero" className="hero-section">
+        <div id="qnav">
+
+          <h4>Quick Navigation:</h4>
+          <div className="home--anchors">
+            <Link className="home--anchor" href="#about">SLA Core</Link>
+            <Link className="home--anchor" href="#mint-llama">Join the Agency</Link>
+            <Link className="home--anchor" href="#promotions">Promotions</Link>
+            <Link className="home--anchor" href="#features">Features</Link>
+            <Link className="home--anchor" href="#roadmap">Big Plans</Link>
+            <Link className="home--anchor" href="#parade">Llama Parade</Link>
         </div>
+        <MakenIntro />
+          </div>
       </div>
+
       <div id="about" data-w-id="5aefb5c2-9130-2695-7e31-d3e2103a421d" className="about">
         <div className="container-l w-container">
           <div className="vert-stretch">
@@ -131,6 +166,7 @@ const Home: NextPage = () => {
           </div>
         </div><img src="images/Vector-4.svg" loading="lazy" alt="" className="d-r-corner" />
       </div>
+      <LlamaMintingSection />
       <div className="video-div">
         <div className="container-l padd-116 w-container">
           <div className="vert-cent">
@@ -175,7 +211,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="promotions">
+      <div id="promotions" className="promotions">
         <div className="container-l w-container">
           <div className="hor-cen vert-mob padd-mob"><img src="images/Img-26.png" loading="lazy" sizes="(max-width: 991px) 100vw, 582px" srcSet="images/Img-26-p-500.png 500w, images/Img-26.png 582w" alt="" className="img-582 desk" />
             <div className="vert-left">
@@ -312,7 +348,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div data-w-id="7a4f8fa4-7279-fe36-6fc0-44621eda34d0" className="horizontal-loop">
+      <div id="parade" data-w-id="7a4f8fa4-7279-fe36-6fc0-44621eda34d0" className="horizontal-loop">
         <div data-w-id="78353799-c989-a894-9de2-61867ff17b5a" className="hor-loop-wrap">
           <div className="image-loop-list">
             <img src="images/Rectangle-40-1.png" loading="lazy" alt="" className="loop-img-2" />
