@@ -2685,11 +2685,14 @@ body {
   width: 20px;
 }
 
+#qnav,
 .hero-section {
   padding: 20px;
+  /* background-color: #333333; */
 }
 
 .hero-content {
+  margin-top: 2rem;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -5374,18 +5377,26 @@ a.button:hover {
   }
 }
 
+#qnav {
+  background-color: #333333;
+}
+
 .home--anchors {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-flow: row wrap;
   gap: 2rem;
   width: 100%;
 }
 
+.hero-section * {
+  color: #ffffff;
+}
+
 .home--anchors a {
-  color: #1d1d1d;
-  flex: 0 0 20%;
+
+  flex: 0 0 10%;
   min-width: 150px;
   text-align: center;
   font-family: Staatliches, sans-serif;

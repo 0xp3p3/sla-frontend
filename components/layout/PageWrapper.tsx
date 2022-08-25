@@ -17,7 +17,8 @@ interface Props {
 const PageWrapper = (props: Props) => {
 
   useEffect(() => {
-    document.getElementById('html').setAttribute("data-wf-page", props.webflowPageId)
+    document.getElementById('html').setAttribute("data-wf-page", props.webflowPageId);
+
   }, [])
 
   return (

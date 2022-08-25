@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app'
 import WalletConnectionProvider from '../components/wallet/WalletConnectionProvider'
 import Head from 'next/head'
 
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>

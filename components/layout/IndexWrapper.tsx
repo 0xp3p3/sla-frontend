@@ -1,7 +1,6 @@
 import Script from "next/script";
 import CustomHead from "./CustomHead";
 
-
 interface Props {
   title: string,
   ogImageSource: string,
@@ -9,6 +8,7 @@ interface Props {
 }
 
 const IndexPageWrapper = (props: Props) => {
+
   return (
     <div>
       <CustomHead title={props.title} ogImageSource={props.ogImageSource} />
@@ -16,7 +16,7 @@ const IndexPageWrapper = (props: Props) => {
         {props.children}
       </div>
       <Script src="js/webflow.js" type="text/javascript"></Script>
-  </div>
+    </div>
   )
 }
 
