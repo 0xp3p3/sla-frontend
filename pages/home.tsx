@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
+import Link from "next/link"
 import PageWrapper from "../components/layout/PageWrapper";
 import LlamaMintingSection from "../components/home/LlamaMintingSection";
 import TypingEffect from "../components/utils/TypingEffect";
+import { useEffect, useState } from "react";
 
 
 const Home: NextPage = () => {
@@ -29,7 +31,7 @@ const Home: NextPage = () => {
       title: <span style={{ textDecoration: "line-through" }}>Chapter 4. Stand Out</span>,
       text: (
         <>
-          <span style={{ textDecoration: "line-through" }}>Legendary skins auction begins. Winners can earn +2 $HAY daily.</span>   
+          <span style={{ textDecoration: "line-through" }}>Legendary skins auction begins. Winners can earn +2 $HAY daily.</span>
           <br /><br />
           <>We will also launch the Agency Marketplace where blue chip NFTs can be purchased with $HAY.</>
         </>
@@ -53,6 +55,13 @@ const Home: NextPage = () => {
     }
   }
 
+  const [toTopVisible, setToTopVisible] = useState(false)
+
+  useEffect(() => {
+    if (window.location.hash.includes("#")) {
+      setToTopVisible(true)
+    }
+  })
   return (
     <PageWrapper
       title="SLA Home"
@@ -62,6 +71,12 @@ const Home: NextPage = () => {
       toTopArrow={true}
     >
       <div id="hero" className="hero-section">
+          <div className="home--anchors">
+            <Link className="home--anchor" href="#promotions">Promotions</Link>
+            <Link className="home--anchor" href="#about">SLA Core</Link>
+            <Link className="home--anchor" href="#mint">Join the Agency</Link>
+            <Link className="home--anchor" href="#roadmap">Big Plans</Link>
+          </div>
         <div className="hero-content">
           <div className="hero-img">
             <img src="images/Group-37-1.svg" loading="lazy" alt="" className="scroll-down-img moveArrow" />
@@ -175,7 +190,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="promotions">
+      <div id="promotions" className="promotions">
         <div className="container-l w-container">
           <div className="hor-cen vert-mob padd-mob"><img src="images/Img-26.png" loading="lazy" sizes="(max-width: 991px) 100vw, 582px" srcSet="images/Img-26-p-500.png 500w, images/Img-26.png 582w" alt="" className="img-582 desk" />
             <div className="vert-left">
