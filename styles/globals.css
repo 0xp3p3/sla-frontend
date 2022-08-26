@@ -2685,13 +2685,11 @@ body {
   width: 20px;
 }
 
-/* #qnav {
-  position: absolute;
-  top: 108px;
-  left: 20px;
-  right: 20px;
-  padding: 20px;
-} */
+#qnav {
+  padding: 15px;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
 
 .hero-section {
   padding: 20px;
@@ -2706,6 +2704,8 @@ body {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -2714,6 +2714,7 @@ body {
 }
 
 .hero-img {
+  margin-top: 3px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
