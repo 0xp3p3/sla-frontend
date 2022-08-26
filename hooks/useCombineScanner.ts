@@ -72,6 +72,7 @@ const useCombineScanner = () => {
   }, [selectedAgent, scannerWalletNFTs])
 
   const refreshMetadataToDisplay = async () => {
+    console.log('[refreshMetadataToDisplay hook] refreshing metadata to display')
     if (!wallet.publicKey || scannerWalletNFTs.length === 0) { return }
 
     try {
@@ -88,6 +89,7 @@ const useCombineScanner = () => {
       }
 
       setMetadataToDisplay(metadata)
+      console.log({metadata: metadata, url: url, newStatus: newStatus})
       setPreviewImageUrl(url)
       setStatus(newStatus)
 
@@ -100,6 +102,7 @@ const useCombineScanner = () => {
 
 
   const scanAgent = async () => {
+    console.log(`Scanning agent...`)
     setIsCombining(true)
     setStatus(CombineScannerStatus.ScanningAgent)
 
@@ -122,10 +125,10 @@ const useCombineScanner = () => {
       }
 
       console.log(`[userCombinerScanner hook] awaiting user signature`)
-      const txData = JSON.parse(response.transaction).data 
+      const txData = JSON.parse(response.transaction).data
       let transactionFromJson = anchor.web3.Transaction.from(txData)
       transactionFromJson = await wallet.signTransaction(transactionFromJson)
-      
+
       console.log(`[userCombineScanner hook] sending transaction`)
       setStatus(CombineScannerStatus.UpdatingOnChainMetadata)
       const tx = await sendSignedTransaction({ signedTransaction: transactionFromJson, connection })
