@@ -78,7 +78,7 @@ const Home: NextPage = () => {
 
           </div>
           <span style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-            <a style={{ width: "300px" }} onClick={toggleMakenVideoDismissal} className="button w-button">"Thanks Maken. . ."</a>
+            <a style={{ width: "300px" }} onClick={toggleMakenVideoDismissal} className="button w-button">&quot;Thanks Maken. . .&quot;</a>
           </span>
         </div>)
     }
