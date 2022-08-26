@@ -84,19 +84,19 @@ const Home: NextPage = () => {
     }
     return (
       <div className="hero-content q-page-links">
-        <a href="/disguiseRoom" >
+        <Link href="/disguiseRoom" >
           <div className="q-page-link dr" >
             <div> The Disguise Room</div>
           </div>
-        </a>
-        <a href="/ceremonialHall">
+        </Link>
+        <Link href="/ceremonialHall">
 
           <div className="q-page-link ch">
             <div>
               Ceremonial Hall
             </div>
           </div>
-        </a>
+        </Link>
       </div>);
   }
 
