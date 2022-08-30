@@ -5,7 +5,10 @@ import * as mpl from "@metaplex/js"
 import useWalletNFTs, { NFT } from "./useWalletNFTs"
 import { sendSignedTransaction } from '../utils/transaction';
 
-
+const dev = process.env.VERCEL_ENV === "development"
+const SERVER = dev ? "http://localhost:3000" : "https://secretllamaagency.com"
+console.clear()
+console.log({SERVER})
 export enum CombineScannerStatus {
   WalletNoConnected = "Wallet not connected",
   NoScannerInWallet = "Wallet does not contain a Scanner",
@@ -89,7 +92,7 @@ const useCombineScanner = () => {
       }
 
       setMetadataToDisplay(metadata)
-      console.log({metadata: metadata, url: url, newStatus: newStatus})
+      console.log({ metadata: metadata, url: url, newStatus: newStatus })
       setPreviewImageUrl(url)
       setStatus(newStatus)
 
@@ -117,7 +120,7 @@ const useCombineScanner = () => {
           owner: wallet.publicKey.toString(),
         })
       }
-      const response = await (await fetch("/api/scan/scanAgent", data)).json()
+      const response = await (await fetch(`${SERVER}/api/scan/scanAgent`, data)).json()
       setStatus(CombineScannerStatus.AwaitingUserSignature)
 
       if (response.error) {

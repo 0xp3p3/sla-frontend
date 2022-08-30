@@ -26,7 +26,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       estimateManifestSize(['0.png', 'metadata.json']),
     ])
 
-    res.status(200).send({ cost: storageCost })
+
+    res.status(200).send({ cost: Math.ceil(storageCost) })
     return
 
   } catch (error: any) {
