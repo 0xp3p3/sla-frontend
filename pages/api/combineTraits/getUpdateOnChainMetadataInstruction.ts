@@ -32,8 +32,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Create transaction + check that the new metadata is correct
     let transaction: anchor.web3.Transaction
     if (body.newName !== null) {
-      console.log(`\n\n body.newName exists apparently\n\n`)
-      console.log('creating ChangeAlias transaction')
+      // console.log(`\n\n body.newName exists apparently\n\n`)
+      // console.log('creating ChangeAlias transaction')
       transaction = await createChangeAliasTransaction(
         new PublicKey(body.agentMint),
         new PublicKey(body.owner),
