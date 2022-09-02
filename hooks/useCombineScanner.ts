@@ -5,10 +5,10 @@ import * as mpl from "@metaplex/js"
 import useWalletNFTs, { NFT } from "./useWalletNFTs"
 import { sendSignedTransaction } from '../utils/transaction';
 
-const dev = process.env.VERCEL_ENV === "development"
-const SERVER = dev ? "http://localhost:3000" : "https://secretllamaagency.com"
+// const dev = process.env.VERCEL_ENV === "development"
+// const SERVER = dev ? "http://localhost:3000" : "https://secretllamaagency.com"
 console.clear()
-console.log({SERVER})
+// console.log({SERVER})
 export enum CombineScannerStatus {
   WalletNoConnected = "Wallet not connected",
   NoScannerInWallet = "Wallet does not contain a Scanner",
@@ -28,6 +28,7 @@ const useCombineScanner = () => {
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
 
+  const [isVerifiedLlama, setIsVerifiedLlama] = useState(false)
   const [isPreviewLoading, setIsPreviewLoading] = useState(false)
   const [metadataToDisplay, setMetadataToDisplay] = useState<mpl.MetadataJson>(null)
   const [previewImageUrl, setPreviewImageUrl] = useState<string>(null)
@@ -40,7 +41,27 @@ const useCombineScanner = () => {
     console.log(`[useCombineScanner hook] setting status to ${status}`)
   }, [status])
 
+  // Check if Agent is already Verified
+  useEffect(() => {
+    console.log('Attributes')
+    if (!selectedAgent) {
+      setIsVerifiedLlama(false)
+      return;
+    }
+    const traits = selectedAgent?.externalMetadata.attributes.map(attribute => attribute.trait_type)
+    console.log({ 'traits': traits.includes('Verified Agent') })
+    if (traits.includes('Verified Agent')) {
+      setIsVerifiedLlama(true);
+      return
+    }
+    if (!traits.includes('Verified Agent')) {
+      setIsVerifiedLlama(false)
+      return;
+    }
 
+  }, [selectedAgent])
+
+  useEffect(() => { console.log({ isVerifiedLlama })})
   // Log every time the image url changes
   useEffect(() => {
     console.log(`[useCombineScanner hook] new preview url: ${previewImageUrl}`)
@@ -120,7 +141,7 @@ const useCombineScanner = () => {
           owner: wallet.publicKey.toString(),
         })
       }
-      const response = await (await fetch(`${SERVER}/api/scan/scanAgent`, data)).json()
+      const response = await (await fetch(`/api/scan/scanAgent`, data)).json()
       setStatus(CombineScannerStatus.AwaitingUserSignature)
 
       if (response.error) {
@@ -154,6 +175,7 @@ const useCombineScanner = () => {
     status,
     setStatus,
     isCombining,
+    isVerifiedLlama,
     resetStatus,
     selectedAgent,
     setSelectedAgent,

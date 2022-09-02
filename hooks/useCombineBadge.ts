@@ -65,7 +65,7 @@ const useCombineBadge = () => {
       setStatus(BadgeCombineStatus.WalletNoConnected)
     } else {
       console.log('[useCombineBadge hook] refreshing metadata to display')
-      refreshMetadataToDisplay()      
+      refreshMetadataToDisplay()
     }
   }, [wallet.publicKey, selectedAgent, selectedBadge])
 
@@ -112,14 +112,14 @@ const useCombineBadge = () => {
       setPreviewImageUrl(url)
       setStatus(newStatus)
 
-    } catch(error: any) {
+    } catch (error: any) {
       console.log(error)
     } finally {
       setIsPreviewLoading(false)
     }
 
     // We're ready to combine if both the agent and trait are selected
-    if (selectedAgent && selectedBadge) { 
+    if (selectedAgent && selectedBadge) {
       setReadyToCombine()
     }
   }
@@ -209,6 +209,8 @@ const useCombineBadge = () => {
             tx: tx,
           })
         }
+
+
         const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
         const arweaveUploadResult: UploadResult = responseUpload
         console.log('[useCombineBadge hook] new arweave metadata url', arweaveUploadResult.metadataUrl)
@@ -233,18 +235,20 @@ const useCombineBadge = () => {
   const updateOnChainMetadata = async () => {
 
     try {
+      console.clear()
       console.log('[useCombineBadge hook] Updating on-chain metadata with new url')
+      console.log({ MD: metadataToDisplay.name })
       setStatus(BadgeCombineStatus.AwaitingUserSignatureForMetadataUpdate)
 
       const tx = await updateOnChainMetadataAfterCombine(
-        selectedAgent.mint.toString(),
-        selectedBadge.mint.toString(),
-        anchorWallet,
-        connection,
-        newArweaveMetadataUrl,
-        null,
+        selectedAgent.mint.toString(), //Address
+        selectedBadge.mint.toString(), //Address
+        anchorWallet, //Address
+        connection, //Connection
+        newArweaveMetadataUrl, //String
+        metadataToDisplay.name, // string
         () => setStatus(BadgeCombineStatus.UpdatingOnChainMetadata),
-        currentBadgeInfo.currentBadge ?  currentBadgeInfo.currentBadge.id + 1 : 2,  // Bronze has ID = 2
+        currentBadgeInfo.currentBadge ? currentBadgeInfo.currentBadge.id + 1 : 2,  // Bronze has ID = 2
       )
       console.log('[useCombineBadge hook] Finished updating metadata. Tx: ', tx)
 

@@ -85,7 +85,7 @@ export function estimateManifestSize(filenames: string[]): number {
 export async function fetchCostToStore(fileSizes: number[]) {
   const result = await calculate(fileSizes);
   console.clear()
-  console.log({ fileSizes })
+  // console.log({ fileSizes })
   // It shouldn't be x100 here, but it doesn't work otherwise
   return result.solana * anchor.web3.LAMPORTS_PER_SOL * 100;
 }

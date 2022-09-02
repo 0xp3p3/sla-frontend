@@ -14,6 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const imageUrl: string = body.imageUrl
   const metadataJson: mpl.MetadataJson = body.metadataJson
 
+
   try {
     // Download image from url
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' })
@@ -27,6 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     ])
 
 
+    console.log({ metadataJson })
     res.status(200).send({ cost: Math.ceil(storageCost) })
     return
 

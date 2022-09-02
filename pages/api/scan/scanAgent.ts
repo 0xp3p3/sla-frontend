@@ -36,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const wallet = getWallet()
     function isVerified() {
       const result = metadataJson.attributes.map((att) => {
-        if (att.trait_type == 'Verified Agent' && att.value == 'true') return true
+        if (att.trait_type == 'Verified Agent' && att.value == 'True') return true
         return false
       })
       return result
@@ -110,9 +110,10 @@ function addImposterTraits(metadata: mpl.MetadataJson): mpl.MetadataJson {
 }
 
 function addScannedTrait(metadata: mpl.MetadataJson): mpl.MetadataJson {
-  metadata.attributes.push({
-    "trait_type": "Verified Agent", "value": "true"
-  })
+  const update = [...metadata.attributes, { trait_type: "Verified Agent", value: "True" }]
+  console.log({ update })
+  metadata.attributes = update
+  console.log(metadata.attributes)
   metadata.image = '0.png'
   metadata.properties.files[0].uri = '0.png'
 
