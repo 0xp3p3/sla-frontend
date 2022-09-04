@@ -30,6 +30,7 @@ const useCombineIdCard = () => {
   const { idCardWalletNFTs } = useWalletNFTs()
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
+  const [isVerifiedLlama, setIsVerifiedLlama] = useState(false)
 
   const [isPreviewLoading, setIsPreviewLoading] = useState(false)
   const [metadataToDisplay, setMetadataToDisplay] = useState<mpl.MetadataJson>(null)

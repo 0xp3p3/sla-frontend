@@ -61,7 +61,6 @@ const useCombineScanner = () => {
 
   }, [selectedAgent])
 
-  useEffect(() => { console.log({ isVerifiedLlama })})
   // Log every time the image url changes
   useEffect(() => {
     console.log(`[useCombineScanner hook] new preview url: ${previewImageUrl}`)
