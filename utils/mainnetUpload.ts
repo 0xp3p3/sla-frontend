@@ -87,7 +87,7 @@ export async function fetchCostToStore(fileSizes: number[]) {
   console.clear()
   // console.log({ fileSizes })
   // It shouldn't be x100 here, but it doesn't work otherwise
-  return result.solana * anchor.web3.LAMPORTS_PER_SOL * 100;
+  return result.solana * anchor.web3.LAMPORTS_PER_SOL; //* 100;
 }
 
 export async function sendUploadFund(
@@ -103,6 +103,8 @@ export async function sendUploadFund(
       lamports: storageCost,
     }),
   ]
+
+  console.log(`\n\n\n ${storageCost} \n\n\n`)
 
   // Sign transaction, broadcast, and confirm
   const { txs } = await sendTransactions(

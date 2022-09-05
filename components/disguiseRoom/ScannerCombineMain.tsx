@@ -231,7 +231,6 @@ const ScannerCombineMain = (props: Props) => {
         <Button disabled>
           Verified Llama
         </Button>
-
       </div>
       )
     }

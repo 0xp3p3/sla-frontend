@@ -188,7 +188,7 @@ const useCombineBadge = () => {
         }
 
         const uploadCost = response.cost
-
+        console.log({ uploadCost })
         // Request the user to pay the cost
         const tx = await sendUploadFund(
           uploadCost,
@@ -233,7 +233,7 @@ const useCombineBadge = () => {
 
 
   const updateOnChainMetadata = async () => {
-
+    console.log(`\n\n\n UPDATE ON CHAIN METADATA \n\n\n`)
     try {
       console.clear()
       console.log('[useCombineBadge hook] Updating on-chain metadata with new url')
@@ -246,7 +246,8 @@ const useCombineBadge = () => {
         anchorWallet, //Address
         connection, //Connection
         newArweaveMetadataUrl, //String
-        metadataToDisplay.name, // string
+        null,
+        // metadataToDisplay.name, // string
         () => setStatus(BadgeCombineStatus.UpdatingOnChainMetadata),
         currentBadgeInfo.currentBadge ? currentBadgeInfo.currentBadge.id + 1 : 2,  // Bronze has ID = 2
       )
