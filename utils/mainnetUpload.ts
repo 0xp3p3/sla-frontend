@@ -84,9 +84,10 @@ export function estimateManifestSize(filenames: string[]): number {
 
 export async function fetchCostToStore(fileSizes: number[]) {
   const result = await calculate(fileSizes);
-
+  // console.clear()
+  // console.log({ fileSizes })
   // It shouldn't be x100 here, but it doesn't work otherwise
-  return result.solana * anchor.web3.LAMPORTS_PER_SOL * 100;
+  return result.solana * anchor.web3.LAMPORTS_PER_SOL; //* 100;
 }
 
 export async function sendUploadFund(
@@ -103,12 +104,14 @@ export async function sendUploadFund(
     }),
   ]
 
+  // console.log(`\n\n\n ${storageCost} \n\n\n`)
+
   // Sign transaction, broadcast, and confirm
   const { txs } = await sendTransactions(
-    connection, 
-    wallet, 
-    [instructions], 
-    [[]], 
+    connection,
+    wallet,
+    [instructions],
+    [[]],
     'singleGossip',
     [],
     [],

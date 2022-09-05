@@ -61,7 +61,7 @@ const useCombine = () => {
     if (!wallet.publicKey) {
       setStatus(CombineStatus.WalletNoConnected)
     } else {
-      refreshMetadataToDisplay()      
+      refreshMetadataToDisplay()
     }
   }, [wallet.publicKey])
 
@@ -116,14 +116,14 @@ const useCombine = () => {
       setPreviewImageUrl(url)
       setStatus(newStatus)
 
-    } catch(error: any) {
+    } catch (error: any) {
       console.log(error)
     } finally {
       setIsPreviewLoading(false)
     }
 
     // We're ready to combine if both the agent and trait are selected
-    if (selectedAgent && selectedTrait) { 
+    if (selectedAgent && selectedTrait) {
       setReadyToCombine()
     }
   }
@@ -222,7 +222,7 @@ const useCombine = () => {
         if (arweaveUploadResult.error) {
           throw Error(arweaveUploadResult.error)
         }
-
+        console.log({ AM: arweaveUploadResult.metadataUrl })
         setNewArweaveMetadataUrl(arweaveUploadResult.metadataUrl)
         setNewArweaveImageUrl(arweaveUploadResult.imageUrl)
 

@@ -31,6 +31,7 @@ const ScannerCombineMain = (props: Props) => {
   const { agentWalletNFTs, fetchNFTs } = useWalletNFTs()
   const {
     status,
+    isVerifiedLlama,
     isCombining,
     setSelectedAgent,
     previewImageUrl,
@@ -80,7 +81,7 @@ const ScannerCombineMain = (props: Props) => {
             content: (
               <>
                 <p>{`Oops, it looks like your wallet doesn't contain any DNA Scanning Device.`}</p>
-                <br/>
+                <br />
                 <p>Go back to Step 5 to mint one!</p>
               </>
             ),
@@ -224,6 +225,27 @@ const ScannerCombineMain = (props: Props) => {
     setModalContent(content)
   }
 
+  const ButtonTrigger = () => {
+    if (isVerifiedLlama) {
+      return (<div className={styles.button_container}>
+        <Button disabled>
+          Verified Llama
+        </Button>
+      </div>
+      )
+    }
+    return (<div className={styles.button_container}>
+      <BasicModal
+        {...modalContent}
+        trigger={(
+          <Button>
+            {isCombining ? <Spinner /> : (status === CombineScannerStatus.ReadyToCombine ? "scan" : "How To")}
+          </Button>
+        )}
+      >
+      </BasicModal>
+    </div>)
+  }
   // Refresh the modal every time the combine status changes
   useEffect(() => {
     getModalContent()
@@ -247,7 +269,8 @@ const ScannerCombineMain = (props: Props) => {
           />
         </div>
       </div>
-      <div className={styles.button_container}>
+      <ButtonTrigger />
+      {/* <div className={styles.button_container}>
         <BasicModal
           {...modalContent}
           trigger={(
@@ -257,7 +280,7 @@ const ScannerCombineMain = (props: Props) => {
           )}
         >
         </BasicModal>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -14,6 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const imageUrl: string = body.imageUrl
   const metadataJson: mpl.MetadataJson = body.metadataJson
 
+
   try {
     // Download image from url
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' })
@@ -26,7 +27,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       estimateManifestSize(['0.png', 'metadata.json']),
     ])
 
-    res.status(200).send({ cost: storageCost })
+    console.log({ storageCost: storageCost })
+
+    res.status(200).send({ cost: Math.ceil(storageCost) })
+    // console.log({ metadataJson })
+    // res.status(200).send({ cost: Math.ceil(storageCost) })
     return
 
   } catch (error: any) {

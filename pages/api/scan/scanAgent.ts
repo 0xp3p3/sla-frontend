@@ -7,44 +7,57 @@ import idl from '../../../sla_idl.json'
 import { COMBINE_AUTHORITY_WALLET, SCANNER_MINT, TOKEN_PROGRAM_ID, SLA_PROGRAM_ID } from "../../../utils/constants";
 
 
+
 const dev = process.env.VERCEL_ENV === "development"
 const SERVER = dev ? "http://localhost:3000" : "https://secretllamaagency.com"
 
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  
+
   if (req.method !== 'POST') {
     res.status(405).send({ message: 'Only POST requests allowed' })
   }
 
   const IMPOSTERS = JSON.parse(process.env.IMPOSTER_MINTS)
-
+  // console.log(req)
   const body = req.body
   let metadataJson: mpl.MetadataJson = body.metadataJson
-  const mint: string = body.mint 
+  const mint: string = body.mint
   const owner: string = body.owner
 
   console.log(`Scanning mint ${mint}`)
-
-  let isImposter = false 
+  // console.dir({ metadataJson: metadataJson })
+  let isImposter = false
   let transaction = null
 
   try {
     // Initialize a connection to the blockchain
     const connection = getConnection()
     const wallet = getWallet()
-    
+    function isVerified() {
+      const result = metadataJson.attributes.map((att) => {
+        if (att.trait_type == 'Verified Agent' && att.value == 'True') return true
+        return false
+      })
+      return result
+    }
     // Upload new metadata and image to Arweave if neeeded
     let newMetadataUri: string | null = null
     isImposter = IMPOSTERS.includes(mint)
+    // console.log({ isVerified })
     if (isImposter) {
       console.log(`mint ${mint} is an imposter!`)
       metadataJson = addImposterTraits(metadataJson)
-      const s3Url = await pushNewImageToS3(metadataJson)
-      newMetadataUri = await uploadToArweave(metadataJson, s3Url, connection, wallet)
+      // const s3Url = await pushNewImageToS3(metadataJson)
+      // newMetadataUri = await uploadToArweave(metadataJson, s3Url, connection, wallet)
     } else {
-      console.log(`mint ${mint} is not an imposter`) 
+      console.log(`mint ${mint} is not an imposter`)
+      metadataJson = addScannedTrait(metadataJson)
+
     }
+
+    const s3Url = await pushNewImageToS3(metadataJson)
+    newMetadataUri = await uploadToArweave(metadataJson, s3Url, connection, wallet)
 
     // Update the metadata URI if needed + burn the Scanner
     transaction = await createChainInstruction(mint, newMetadataUri, connection, getKeypair(), owner)
@@ -52,15 +65,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error: any) {
     console.log('Could not scan agent', error)
     res.status(500).send({ error: 'Could not scan agent' })
-    return 
-  } 
+    return
+  }
 
   if (!transaction) {
     res.status(500).send({ error: 'The transaction could not be created' })
-    return 
+    return
   }
 
-  res.status(200).send({transaction: JSON.stringify(transaction)})
+  res.status(200).send({ transaction: JSON.stringify(transaction) })
 }
 
 
@@ -96,8 +109,19 @@ function addImposterTraits(metadata: mpl.MetadataJson): mpl.MetadataJson {
   return metadata
 }
 
+function addScannedTrait(metadata: mpl.MetadataJson): mpl.MetadataJson {
+  const update = [...metadata.attributes, { trait_type: "Verified Agent", value: "True" }]
+  // console.log({ update })
+  metadata.attributes = update
+  // console.log(metadata.attributes)
+  metadata.image = '0.png'
+  metadata.properties.files[0].uri = '0.png'
 
-async function pushNewImageToS3 (metadata: mpl.MetadataJson): Promise<string> {
+  return metadata
+}
+
+
+async function pushNewImageToS3(metadata: mpl.MetadataJson): Promise<string> {
   console.log(`Uploading new image to S3`)
   const data = {
     method: "POST",
@@ -115,8 +139,8 @@ async function pushNewImageToS3 (metadata: mpl.MetadataJson): Promise<string> {
 
 
 async function uploadToArweave(
-  metadata: mpl.MetadataJson, 
-  s3ImageUrl: string, 
+  metadata: mpl.MetadataJson,
+  s3ImageUrl: string,
   connection: anchor.web3.Connection,
   wallet: any,
 ): Promise<string> {
@@ -146,7 +170,7 @@ async function uploadToArweave(
       uploadCost,
       connection,
       wallet,
-      () => {},
+      () => { },
     )
 
     // Upload files to arweave
@@ -179,8 +203,8 @@ async function uploadToArweave(
 
 
 async function createChainInstruction(
-  mint: string, 
-  newMetadataUri: string | null, 
+  mint: string,
+  newMetadataUri: string | null,
   connection: anchor.web3.Connection,
   updateAuthority: anchor.web3.Keypair,
   user: string,
