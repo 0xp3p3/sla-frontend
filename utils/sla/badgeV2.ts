@@ -98,12 +98,12 @@ export function hasAgentReachedRequiredGradeToMint(
   badgeAccountV1: BadgeAccountV1 | null,
   badgeAccountV2: BadgeAccountV2 | null
 ): boolean {
-console.log({badgeAccountV1})
-console.log({badgeAccountV2})
+// console.log({badgeAccountV1})
+// console.log({badgeAccountV2})
   // Use the V2 ranking account if it exists 
 
   if (badgeAccountV2 && badgeAccountV2.ranking) {
-    console.log({badgeAccountV1})
+    // console.log({badgeAccountV1})
 
     switch (badgeToMint.id) {
       case 2:
@@ -123,7 +123,7 @@ console.log({badgeAccountV2})
 
   // Otherwise, use the information from the V1 account
   else if (badgeAccountV1 && badgeAccountV1.ranking) {
-    console.log(' asdaf is v1')
+    // console.log(' asdaf is v1')
 
     if ('badgeBronze' in badgeAccountV1.ranking) {
       return badgeToMint.id === 3

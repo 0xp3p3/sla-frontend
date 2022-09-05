@@ -19,14 +19,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const IMPOSTERS = JSON.parse(process.env.IMPOSTER_MINTS)
-  console.log(req)
+  // console.log(req)
   const body = req.body
   let metadataJson: mpl.MetadataJson = body.metadataJson
   const mint: string = body.mint
   const owner: string = body.owner
 
   console.log(`Scanning mint ${mint}`)
-  console.dir({ metadataJson: metadataJson })
+  // console.dir({ metadataJson: metadataJson })
   let isImposter = false
   let transaction = null
 
@@ -44,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Upload new metadata and image to Arweave if neeeded
     let newMetadataUri: string | null = null
     isImposter = IMPOSTERS.includes(mint)
-    console.log({ isVerified })
+    // console.log({ isVerified })
     if (isImposter) {
       console.log(`mint ${mint} is an imposter!`)
       metadataJson = addImposterTraits(metadataJson)
@@ -111,9 +111,9 @@ function addImposterTraits(metadata: mpl.MetadataJson): mpl.MetadataJson {
 
 function addScannedTrait(metadata: mpl.MetadataJson): mpl.MetadataJson {
   const update = [...metadata.attributes, { trait_type: "Verified Agent", value: "True" }]
-  console.log({ update })
+  // console.log({ update })
   metadata.attributes = update
-  console.log(metadata.attributes)
+  // console.log(metadata.attributes)
   metadata.image = '0.png'
   metadata.properties.files[0].uri = '0.png'
 
