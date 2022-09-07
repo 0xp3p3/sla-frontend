@@ -19,7 +19,7 @@ interface SlaNFTs {
   mouths: NFT[],
   skins: NFT[],
   idCards: NFT[],
-  bronzeBadges: NFT[], 
+  bronzeBadges: NFT[],
   silverBadges: NFT[],
   goldBadges: NFT[],
   platinumBadges: NFT[],
@@ -59,7 +59,7 @@ export async function getNFTMetadataForMany(
   )
   const nfts = (await Promise.all(promises)).filter((n) => !!n)
 
-  return nfts
+  return nfts // include all NFTs in the wallet
 }
 
 export async function getNFTsByOwner(
@@ -118,6 +118,8 @@ export function filterNFTsFromCollection(
 
   const filtered = nfts.filter(nft => {
     const onChainCollection = nft.onchainMetadata.collection
+    const NFTname = nft.onchainMetadata.data.name
+    console.log({ NFTname, onChainCollection })
     if (!onChainCollection) { return false }
     return (onChainCollection.key === collection && onChainCollection.verified)
   })
@@ -140,12 +142,12 @@ function filterTokensByMint(
 
 
 async function getOnchainMetadataForMint(
-  mint: string, 
+  mint: string,
   connection: Connection
 ): Promise<programs.metadata.MetadataData> {
-    const metadataPDA = await Metadata.getPDA(mint)
-    const onchainMetadata = (await Metadata.load(connection, metadataPDA)).data
-    return onchainMetadata
+  const metadataPDA = await Metadata.getPDA(mint)
+  const onchainMetadata = (await Metadata.load(connection, metadataPDA)).data
+  return onchainMetadata
 }
 
 export async function getOnchainMetadataForMints(
