@@ -19,14 +19,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const IMPOSTERS = JSON.parse(process.env.IMPOSTER_MINTS)
-  // console.log(req)
+
   const body = req.body
   let metadataJson: mpl.MetadataJson = body.metadataJson
   const mint: string = body.mint
   const owner: string = body.owner
 
   console.log(`Scanning mint ${mint}`)
-  // console.dir({ metadataJson: metadataJson })
+
   let isImposter = false
   let transaction = null
 
@@ -34,22 +34,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Initialize a connection to the blockchain
     const connection = getConnection()
     const wallet = getWallet()
-    function isVerified() {
-      const result = metadataJson.attributes.map((att) => {
-        if (att.trait_type == 'Verified Agent' && att.value == 'True') return true
-        return false
-      })
-      return result
-    }
+
     // Upload new metadata and image to Arweave if neeeded
     let newMetadataUri: string | null = null
     isImposter = IMPOSTERS.includes(mint)
-    // console.log({ isVerified })
+
     if (isImposter) {
       console.log(`mint ${mint} is an imposter!`)
       metadataJson = addImposterTraits(metadataJson)
-      // const s3Url = await pushNewImageToS3(metadataJson)
-      // newMetadataUri = await uploadToArweave(metadataJson, s3Url, connection, wallet)
+
     } else {
       console.log(`mint ${mint} is not an imposter`)
       metadataJson = addScannedTrait(metadataJson)
@@ -61,6 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // Update the metadata URI if needed + burn the Scanner
     transaction = await createChainInstruction(mint, newMetadataUri, connection, getKeypair(), owner)
+
 
   } catch (error: any) {
     console.log('Could not scan agent', error)
@@ -95,7 +89,7 @@ function getWallet(): anchor.Wallet {
   return new anchor.Wallet(getKeypair())
 }
 
-
+// Alter NFT meta if Llama is Imposter
 function addImposterTraits(metadata: mpl.MetadataJson): mpl.MetadataJson {
   for (const trait_type of ["Ears", "Vignette"]) {
     metadata.attributes.push({
@@ -108,12 +102,11 @@ function addImposterTraits(metadata: mpl.MetadataJson): mpl.MetadataJson {
 
   return metadata
 }
-
+// Alter NFT metadata to include scanned property
 function addScannedTrait(metadata: mpl.MetadataJson): mpl.MetadataJson {
   const update = [...metadata.attributes, { trait_type: "Verified Agent", value: "True" }]
-  // console.log({ update })
   metadata.attributes = update
-  // console.log(metadata.attributes)
+
   metadata.image = '0.png'
   metadata.properties.files[0].uri = '0.png'
 
@@ -186,6 +179,7 @@ async function uploadToArweave(
       })
     }
     console.log(`Uploading new metadata and image to Arweave`)
+    // console.log({ metadata: metadata })
     const responseUpload = await (await fetch(`${SERVER}/api/combineTraits/uploadNewAgent`, dataUpload)).json()
     const arweaveUploadResult: UploadResult = responseUpload
     console.log('New arweave metadata uri', arweaveUploadResult.metadataUrl)

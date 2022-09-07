@@ -22,21 +22,22 @@ export async function getBadgeAccountV1(
   rankingPda: anchor.web3.PublicKey,
 ): Promise<any> {
 
-    // Initialize a connection to SLA program
-    const provider = new anchor.Provider(connection, wallet, {
-      preflightCommitment: 'processed',
-    })
-  
-    // @ts-ignore
-    const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
+  // Initialize a connection to SLA program
+  const provider = new anchor.Provider(connection, wallet, {
+    preflightCommitment: 'processed',
+  })
 
-    try {
-      const ranking = await program.account.ranking.fetch(rankingPda)
-      return ranking
-    } catch (error: any) {
-      console.log(error)
-      return null
-    }
+  // @ts-ignore
+  const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
+
+  try {
+    const ranking = await program.account.ranking.fetch(rankingPda)
+    console.log(`\n\n ${ranking} \n\n\n`)
+    return ranking
+  } catch (error: any) {
+    console.log(error)
+    return null
+  }
 }
 
 
@@ -44,7 +45,7 @@ export function badgeAccountV1ToBadgeInfo(badgeAccount: BadgeAccountV1): SlaBadg
 
   if (!badgeAccount || !badgeAccount.ranking) { return null }
 
-  console.log('badge account V1')
+  console.log(`badge account V1 \n\n`)
   console.log(badgeAccount)
 
   // The Rust Enum has fields following the pattern "badgeBronze"
@@ -82,7 +83,7 @@ export async function mintBadgeV1(
   const avatarMetadataAccount = mpl.programs.metadata.Metadata.getPDA(agentMint)
   const [rankingPda, rankingBump] = await getSlaRankingV1Pda(agentMint)
   const [badgeSupplyCounter, badgeSupplyCounterBump] = await getBadgeSupplyCounter()
-  
+
   console.log(`Badge to mint:`)
   console.log(badgeToMint)
 
@@ -106,7 +107,7 @@ export async function mintBadgeV1(
         avatarMetadata: await avatarMetadataAccount,
         ranking: rankingPda,
         badgeSupplyCounter,
-        rent: anchor.web3.SYSVAR_RENT_PUBKEY, 
+        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
         tokenProgram: TOKEN_PROGRAM_ID,
         associatedTokenProgram: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
         systemProgram: anchor.web3.SystemProgram.programId,
