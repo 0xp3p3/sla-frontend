@@ -38,7 +38,7 @@
     "formik": "^2.2.9",
     "imagemin": "^7.0.1",
     "imagemin-pngquant": "^9.0.2",
-    "next": "^12.2.5",
+    "next": "^13.0.5",
     "next-s3-upload": "^0.2.0",
     "react": "^17.0.2",
     "react-countdown": "^2.3.2",
