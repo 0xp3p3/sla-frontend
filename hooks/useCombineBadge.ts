@@ -246,8 +246,8 @@ const useCombineBadge = () => {
         anchorWallet, //Address
         connection, //Connection
         newArweaveMetadataUrl, //String
-        null,
-        // metadataToDisplay.name, // string
+        metadataToDisplay.name, // string
+        // null,
         () => setStatus(BadgeCombineStatus.UpdatingOnChainMetadata),
         currentBadgeInfo.currentBadge ? currentBadgeInfo.currentBadge.id + 1 : 2,  // Bronze has ID = 2
       )
