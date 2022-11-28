@@ -34,7 +34,8 @@ export async function uploadToArweave(
 
   // Upload data to Arweave
   const result = await upload(data)
-
+  console.clear()
+  console.log({ result })
   // Check upload was successful and extract the new Arweave links
   const uploadedMetadataFile = result.messages?.find(
     m => m.filename === 'manifest.json',
