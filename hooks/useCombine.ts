@@ -4,7 +4,6 @@ import * as mpl from "@metaplex/js"
 import useAnchorWallet from "./useAnchorWallet"
 import { NFT } from "./useWalletNFTs"
 import { createNewAvatarMetadata } from "../utils/metadata"
-// import { sendUploadFund, UploadResult, prepFiles, bundleItems, uploadBundle } from "../utils/mainnetUpload"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { checkIfTraitCanBeCombined } from "../utils/sla/traits"
 import Arweave from "arweave";
@@ -190,16 +189,6 @@ const useCombine = () => {
     setStatus(CombineStatus.ReadyToCombine)
   }
 
-  const dataURLtoFile = (dataurl: string, filename: string) => {
-    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-      while(n--){
-          u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], filename, {type:mime});
-  }
-
-
   // Combine the Trait with the Llama
   const uploadToArweave = async () => {
     console.log(`function entry: ${previewImageUrl}`)
@@ -209,53 +198,6 @@ const useCombine = () => {
 
       try {
         setStatus(CombineStatus.AwaitingUserSignatureForArweaveUpload)
-
-        // Fetch cost of uploading files to arweave
-        // console.log(`[useCombine hook] about to upload this image to Arweave: ${previewImageUrl}`)
-        // const data = {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({
-        //     imageUrl: previewImageUrl,
-        //     metadataJson: JSON.stringify(metadataToDisplay),
-        //   })
-        // }
-        // const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
-
-        // if (response.error) {
-        //   throw Error('Unable to fetch Arweave upload cost')
-        // }
-
-        // const uploadCost = response.cost
-
-        // Request the user to pay the cost
-        // const tx = await sendUploadFund(
-        //   uploadCost,
-        //   connection,
-        //   anchorWallet,
-        //   () => setStatus(CombineStatus.UploadingToArweave)  // called after user signs transaction
-        // )
-
-        // Upload files to arweave
-        // const dataUpload = {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json"
-        //   },
-        //   body: JSON.stringify({
-        //     imageUrl: previewImageUrl,
-        //     metadataJson: metadataToDisplay,
-        //     tx: tx,
-        //   })
-        // }
-        // const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
-        // const arweaveUploadResult: UploadResult = responseUpload
-        // console.log('new arweave metadata url', arweaveUploadResult.metadataUrl)
-
-        // const file0 = dataURLtoFile(previewImageUrl, '0.png');
-        // const blob = new Blob([JSON.stringify(metadataToDisplay)], { type: 'text/plain' });
-        // const file1 = new File([blob], "metadata.json", {type: "text/plain"});
-        // const files: File[] = [file0, file1];
 
         const response = await fetch(previewImageUrl)
         const imageData = await response.arrayBuffer()
@@ -275,12 +217,6 @@ const useCombine = () => {
         ephemeralSigner = new ArweaveSigner(JWK);
 
         console.log('anchorWallet ----- ', anchorWallet)
-        // const WebBundlr = (await import("@bundlr-network/client")).WebBundlr;
-
-        // const bundlr = new WebBundlr("https://node1.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
-        
-        // await bundlr.ready()
-        // setBundlr(bundlr);
 
         console.log("bundlrProvider.wallet ---- ", bundlrProvider.wallet);
 
@@ -300,10 +236,6 @@ const useCombine = () => {
         const newImageUrl = `https://arweave.net/${manifestId}/0.png`;
         const newMetadataUrl = `https://arweave.net/${manifestId}/metadata.json`;
 
-        // if (arweaveUploadResult.error) {
-        //   throw Error(arweaveUploadResult.error)
-        // }
-        // console.log({ AM: arweaveUploadResult.metadataUrl })
         setNewArweaveMetadataUrl(newImageUrl)
         setNewArweaveImageUrl(newMetadataUrl)
 
