@@ -46,13 +46,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // Create new image to upload
-    console.log(`Creating a new image to upload to S3`)
     let imageBuffer: Buffer;
     try {
       imageBuffer = await createNewAvatar(attributes)
-      console.log(`New image buffer created`)
     } catch (error: any) {
-      console.log('Unable to create new image buffer')
       console.log(error)
       res.status(500).json({ error: 'Unable to create new image buffer' })
       return
