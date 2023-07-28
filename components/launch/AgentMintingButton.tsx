@@ -95,7 +95,7 @@ const AgentMintingButton = (props: Props) => {
         break;
 
       case PreMintingStatus.Ready:
-        console.log(`isUserWhitelisted:`, isUserWhitelisted, `discoutnPrice:`, discountPrice)
+        // console.log(`isUserWhitelisted:`, isUserWhitelisted, `discoutnPrice:`, discountPrice)
         content = {
           type: ModalType.Warning,
           content: (
@@ -126,7 +126,7 @@ const AgentMintingButton = (props: Props) => {
     }
 
     // If the sale has ended and the user doesn't have a whitelist token, they cannot mint
-    console.log(`Minting is over: ${props.mintingIsOver}`)
+    // console.log(`Minting is over: ${props.mintingIsOver}`)
     if (props.mintingIsOver && !isUserWhitelisted && preMintingStatus !== PreMintingStatus.WalletNotConnected) {
       content = {
         type: ModalType.Info,
@@ -219,10 +219,10 @@ const AgentMintingButton = (props: Props) => {
 
   useEffect(() => {
     if (isPreMinting) {
-      console.log(`[minting ${props.collection.name}] updating pre-minting status: ${preMintingStatus}`)
+      // console.log(`[minting ${props.collection.name}] updating pre-minting status: ${preMintingStatus}`)
       getPreMintingStatus()
     } else {
-      console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
+      // console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
   }, [preMintingStatus, mintingStatus, isPreMinting, newAgent, discountPrice, isUserWhitelisted, props.mintingIsOver])
@@ -233,14 +233,14 @@ const AgentMintingButton = (props: Props) => {
 
     if (mint) {
       const nft = await getNFTMetadata(mint.toString(), connection)
-      console.log(`[minting ${props.collection.name}] new NFT:`, nft)
+      // console.log(`[minting ${props.collection.name}] new NFT:`, nft)
       setNewAgent(nft)
 
       // Update the whitelist after minting
       if (isWhitelistMint) {
         const resp = await (await (fetch(`/api/airdrop/recordAirdropMint/`))).json()
-        console.log('airdrop recorded!')
-        console.log(resp)
+        // console.log('airdrop recorded!')
+        // console.log(resp)
       }
     }
   }

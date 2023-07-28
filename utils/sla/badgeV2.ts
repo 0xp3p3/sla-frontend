@@ -171,7 +171,7 @@ export async function mintBadge(
   const [rankingV2Pda, rankingV2Bump] = await getSlaRankingV2Pda(agentMint)
   const [badgeSupplyCounter, badgeSupplyCounterBump] = await getBadgeSupplyCounter()
 
-  console.log(`creating transaction`)
+  // console.log(`creating transaction`)
   const instruction = program.instruction.mintBadgeV2(
     new anchor.BN(treasuryBump),
     new anchor.BN(rankingV1Bump),
@@ -216,7 +216,5 @@ export function checkIfBadgeCanBeCombined(
   badgeToCombine: NFT,
 ): boolean {
   const badgeInfo = SLA_BADGES.filter(b => b.mint === badgeToCombine.mint.toString())[0]
-  console.log('badge info: ', badgeInfo)
-  console.log('current badge: ', currentBadge)
   return (!currentBadge && badgeInfo.id === 2) || (currentBadge && (currentBadge.id === badgeInfo.id - 1))
 }

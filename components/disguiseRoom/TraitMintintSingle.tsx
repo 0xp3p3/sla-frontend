@@ -216,10 +216,10 @@ const TraitMintintSingle = (props: Props) => {
 
   useEffect(() => {
     if (isPreMinting) {
-      console.log(`[minting ${props.collection.name}] updating pre-minting status: ${preMintingStatus}`)
+      // console.log(`[minting ${props.collection.name}] updating pre-minting status: ${preMintingStatus}`)
       getPreMintingStatus()
     } else {
-      console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
+      // console.log(`[minting ${props.collection.name}] updating minting status: ${mintingStatus}`)
       getMintingStatus()
     }
   }, [preMintingStatus, mintingStatus, isPreMinting, newTrait])
@@ -230,7 +230,7 @@ const TraitMintintSingle = (props: Props) => {
 
     if (mint) {
       const nft = await getNFTMetadata(mint.toString(), connection)
-      console.log(`[minting ${props.collection.name}] new NFT:`, nft)
+      // console.log(`[minting ${props.collection.name}] new NFT:`, nft)
       setNewTrait(nft)
     }
   }

@@ -79,7 +79,7 @@ const AgentMintingMain = () => {
       const now = new Date()
       const _presale = now >= presaleStart && now <= presaleEnd
       const _public = now >= publicSaleStart && now <= publicSaleEnd
-      console.log(`[minting ${collection.name}] isPresale: ${_presale}, isPublic: ${_public}`)
+      // console.log(`[minting ${collection.name}] isPresale: ${_presale}, isPublic: ${_public}`)
 
       setIsPresale(_presale)
       setIsPublic(_public)

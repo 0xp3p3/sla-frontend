@@ -109,7 +109,7 @@ const IdCardMain = () => {
   }
 
   useEffect(() => {
-    console.log('[ID Card mint] refreshing modal content')
+    // console.log('[ID Card mint] refreshing modal content')
     refreshModalContent()
   }, [wallet])
 
@@ -119,15 +119,15 @@ const IdCardMain = () => {
       return;
     }
 
-    console.log(`[ID Card mint] starting to mint an ID Card`)
+    // console.log(`[ID Card mint] starting to mint an ID Card`)
     try {
       setIsMinting(true)
       setModalContent(modalMessages.minting)
       const signature = await mintIdCard(anchorWallet, connection)
       setModalContent(modalMessages.success)
-      console.log(`[ID Card mint] finished minting an ID Card`)
+      // console.log(`[ID Card mint] finished minting an ID Card`)
     } catch (error: any) {
-      console.log(`[ID Card mint] could not mint a new ID Card`)
+      // console.log(`[ID Card mint] could not mint a new ID Card`)
       console.log(error)
       setModalContent(modalMessages.failure)
     } finally {

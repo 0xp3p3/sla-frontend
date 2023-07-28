@@ -54,11 +54,11 @@ const CombineMain = (props: Props) => {
   }, [props.dropdownRefreshToggle])
 
   useEffect(() => {
-    console.log(`[idCombineMain] new alias set to ${newAlias}`)
+    // console.log(`[idCombineMain] new alias set to ${newAlias}`)
   }, [newAlias])
 
   useEffect(() => {
-    console.log(`[idCombineMain] Rename was click`)
+    // console.log(`[idCombineMain] Rename was click`)
     if (confirmedClicked) {
       uploadToArweave(newAlias)
     }

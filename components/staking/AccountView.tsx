@@ -94,7 +94,7 @@ const MoveButtons = ({ farmState }: { farmState: FarmState }) => {
       setIsMovingToWallet(true)
       await farmState.handleMoveToWalletButtonClick()
     } catch (error: any) {
-      console.log('Failed to move NFTs to wallet', error)
+      // console.log('Failed to move NFTs to wallet', error)
     } finally {
       setIsMovingToWallet(false)
     }
@@ -105,7 +105,7 @@ const MoveButtons = ({ farmState }: { farmState: FarmState }) => {
       setIsMovingToVault(true)
       await farmState.handleMoveToVaultButtonClick()
     } catch (error: any) {
-      console.log('Failed to move NFTs to vault', error)
+      // console.log('Failed to move NFTs to vault', error)
     } finally {
       setIsMovingToVault(false)
     }
@@ -179,7 +179,7 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
         refreshStakeButton()
       }
     } catch (error: any) {
-      console.log('Failed to toggle staking', error)
+      // console.log('Failed to toggle staking', error)
     } finally {
       setIsTogglingStaking(false)
     }
@@ -192,7 +192,7 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
         await farmState.handleClaimButtonClick()
       }
     } catch (error: any) {
-      console.log('Failed to withdraw rewards', error)
+      // console.log('Failed to withdraw rewards', error)
     } finally {
       setIsWithdrawing(false)
     }
@@ -203,7 +203,7 @@ const TopButtons = ({ farmState }: { farmState: FarmState }) => {
       setIsRefreshing(true)
       await farmState.handleRefreshRewardsButtonClick()
     } catch (error: any) {
-      console.log(`Failed to refresh account`, error)
+      // console.log(`Failed to refresh account`, error)
     } finally {
       setIsRefreshing(false)
     }

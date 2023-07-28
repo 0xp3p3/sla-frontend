@@ -32,19 +32,19 @@ const BasicModal = (props: Props) => {
   const [open, setOpen] = useState(false)
 
   const handleOnClose = () => {
-    console.log('[modal] closing...')
+    // console.log('[modal] closing...')
     setOpen(false)
     if (props.onClose) { props.onClose() }
   }
 
   const handleOnCancel = () => {
-    console.log('[modal] cancelling...')
+    // console.log('[modal] cancelling...')
     setOpen(false)
     if (props.onCancel) { props.onCancel() }
   }
 
   const handleOnConfirm = () => {
-    console.log('[modal] confirming...')
+    // console.log('[modal] confirming...')
     if (!props.keepOpenOnConfirm) { setOpen(false) }
     if (props.onConfirm) { props.onConfirm() }
   }

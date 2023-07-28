@@ -203,7 +203,6 @@ const useCombine = () => {
         const imageData = await response.arrayBuffer()
         const imageType = response.headers.get("content-type")
 
-        console.log(imageData, imageType)
         const files = [
           {
             data: imageData,

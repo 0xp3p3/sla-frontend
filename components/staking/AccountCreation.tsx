@@ -14,7 +14,7 @@ const AccountCreation = ({ farmState }: { farmState: FarmState }) => {
       await farmState.handleInitStakingButtonClick()
       await farmState.handleRefreshRewardsButtonClick()
     } catch (error: any) {
-      console.log('Failed to create an account', error)
+      // console.log('Failed to create an account', error)
     } finally {
       setWaiting(false)
     }

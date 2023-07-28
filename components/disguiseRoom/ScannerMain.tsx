@@ -127,31 +127,31 @@ const ScannerMain = () => {
   }
 
   useEffect(() => {
-    console.log('[Scanner mint] refreshing modal content')
+    // console.log('[Scanner mint] refreshing modal content')
     refreshModalContent()
   }, [wallet, selectedAgent])
 
   const onMintConfirm = async () => {
     if (!wallet || !wallet.publicKey || !wallet.connected) {
-      console.log(`[Scanner mint] Wallet is not connected`)
+      // console.log(`[Scanner mint] Wallet is not connected`)
       return;
     }
 
     if (!selectedAgent) {
-      console.log(`[Scanner mint] No agent selected.`)
+      // console.log(`[Scanner mint] No agent selected.`)
       return
     }
 
-    console.log(`[Scanner mint] starting to mint a Scanner`)
+    // console.log(`[Scanner mint] starting to mint a Scanner`)
     try {
       setIsMinting(true)
       setModalContent(modalMessages.minting)
       const signature = await mintScanner(anchorWallet, connection)
       setModalContent(modalMessages.success)
       
-      console.log(`[Scanner mint] finished minting a Scanner`)
+      // console.log(`[Scanner mint] finished minting a Scanner`)
     } catch (error: any) {
-      console.log(`[Scanner mint] could not mint a new Scanner`)
+      // console.log(`[Scanner mint] could not mint a new Scanner`)
       console.log(error)
       setModalContent(modalMessages.failure)
     } finally {

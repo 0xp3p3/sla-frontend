@@ -53,7 +53,7 @@ const BadgeMintingSingle = (props: Props) => {
   }, [wallet])
 
   const reset = () => {
-    console.log(`[BadgeMintingSingle] resetting`)
+    // console.log(`[BadgeMintingSingle] resetting`)
     setIsSuccess(false)
     setIsFailure(false)
   }
@@ -190,7 +190,7 @@ const BadgeMintingSingle = (props: Props) => {
   }
 
   useEffect(() => {
-    console.log('[Badge mint] refreshing modal content')
+    // console.log('[Badge mint] refreshing modal content')
     refreshModalContent()
   }, [wallet, isMinting, isFailure, isSuccess, hayBalance, props.selectedLlama, currentBadge, currentBadgeAccountV1, currentBadgeAccountV2])
 
@@ -201,7 +201,7 @@ const BadgeMintingSingle = (props: Props) => {
       return;
     }
 
-    console.log(`[Badge mint] starting to mint an Badge`)
+    // console.log(`[Badge mint] starting to mint an Badge`)
     try {
       setIsMinting(true)
       const signature = await mintBadge(
@@ -211,10 +211,10 @@ const BadgeMintingSingle = (props: Props) => {
         new web3.PublicKey(props.selectedLlama.mint)
       )
       setIsSuccess(true)
-      console.log(`[Badge mint] finished minting a Badge`)
+      // console.log(`[Badge mint] finished minting a Badge`)
     } catch (error: any) {
-      console.log(`[Badge mint] could not mint a Badge`)
-      console.log(error)
+      // console.log(`[Badge mint] could not mint a Badge`)
+      // console.log(error)
       setIsFailure(true)
     } finally {
       setIsMinting(false)
