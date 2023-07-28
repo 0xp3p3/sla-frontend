@@ -42,7 +42,6 @@
     "semantic-ui-react": "^2.1.2",
     "styled-components": "^5.3.3",
     "theme-ui": "^0.14.2",
-    "typed.js": "^2.0.12",
     "typewriter-effect": "^2.18.2"
   },
   "devDependencies": {
