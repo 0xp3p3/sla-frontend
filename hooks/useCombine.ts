@@ -55,18 +55,6 @@ const useCombine = () => {
 
   type file = { data: Uint8Array; type: string; path: string };
 
-  // Log every change of status
-  useEffect(() => {
-    console.log(`[useCombine hook] setting status to ${status}`)
-  }, [status])
-
-
-  // Log every time the image url changes
-  useEffect(() => {
-    console.log(`[useCombine hook] new preview url: ${previewImageUrl}`)
-  }, [previewImageUrl])
-
-
   useEffect(() => {
     if (!wallet.publicKey) {
       setStatus(CombineStatus.WalletNoConnected)
@@ -78,7 +66,6 @@ const useCombine = () => {
 
   // Update the combination of Llama & Trait every time the user selects a different combination
   useEffect(() => {
-    console.log('[useCombine hook] refreshing metadata to display')
     refreshMetadataToDisplay()
   }, [selectedAgent, selectedTrait])
 
@@ -185,13 +172,11 @@ const useCombine = () => {
 
   // Once the url from S3 is known, we're ready to display the preview
   const setReadyToCombine = () => {
-    console.log(`setting status to ready to combine`)
     setStatus(CombineStatus.ReadyToCombine)
   }
 
   // Combine the Trait with the Llama
   const uploadToArweave = async () => {
-    console.log(`function entry: ${previewImageUrl}`)
 
     if (status === CombineStatus.ReadyToCombine) {
       setIsCombining(true)
@@ -215,21 +200,13 @@ const useCombine = () => {
         const JWK = await Arweave.crypto.generateJWK();
         ephemeralSigner = new ArweaveSigner(JWK);
 
-        console.log('anchorWallet ----- ', anchorWallet)
-
-        console.log("bundlrProvider.wallet ---- ", bundlrProvider.wallet);
-
         const preppedFiles = await prepFiles(files);
         const bundle = await bundleItems(preppedFiles);
         const size = bundle.getRaw().byteLength
         const price = await bundlr.getPrice(size);
-        console.log(price)
-        console.log("bundlr----- ", bundlr)
         await bundlr.fund(price);
         setStatus(CombineStatus.UploadingToArweave)
         const manifestId = await uploadBundle(bundle);
-
-        console.log(manifestId);
 
         // const arweaveUploadResult: 
         const newImageUrl = `https://arweave.net/${manifestId}/0.png`;
@@ -286,9 +263,7 @@ const useCombine = () => {
     });
     await tx.sign();
     const res = await tx.upload();
-    // console.log(res);
     const manifestId = bundle.items[bundle.items.length - 1].id;
-    console.log(`Manifest ID: ${manifestId}`);
     return manifestId;
   }
 
@@ -296,7 +271,6 @@ const useCombine = () => {
   const updateOnChainMetadata = async () => {
 
     try {
-      console.log('Updating on-chain metadata with new url')
       setStatus(CombineStatus.AwaitingUserSignatureForMetadataUpdate)
 
       const tx = await updateOnChainMetadataAfterCombine(
@@ -308,12 +282,10 @@ const useCombine = () => {
         null,
         () => setStatus(CombineStatus.UpdatingOnChainMetadata)
       )
-      console.log('Finished updating metadata. Tx: ', tx)
 
       setStatus(CombineStatus.MetadataUpdateSuccess)
 
     } catch (err: any) {
-      console.log(err)
       setStatus(CombineStatus.MetadataUpdateFailed)
     }
 
