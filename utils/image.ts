@@ -74,7 +74,8 @@ async function makeCreateImageWithCanvas(
   const optimizedImage = await imagemin.buffer(buffer, {
     plugins: [
       imageminPngquant({
-        quality: [0.6, 0.95],
+        // quality: [0.6, 0.95],
+        quality: [0.5, 0.8],
       }),
     ],
   })
