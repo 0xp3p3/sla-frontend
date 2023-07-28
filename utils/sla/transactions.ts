@@ -11,7 +11,7 @@ import idl from '../../sla_idl.json';
 import { TOKEN_PROGRAM_ID } from '../constants';
 import { generateSlaMasterPda, generateSlaNftPda } from './accounts';
 import solana_config from '../../../sla-config/solana/config.json';
-import { getIncreaseBudgetInstruction } from './utils';
+// import { getIncreaseBudgetInstruction } from './utils';
 
 
 export async function mintTraitWhitelistToken(
