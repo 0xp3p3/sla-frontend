@@ -11,7 +11,15 @@ const useAnchorWallet = () => {
       return
     }
 
-    return wallet
+    return {
+      publicKey: wallet.publicKey,
+      signAllTransactions: wallet.signAllTransactions,
+      signTransaction: wallet.signTransaction,
+      sendTransaction: wallet.sendTransaction,
+      signMessage: wallet.signMessage,
+      connect: wallet.connect,
+      disconnect: wallet.disconnect,
+    } 
   }, [wallet])
 
   return { anchorWallet }
