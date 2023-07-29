@@ -11,16 +11,15 @@ import StakingMain from "../components/staking/StakingMain";
 
 const Staking = ({ gemsStaked }: { gemsStaked: number }) => {
   return (
-    // <PageWrapper 
-    //   title="SLA Staking" 
-    //   ogImageSource="/images/Logo-7-p-500.png" 
-    //   webflowPageId="622e05c936936e3f74fc8f3b" 
-    //   webflowSandwichMenuId="aa61bda1-efb4-8bea-910f-0dc8c3e04b1f"
-    //   toTopArrow={false}
-    // >
-    //   <StakingMain gemsStaked={gemsStaked} />
-    // </PageWrapper>
-    <></>
+    <PageWrapper 
+      title="SLA Staking" 
+      ogImageSource="/images/Logo-7-p-500.png" 
+      webflowPageId="622e05c936936e3f74fc8f3b" 
+      webflowSandwichMenuId="aa61bda1-efb4-8bea-910f-0dc8c3e04b1f"
+      toTopArrow={false}
+    >
+      <StakingMain gemsStaked={gemsStaked} />
+    </PageWrapper>
   )
 }
 
