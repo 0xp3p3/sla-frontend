@@ -1,6 +1,5 @@
 import { useWallet } from "@solana/wallet-adapter-react"
 import { useMemo } from "react"
-import { Wallet } from "@project-serum/anchor"
 
 
 const useAnchorWallet = () => {
@@ -11,15 +10,7 @@ const useAnchorWallet = () => {
       return
     }
 
-    return {
-      publicKey: wallet.publicKey,
-      signAllTransactions: wallet.signAllTransactions,
-      signTransaction: wallet.signTransaction,
-      sendTransaction: wallet.sendTransaction,
-      signMessage: wallet.signMessage,
-      connect: wallet.connect,
-      disconnect: wallet.disconnect,
-    } 
+    return wallet
   }, [wallet])
 
   return { anchorWallet }
