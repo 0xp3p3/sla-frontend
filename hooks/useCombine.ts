@@ -186,34 +186,104 @@ const useCombine = () => {
 
         const response = await fetch(previewImageUrl)
         const imageData = await response.arrayBuffer()
-        const imageType = response.headers.get("content-type")
+        // const imageType = response.headers.get("content-type")
 
-        const files = [
-          {
-            data: imageData,
-            type: imageType,
-            path: "0.png",
-          },
-          { data: new TextEncoder().encode(JSON.stringify(metadataToDisplay)), type: "application/json", path: "metadata.json" },
-        ];
+        // // -- upload 2 files simultaneously
+        // const files = [
+        //   {
+        //     data: imageData,
+        //     type: imageType,
+        //     path: "0.png",
+        //   },
+        //   { data: new TextEncoder().encode(JSON.stringify(metadataToDisplay)), type: "application/json", path: "metadata.json" },
+        // ];
 
+        // const JWK = await Arweave.crypto.generateJWK();
+        // ephemeralSigner = new ArweaveSigner(JWK);
+
+        // const preppedFiles = await prepFiles(files);
+        // const bundle = await bundleItems(preppedFiles);
+        // const size = bundle.getRaw().byteLength
+        // const price = await bundlr.getPrice(size);
+        // await bundlr.fund(price);
+        // setStatus(CombineStatus.UploadingToArweave)
+        // const manifestId = await uploadBundle(bundle);
+
+        // // const arweaveUploadResult: 
+        // const newImageUrl = `https://arweave.net/${manifestId}/0.png`;
+        // const newMetadataUrl = `https://arweave.net/${manifestId}/metadata.json`;
+        
+        // -- upload 2 files in bundles separately
+        // const files1 = [
+        //   {
+        //     data: imageData,
+        //     type: imageType,
+        //     path: "image",
+        //   },
+        // ];
+
+        // const JWK = await Arweave.crypto.generateJWK();
+        // ephemeralSigner = new ArweaveSigner(JWK);
+
+        // const preppedFiles0 = await prepFiles(files1);
+        // const bundle0 = await bundleItems(preppedFiles0);
+        // const size0 = bundle0.getRaw().byteLength
+        // const price0 = await bundlr.getPrice(size0);
+        // await bundlr.fund(price0);
+        // setStatus(CombineStatus.UploadingToArweave)
+        // const manifestId0 = await uploadBundle(bundle0);
+
+        // // const arweaveUploadResult: 
+        // const newImageUrl = `https://arweave.net/${manifestId0}`;
+        // console.log("====imageUrl=====", newImageUrl);
+
+        // Object.keys(metadataToDisplay).forEach(e => {
+        //   if(e == "image") metadataToDisplay[e] = newImageUrl;
+        // })
+
+        // const files2 = [
+        //   { data: new TextEncoder().encode(JSON.stringify(metadataToDisplay)), type: "application/json", path: "" },
+        // ];
+
+        // const preppedFiles = await prepFiles(files2);
+        // const bundle = await bundleItems(preppedFiles);
+        // const size = bundle.getRaw().byteLength
+        // const price = await bundlr.getPrice(size);
+        // await bundlr.fund(price);
+        // const manifestId = await uploadBundle(bundle);
+
+        // // const arweaveUploadResult: 
+        // const newMetadataUrl = `https://arweave.net/${manifestId}/`;
+        // console.log("====metadataUrl=====", newMetadataUrl);
+
+        // setNewArweaveMetadataUrl(newImageUrl)
+        // setNewArweaveImageUrl(newMetadataUrl)
+
+        // setStatus(CombineStatus.ArweaveUploadSuccess)
+
+        // -- upload 2 files separately
         const JWK = await Arweave.crypto.generateJWK();
         ephemeralSigner = new ArweaveSigner(JWK);
 
-        const preppedFiles = await prepFiles(files);
-        const bundle = await bundleItems(preppedFiles);
-        const size = bundle.getRaw().byteLength
-        const price = await bundlr.getPrice(size);
-        await bundlr.fund(price);
+        var priceAtomic = await bundlr.getPrice(imageData.byteLength);
+        await bundlr.fund(priceAtomic);
+        const manifestId0 = await bundlr.upload(Buffer.from(imageData), {tags: [{name: "content-type", value: "image/png"}]});
+        // console.log(manifestId0)
+        const newImageUrl = `https://arweave.net/${manifestId0.id}/`;
+        
         setStatus(CombineStatus.UploadingToArweave)
-        const manifestId = await uploadBundle(bundle);
 
-        // const arweaveUploadResult: 
-        const newImageUrl = `https://arweave.net/${manifestId}/0.png`;
-        const newMetadataUrl = `https://arweave.net/${manifestId}/metadata.json`;
+        const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
+        // console.log(newMetadata)
+        priceAtomic = await bundlr.getPrice(newMetadata.length);
+        await bundlr.fund(priceAtomic);
 
-        setNewArweaveMetadataUrl(newImageUrl)
-        setNewArweaveImageUrl(newMetadataUrl)
+        const manifestId1 = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
+        const newMetadataUrl = `https://arweave.net/${manifestId1.id}/`;
+        console.log(newMetadataUrl);
+
+        setNewArweaveMetadataUrl(newMetadataUrl)
+        setNewArweaveImageUrl(newImageUrl)
 
         setStatus(CombineStatus.ArweaveUploadSuccess)
 
@@ -224,48 +294,48 @@ const useCombine = () => {
     }
   }
 
-  const prepFiles = async (files: file[]) : Promise<Map<string, DataItem>> => {
-    const items = await Promise.all(
-      Array.from(files).map(async (file) => {
-        return [file.path, await prepFile(file)];
-      }),
-    );
-    return new Map(items);
-  }
+  // const prepFiles = async (files: file[]) : Promise<Map<string, DataItem>> => {
+  //   const items = await Promise.all(
+  //     Array.from(files).map(async (file) => {
+  //       return [file.path, await prepFile(file)];
+  //     }),
+  //   );
+  //   return new Map(items);
+  // }
 
-  const prepFile = async (file: file ): Promise<DataItem> => {
-    const item = createData(file.data, ephemeralSigner, {
-      tags: [{ name: "Content-Type", value: file.type }],
-    });
-    await item.sign(ephemeralSigner);
-    return item;
-  }
+  // const prepFile = async (file: file ): Promise<DataItem> => {
+  //   const item = createData(file.data, ephemeralSigner, {
+  //     tags: [{ name: "Content-Type", value: file.type }],
+  //   });
+  //   await item.sign(ephemeralSigner);
+  //   return item;
+  // }
 
-  const  bundleItems = async (itemMap: Map<string, DataItem>): Promise<Bundle> => {
-    const pathMap = new Map<string, string>([...itemMap].map(([path, item]) => [path, item.id]));
+  // const  bundleItems = async (itemMap: Map<string, DataItem>): Promise<Bundle> => {
+  //   const pathMap = new Map<string, string>([...itemMap].map(([path, item]) => [path, item.id]));
     
-    const manifestItem = await createData(JSON.stringify(await bundlr.uploader.generateManifest({ items: pathMap })), ephemeralSigner, {
-      tags: [
-        { name: "Type", value: "manifest" },
-        { name: "Content-Type", value: "application/x.arweave-manifest+json" },
-      ],
-    });
-    const bundle = await bundleAndSignData([...itemMap.values(), manifestItem], ephemeralSigner);
-    return bundle;
-  }
+  //   const manifestItem = await createData(JSON.stringify(await bundlr.uploader.generateManifest({ items: pathMap })), ephemeralSigner, {
+  //     tags: [
+  //       { name: "Type", value: "manifest" },
+  //       { name: "Content-Type", value: "application/x.arweave-manifest+json" },
+  //     ],
+  //   });
+  //   const bundle = await bundleAndSignData([...itemMap.values(), manifestItem], ephemeralSigner);
+  //   return bundle;
+  // }
 
-  const uploadBundle = async (bundle: Bundle): Promise<string> => {
-    const tx = bundlr.createTransaction(bundle.getRaw(), {
-      tags: [
-        { name: "Bundle-Format", value: "binary" },
-        { name: "Bundle-Version", value: "2.0.0" },
-      ],
-    });
-    await tx.sign();
-    const res = await tx.upload();
-    const manifestId = bundle.items[bundle.items.length - 1].id;
-    return manifestId;
-  }
+  // const uploadBundle = async (bundle: Bundle): Promise<string> => {
+  //   const tx = bundlr.createTransaction(bundle.getRaw(), {
+  //     tags: [
+  //       { name: "Bundle-Format", value: "binary" },
+  //       { name: "Bundle-Version", value: "2.0.0" },
+  //     ],
+  //   });
+  //   await tx.sign();
+  //   const res = await tx.upload();
+  //   const manifestId = bundle.items[bundle.items.length - 1].id;
+  //   return manifestId;
+  // }
 
 
   const updateOnChainMetadata = async () => {

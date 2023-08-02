@@ -33,6 +33,7 @@ const NftSelectionDropdown = (props: Props) => {
   }
 
   const shortenNftName = (name: string) => {
+    if(!name) return "unknown";
     const lowerName = name.toLowerCase()
     if (lowerName.startsWith("llama agent #")) {
       return name.substring(6)

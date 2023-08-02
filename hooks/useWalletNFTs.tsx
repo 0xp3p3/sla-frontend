@@ -34,6 +34,7 @@ const useWalletNFTs = () => {
     }
 
     const nfts = await getSlaNFTsByOwner(publicKey, connection)
+    // console.log("--------nft lists-----------", nfts)
     setAgentWalletNFTs(nfts.agents)
 
     const traits = nfts.clothing.concat(nfts.eyes, nfts.hats, nfts.mouths, nfts.skins)

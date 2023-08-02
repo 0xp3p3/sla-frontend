@@ -119,7 +119,7 @@ export function filterNFTsFromCollection(
   const filtered = nfts.filter(nft => {
     const onChainCollection = nft.onchainMetadata.collection
     const NFTname = nft.onchainMetadata.data.name
-    console.log({ NFTname, onChainCollection })
+    // console.log({ NFTname, onChainCollection })
     if (!onChainCollection) { return false }
     return (onChainCollection.key === collection && onChainCollection.verified)
   })
