@@ -6,7 +6,6 @@ import { NFT } from "./useWalletNFTs"
 import { createNewAvatarMetadata } from "../utils/metadata"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { checkIfTraitCanBeCombined } from "../utils/sla/traits"
-// import Arweave from "arweave";
 import { type WebBundlr } from "@bundlr-network/client";
 // import type { DataItem, Bundle } from "arbundles";
 // import { createData, ArweaveSigner, bundleAndSignData } from "arbundles"; 
