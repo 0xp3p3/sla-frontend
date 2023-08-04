@@ -24,7 +24,6 @@
     "@solana/wallet-adapter-react": "^0.15.4",
     "@solana/wallet-adapter-wallets": "^0.15.5",
     "@solana/web3.js": "^1.37.1",
-    "arweave": "^1.14.0",
     "aws-sdk": "^2.1120.0",
     "axios": "^0.26.1",
     "canvas": "^2.11.2",
