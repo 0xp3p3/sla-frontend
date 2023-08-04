@@ -74,7 +74,7 @@ const useCombine = () => {
     const loadBundlr = async () => {
       const WebBundlr = (await import("@bundlr-network/client")).WebBundlr;
 
-      const bundlr = new WebBundlr("https://node1.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
+      const bundlr = new WebBundlr("https://node2.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
         
       await bundlr.ready()
       setBundlr(bundlr);
@@ -269,7 +269,7 @@ const useCombine = () => {
         await bundlr.fund(priceAtomic);
         const manifestId0 = await bundlr.upload(Buffer.from(imageData), {tags: [{name: "content-type", value: "image/png"}]});
         // console.log(manifestId0)
-        const newImageUrl = `https://arweave.net/${manifestId0.id}/`;
+        const newImageUrl = `https://arweave.net/${manifestId0.id}?ext=png`;
         
         setStatus(CombineStatus.UploadingToArweave)
 
