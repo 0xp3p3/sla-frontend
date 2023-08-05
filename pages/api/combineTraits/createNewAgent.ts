@@ -25,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // S3 config
     const region = process.env.S3_UPLOAD_REGION
+    console.log(region);
     const config = {
       accessKeyId: process.env.S3_UPLOAD_KEY,
       secretAccessKey: process.env.S3_UPLOAD_SECRET,
