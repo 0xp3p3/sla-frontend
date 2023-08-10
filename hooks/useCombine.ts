@@ -162,6 +162,7 @@ const useCombine = () => {
       },
       body: JSON.stringify({ attributes: metadata.attributes })
     }
+    console.log('pushNewImage========')
     const response = await fetch("/api/combineTraits/createNewAgent", data)
     const responseBody = await response.json()
 
