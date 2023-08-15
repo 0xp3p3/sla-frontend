@@ -183,8 +183,8 @@ const useCombine = () => {
 
       try {
         setStatus(CombineStatus.AwaitingUserSignatureForArweaveUpload)
-
-        const response = await fetch(previewImageUrl)
+        
+        const response = await fetch(previewImageUrl, {mode: "no-cors",})
         const imageData = await response.arrayBuffer()
         // const imageType = response.headers.get("content-type")
 
