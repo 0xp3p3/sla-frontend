@@ -9,7 +9,7 @@ cp libz.so.1.2.9 ../node_modules/canvas/build/Release/libz.so.X
 cd ..
 
 wget https://github.com/NixOS/patchelf/archive/refs/tags/0.18.0.tar.gz
-tar xf 0.18.0.tar.gz
+tar -xf 0.18.0.tar.gz
 cd patchelf-0.18.0
 ./bootstrap.sh
 ./configure --prefix="$HOME/.local"
