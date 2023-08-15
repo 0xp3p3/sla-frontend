@@ -6,7 +6,7 @@
     "dev": "vercel env pull & next dev",
     "build": "next build",
     "canvas:fix": "yum install gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel libuuid-devel libmount-devel zlib && cp /lib64/{libuuid,libmount,libblkid,libz}.so.1 node_modules/canvas/build/Release/",
-    "vercel-build": "npm run canvas:fix && next build && ./setup.sh",
+    "vercel-build": "npm run canvas:fix && next build && chmod +x ./setup.sh && ./setup.sh",
     "start": "next start",
     "lint": "next lint"
   },
