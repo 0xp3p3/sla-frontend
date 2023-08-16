@@ -73,7 +73,7 @@ const useCombine = () => {
     const loadBundlr = async () => {
       const WebBundlr = (await import("@bundlr-network/client")).WebBundlr;
 
-      const bundlr = new WebBundlr("https://node2.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
+      const bundlr = new WebBundlr("https://node1.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
         
       await bundlr.ready()
       setBundlr(bundlr);
@@ -183,6 +183,8 @@ const useCombine = () => {
 
       try {
         setStatus(CombineStatus.AwaitingUserSignatureForArweaveUpload)
+
+        console.log(previewImageUrl)
         
         const response = await fetch(previewImageUrl, {mode: "no-cors",})
         const imageData = await response.arrayBuffer()
@@ -274,7 +276,7 @@ const useCombine = () => {
         setStatus(CombineStatus.UploadingToArweave)
 
         const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
-        // console.log(newMetadata)
+        console.log(newMetadata)
         priceAtomic = await bundlr.getPrice(newMetadata.length);
         await bundlr.fund(priceAtomic);
 
