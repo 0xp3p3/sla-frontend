@@ -186,8 +186,9 @@ const useCombine = () => {
 
         console.log(previewImageUrl)
         
-        // const response = await fetch(previewImageUrl, {mode: "no-cors",})
+        // const response = await fetch(previewImageUrl, {mode: "no-cors",credentials: 'include',})
         const response = await fetch(previewImageUrl, {
+          method: "GET",
           headers: {
             'Access-Control-Allow-Origin': '*'
           },
