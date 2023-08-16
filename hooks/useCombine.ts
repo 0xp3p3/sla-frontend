@@ -186,7 +186,7 @@ const useCombine = () => {
 
         console.log(previewImageUrl)
         
-        const response = await fetch(previewImageUrl, {mode: "no-cors",})
+        const response = await fetch(previewImageUrl)
         const imageData = await response.arrayBuffer()
         // const imageType = response.headers.get("content-type")
 
