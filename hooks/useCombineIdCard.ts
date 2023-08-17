@@ -6,6 +6,8 @@ import useWalletNFTs, { NFT } from "./useWalletNFTs"
 import { sendUploadFund, UploadResult } from "../utils/mainnetUpload"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { ID_CARD_MINT } from "../utils/constants"
+import { type WebBundlr } from "@bundlr-network/client";
+import { Provider } from "@project-serum/anchor";
 
 
 export enum CombineIdCardStatus {
@@ -27,6 +29,10 @@ const useCombineIdCard = () => {
   const wallet = useWallet()
   const { anchorWallet } = useAnchorWallet()
   const { connection } = useConnection()
+  const bundlrProvider = new Provider(connection, anchorWallet, {
+    preflightCommitment: "processed",
+    commitment: "processed",
+  });
   const { idCardWalletNFTs } = useWalletNFTs()
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
@@ -37,6 +43,7 @@ const useCombineIdCard = () => {
   const [previewImageUrl, setPreviewImageUrl] = useState<string>(null)
   const [newArweaveMetadataUrl, setNewArweaveMetadataUrl] = useState('')
   const [newArweaveImageUrl, setNewArweaveImageUrl] = useState('')
+  const [bundlr, setBundlr] = useState<WebBundlr | undefined>(undefined)
 
   const [status, setStatus] = useState<CombineIdCardStatus>(CombineIdCardStatus.WalletNoConnected)
   const [isCombining, setIsCombining] = useState(false)
@@ -52,6 +59,20 @@ const useCombineIdCard = () => {
     console.log(`[useCombineIdCard hook] new preview url: ${previewImageUrl}`)
   }, [previewImageUrl])
 
+  // Connect Bundlr
+  useEffect(() => {
+    if( !bundlrProvider.wallet || bundlr) return
+    const loadBundlr = async () => {
+      const WebBundlr = (await import("@bundlr-network/client")).WebBundlr;
+
+      const bundlr = new WebBundlr("https://node1.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
+        
+      await bundlr.ready()
+      setBundlr(bundlr);
+    }
+
+    loadBundlr()
+  }, [bundlrProvider.wallet])
 
   // Check whether the wallet has an ID card
   useEffect(() => {
@@ -114,69 +135,91 @@ const useCombineIdCard = () => {
 
     try {
 
+      // // Update the name in the metadata
+      // console.log(`New alias before uploading: ${newAlias}`)
+      // if (!newAlias) {
+      //   throw Error(`[useCombineIdCard hook] newAlias is ${newAlias}`)
+      // }
+
+      // let metadata: mpl.MetadataJson = JSON.parse(JSON.stringify(metadataToDisplay))
+      // metadata.name = newAlias
+      // metadata.image = '0.png'
+      // metadata.properties.files[0].uri = '0.png'
+
+      // setStatus(CombineIdCardStatus.AwaitingUserSignatureForArweaveUpload)
+
+      // // Fetch cost of uploading files to arweave
+      // console.log(`[useCombineIdCard hook] about to upload this image to Arweave: ${previewImageUrl}`)
+      // const data = {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     imageUrl: previewImageUrl,
+      //     metadataJson: JSON.stringify(metadata),
+      //   })
+      // }
+      // const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
+
+      // if (response.error) {
+      //   throw Error('Unable to fetch Arweave upload cost')
+      // }
+
+      // const uploadCost = response.cost
+
+      // // Request the user to pay the cost
+      // const tx = await sendUploadFund(
+      //   uploadCost,
+      //   connection,
+      //   anchorWallet,
+      //   () => setStatus(CombineIdCardStatus.UploadingToArweave)  // called after user signs transaction
+      // )
+
+      // // Upload files to arweave
+      // const dataUpload = {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     imageUrl: previewImageUrl,
+      //     metadataJson: metadata,
+      //     tx: tx,
+      //   })
+      // }
+      // const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
+      // const arweaveUploadResult: UploadResult = responseUpload
+      // console.log('[useCombineIdCard hook] new arweave metadata url', arweaveUploadResult.metadataUrl)
+
+      // if (arweaveUploadResult.error) {
+      //   throw Error(arweaveUploadResult.error)
+      // }
+
+      // setNewArweaveMetadataUrl(arweaveUploadResult.metadataUrl)
+      // setNewArweaveImageUrl(arweaveUploadResult.imageUrl)
+
+      // setStatus(CombineIdCardStatus.ArweaveUploadSuccess)
+
       // Update the name in the metadata
-      console.log(`New alias before uploading: ${newAlias}`)
-      if (!newAlias) {
-        throw Error(`[useCombineIdCard hook] newAlias is ${newAlias}`)
-      }
-
-      let metadata: mpl.MetadataJson = JSON.parse(JSON.stringify(metadataToDisplay))
-      metadata.name = newAlias
-      metadata.image = '0.png'
-      metadata.properties.files[0].uri = '0.png'
-
+      
       setStatus(CombineIdCardStatus.AwaitingUserSignatureForArweaveUpload)
 
-      // Fetch cost of uploading files to arweave
-      console.log(`[useCombineIdCard hook] about to upload this image to Arweave: ${previewImageUrl}`)
-      const data = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          imageUrl: previewImageUrl,
-          metadataJson: JSON.stringify(metadata),
-        })
-      }
-      const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
+      const newImageUrl = previewImageUrl
+        
+        const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
+        console.log(newMetadata)
+        const priceAtomic = await bundlr.getPrice(newMetadata.length);
+        await bundlr.fund(priceAtomic);
 
-      if (response.error) {
-        throw Error('Unable to fetch Arweave upload cost')
-      }
+        setStatus(CombineIdCardStatus.UploadingToArweave)
 
-      const uploadCost = response.cost
+        const manifestId1 = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
+        const newMetadataUrl = `https://arweave.net/${manifestId1.id}/`;
+        console.log(newMetadataUrl);
 
-      // Request the user to pay the cost
-      const tx = await sendUploadFund(
-        uploadCost,
-        connection,
-        anchorWallet,
-        () => setStatus(CombineIdCardStatus.UploadingToArweave)  // called after user signs transaction
-      )
+        setNewArweaveMetadataUrl(newMetadataUrl)
+        setNewArweaveImageUrl(newImageUrl)
 
-      // Upload files to arweave
-      const dataUpload = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          imageUrl: previewImageUrl,
-          metadataJson: metadata,
-          tx: tx,
-        })
-      }
-      const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
-      const arweaveUploadResult: UploadResult = responseUpload
-      console.log('[useCombineIdCard hook] new arweave metadata url', arweaveUploadResult.metadataUrl)
-
-      if (arweaveUploadResult.error) {
-        throw Error(arweaveUploadResult.error)
-      }
-
-      setNewArweaveMetadataUrl(arweaveUploadResult.metadataUrl)
-      setNewArweaveImageUrl(arweaveUploadResult.imageUrl)
-
-      setStatus(CombineIdCardStatus.ArweaveUploadSuccess)
+        setStatus(CombineIdCardStatus.ArweaveUploadSuccess)
 
     } catch (error: any) {
       console.log(error)
