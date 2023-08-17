@@ -187,13 +187,13 @@ const useCombine = () => {
         console.log(previewImageUrl)
         
         // const response = await fetch(previewImageUrl, {mode: "no-cors",credentials: 'include',})
-        const response = await fetch(previewImageUrl, {
-          method: "GET",
-          headers: {
-            'Access-Control-Allow-Origin': '*'
-          },
-        })
-        const imageData = await response.arrayBuffer()
+        // const response = await fetch(previewImageUrl, {
+        //   method: "GET",
+        //   headers: {
+        //     'Access-Control-Allow-Origin': '*'
+        //   },
+        // })
+        // const imageData = await response.arrayBuffer()
         // const imageType = response.headers.get("content-type")
 
         // // -- upload 2 files simultaneously
@@ -273,17 +273,19 @@ const useCombine = () => {
         // const JWK = await Arweave.crypto.generateJWK();
         // ephemeralSigner = new ArweaveSigner(JWK);
 
-        var priceAtomic = await bundlr.getPrice(imageData.byteLength);
-        await bundlr.fund(priceAtomic);
-        const manifestId0 = await bundlr.upload(Buffer.from(imageData), {tags: [{name: "content-type", value: "image/png"}]});
-        // console.log(manifestId0)
-        const newImageUrl = `https://arweave.net/${manifestId0.id}?ext=png`;
+        // var priceAtomic = await bundlr.getPrice(imageData.byteLength);
+        // await bundlr.fund(priceAtomic);
+        // const manifestId0 = await bundlr.upload(Buffer.from(imageData), {tags: [{name: "content-type", value: "image/png"}]});
+        // // console.log(manifestId0)
+        // const newImageUrl = `https://arweave.net/${manifestId0.id}?ext=png`;
+
+        const newImageUrl = previewImageUrl
         
         setStatus(CombineStatus.UploadingToArweave)
 
         const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
         console.log(newMetadata)
-        priceAtomic = await bundlr.getPrice(newMetadata.length);
+        const priceAtomic = await bundlr.getPrice(newMetadata.length);
         await bundlr.fund(priceAtomic);
 
         const manifestId1 = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
