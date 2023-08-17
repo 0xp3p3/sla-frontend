@@ -281,12 +281,12 @@ const useCombine = () => {
 
         const newImageUrl = previewImageUrl
         
-        setStatus(CombineStatus.UploadingToArweave)
-
         const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
         console.log(newMetadata)
         const priceAtomic = await bundlr.getPrice(newMetadata.length);
         await bundlr.fund(priceAtomic);
+
+        setStatus(CombineStatus.UploadingToArweave)
 
         const manifestId1 = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
         const newMetadataUrl = `https://arweave.net/${manifestId1.id}/`;
