@@ -22,8 +22,11 @@ interface ModalContent {
   onConfirm?: () => void,
 }
 
+interface Props {
+  refreshNeeded: boolean,
+}
 
-const BadgeCombineMain = () => {
+const BadgeCombineMain = (props: Props) => {
   const { agentWalletNFTs, badgeWalletNFTs, fetchNFTs } = useWalletNFTs()
   const {
     status,
@@ -38,11 +41,15 @@ const BadgeCombineMain = () => {
     setReadyToCombine,
     resetStatus,
     newArweaveImageUrl,
+    refetchNft,
   } = useCombineBadge()
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
   const combineFeatureOff = process.env.NEXT_PUBLIC_COMBINE_FEATURE_OFF! == 'false'
 
+  useEffect(() => {
+    refetchNft()
+  }, [props.refreshNeeded])
 
   const getProgressBar = (perc: number) => {
     return (

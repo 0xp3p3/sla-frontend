@@ -33,7 +33,7 @@ const useCombineIdCard = () => {
     preflightCommitment: "processed",
     commitment: "processed",
   });
-  const { idCardWalletNFTs } = useWalletNFTs()
+  const { idCardWalletNFTs, fetchNFTs } = useWalletNFTs()
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
   const [isVerifiedLlama, setIsVerifiedLlama] = useState(false)
@@ -88,6 +88,7 @@ const useCombineIdCard = () => {
     if (!wallet.publicKey) {
       setStatus(CombineIdCardStatus.WalletNoConnected)
     } else if (!idCardWalletNFTs || idCardWalletNFTs.length === 0) {
+      // fetchNFTs()
       setStatus(CombineIdCardStatus.NoIdCardInWallet)
     } else {
       refreshMetadataToDisplay()
@@ -112,6 +113,7 @@ const useCombineIdCard = () => {
       let url: string = null
 
       if (selectedAgent) {
+        
         metadata = selectedAgent.externalMetadata
         url = metadata.image
         newStatus = CombineIdCardStatus.ReadyToCombine
@@ -205,21 +207,21 @@ const useCombineIdCard = () => {
 
       const newImageUrl = previewImageUrl
         
-        const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
-        console.log(newMetadata)
-        const priceAtomic = await bundlr.getPrice(newMetadata.length);
-        await bundlr.fund(priceAtomic);
+      const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
+      console.log(newMetadata)
+      const priceAtomic = await bundlr.getPrice(newMetadata.length);
+      await bundlr.fund(priceAtomic);
 
-        setStatus(CombineIdCardStatus.UploadingToArweave)
+      setStatus(CombineIdCardStatus.UploadingToArweave)
 
-        const manifestId1 = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
-        const newMetadataUrl = `https://arweave.net/${manifestId1.id}/`;
-        console.log(newMetadataUrl);
+      const manifestId1 = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
+      const newMetadataUrl = `https://arweave.net/${manifestId1.id}/`;
+      console.log(newMetadataUrl);
 
-        setNewArweaveMetadataUrl(newMetadataUrl)
-        setNewArweaveImageUrl(newImageUrl)
+      setNewArweaveMetadataUrl(newMetadataUrl)
+      setNewArweaveImageUrl(newImageUrl)
 
-        setStatus(CombineIdCardStatus.ArweaveUploadSuccess)
+      setStatus(CombineIdCardStatus.ArweaveUploadSuccess)
 
     } catch (error: any) {
       console.log(error)
@@ -261,6 +263,10 @@ const useCombineIdCard = () => {
     await refreshMetadataToDisplay()
   }
 
+  const refetchNft = () => {
+    fetchNFTs()
+  }
+
   return {
     status,
     setStatus,
@@ -275,6 +281,7 @@ const useCombineIdCard = () => {
     uploadToArweave,
     updateOnChainMetadata,
     newArweaveImageUrl,
+    refetchNft,
   }
 }
 

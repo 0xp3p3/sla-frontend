@@ -5,11 +5,13 @@ import { sendUploadFund, UploadResult } from "../../../utils/mainnetUpload";
 import { findAssociatedTokenAddress } from "../../../utils/sla/utils";
 import idl from '../../../sla_idl.json'
 import { COMBINE_AUTHORITY_WALLET, SCANNER_MINT, TOKEN_PROGRAM_ID, SLA_PROGRAM_ID } from "../../../utils/constants";
-
+import { Provider } from "@project-serum/anchor";
+import {NodeBundlr} from "@bundlr-network/client";
 
 
 const dev = process.env.VERCEL_ENV === "development"
-const SERVER = dev ? "http://localhost:3000" : "https://secretllamaagency.com"
+const SERVER = dev ? "http://localhost:3000" : "https://sla-frontend.vercel.app"
+// "https://secretllamaagency.com"
 
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -50,7 +52,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const s3Url = await pushNewImageToS3(metadataJson)
-    newMetadataUri = await uploadToArweave(metadataJson, s3Url, connection, wallet)
+    // newMetadataUri = await uploadToArweave(metadataJson, s3Url, connection, wallet)
+
+    const bundlrProvider = new Provider(connection, getKeypair().secretKey, {
+      preflightCommitment: "processed",
+      commitment: "processed",
+    });
+
+    // const Bundlr = (await import("@bundlr-network/client")).WebBundlr;
+
+    const bundlr = new NodeBundlr("https://node1.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
+        
+    await bundlr.ready()
+
+    const newImageUrl = s3Url
+        
+    const newMetadata = JSON.stringify(metadataJson).replaceAll("0.png", newImageUrl)
+    const priceAtomic = await bundlr.getPrice(newMetadata.length);
+    await bundlr.fund(priceAtomic);
+    const manifestId = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
+    newMetadataUri = `https://arweave.net/${manifestId.id}/`;
+
+    res.status(200).send({ transaction: JSON.stringify(newMetadataUri) })
 
     // Update the metadata URI if needed + burn the Scanner
     transaction = await createChainInstruction(mint, newMetadataUri, connection, getKeypair(), owner)

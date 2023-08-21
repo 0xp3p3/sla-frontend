@@ -7,8 +7,11 @@ import useWalletNFTs, { NFT } from "../../hooks/useWalletNFTs"
 import styles from "../../styles/BadgeMintingMain.module.css"
 import useBadge from "../../hooks/useBadge"
 
+interface Props {
+  refreshNft: () => void,
+}
 
-const BadgeMintingMain = () => {
+const BadgeMintingMain = (props: Props) => {
   const { agentWalletNFTs } = useWalletNFTs()
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
@@ -79,7 +82,7 @@ const BadgeMintingMain = () => {
           <div className="p1 p-white">Requirement:<br />- 660 $HAY<br />- Must have a Platinum Ranked Llama Agent</div>
         </div>
         {/* <Button className="mint-badge" disabled>Mint Diamond</Button> */}
-        <BadgeMintingSingle badge={SLA_DIAMOND_BADGE} requiredBadge={SLA_PLATINUM_BADGE} selectedLlama={selectedAgent} currentBadgeInfo={currentBadgeInfo} />
+        <BadgeMintingSingle badge={SLA_DIAMOND_BADGE} requiredBadge={SLA_PLATINUM_BADGE} selectedLlama={selectedAgent} currentBadgeInfo={currentBadgeInfo} triggerAfterMintedAction={props.refreshNft}/>
       </div>
     </>
   )

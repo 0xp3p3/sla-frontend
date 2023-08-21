@@ -25,6 +25,7 @@ interface ModalContent {
 interface Props {
   dropdownRefreshToggle: boolean,
   refreshAllNfts: () => void,
+  refreshNeeded: boolean,
 }
 
 const ScannerCombineMain = (props: Props) => {
@@ -38,6 +39,7 @@ const ScannerCombineMain = (props: Props) => {
     isPreviewLoading,
     scanAgent,
     resetStatus,
+    refetchNft,
   } = useCombineIdCard()
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
@@ -48,6 +50,9 @@ const ScannerCombineMain = (props: Props) => {
     fetchNFTs()
   }, [props.dropdownRefreshToggle])
 
+  useEffect(() => {
+    refetchNft()
+  }, [props.refreshNeeded])
 
   const getProgressBar = (perc: number) => {
     return (

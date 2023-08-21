@@ -21,6 +21,11 @@ interface ModalContent {
   keepOpenOnConfirm?: boolean,
 }
 
+interface Props {
+  refreshNft: () => void,
+}
+
+
 const modalMessages: { [name: string]: ModalContent } = {
   walletNotConnected: {
     type: ModalType.Info,
@@ -94,7 +99,7 @@ const modalMessages: { [name: string]: ModalContent } = {
   }
 }
 
-const ScannerMain = () => {
+const ScannerMain = (props: Props) => {
   const { connection } = useConnection()
   const wallet = useWallet()
 
@@ -148,7 +153,7 @@ const ScannerMain = () => {
       setModalContent(modalMessages.minting)
       const signature = await mintScanner(anchorWallet, connection)
       setModalContent(modalMessages.success)
-      
+      props.refreshNft()
       // console.log(`[Scanner mint] finished minting a Scanner`)
     } catch (error: any) {
       // console.log(`[Scanner mint] could not mint a new Scanner`)

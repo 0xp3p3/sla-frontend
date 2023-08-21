@@ -2,7 +2,7 @@ import { Wallet } from "@project-serum/anchor"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal"
-
+import useWalletNFTs from "../../hooks/useWalletNFTs"
 import { mintIdCard } from "../../utils/sla/idCard"
 import { useEffect, useMemo, useState } from "react"
 import { Progress } from "semantic-ui-react"
@@ -15,6 +15,12 @@ interface ModalContent {
   size: "small" | "large",
   confirmMessage?: string,
   keepOpenOnConfirm?: boolean,
+}
+
+interface Props {
+  dropdownRefreshToggle: boolean,
+  refreshAllNfts: () => void,
+  refreshNft: () => void,
 }
 
 const modalMessages: { [name: string]: ModalContent } = {
@@ -81,12 +87,17 @@ const modalMessages: { [name: string]: ModalContent } = {
   }
 }
 
-const IdCardMain = () => {
+const IdCardMain = (props: Props) => {
   const { connection } = useConnection()
   const wallet = useWallet()
+  const { fetchNFTs } = useWalletNFTs()
 
   const [isMinting, setIsMinting] = useState(false)
   const [modalContent, setModalContent] = useState<ModalContent>(modalMessages.walletNotConnected)
+
+  useEffect(() => {
+    fetchNFTs()
+  }, [props.dropdownRefreshToggle])
 
   const anchorWallet = useMemo(() => {
     if (!wallet || !wallet.publicKey || !wallet.signAllTransactions || !wallet.signTransaction) {
@@ -124,7 +135,9 @@ const IdCardMain = () => {
       setIsMinting(true)
       setModalContent(modalMessages.minting)
       const signature = await mintIdCard(anchorWallet, connection)
+      console.log("Minting signature=====", signature)
       setModalContent(modalMessages.success)
+      props.refreshNft()
       // console.log(`[ID Card mint] finished minting an ID Card`)
     } catch (error: any) {
       // console.log(`[ID Card mint] could not mint a new ID Card`)

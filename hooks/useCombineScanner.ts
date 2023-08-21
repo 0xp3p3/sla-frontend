@@ -24,7 +24,7 @@ export enum CombineScannerStatus {
 const useCombineScanner = () => {
   const wallet = useWallet()
   const { connection } = useConnection()
-  const { scannerWalletNFTs } = useWalletNFTs()
+  const { scannerWalletNFTs, fetchNFTs } = useWalletNFTs()
 
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
 
@@ -170,6 +170,10 @@ const useCombineScanner = () => {
     await refreshMetadataToDisplay()
   }
 
+  const refetchNft = () => {
+    fetchNFTs()
+  }
+
   return {
     status,
     setStatus,
@@ -183,6 +187,7 @@ const useCombineScanner = () => {
     previewImageUrl,
     setPreviewImageUrl,
     scanAgent,
+    refetchNft,
   }
 }
 

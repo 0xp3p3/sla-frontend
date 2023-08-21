@@ -26,6 +26,7 @@ interface ModalContent {
 interface Props {
   dropdownRefreshToggle: boolean,
   refreshAllNfts: () => void,
+  refreshNeeded: boolean,
 }
 
 const CombineMain = (props: Props) => {
@@ -40,6 +41,7 @@ const CombineMain = (props: Props) => {
     uploadToArweave,
     updateOnChainMetadata,
     resetStatus,
+    refetchNft,
   } = useCombineIdCard()
 
   const [modalContent, setModalContent] = useState<ModalContent>(null)
@@ -52,6 +54,10 @@ const CombineMain = (props: Props) => {
   useEffect(() => {
     fetchNFTs()
   }, [props.dropdownRefreshToggle])
+
+  useEffect(() => {
+    refetchNft()
+  }, [props.refreshNeeded])
 
   useEffect(() => {
     // console.log(`[idCombineMain] new alias set to ${newAlias}`)

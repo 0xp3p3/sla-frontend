@@ -14,8 +14,12 @@ const DisguiseRoom: NextPage = () => {
 
   // Toggle a state boolean to let sub-components know they need to refresh all dropdown items
   const [dropdownRefreshToggle, setDropdownRefreshToggle] = useState(false)
+  const [isNftRefetched, setIsNftRefetched] = useState(false)
   const refreshAllDropdownsCallback = () => {
     setDropdownRefreshToggle(!dropdownRefreshToggle)
+  }
+  const refreshNftList = () => {
+    setIsNftRefetched(true)
   }
 
   return (
@@ -83,7 +87,11 @@ const DisguiseRoom: NextPage = () => {
               <br /><br />
               ID Cards cost 60 $HAY each.
             </p>
-            <IdCardMain />
+            <IdCardMain 
+              dropdownRefreshToggle={dropdownRefreshToggle}
+              refreshAllNfts={refreshAllDropdownsCallback}
+              refreshNft={refreshNftList}
+            />
           </div>
         </div>
       </div>
@@ -102,6 +110,7 @@ const DisguiseRoom: NextPage = () => {
             <IdCombineMain 
               dropdownRefreshToggle={dropdownRefreshToggle}
               refreshAllNfts={refreshAllDropdownsCallback}
+              refreshNeeded={isNftRefetched}
             />
           </div>
         </div>
@@ -117,7 +126,9 @@ const DisguiseRoom: NextPage = () => {
               <br /><br />
               DNA Scanning Devices cost 10 $HAY each.
             </p>
-            <ScannerMain />
+            <ScannerMain 
+              refreshNft={refreshNftList}
+            />
           </div>
         </div>
       </div>
@@ -134,6 +145,7 @@ const DisguiseRoom: NextPage = () => {
             <ScannerCombineMain 
               dropdownRefreshToggle={dropdownRefreshToggle}
               refreshAllNfts={refreshAllDropdownsCallback}
+              refreshNeeded={isNftRefetched}
             />
           </div>
         </div>

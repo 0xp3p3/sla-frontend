@@ -2,13 +2,14 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
 import * as mpl from "@metaplex/js"
 import useAnchorWallet from "./useAnchorWallet"
-import { NFT } from "./useWalletNFTs"
+import useWalletNFTs, { NFT } from "./useWalletNFTs"
 import { createNewAvatarMetadata } from "../utils/metadata"
 import { sendUploadFund, UploadResult } from "../utils/mainnetUpload"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { checkIfBadgeCanBeCombined } from "../utils/sla/badgeV2"
 import useBadge from "./useBadge"
-
+import { type WebBundlr } from "@bundlr-network/client";
+import { Provider } from "@project-serum/anchor";
 
 
 export enum BadgeCombineStatus {
@@ -32,7 +33,11 @@ const useCombineBadge = () => {
   const wallet = useWallet()
   const { anchorWallet } = useAnchorWallet()
   const { connection } = useConnection()
-
+  const bundlrProvider = new Provider(connection, anchorWallet, {
+    preflightCommitment: "processed",
+    commitment: "processed",
+  });
+  const { fetchNFTs } = useWalletNFTs()
   const [selectedAgent, setSelectedAgent] = useState<NFT>(null)
   const [selectedBadge, setSelectedBadge] = useState<NFT>(null)
   const currentBadgeInfo = useBadge(selectedAgent?.mint)
@@ -42,6 +47,7 @@ const useCombineBadge = () => {
   const [previewImageUrl, setPreviewImageUrl] = useState<string>(null)
   const [newArweaveMetadataUrl, setNewArweaveMetadataUrl] = useState('')
   const [newArweaveImageUrl, setNewArweaveImageUrl] = useState('')
+  const [bundlr, setBundlr] = useState<WebBundlr | undefined>(undefined)
 
   const [status, setStatus] = useState<BadgeCombineStatus>(BadgeCombineStatus.WalletNoConnected)
   const [isCombining, setIsCombining] = useState(false)
@@ -69,6 +75,19 @@ const useCombineBadge = () => {
     }
   }, [wallet.publicKey, selectedAgent, selectedBadge])
 
+  useEffect(() => {
+    if( !bundlrProvider.wallet || bundlr) return
+    const loadBundlr = async () => {
+      const WebBundlr = (await import("@bundlr-network/client")).WebBundlr;
+
+      const bundlr = new WebBundlr("https://node1.bundlr.network", 'solana', bundlrProvider.wallet, { providerUrl: process.env.NEXT_PUBLIC_SOLANA_ENDPOINT });
+        
+      await bundlr.ready()
+      setBundlr(bundlr);
+    }
+
+    loadBundlr()
+  }, [bundlrProvider.wallet])
 
   const refreshMetadataToDisplay = async () => {
 
@@ -173,54 +192,70 @@ const useCombineBadge = () => {
 
         // Fetch cost of uploading files to arweave
         console.log(`[useCombineBadge hook] about to upload this image to Arweave: ${previewImageUrl}`)
-        const data = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            imageUrl: previewImageUrl,
-            metadataJson: JSON.stringify(metadataToDisplay),
-          })
-        }
-        const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
+        // const data = {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({
+        //     imageUrl: previewImageUrl,
+        //     metadataJson: JSON.stringify(metadataToDisplay),
+        //   })
+        // }
+        // const response = await (await fetch("/api/combineTraits/arweaveUploadCost", data)).json()
 
-        if (response.error) {
-          throw Error('[useCombineBadge hook] Unable to fetch Arweave upload cost')
-        }
+        // if (response.error) {
+        //   throw Error('[useCombineBadge hook] Unable to fetch Arweave upload cost')
+        // }
 
-        const uploadCost = response.cost
-        console.log({ uploadCost })
-        // Request the user to pay the cost
-        const tx = await sendUploadFund(
-          uploadCost,
-          connection,
-          anchorWallet,
-          () => setStatus(BadgeCombineStatus.UploadingToArweave)  // called after user signs transaction
-        )
+        // const uploadCost = response.cost
+        // console.log({ uploadCost })
+        // // Request the user to pay the cost
+        // const tx = await sendUploadFund(
+        //   uploadCost,
+        //   connection,
+        //   anchorWallet,
+        //   () => setStatus(BadgeCombineStatus.UploadingToArweave)  // called after user signs transaction
+        // )
 
-        // Upload files to arweave
-        const dataUpload = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            imageUrl: previewImageUrl,
-            metadataJson: metadataToDisplay,
-            tx: tx,
-          })
-        }
+        // // Upload files to arweave
+        // const dataUpload = {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json"
+        //   },
+        //   body: JSON.stringify({
+        //     imageUrl: previewImageUrl,
+        //     metadataJson: metadataToDisplay,
+        //     tx: tx,
+        //   })
+        // }
 
 
-        const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
-        const arweaveUploadResult: UploadResult = responseUpload
-        console.log('[useCombineBadge hook] new arweave metadata url', arweaveUploadResult.metadataUrl)
+        // const responseUpload = await (await fetch("/api/combineTraits/uploadNewAgent", dataUpload)).json()
+        // const arweaveUploadResult: UploadResult = responseUpload
+        // console.log('[useCombineBadge hook] new arweave metadata url', arweaveUploadResult.metadataUrl)
 
-        if (arweaveUploadResult.error) {
-          throw Error(arweaveUploadResult.error)
-        }
+        // if (arweaveUploadResult.error) {
+        //   throw Error(arweaveUploadResult.error)
+        // }
 
-        setNewArweaveMetadataUrl(arweaveUploadResult.metadataUrl)
-        setNewArweaveImageUrl(arweaveUploadResult.imageUrl)
+        // setNewArweaveMetadataUrl(arweaveUploadResult.metadataUrl)
+        // setNewArweaveImageUrl(arweaveUploadResult.imageUrl)
+
+        const newImageUrl = previewImageUrl
+        
+        const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
+        console.log(newMetadata)
+        const priceAtomic = await bundlr.getPrice(newMetadata.length);
+        await bundlr.fund(priceAtomic);
+
+        setStatus(BadgeCombineStatus.UploadingToArweave)
+
+        const manifestId = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
+        const newMetadataUrl = `https://arweave.net/${manifestId.id}/`;
+        console.log(newMetadataUrl);
+
+        setNewArweaveMetadataUrl(newMetadataUrl)
+        setNewArweaveImageUrl(newImageUrl)
 
         setStatus(BadgeCombineStatus.ArweaveUploadSuccess)
 
@@ -268,6 +303,10 @@ const useCombineBadge = () => {
     await refreshMetadataToDisplay()
   }
 
+  const refetchNft = () => {
+    fetchNFTs()
+  }
+  
   return {
     status,
     setStatus,
@@ -285,6 +324,7 @@ const useCombineBadge = () => {
     updateOnChainMetadata,
     setReadyToCombine,
     newArweaveImageUrl,
+    refetchNft,
   }
 }
 

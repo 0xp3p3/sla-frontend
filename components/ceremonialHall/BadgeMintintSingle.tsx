@@ -25,7 +25,8 @@ interface Props {
   badge: SlaBadge,
   requiredBadge: SlaBadge | null,
   selectedLlama: NFT | null,
-  currentBadgeInfo: CurrentBadgeInfo
+  currentBadgeInfo: CurrentBadgeInfo,
+  triggerAfterMintedAction: () => void
 }
 
 
@@ -194,7 +195,6 @@ const BadgeMintingSingle = (props: Props) => {
     refreshModalContent()
   }, [wallet, isMinting, isFailure, isSuccess, hayBalance, props.selectedLlama, currentBadge, currentBadgeAccountV1, currentBadgeAccountV2])
 
-
   const onMintConfirm = async () => {
     if (!wallet || !wallet.publicKey || !wallet.connected) {
       console.log(`Wallet is not connected`)
@@ -211,6 +211,7 @@ const BadgeMintingSingle = (props: Props) => {
         new web3.PublicKey(props.selectedLlama.mint)
       )
       setIsSuccess(true)
+      props.triggerAfterMintedAction()
       // console.log(`[Badge mint] finished minting a Badge`)
     } catch (error: any) {
       // console.log(`[Badge mint] could not mint a Badge`)

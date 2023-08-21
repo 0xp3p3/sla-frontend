@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useState } from "react";
 import BadgeCombineMain from "../components/ceremonialHall/BadgeCombineMain";
 import BadgeMintingMain from "../components/ceremonialHall/BadgeMintingMain";
 import PageWrapper from "../components/layout/PageWrapper";
@@ -6,6 +7,11 @@ import TypingEffect from "../components/utils/TypingEffect";
 
 
 const DisguiseRoom: NextPage = () => {
+
+  const [isNftRefetched, setIsNftRefetched] = useState(false)
+  const refreshNftList = () => {
+    setIsNftRefetched(true)
+  }
   return (
     <PageWrapper
       title="SLA Ceremonial Hall"
@@ -42,7 +48,9 @@ const DisguiseRoom: NextPage = () => {
               </p>
             </div>
             <div className="w-layout-grid grid-2">
-              <BadgeMintingMain />
+              <BadgeMintingMain 
+                refreshNft={refreshNftList}
+              />
             </div>
           </div>
         </div>
@@ -60,7 +68,9 @@ const DisguiseRoom: NextPage = () => {
                 Once you&apos;re happy with your new look, click the &apos;combine&apos; button and follow Agent Bigspoon&apos;s instructions.
               </p>
             </div>
-            <BadgeCombineMain />
+            <BadgeCombineMain 
+              refreshNeeded={isNftRefetched}
+            />
           </div>
         </div>
       </div>
