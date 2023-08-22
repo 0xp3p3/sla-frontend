@@ -73,7 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const manifestId = await bundlr.upload(newMetadata, {tags: [{name: "content-type", value: "application/json"}]});
     newMetadataUri = `https://arweave.net/${manifestId.id}/`;
 
-    res.status(200).send({ transaction: JSON.stringify(newMetadataUri) })
+    // res.status(200).send({ transaction: JSON.stringify(newMetadataUri) })
 
     // Update the metadata URI if needed + burn the Scanner
     transaction = await createChainInstruction(mint, newMetadataUri, connection, getKeypair(), owner)
