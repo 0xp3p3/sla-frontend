@@ -137,16 +137,16 @@ const useCombineIdCard = () => {
 
     try {
 
-      // // Update the name in the metadata
-      // console.log(`New alias before uploading: ${newAlias}`)
-      // if (!newAlias) {
-      //   throw Error(`[useCombineIdCard hook] newAlias is ${newAlias}`)
-      // }
+      // Update the name in the metadata
+      console.log(`New alias before uploading: ${newAlias}`)
+      if (!newAlias) {
+        throw Error(`[useCombineIdCard hook] newAlias is ${newAlias}`)
+      }
 
-      // let metadata: mpl.MetadataJson = JSON.parse(JSON.stringify(metadataToDisplay))
-      // metadata.name = newAlias
-      // metadata.image = '0.png'
-      // metadata.properties.files[0].uri = '0.png'
+      let metadata: mpl.MetadataJson = JSON.parse(JSON.stringify(metadataToDisplay))
+      metadata.name = newAlias
+      metadata.image = previewImageUrl
+      metadata.properties.files[0].uri = previewImageUrl
 
       // setStatus(CombineIdCardStatus.AwaitingUserSignatureForArweaveUpload)
 
@@ -207,7 +207,7 @@ const useCombineIdCard = () => {
 
       const newImageUrl = previewImageUrl
         
-      const newMetadata = JSON.stringify(metadataToDisplay).replaceAll("0.png", newImageUrl)
+      const newMetadata = JSON.stringify(metadata)
       console.log(newMetadata)
       const priceAtomic = await bundlr.getPrice(newMetadata.length);
       await bundlr.fund(priceAtomic);
