@@ -205,8 +205,6 @@ const useCombineIdCard = () => {
       
       setStatus(CombineIdCardStatus.AwaitingUserSignatureForArweaveUpload)
 
-      const newImageUrl = previewImageUrl
-        
       const newMetadata = JSON.stringify(metadata)
       console.log(newMetadata)
       const priceAtomic = await bundlr.getPrice(newMetadata.length);
@@ -219,7 +217,7 @@ const useCombineIdCard = () => {
       console.log(newMetadataUrl);
 
       setNewArweaveMetadataUrl(newMetadataUrl)
-      setNewArweaveImageUrl(newImageUrl)
+      setNewArweaveImageUrl(previewImageUrl)
 
       setStatus(CombineIdCardStatus.ArweaveUploadSuccess)
 
