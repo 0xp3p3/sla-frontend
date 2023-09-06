@@ -9,7 +9,7 @@ import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { checkIfBadgeCanBeCombined } from "../utils/sla/badgeV2"
 import useBadge from "./useBadge"
 import { type WebBundlr } from "@bundlr-network/client";
-import { Provider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 
 
 export enum BadgeCombineStatus {
@@ -33,7 +33,7 @@ const useCombineBadge = () => {
   const wallet = useWallet()
   const { anchorWallet } = useAnchorWallet()
   const { connection } = useConnection()
-  const bundlrProvider = new Provider(connection, anchorWallet, {
+  const bundlrProvider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: "processed",
     commitment: "processed",
   });

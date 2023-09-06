@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import * as anchor from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
 import axios from "axios";
 import { getNFTMetadata } from "../../../utils/nfts";
 import { createNewAvatarMetadata } from "../../../utils/metadata";
@@ -99,8 +99,9 @@ async function createTraitCombineTransaction(
   }
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, new anchor.Wallet(updateAuthority), {
+  const provider = new anchor.AnchorProvider(connection, new anchor.Wallet(updateAuthority), {
     preflightCommitment: 'processed',
+    commitment: "processed",
   })
   // @ts-ignore
   const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
@@ -168,8 +169,9 @@ async function createChangeAliasTransaction(
   const connection = new anchor.web3.Connection(endpoint)
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, new anchor.Wallet(updateAuthority), {
+  const provider = new anchor.AnchorProvider(connection, new anchor.Wallet(updateAuthority), {
     preflightCommitment: 'processed',
+    commitment: "processed",
   })
   // @ts-ignore
   const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
@@ -230,7 +232,7 @@ async function createBadgecombineTransaction(
   }
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, new anchor.Wallet(updateAuthority), {
+  const provider = new anchor.AnchorProvider(connection, new anchor.Wallet(updateAuthority), {
     preflightCommitment: 'processed',
   })
   // @ts-ignore

@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import * as anchor from "@project-serum/anchor";
+import * as anchor from "@coral-xyz/anchor";
 import * as mpl from '@metaplex/js';
 import { sendUploadFund, UploadResult } from "../../../utils/mainnetUpload";
 import { findAssociatedTokenAddress } from "../../../utils/sla/utils";
 import idl from '../../../sla_idl.json'
 import { COMBINE_AUTHORITY_WALLET, SCANNER_MINT, TOKEN_PROGRAM_ID, SLA_PROGRAM_ID } from "../../../utils/constants";
-import { Provider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 import {NodeBundlr} from "@bundlr-network/client";
 
 
@@ -54,7 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const s3Url = await pushNewImageToS3(metadataJson)
     // newMetadataUri = await uploadToArweave(metadataJson, s3Url, connection, wallet)
 
-    const bundlrProvider = new Provider(connection, getKeypair().secretKey, {
+    const bundlrProvider = new AnchorProvider(connection, getKeypair().secretKey, {
       preflightCommitment: "processed",
       commitment: "processed",
     });
@@ -228,7 +228,7 @@ async function createChainInstruction(
 ): Promise<any> {
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, new anchor.Wallet(updateAuthority), {
+  const provider = new anchor.AnchorProvider(connection, new anchor.Wallet(updateAuthority), {
     preflightCommitment: 'processed',
   })
   // @ts-ignore

@@ -1,7 +1,7 @@
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 import { PublicKey } from '@solana/web3.js';
 import { AnchorWallet } from "@solana/wallet-adapter-react";
-import { web3 } from '@project-serum/anchor';
+import { web3 } from "@coral-xyz/anchor";
 import { TOKEN_PROGRAM_ID, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from '../constants';
 
 export function isThisTheAvatarCandyMachine(
@@ -21,9 +21,9 @@ export function isThisTheAvatarCandyMachine(
 export async function getProvider(
   connection: anchor.web3.Connection,
   wallet: AnchorWallet,
-  ): Promise<anchor.Provider> {
-  return new anchor.Provider(
-    connection, wallet, anchor.Provider.defaultOptions(),
+  ): Promise<anchor.AnchorProvider> {
+  return new anchor.AnchorProvider(
+    connection, wallet, anchor.AnchorProvider.defaultOptions(),
   );
 }
 

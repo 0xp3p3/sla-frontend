@@ -1,4 +1,4 @@
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 import { NFT } from '../../hooks/useWalletNFTs';
 import { generateSlaAvatarPda } from './accounts';
 import { SLA_COLLECTIONS, SLA_PROGRAM_ID } from '../constants';
@@ -13,7 +13,7 @@ export async function checkIfTraitCanBeCombined(
 ): Promise<boolean> {
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, wallet, {preflightCommitment: 'processed'})
+  const provider = new anchor.AnchorProvider(connection, wallet, {preflightCommitment: 'processed'})
   // @ts-ignore
   const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
 

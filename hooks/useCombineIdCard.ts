@@ -7,7 +7,7 @@ import { sendUploadFund, UploadResult } from "../utils/mainnetUpload"
 import { updateOnChainMetadataAfterCombine } from "../utils/sla/combine"
 import { ID_CARD_MINT } from "../utils/constants"
 import { type WebBundlr } from "@bundlr-network/client";
-import { Provider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 
 
 export enum CombineIdCardStatus {
@@ -29,7 +29,7 @@ const useCombineIdCard = () => {
   const wallet = useWallet()
   const { anchorWallet } = useAnchorWallet()
   const { connection } = useConnection()
-  const bundlrProvider = new Provider(connection, anchorWallet, {
+  const bundlrProvider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: "processed",
     commitment: "processed",
   });

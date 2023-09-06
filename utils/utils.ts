@@ -1,4 +1,4 @@
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import * as mpl from '@metaplex/js';
 

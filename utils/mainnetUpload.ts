@@ -1,5 +1,5 @@
 import * as path from 'path';
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 import web3 from '@solana/web3.js'
 import { calculate } from '@metaplex/arweave-cost';
 import { ARWEAVE_PAYMENT_WALLET, ARWEAVE_UPLOAD_ENDPOINT } from './constants';

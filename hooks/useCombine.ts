@@ -9,7 +9,7 @@ import { checkIfTraitCanBeCombined } from "../utils/sla/traits"
 import { type WebBundlr } from "@bundlr-network/client";
 // import type { DataItem, Bundle } from "arbundles";
 // import { createData, ArweaveSigner, bundleAndSignData } from "arbundles"; 
-import { Provider } from "@project-serum/anchor";
+import { AnchorProvider } from "@coral-xyz/anchor";
 
 
 export enum CombineStatus {
@@ -33,7 +33,7 @@ const useCombine = () => {
   const wallet = useWallet()
   const { anchorWallet } = useAnchorWallet()
   const { connection } = useConnection()
-  const bundlrProvider = new Provider(connection, anchorWallet, {
+  const bundlrProvider = new AnchorProvider(connection, anchorWallet, {
     preflightCommitment: "processed",
     commitment: "processed",
   });

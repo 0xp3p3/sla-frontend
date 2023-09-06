@@ -2,7 +2,7 @@ import { findFarmerPDA, findRarityPDA } from "@gemworks/gem-farm-ts"
 import { SignerWalletAdapter } from "@solana/wallet-adapter-base"
 import { useEffect, useState } from "react"
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react"
-import { BN } from "@project-serum/anchor"
+import { BN } from "@coral-xyz/anchor"
 import { PublicKey } from "@solana/web3.js"
 
 import useWalletNFTs, { NFT } from "./useWalletNFTs"

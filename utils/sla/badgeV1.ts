@@ -1,5 +1,5 @@
-import * as anchor from "@project-serum/anchor";
-import { Wallet } from "@project-serum/anchor"
+import * as anchor from "@coral-xyz/anchor";
+import { Wallet } from "@coral-xyz/anchor"
 import * as mpl from "@metaplex/js"
 
 import { HAY_MINT, SlaBadge, SLA_BADGES, SLA_HAY_TREASURY_WALLET, SLA_PROGRAM_ID, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from "../constants";
@@ -23,13 +23,14 @@ export async function getBadgeAccountV1(
 ): Promise<any> {
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, wallet, {
+  const provider = new anchor.AnchorProvider(connection, wallet, {
     preflightCommitment: 'processed',
+    commitment: "processed",
   })
 
   // @ts-ignore
   const program = new anchor.Program(idl, SLA_PROGRAM_ID, provider)
-
+  console.log("rankingPda=========", program)
   try {
     const ranking = await program.account.ranking.fetch(rankingPda)
     console.log(`\n\n ${ranking} \n\n\n`)
@@ -67,7 +68,7 @@ export async function mintBadgeV1(
 ): Promise<string> {
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, wallet, {
+  const provider = new anchor.AnchorProvider(connection, wallet, {
     preflightCommitment: 'processed',
   })
 

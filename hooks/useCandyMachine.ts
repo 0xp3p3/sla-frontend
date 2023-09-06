@@ -1,5 +1,5 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { Wallet } from "@project-serum/anchor"
+import { Wallet } from "@coral-xyz/anchor"
 import { PublicKey } from "@solana/web3.js"
 import { useEffect, useMemo, useState } from "react"
 import { CandyMachineAccount, getCandyMachineState, mintOneToken } from "../utils/candy-machine"

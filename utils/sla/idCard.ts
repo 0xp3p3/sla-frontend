@@ -1,5 +1,5 @@
-import * as anchor from "@project-serum/anchor";
-import { Wallet } from "@project-serum/anchor"
+import * as anchor from "@coral-xyz/anchor";
+import { Wallet } from "@coral-xyz/anchor"
 import { 
   TOKEN_PROGRAM_ID, 
   SLA_PROGRAM_ID, 
@@ -21,7 +21,7 @@ export async function mintIdCard(
 ): Promise<string> {
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, wallet, {
+  const provider = new anchor.AnchorProvider(connection, wallet, {
     preflightCommitment: 'processed',
   })
 

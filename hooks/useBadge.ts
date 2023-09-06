@@ -85,6 +85,7 @@ const useBadge = (llamaMint: PublicKey | null): CurrentBadgeInfo => {
   }
 
   useEffect(() => {
+    console.log("fetched ranking", publicKey)
     fetchRanking()
   }, [publicKey, llamaMint])
 
@@ -102,7 +103,8 @@ const useBadge = (llamaMint: PublicKey | null): CurrentBadgeInfo => {
   }
 
   useEffect(() => {
-    fetchCurrentBadgeSupplies()
+    if(publicKey)
+      fetchCurrentBadgeSupplies()
   }, [publicKey])
 
   

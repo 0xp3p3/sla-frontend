@@ -1,5 +1,5 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import { Wallet } from "@project-serum/anchor";
+import { Wallet } from "@coral-xyz/anchor";
 import { IDL as GemBankIDL } from "@gemworks/gem-farm-ts/dist/types/gem_bank"
 import { IDL as GemFarmIDL } from "@gemworks/gem-farm-ts/dist/types/gem_farm"
 import { GemFarmClient, GEM_FARM_PROG_ID, GEM_BANK_PROG_ID } from "@gemworks/gem-farm-ts";

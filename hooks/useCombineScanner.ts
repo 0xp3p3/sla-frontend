@@ -1,6 +1,6 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useState } from "react"
-import * as anchor from "@project-serum/anchor"
+import * as anchor from "@coral-xyz/anchor"
 import * as mpl from "@metaplex/js"
 import useWalletNFTs, { NFT } from "./useWalletNFTs"
 import { sendSignedTransaction } from '../utils/transaction';

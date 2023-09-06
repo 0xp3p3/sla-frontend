@@ -1,4 +1,4 @@
-import { BN, Idl } from "@project-serum/anchor"
+import { BN, Idl } from "@coral-xyz/anchor"
 import {
   findWhitelistProofPDA,
   GEM_BANK_PROG_ID,

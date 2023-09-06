@@ -1,4 +1,4 @@
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 import { MintLayout, TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
 import { SystemProgram, Transaction, SYSVAR_SLOT_HASHES_PUBKEY, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import * as mpl from "@metaplex/js";
@@ -80,7 +80,7 @@ export const getCandyMachineState = async (
   connection: anchor.web3.Connection,
 ): Promise<CandyMachineAccount> => {
   
-  const provider = new anchor.Provider(connection, anchorWallet, {
+  const provider = new anchor.AnchorProvider(connection, anchorWallet, {
     preflightCommitment: 'processed',
   });
 

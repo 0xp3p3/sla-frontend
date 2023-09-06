@@ -1,6 +1,6 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js"
 import { SignerWalletAdapter } from "@solana/wallet-adapter-base"
-import { BN, Idl } from "@project-serum/anchor"
+import { BN, Idl } from "@coral-xyz/anchor"
 import { createFakeWallet } from "../gem-bank"
 import {
   GemFarmClient,

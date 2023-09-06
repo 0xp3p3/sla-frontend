@@ -1,5 +1,5 @@
 import * as web3 from '@solana/web3.js';
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 import { AnchorWallet } from "@solana/wallet-adapter-react";
 import * as spl_token from '@solana/spl-token';
 import { PublicKey } from "@solana/web3.js";

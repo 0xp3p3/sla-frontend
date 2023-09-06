@@ -1,5 +1,5 @@
-import * as anchor from "@project-serum/anchor";
-import { Wallet } from "@project-serum/anchor"
+import * as anchor from "@coral-xyz/anchor";
+import { Wallet } from "@coral-xyz/anchor"
 
 import { SLA_PROGRAM_ID } from "../constants";
 import idl from '../../sla_idl.json'
@@ -23,8 +23,9 @@ export async function fetchBadgeSupply(
 ): Promise<BadgeSupply | null> {
 
     // Initialize a connection to SLA program
-    const provider = new anchor.Provider(connection, wallet, {
+    const provider = new anchor.AnchorProvider(connection, wallet, {
       preflightCommitment: 'processed',
+      commitment: "processed",
     })
   
     // @ts-ignore
@@ -54,7 +55,7 @@ export async function setInitialBadgeSupply(
 ): Promise<string> {
 
   // Initialize a connection to SLA program
-  const provider = new anchor.Provider(connection, wallet, {
+  const provider = new anchor.AnchorProvider(connection, wallet, {
     preflightCommitment: 'processed',
   })
 

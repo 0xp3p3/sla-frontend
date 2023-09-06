@@ -1,4 +1,4 @@
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 
 export const NODE_SERVER_URL = 'http://sla-backend-dev.eu-west-2.elasticbeanstalk.com/'
 

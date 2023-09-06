@@ -1,4 +1,4 @@
-import { Wallet } from "@project-serum/anchor"
+import { Wallet } from "@coral-xyz/anchor"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import Button from "../common/Button"
 import BasicModal, { ModalType } from "../modals/BasicModal"

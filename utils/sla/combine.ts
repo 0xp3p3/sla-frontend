@@ -1,4 +1,4 @@
-import * as anchor from '@project-serum/anchor';
+import * as anchor from "@coral-xyz/anchor";
 import { sendSignedTransaction } from '../transaction';
 
 
@@ -35,7 +35,9 @@ export async function updateOnChainMetadataAfterCombine(
 
   // Get the user to sign the transaction 
   console.log('signing using user wallet')
+  console.log("before transactionFromJson", transactionFromJson)
   transactionFromJson = await wallet.signTransaction(transactionFromJson)
+  console.log("after transactionFromJson", transactionFromJson)
   transactionSignedCallback()
 
   const tx = await sendSignedTransaction({ signedTransaction: transactionFromJson, connection })

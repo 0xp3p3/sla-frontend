@@ -1,6 +1,6 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
 import { useEffect, useMemo, useState } from "react"
-import { Wallet, web3 } from "@project-serum/anchor"
+import { Wallet, web3 } from "@coral-xyz/anchor"
 import { Progress } from "semantic-ui-react"
 import useBalances from "../../hooks/useBalances"
 import Button from "../common/Button"
