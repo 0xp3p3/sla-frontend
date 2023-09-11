@@ -61,7 +61,7 @@ const useCombineBadge = () => {
 
   // Log every time the image url changes
   useEffect(() => {
-    console.log(`[useCombineBadge hook] new preview url: ${previewImageUrl}`)
+    console.log(`[useCombineBadge hook] new preview url test: ${previewImageUrl}`)
   }, [previewImageUrl])
 
 
